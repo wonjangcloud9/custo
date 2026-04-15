@@ -4,10 +4,21 @@ export default defineConfig({
   title: 'Custo',
   description: '큐티스트리트와 함께하는 일본어 학습',
   base: '/custo/',
+  lang: 'ko',
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap', rel: 'stylesheet' }],
+    ['meta', { name: 'keywords', content: '큐티스트리트, CUTIE STREET, 일본어, 일본어 학습, 아이돌, 덕질 일본어, 히라가나, 카타카나, KAWAII LAB, キューティーストリート' }],
+    ['meta', { name: 'author', content: 'Custo' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:title', content: 'Custo - 큐티스트리트와 함께하는 일본어' }],
+    ['meta', { property: 'og:description', content: '큐티스트리트(CUTIE STREET) 팬을 위한 일본어 학습 사이트. 멤버 이름으로 히라가나를, 가사로 문법을, 덕질하면서 일본어를 배워보세요!' }],
+    ['meta', { property: 'og:url', content: 'https://wonjangcloud9.github.io/custo/' }],
+    ['meta', { property: 'og:locale', content: 'ko_KR' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'Custo - 큐티스트리트와 함께하는 일본어' }],
+    ['meta', { name: 'twitter:description', content: '큐티스트리트 팬을 위한 일본어 학습 사이트' }],
   ],
   themeConfig: {
     nav: [
