@@ -107,3 +107,53 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 6px 28px rgba(196, 156, 255, 0.22), 0 2px 8px rgba(255, 107, 157, 0.15);
   transform: translateY(-2px);
 }
+
+/* ── Hide Dark Mode Toggle (카와이이 컨셉 유지) ── */
+.VPSwitchAppearance,
+.VPNavBarAppearance {
+  display: none !important;
+}
+
+/* ── Hero Title Gradient ── */
+.VPHero .name {
+  background: linear-gradient(135deg, var(--custo-pink), var(--custo-lavender)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ── Table Styling ── */
+.vp-doc table {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 107, 157, 0.15);
+}
+
+.vp-doc table th {
+  background: linear-gradient(135deg, #fff0f5, #f5eeff);
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-weight: 600;
+}
+
+.vp-doc table td {
+  border-color: rgba(255, 107, 157, 0.1);
+}
+
+/* ── Blockquote (팁 스타일) ── */
+.vp-doc blockquote {
+  border-left-color: var(--custo-pink);
+  background: linear-gradient(135deg, #fff5f9, #f8f0ff);
+  border-radius: 0 12px 12px 0;
+  padding: 1rem 1.2rem;
+}
+
+/* ── Code Block ── */
+.vp-doc div[class*="language-"] {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 107, 157, 0.1);
+}
+
+/* ── Footer ── */
+.VPFooter {
+  border-top: 1px solid rgba(255, 107, 157, 0.15) !important;
+}
