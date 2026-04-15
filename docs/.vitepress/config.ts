@@ -77,6 +77,7 @@ export default defineConfig({
             { text: '팬레터 쓰기', link: '/japanese/idol-japanese/fan-letter' },
             { text: '현장 회화', link: '/japanese/idol-japanese/conversations' },
             { text: 'SNS 읽기 연습', link: '/japanese/idol-japanese/reading-practice' },
+            { text: '정중한 표현', link: '/japanese/idol-japanese/polite-speech' },
           ],
         },
       ],

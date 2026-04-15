@@ -52,6 +52,8 @@ features:
 | 2-3 | [형용사](/japanese/beginner/adjectives) | い형/な형 + 칭찬 표현 |
 | 2-4 | [동사 활용](/japanese/beginner/verbs) | ます형/て형 |
 | 2-5 | [숫자/날짜/시간](/japanese/beginner/numbers) | 가격, 공연 시간 읽기 |
+| 2-6 | [조수사](/japanese/beginner/counters) | 물건/사람 세기 (물판 필수!) |
+| 2-7 | [문장 만들기](/japanese/beginner/sentences) | SOV 패턴으로 문장 조립 |
 
 ### STEP 3: 덕질 실전
 
@@ -61,6 +63,7 @@ features:
 | 3-2 | [SNS 일본어](/japanese/idol-japanese/sns-japanese) | 트위터/인스타 표현 |
 | 3-3 | [현장 회화](/japanese/idol-japanese/conversations) | 상황별 롤플레이 |
 | 3-4 | [팬레터 쓰기](/japanese/idol-japanese/fan-letter) | 편지 예문 + 문법 |
+| 3-5 | [SNS 읽기 연습](/japanese/idol-japanese/reading-practice) | 실전 포스트 읽기 + 해석 |
 
 ### STEP 4: 가사로 마스터
 
