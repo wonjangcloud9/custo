@@ -32,6 +32,7 @@ export default defineConfig({
           { text: '덕질 일본어', link: '/japanese/idol-japanese/live-terms' },
           { text: '가사로 배우기', link: '/japanese/lyrics/kawaii-dake' },
           { text: '종합 테스트', link: '/japanese/test' },
+          { text: '용어 사전', link: '/japanese/dictionary' },
         ],
       },
       { text: '스케줄', link: '/schedule/' },

@@ -1,9 +1,53 @@
 # 디스코그래피
 
-CUTIE STREET의 싱글 목록입니다.
+CUTIE STREET의 전체 릴리즈 목록입니다.
 
-| 발매일 | 타이틀 | 링크 |
+## CD 싱글
+
+| # | 타이틀 | 발매일 | 차트 |
+|---|--------|--------|------|
+| 1st | [かわいいだけじゃだめですか？](/discography/kawaii-dake) | 2024.11.13 | Oricon 3위, Billboard HOT100 2위 |
+| 2nd | キューにストップできません！ | 2025.07.23 | Oricon 2위, Billboard HOT100 3위 |
+| 3rd | 2026.05.27 발매 예정 | - | - |
+
+## 디지털 싱글
+
+| 타이틀 | 발매일 | 비고 |
 |--------|--------|------|
-| 2024.09 | かわいいだけじゃだめですか？ | [상세](/discography/kawaii-dake) |
-| 2024.10 | Hello Hello Mirai | [상세](/discography/hello-hello-mirai) |
-| 2025.01 | Happy Sekai! | [상세](/discography/happy-sekai) |
+| かわいいだけじゃだめですか？ | 2024.09 | 데뷔 디지털 싱글 |
+| ひたむきシンデレラ！ | 2024.10 | Billboard HOT100 36위 |
+| [ハロハロミライ](/discography/hello-hello-mirai) | 2024.10 | 2nd 디지털 싱글 |
+| [ハッピー世界！](/discography/happy-sekai) | 2025.01 | 3rd 디지털 싱글 |
+| ぷりきゅきゅ | 2025.03 | |
+| ラブトレ | 2025.05 | Billboard HOT100 100위 |
+| モアベリサマー | 2025.08.13 | |
+| かわいいさがしてくれますか？ | 2025.08.25 | Billboard HOT100 67위 |
+| 多元幸福論 | 2025.09.29 | |
+| Shooting Star | 2025.10.14 | |
+
+## 영상
+
+| 타이틀 | 발매일 | 형식 |
+|--------|--------|------|
+| 1st LIVE FILM at 豊洲PIT | 2025.10.14 | 디지털 |
+| ぷりきゅきゅ | 2026.01.10 | Blu-ray/DVD |
+
+## 인증
+
+| 곡 | 인증 |
+|----|------|
+| かわいいだけじゃだめですか？ | RIAJ Gold (피지컬) / Platinum (스트리밍) |
+| キューにストップできません！ | RIAJ Gold (피지컬) |
+
+## 디스코그래피 관련 일본어
+
+<Flashcard :cards="[
+  { front: 'シングル', back: '싱글 (single)' },
+  { front: '発売日', back: '하츠바이비 — 발매일' },
+  { front: '新曲', back: '싱쿄쿠 — 신곡' },
+  { front: '配信', back: '하이신 — 배신/디지털 배포' },
+  { front: 'リリース', back: '리리스 — 릴리즈/발매' },
+  { front: '初回限定盤', back: '쇼카이겐테이반 — 초회한정반' },
+  { front: '通常盤', back: '츠조반 — 통상반' },
+  { front: 'MV', back: '뮤직비디오 (Music Video)' }
+]" />
