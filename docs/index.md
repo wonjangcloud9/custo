@@ -1,0 +1,21 @@
+---
+layout: home
+hero:
+  name: "Custo"
+  text: "큐티스트리트와 함께하는 일본어"
+  tagline: "덕질하면서 일본어도 배우자!"
+  actions:
+    - theme: brand
+      text: 일본어 시작하기
+      link: /japanese/beginner/hiragana
+    - theme: alt
+      text: 멤버 알아보기
+      link: /members/
+features:
+  - title: 🎤 멤버와 함께 배우기
+    details: 큐티스트리트 멤버 이름으로 히라가나·카타카나를 익혀보세요.
+  - title: 🎵 가사로 배우는 일본어
+    details: 좋아하는 곡의 가사를 읽으며 단어와 문법을 자연스럽게 학습.
+  - title: 📱 덕질 일본어
+    details: SNS, 현장, 팬레터에 꼭 필요한 실전 일본어 표현 모음.
+---
