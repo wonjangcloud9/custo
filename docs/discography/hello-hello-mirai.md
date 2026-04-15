@@ -11,4 +11,4 @@
 
 ## 가사로 배우기
 
-이 곡의 가사로 일본어를 배워보세요 → [가사 학습 페이지](/custo/japanese/lyrics/hello-hello-mirai)
+이 곡의 가사로 일본어를 배워보세요 → [가사 학습 페이지](/japanese/lyrics/hello-hello-mirai)
