@@ -64,6 +64,8 @@ features:
 | 3-3 | [현장 회화](/japanese/idol-japanese/conversations) | 상황별 롤플레이 |
 | 3-4 | [팬레터 쓰기](/japanese/idol-japanese/fan-letter) | 편지 예문 + 문법 |
 | 3-5 | [SNS 읽기 연습](/japanese/idol-japanese/reading-practice) | 실전 포스트 읽기 + 해석 |
+| 3-6 | [정중한 표현](/japanese/idol-japanese/polite-speech) | 특전회/팬레터 정중 회화 |
+| 3-7 | [오노마토페](/japanese/idol-japanese/onomatopoeia) | SNS 감정 표현 + 슬랭 |
 
 ### STEP 4: 가사로 마스터
 
@@ -72,3 +74,9 @@ features:
 | 4-1 | [かわいいだけじゃだめですか？](/japanese/lyrics/kawaii-dake) | 데뷔곡으로 문법 배우기 |
 | 4-2 | [Hello Hello Mirai](/japanese/lyrics/hello-hello-mirai) | 미래, 꿈 관련 어휘 |
 | 4-3 | [Happy Sekai!](/japanese/lyrics/happy-sekai) | ~たい형 희망 표현 |
+
+### BONUS: 실력 확인
+
+| | 페이지 | 내용 |
+|--|--------|------|
+| | [종합 테스트](/japanese/test) | 4레벨 전 영역 퀴즈 + 점수별 추천 |

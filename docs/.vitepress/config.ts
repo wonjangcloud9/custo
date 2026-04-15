@@ -66,6 +66,7 @@ export default defineConfig({
             { text: '숫자/날짜/시간', link: '/japanese/beginner/numbers' },
             { text: '문장 만들기', link: '/japanese/beginner/sentences' },
             { text: '조수사', link: '/japanese/beginner/counters' },
+            { text: '일본어 입력', link: '/japanese/beginner/typing' },
           ],
         },
       ],
