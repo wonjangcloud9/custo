@@ -157,3 +157,161 @@ h1, h2, h3, h4, h5, h6 {
 .VPFooter {
   border-top: 1px solid rgba(255, 107, 157, 0.15) !important;
 }
+
+/* ══════════════════════════════════════
+   ✨ Animations — 큐티스트리트 카와이이 ✨
+   ══════════════════════════════════════ */
+
+/* ── Keyframes ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ── Hero Animations ── */
+.VPHero .text {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.VPHero .tagline {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.VPHero .actions {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.VPHero .name {
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Feature Cards — 순차 등장 ── */
+.VPFeatures .VPFeature {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.VPFeatures .VPFeature:nth-child(1) { animation-delay: 0.1s; }
+.VPFeatures .VPFeature:nth-child(2) { animation-delay: 0.2s; }
+.VPFeatures .VPFeature:nth-child(3) { animation-delay: 0.3s; }
+.VPFeatures .VPFeature:nth-child(4) { animation-delay: 0.4s; }
+.VPFeatures .VPFeature:nth-child(5) { animation-delay: 0.5s; }
+.VPFeatures .VPFeature:nth-child(6) { animation-delay: 0.6s; }
+
+/* ── Brand Button — 부드러운 떠오르기 ── */
+.VPButton.brand {
+  animation: float 3s ease-in-out infinite;
+  transition: opacity 0.2s, box-shadow 0.3s;
+}
+
+.VPButton.brand:hover {
+  opacity: 0.9;
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.35);
+  animation-play-state: paused;
+}
+
+/* ── MemberCard — 등장 애니메이션 ── */
+.member-card {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.member-card:nth-child(2) { animation-delay: 0.05s; }
+.member-card:nth-child(3) { animation-delay: 0.1s; }
+.member-card:nth-child(4) { animation-delay: 0.15s; }
+.member-card:nth-child(5) { animation-delay: 0.2s; }
+.member-card:nth-child(6) { animation-delay: 0.25s; }
+.member-card:nth-child(7) { animation-delay: 0.3s; }
+.member-card:nth-child(8) { animation-delay: 0.35s; }
+
+.member-card:hover {
+  animation: pulse-soft 0.4s ease-out;
+}
+
+/* ── Avatar — 반짝 효과 ── */
+.member-avatar {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.member-card:hover .member-avatar {
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.3);
+}
+
+/* ── Flashcard — 부드러운 등장 ── */
+.flashcard-wrapper,
+.card-scene {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* ── Quiz — 부드러운 등장 ── */
+.quiz-container {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.quiz-container .option-btn {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quiz-container .option-btn:hover:not(.correct):not(.wrong) {
+  transform: translateX(4px);
+  border-color: var(--custo-pink);
+}
+
+/* ── Nav Links — 부드러운 호버 ── */
+.VPNavBarMenuLink .text,
+.VPNavBarMenuGroup .text {
+  transition: color 0.2s;
+  position: relative;
+}
+
+.VPNavBarMenuLink:hover .text,
+.VPNavBarMenuGroup:hover .text {
+  color: var(--custo-pink) !important;
+}
+
+/* ── Sidebar Links — 부드러운 전환 ── */
+.VPSidebarItem .link {
+  transition: color 0.2s, padding-left 0.2s;
+}
+
+.VPSidebarItem .link:hover {
+  color: var(--custo-pink) !important;
+  padding-left: 4px;
+}
+
+/* ── Page Content — 스크롤 시 등장 (h2, h3) ── */
+.vp-doc h2,
+.vp-doc h3 {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* ── Smooth Scroll ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Selection Color ── */
+::selection {
+  background: rgba(255, 107, 157, 0.2);
+  color: inherit;
+}
