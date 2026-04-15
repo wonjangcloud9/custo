@@ -63,6 +63,7 @@ export default defineConfig({
             { text: '동사 활용', link: '/japanese/beginner/verbs' },
             { text: '형용사', link: '/japanese/beginner/adjectives' },
             { text: '숫자/날짜/시간', link: '/japanese/beginner/numbers' },
+            { text: '문장 만들기', link: '/japanese/beginner/sentences' },
           ],
         },
       ],
