@@ -59,6 +59,7 @@ export default defineConfig({
             { text: '히라가나', link: '/japanese/beginner/hiragana' },
             { text: '카타카나', link: '/japanese/beginner/katakana' },
             { text: '기초 표현', link: '/japanese/beginner/basics' },
+            { text: '조사', link: '/japanese/beginner/particles' },
           ],
         },
       ],

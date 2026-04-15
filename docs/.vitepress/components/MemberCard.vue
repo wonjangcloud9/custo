@@ -1,7 +1,10 @@
 <template>
   <div class="member-card" :style="{ '--member-color': color }">
     <div class="member-header">
-      <span class="color-dot" :style="{ background: color }" />
+      <div class="member-avatar" :style="{ background: `linear-gradient(135deg, ${color}, ${color}dd)` }">
+        <img v-if="image" :src="image" :alt="nameJa" class="avatar-img" />
+        <span v-else class="avatar-initial">{{ nameJa.charAt(0) }}</span>
+      </div>
       <div class="member-names">
         <h3 class="name-ja">{{ nameJa }}</h3>
         <p class="name-sub">{{ name }}</p>
@@ -56,6 +59,7 @@ defineProps<{
   color: string
   birthday?: string
   position?: string
+  image?: string
   sns?: SnsLinks
 }>()
 </script>
@@ -86,12 +90,31 @@ defineProps<{
   margin-bottom: 0.75rem;
 }
 
-.color-dot {
-  width: 14px;
-  height: 14px;
+.member-avatar {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-initial {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .name-ja {
