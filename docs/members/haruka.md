@@ -1,6 +1,6 @@
 # 桜庭遥花 (사쿠라바 하루카)
 
-<MemberCard name="사쿠라바 하루카" name-ja="桜庭遥花" color="#FF6B9D" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="사쿠라바 하루카" name-ja="桜庭遥花" color="#FF6B9D" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/haruka.svg" />
 
 ## 이름 읽기 연습
 

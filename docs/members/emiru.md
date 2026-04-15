@@ -1,6 +1,6 @@
 # 川本笑瑠 (카와모토 에미루)
 
-<MemberCard name="카와모토 에미루" name-ja="川本笑瑠" color="#FF9F43" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="카와모토 에미루" name-ja="川本笑瑠" color="#FF9F43" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/emiru.svg" />
 
 ## 이름 읽기 연습
 
