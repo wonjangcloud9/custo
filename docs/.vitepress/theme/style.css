@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+/* ── Cutie Street Brand Colors ── */
+:root {
+  --custo-pink: #FF6B9D;
+  --custo-lavender: #C49CFF;
+  --custo-cream: #FFF8F0;
+
+  /* Member Colors */
+  --member-risa: #FFD700;
+  --member-aika: #FF4757;
+  --member-kana: #7FDBCA;
+  --member-ayano: #4A90D9;
+  --member-emiru: #FF9F43;
+  --member-miyu: #74B9FF;
+  --member-nagisa: #A06CD5;
+  --member-haruka: #FF6B9D;
+
+  /* VitePress Brand Overrides */
+  --vp-c-brand-1: #FF6B9D;
+  --vp-c-brand-2: #e85d8e;
+  --vp-c-brand-3: #C49CFF;
+  --vp-c-bg: #FFF8F0;
+  --vp-c-bg-soft: #fff0f6;
+  --vp-c-bg-mute: #ffe8f1;
+  --vp-nav-bg-color: rgba(255, 248, 240, 0.85);
+}
+
+/* ── Typography ── */
+body {
+  font-family: 'Noto Sans KR', 'Noto Sans JP', sans-serif;
+  background-color: var(--custo-cream);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
+}
+
+/* ── Hero Gradient ── */
+.VPHero .VPImage,
+.VPHero {
+  background: linear-gradient(135deg, #fff0f8 0%, #f5eeff 50%, #fff8f0 100%);
+}
+
+.VPHome {
+  background: linear-gradient(160deg, #fff8f0 0%, #fff0f6 40%, #f8f0ff 100%);
+}
+
+/* ── Navigation Backdrop Blur ── */
+.VPNav {
+  background-color: rgba(255, 248, 240, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 107, 157, 0.15);
+}
+
+/* ── Brand Button Gradient ── */
+.VPButton.brand {
+  background: linear-gradient(135deg, var(--custo-pink) 0%, var(--custo-lavender) 100%);
+  border-color: transparent;
+  color: #fff;
+  border-radius: 24px;
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.VPButton.brand:hover {
+  opacity: 0.85;
+}
+
+/* ── VPFeature Rounded ── */
+.VPFeature {
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 107, 157, 0.18) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 2px 12px rgba(255, 107, 157, 0.08) !important;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.VPFeature:hover {
+  box-shadow: 0 6px 24px rgba(255, 107, 157, 0.18) !important;
+  transform: translateY(-2px);
+}
+
+/* ── Sidebar Active Color ── */
+.VPSidebarItem.is-active > .item .link {
+  color: var(--custo-pink) !important;
+  font-weight: 600;
+}
+
+.VPSidebarItem.is-active > .item .indicator {
+  background-color: var(--custo-pink) !important;
+}
+
+/* ── Rounded Card ── */
+.custo-card {
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(196, 156, 255, 0.12), 0 1px 4px rgba(255, 107, 157, 0.1);
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 107, 157, 0.12);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.custo-card:hover {
+  box-shadow: 0 6px 28px rgba(196, 156, 255, 0.22), 0 2px 8px rgba(255, 107, 157, 0.15);
+  transform: translateY(-2px);
+}
