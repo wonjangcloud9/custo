@@ -1,6 +1,6 @@
-# 板倉可奈 (Kana Itakura)
+# 板倉可奈 (이타쿠라 카나)
 
-<MemberCard name="Kana Itakura" name-ja="板倉可奈" color="#7FDBCA" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="이타쿠라 카나" name-ja="板倉可奈" color="#7FDBCA" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
 
 ## 이름 읽기 연습
 

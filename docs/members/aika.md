@@ -1,6 +1,6 @@
-# 佐野愛花 (Aika Sano)
+# 佐野愛花 (사노 아이카)
 
-<MemberCard name="Aika Sano" name-ja="佐野愛花" color="#FF4757" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="사노 아이카" name-ja="佐野愛花" color="#FF4757" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
 
 ## 이름 읽기 연습
 

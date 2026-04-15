@@ -1,6 +1,6 @@
-# 増田彩乃 (Ayano Masuda)
+# 増田彩乃 (마스다 아야노)
 
-<MemberCard name="Ayano Masuda" name-ja="増田彩乃" color="#4A90D9" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="마스다 아야노" name-ja="増田彩乃" color="#4A90D9" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
 
 ## 이름 읽기 연습
 

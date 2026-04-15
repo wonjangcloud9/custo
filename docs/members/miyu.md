@@ -1,6 +1,6 @@
-# 梅田みゆ (Miyu Umeda)
+# 梅田みゆ (우메다 미유)
 
-<MemberCard name="Miyu Umeda" name-ja="梅田みゆ" color="#74B9FF" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="우메다 미유" name-ja="梅田みゆ" color="#74B9FF" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
 
 ## 이름 읽기 연습
 

@@ -1,6 +1,6 @@
-# 真鍋凪咲 (Nagisa Manabe)
+# 真鍋凪咲 (마나베 나기사)
 
-<MemberCard name="Nagisa Manabe" name-ja="真鍋凪咲" color="#A06CD5" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="마나베 나기사" name-ja="真鍋凪咲" color="#A06CD5" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
 
 ## 이름 읽기 연습
 

@@ -1,6 +1,6 @@
-# 古澤里紗 (Risa Furusawa)
+# 古澤里紗 (후루사와 리사)
 
-<MemberCard name="Risa Furusawa" name-ja="古澤里紗" color="#FFD700" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+<MemberCard name="후루사와 리사" name-ja="古澤里紗" color="#FFD700" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
 
 ## 이름 읽기 연습
 
