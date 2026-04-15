@@ -1,0 +1,16 @@
+# 真鍋凪咲 (Nagisa Manabe)
+
+<MemberCard name="Nagisa Manabe" name-ja="真鍋凪咲" color="#A06CD5" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 이름 읽기 연습
+
+**真鍋凪咲** → まなべ なぎさ (마나베 나기사)
+
+| 한자 | 읽기 | 뜻 |
+|------|------|-----|
+| 真 | ま | 진짜 |
+| 鍋 | なべ | 냄비 |
+| 凪 | なぎ | 잔잔한 |
+| 咲 | さ | 피다 |
+
+> 💡 멤버 이름의 한자를 읽을 수 있으면 다른 일본어 이름도 쉬워져요!
