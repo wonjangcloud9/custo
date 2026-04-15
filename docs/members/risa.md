@@ -1,6 +1,13 @@
 # 古澤里紗 (후루사와 리사)
 
-<MemberCard name="후루사와 리사" name-ja="古澤里紗" color="#FFD700" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/risa.svg" />
+<MemberCard name="후루사와 리사" name-ja="古澤里紗" color="#FFD700" birthday="2000.11.08" position="멤버 / 158cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 후리(ふーりー), 후리탄(ふりたん) |
+| 특징 | 필리핀 하프, 댄스 실력파, 어패럴 브랜드 "Me roir" 디렉터 |
 
 ## 이름 읽기 연습
 

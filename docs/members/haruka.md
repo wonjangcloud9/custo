@@ -1,6 +1,13 @@
 # 桜庭遥花 (사쿠라바 하루카)
 
-<MemberCard name="사쿠라바 하루카" name-ja="桜庭遥花" color="#FF6B9D" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/haruka.svg" />
+<MemberCard name="사쿠라바 하루카" name-ja="桜庭遥花" color="#FF6B9D" birthday="2006.01.29" position="멤버 / 154cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 파루탄(ぱるたん) |
+| 특징 | 일프듀 여자 최종 순위 19위, 모델로도 활약, 그룹 최연소 |
 
 ## 이름 읽기 연습
 

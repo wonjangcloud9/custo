@@ -1,6 +1,13 @@
 # 板倉可奈 (이타쿠라 카나)
 
-<MemberCard name="이타쿠라 카나" name-ja="板倉可奈" color="#7FDBCA" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/kana.svg" />
+<MemberCard name="이타쿠라 카나" name-ja="板倉可奈" color="#7FDBCA" birthday="2001.11.11" position="멤버 / 157cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 카나짱(かなちゃん), 카나린(かなりん) |
+| 특징 | 초등학교 때부터 모델 활동, 10년 이상 댄스 경력 |
 
 ## 이름 읽기 연습
 

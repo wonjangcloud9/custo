@@ -1,6 +1,13 @@
 # 川本笑瑠 (카와모토 에미루)
 
-<MemberCard name="카와모토 에미루" name-ja="川本笑瑠" color="#FF9F43" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/emiru.svg" />
+<MemberCard name="카와모토 에미루" name-ja="川本笑瑠" color="#FF9F43" birthday="2002.04.22" position="멤버 / 149cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 에미루(えみる) |
+| 특징 | 10대부터 아이돌 활동, 소형선박면허 보유, 그룹 최단신 |
 
 ## 이름 읽기 연습
 

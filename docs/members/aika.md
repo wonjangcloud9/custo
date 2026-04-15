@@ -1,6 +1,13 @@
 # 佐野愛花 (사노 아이카)
 
-<MemberCard name="사노 아이카" name-ja="佐野愛花" color="#FF4757" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/aika.svg" />
+<MemberCard name="사노 아이카" name-ja="佐野愛花" color="#FF4757" birthday="2000.11.26" position="멤버 / 151cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 아이짱(あいちゃん) |
+| 특징 | 전직 여배우, 9년 댄스 경력, 밝은 미소 |
 
 ## 이름 읽기 연습
 

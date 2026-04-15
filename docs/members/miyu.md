@@ -1,6 +1,13 @@
 # 梅田みゆ (우메다 미유)
 
-<MemberCard name="우메다 미유" name-ja="梅田みゆ" color="#74B9FF" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/miyu.svg" />
+<MemberCard name="우메다 미유" name-ja="梅田みゆ" color="#74B9FF" birthday="2004.09.13" position="멤버 / 150cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 미유(みゆ) |
+| 특징 | 미스콘 2020 파이널리스트, 해파리 헤어가 트레이드마크 |
 
 ## 이름 읽기 연습
 

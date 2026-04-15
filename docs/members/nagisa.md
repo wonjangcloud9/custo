@@ -1,6 +1,13 @@
 # 真鍋凪咲 (마나베 나기사)
 
-<MemberCard name="마나베 나기사" name-ja="真鍋凪咲" color="#A06CD5" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/nagisa.svg" />
+<MemberCard name="마나베 나기사" name-ja="真鍋凪咲" color="#A06CD5" birthday="2004.06.28" position="멤버 / 161cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 나베짱(なべちゃん) |
+| 특징 | 유일한 연예 미경험자, 그룹 최장신(161cm), 대학과 병행 |
 
 ## 이름 읽기 연습
 

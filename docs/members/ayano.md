@@ -1,6 +1,13 @@
 # 増田彩乃 (마스다 아야노)
 
-<MemberCard name="마스다 아야노" name-ja="増田彩乃" color="#4A90D9" birthday="미공개" position="멤버" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" image="/custo/members/ayano.svg" />
+<MemberCard name="마스다 아야노" name-ja="増田彩乃" color="#4A90D9" birthday="2003.05.26" position="멤버 / 156cm" :sns="{ x: 'https://x.com/CUTIE_STREET_' }" />
+
+## 프로필
+
+| 항목 | 내용 |
+|------|------|
+| 닉네임 | 아야노(あやの), 아야논(あやのん) |
+| 특징 | 여자고생 미스콘 2020 수상, "걸어다니는 프리쿠라" |
 
 ## 이름 읽기 연습
 
