@@ -23,6 +23,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '홈', link: '/' },
+      { text: '소개', link: '/about' },
       { text: '멤버', link: '/members/' },
       { text: '디스코그래피', link: '/discography/' },
       {
