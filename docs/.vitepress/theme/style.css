@@ -308,3 +308,122 @@ html {
   background: rgba(255, 107, 157, 0.2);
   color: inherit;
 }
+
+/* ══════════════════════════════════════
+   📱 Mobile UX Improvements
+   ══════════════════════════════════════ */
+
+/* ── Responsive Tables — 가로 스크롤 ── */
+@media (max-width: 640px) {
+  .vp-doc table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+
+  .vp-doc table th,
+  .vp-doc table td {
+    padding: 0.5rem 0.65rem;
+  }
+}
+
+/* ── Touch-friendly Buttons — 최소 44px 터치 영역 ── */
+@media (max-width: 768px) {
+  .quiz-container .option-btn {
+    min-height: 44px;
+    font-size: 0.88rem;
+    padding: 0.7rem 0.85rem;
+  }
+
+  .quiz-container .options-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .quiz-container .next-btn,
+  .quiz-container .restart-btn {
+    min-height: 44px;
+    font-size: 0.92rem;
+    padding: 0.65rem 1.75rem;
+  }
+
+  .srs-controls .srs-btn {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    font-size: 0.82rem;
+  }
+
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+
+  .toggle-btn {
+    min-height: 44px;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* ── Mobile Card Scene — 높이 조정 ── */
+@media (max-width: 480px) {
+  .card-scene {
+    height: 180px;
+  }
+
+  .card-text {
+    font-size: 1.15rem;
+  }
+
+  .srs-wrapper .card-scene {
+    height: 180px;
+  }
+}
+
+/* ── Better tap targets for WordBookmark ── */
+@media (max-width: 768px) {
+  .word-bookmark {
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+  }
+
+  .word-bookmark .bm-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* ── Mobile-friendly dashboard ── */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 1.25rem 1rem;
+  }
+
+  .info-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* ── Prevent horizontal overflow ── */
+.vp-doc {
+  overflow-x: hidden;
+}
+
+/* ── Better code blocks on mobile ── */
+@media (max-width: 640px) {
+  .vp-doc div[class*="language-"] code {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .vp-doc div[class*="language-"] {
+    margin: 0.75rem -1rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}

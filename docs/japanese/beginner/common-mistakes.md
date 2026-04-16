@@ -80,6 +80,17 @@
 | 2명 | ににん ✗ | **ふたり** |
 | 20일 | にじゅうにち ✗ | **はつか** |
 
+## 틀리기 쉬운 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'は (조사)', romaji: 'wa (not ha)', meaning: '~은/는' },
+  { japanese: 'を (조사)', romaji: 'o (not wo)', meaning: '~을/를' },
+  { japanese: 'へ (조사)', romaji: 'e (not he)', meaning: '~에/으로' },
+  { japanese: 'きれい', romaji: 'kirei', meaning: '예쁜 (な형 주의!)' },
+  { japanese: 'よじ (4시)', romaji: 'yoji', meaning: '4시 (しじ가 아님!)' },
+  { japanese: 'はつか (20일)', romaji: 'hatsuka', meaning: '20일 (にじゅうにち가 아님!)' }
+]" />
+
 ## 혼동 퀴즈
 
 <Quiz quizId="common-mistakes" :questions="[

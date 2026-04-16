@@ -89,6 +89,17 @@
   { q: '「큐티스트리트는 아이돌이에요」는?', options: ['キューティーストリートがアイドルです', 'キューティーストリートをアイドルです', 'キューティーストリートはアイドルです', 'キューティーストリートのアイドルです'], answer: 2 }
 ]" />
 
+## 문장 패턴 SRS
+
+<SrsFlashcard deckId="srs-sentences" :cards="[
+  { front: 'AはBです', back: 'A는 B예요 — 기본 명사문' },
+  { front: 'AはBがCです', back: 'A는 B가 C해요 — 형용사 서술' },
+  { front: 'AをBます', back: 'A를 B해요 — 목적어+동사' },
+  { front: 'AでBをCます', back: 'A에서 B를 C해요 — 장소+목적어+동사' },
+  { front: 'AにBたいです', back: 'A에 B하고 싶어요 — 희망 표현' },
+  { front: 'AはBでした', back: 'A는 B였어요 — 과거형' }
+]" />
+
 ## 문장 패턴 플래시카드
 
 <Flashcard cardSetId="sentences" :cards="[
