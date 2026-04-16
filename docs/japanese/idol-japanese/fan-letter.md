@@ -72,6 +72,17 @@
 
 > 💡 **주의**: 일본 아이돌 팬레터에는 주소나 개인정보를 적지 않아요!
 
+## 핵심 표현 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'はじめまして', romaji: 'hajimemashite', meaning: '처음 뵙겠습니다' },
+  { japanese: 'いつも応援しています', romaji: 'itsumo ouen shiteimasu', meaning: '항상 응원하고 있어요' },
+  { japanese: '笑顔が素敵です', romaji: 'egao ga suteki desu', meaning: '미소가 멋져요' },
+  { japanese: 'これからも応援しています', romaji: 'korekara mo ouen shiteimasu', meaning: '앞으로도 응원할게요' },
+  { japanese: '体に気をつけてください', romaji: 'karada ni ki wo tsukete kudasai', meaning: '몸 건강 조심하세요' },
+  { japanese: '大好きです', romaji: 'daisuki desu', meaning: '정말 좋아해요' }
+]" />
+
 ## 퀴즈
 
 <Quiz quizId="fan-letter" :questions="[

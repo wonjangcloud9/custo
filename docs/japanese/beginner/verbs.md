@@ -124,6 +124,19 @@
   { q: '「撮ってもいいですか」의 뜻은?', options: ['찍어주세요', '찍지 마세요', '찍어도 될까요?', '찍고 싶어요'], answer: 2 }
 ]" />
 
+## 동사 반복 학습 (SRS)
+
+<SrsFlashcard deckId="srs-verbs" :cards="[
+  { front: '行きます', back: '이키마스 — 가요 (行く)' },
+  { front: '見ます', back: '미마스 — 봐요 (見る)' },
+  { front: '聞きます', back: '키키마스 — 들어요 (聞く)' },
+  { front: '応援します', back: '오엔시마스 — 응원해요 (応援する)' },
+  { front: '歌って', back: '우탓테 — 노래해~ (歌う て형)' },
+  { front: '撮って', back: '톳테 — 찍어~ (撮る て형)' },
+  { front: '聞いて', back: '키이테 — 들어~ (聞く て형)' },
+  { front: '来て', back: '키테 — 와~ (来る て형)' }
+]" />
+
 ## 동사 플래시카드
 
 <Flashcard cardSetId="verbs" :cards="[

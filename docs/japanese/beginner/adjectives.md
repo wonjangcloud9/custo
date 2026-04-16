@@ -105,6 +105,19 @@
   { q: '「最高でした」의 뜻은?', options: ['최고예요', '최고였어요', '최고일 거예요', '최고가 아니에요'], answer: 1 }
 ]" />
 
+## 형용사 반복 학습 (SRS)
+
+<SrsFlashcard deckId="srs-adjectives" :cards="[
+  { front: 'かわいい', back: '귀여운 (い형) — 과거: かわいかった' },
+  { front: 'かっこいい', back: '멋진 (い형) — 과거: かっこよかった' },
+  { front: '楽しい', back: '타노시이 — 즐거운 (い형)' },
+  { front: 'すごい', back: '스고이 — 대단한 (い형)' },
+  { front: '素敵', back: '스테키 — 멋진 (な형) + な + 명사' },
+  { front: '大好き', back: '다이스키 — 정말 좋아하는 (な형)' },
+  { front: 'きれい', back: '키레이 — 예쁜 (な형 주의!)' },
+  { front: '最高', back: '사이코 — 최고의 (な형)' }
+]" />
+
 ## 형용사 플래시카드
 
 <Flashcard cardSetId="adjectives" :cards="[

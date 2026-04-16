@@ -98,6 +98,28 @@ M사이즈로 부탁합니다.
 | 추천 | おすすめは何ですか？ | 오스스메와 난데스카? | 추천은 뭐예요? |
 | 계산 | お会計お願いします | 오카이케이 오네가이시마스 | 계산 부탁합니다 |
 
+## 현장 필수 표현 저장
+
+<WordBookmark word="これをください" reading="코레오 쿠다사이" meaning="이거 주세요" />
+<WordBookmark word="韓国から来ました" reading="한코쿠카라 키마시타" meaning="한국에서 왔어요" />
+<WordBookmark word="ライブ最高でした" reading="라이브 사이코데시타" meaning="라이브 최고였어요" />
+<WordBookmark word="また会いに来ます" reading="마타 아이니 키마스" meaning="또 만나러 올게요" />
+<WordBookmark word="いくらですか" reading="이쿠라데스카" meaning="얼마예요?" />
+<WordBookmark word="トイレはどこですか" reading="토이레와 도코데스카" meaning="화장실 어디예요?" />
+
+## 현장 회화 SRS
+
+<SrsFlashcard deckId="srs-conversations" :cards="[
+  { front: 'これをください', back: '코레오 쿠다사이 — 이거 주세요' },
+  { front: '韓国から来ました', back: '한코쿠카라 키마시타 — 한국에서 왔어요' },
+  { front: 'ライブ最高でした！', back: '라이브 사이코데시타 — 라이브 최고였어요!' },
+  { front: 'ずっと応援します', back: '즛토 오엔시마스 — 계속 응원할게요' },
+  { front: 'また会いに来ます', back: '마타 아이니 키마스 — 또 만나러 올게요' },
+  { front: 'いくらですか？', back: '이쿠라데스카 — 얼마예요?' },
+  { front: 'お会計お願いします', back: '오카이케이 오네가이시마스 — 계산 부탁합니다' },
+  { front: 'トイレはどこですか？', back: '토이레와 도코데스카 — 화장실 어디예요?' }
+]" />
+
 ## 현장 회화 퀴즈
 
 <Quiz quizId="conversations" :questions="[
