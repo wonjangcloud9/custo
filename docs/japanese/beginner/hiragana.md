@@ -31,6 +31,21 @@
   { front: 'かわもと えみる', back: '카와모토 에미루 (川本笑瑠 / Emiru)' }
 ]" />
 
+## 멤버 이름 반복 학습 (SRS)
+
+외운 이름은 자동으로 빠지고, 어려운 이름만 반복됩니다!
+
+<SrsFlashcard deckId="srs-hiragana-members" :cards="[
+  { front: 'さくらば はるか', back: '사쿠라바 하루카 (桜庭遥花)' },
+  { front: 'うめだ みゆ', back: '우메다 미유 (梅田みゆ)' },
+  { front: 'まなべ なぎさ', back: '마나베 나기사 (真鍋凪咲)' },
+  { front: 'ふるさわ りさ', back: '후루사와 리사 (古澤里紗)' },
+  { front: 'さの あいか', back: '사노 아이카 (佐野愛花)' },
+  { front: 'いたくら かな', back: '이타쿠라 카나 (板倉可奈)' },
+  { front: 'ますだ あやの', back: '마스다 아야노 (増田彩乃)' },
+  { front: 'かわもと えみる', back: '카와모토 에미루 (川本笑瑠)' }
+]" />
+
 ## 히라가나 퀴즈
 
 <Quiz quizId="hiragana" :questions="[

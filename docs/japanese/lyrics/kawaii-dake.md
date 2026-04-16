@@ -121,11 +121,24 @@
 
 ---
 
+## 핵심 표현 발음 가이드
+
+로마지 보기 버튼을 눌러 발음을 확인하세요!
+
+<RomajiToggle :items="[
+  { japanese: 'かわいいだけじゃだめですか', romaji: 'kawaii dake ja dame desu ka', meaning: '귀엽기만 하면 안 되나요?' },
+  { japanese: '大変だ！遅刻する！', romaji: 'taihen da! chikoku suru!', meaning: '큰일이다! 지각하겠어!' },
+  { japanese: '準備しなきゃ', romaji: 'junbi shinakya', meaning: '준비해야 해' },
+  { japanese: '鏡を見て準備する', romaji: 'kagami wo mite junbi suru', meaning: '거울을 보며 준비한다' },
+  { japanese: '今日も可愛い！', romaji: 'kyou mo kawaii!', meaning: '오늘도 귀여워!' },
+  { japanese: '全力で頑張る！', romaji: 'zenryoku de ganbaru!', meaning: '전력으로 열심히 한다!' }
+]" />
+
 ## 단어 플래시카드
 
 클릭해서 뒤집어 보세요!
 
-<Flashcard :cards="[
+<Flashcard cardSetId="lyrics-kawaii-dake" :cards="[
   { front: '大変 (たいへん)', back: '큰일, 힘들다' },
   { front: '出かける (でかける)', back: '외출하다' },
   { front: '遅刻 (ちこく)', back: '지각' },
@@ -149,7 +162,7 @@
 
 8문제에 도전! 어휘와 문법을 함께 확인해 봅시다.
 
-<Quiz :questions="[
+<Quiz quizId="lyrics-kawaii-dake" :questions="[
   { q: '「かわいい」의 뜻은?', options: ['멋진', '귀여운', '강한', '즐거운'], answer: 1 },
   { q: '「だけ」의 역할은?', options: ['~도', '~만/~뿐', '~부터', '~까지'], answer: 1 },
   { q: '「遅刻」(ちこく)의 뜻은?', options: ['조퇴', '결석', '지각', '외출'], answer: 2 },

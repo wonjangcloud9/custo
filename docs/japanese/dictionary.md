@@ -2,6 +2,23 @@
 
 큐티스트리트 팬에게 필요한 일본어 단어를 가나다/카테고리별로 정리했어요!
 
+## 필수 단어 빠른 저장
+
+별을 눌러 나만의 단어장에 저장하세요! → [나의 단어장](/japanese/my-progress)에서 확인
+
+<WordBookmark word="推し" reading="오시" meaning="최애" />
+<WordBookmark word="ライブ" reading="라이브" meaning="라이브/공연" />
+<WordBookmark word="ワンマン" reading="완만" meaning="단독 공연" />
+<WordBookmark word="物販" reading="붓판" meaning="굿즈 판매" />
+<WordBookmark word="チェキ" reading="체키" meaning="폴라로이드 사진" />
+<WordBookmark word="コール" reading="코루" meaning="응원 구호" />
+<WordBookmark word="セトリ" reading="세토리" meaning="셋리스트" />
+<WordBookmark word="特典会" reading="토쿠텐카이" meaning="특전회" />
+<WordBookmark word="やばい" reading="야바이" meaning="대박/미쳤어" />
+<WordBookmark word="尊い" reading="토토이" meaning="존귀" />
+<WordBookmark word="最高" reading="사이코" meaning="최고" />
+<WordBookmark word="かわいい" reading="카와이이" meaning="귀여운" />
+
 ## 그룹 관련
 
 | 일본어 | 읽기 | 뜻 |
