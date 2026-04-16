@@ -5,6 +5,7 @@ export default defineConfig({
   description: '큐티스트리트와 함께하는 일본어 학습',
   base: '/custo/',
   lang: 'ko',
+  appearance: false,
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
