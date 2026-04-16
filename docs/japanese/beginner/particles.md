@@ -79,6 +79,19 @@
   { q: '「3時（　）始まります」— 3시에 시작해', options: ['で', 'を', 'が', 'に'], answer: 3 }
 ]" />
 
+## 조사 반복 학습 (SRS)
+
+<SrsFlashcard deckId="srs-particles" :cards="[
+  { front: 'は', back: '~은/는 (주제) — wa로 읽음!' },
+  { front: 'が', back: '~이/가 (주어 강조)' },
+  { front: 'を', back: '~을/를 (목적어) — o로 읽음!' },
+  { front: 'に', back: '~에/에게 (장소/시간/대상)' },
+  { front: 'で', back: '~에서/~으로 (장소/수단)' },
+  { front: 'の', back: '~의 (소유/수식)' },
+  { front: 'も', back: '~도 (추가)' },
+  { front: 'と', back: '~와/과 (병렬)' }
+]" />
+
 ## 조사 플래시카드
 
 <Flashcard cardSetId="particles" :cards="[

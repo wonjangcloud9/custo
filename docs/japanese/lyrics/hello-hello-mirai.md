@@ -122,11 +122,22 @@
 
 ---
 
+## 핵심 표현 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'ハロハロミライ', romaji: 'haro haro mirai', meaning: '안녕 안녕, 미래야!' },
+  { japanese: '未来を描こう', romaji: 'mirai wo egakou', meaning: '미래를 그리자!' },
+  { japanese: '仲間と一緒に走ろう', romaji: 'nakama to issho ni hashirou', meaning: '동료와 함께 달리자!' },
+  { japanese: '夢を信じて', romaji: 'yume wo shinjite', meaning: '꿈을 믿고' },
+  { japanese: '手を繋いで', romaji: 'te wo tsunaide', meaning: '손을 잡고' },
+  { japanese: '全力で走る', romaji: 'zenryoku de hashiru', meaning: '전력으로 달린다!' }
+]" />
+
 ## 단어 플래시카드
 
 클릭해서 뒤집어 보세요!
 
-<Flashcard :cards="[
+<Flashcard cardSetId="lyrics-hello-hello-mirai" :cards="[
   { front: '未来 (みらい)', back: '미래' },
   { front: '描く (えがく)', back: '그리다, 묘사하다' },
   { front: '全力 (ぜんりょく)', back: '전력, 최선' },
@@ -150,7 +161,7 @@
 
 8문제에 도전! 어휘와 문법을 함께 확인해 봅시다.
 
-<Quiz :questions="[
+<Quiz quizId="lyrics-hello-hello-mirai" :questions="[
   { q: '「未来」(みらい)의 뜻은?', options: ['과거', '현재', '미래', '영원'], answer: 2 },
   { q: '「仲間」(なかま)의 뜻은?', options: ['선생님', '동료', '라이벌', '팬'], answer: 1 },
   { q: '「勇気」(ゆうき)의 뜻은?', options: ['희망', '꿈', '용기', '노력'], answer: 2 },

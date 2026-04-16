@@ -33,6 +33,23 @@
   { front: 'カワイイ', back: '카와이이 (kawaii) - 귀여운' }
 ]" />
 
+## 카타카나 반복 학습 (SRS)
+
+외운 단어는 자동으로 빠지고, 어려운 단어만 반복!
+
+<SrsFlashcard deckId="srs-katakana-idol" :cards="[
+  { front: 'ライブ', back: '라이브 (live) — 공연' },
+  { front: 'チェキ', back: '체키 (cheki) — 폴라로이드' },
+  { front: 'グッズ', back: '굿즈 (goods) — 상품' },
+  { front: 'ペンライト', back: '펜라이트 (penlight) — 응원봉' },
+  { front: 'アイドル', back: '아이도루 (idol) — 아이돌' },
+  { front: 'ファン', back: '팬 (fan)' },
+  { front: 'コンサート', back: '콘사토 (concert) — 콘서트' },
+  { front: 'メンバー', back: '멤바 (member) — 멤버' },
+  { front: 'キューティーストリート', back: '큐티 스트리트 (Cutie Street)!' },
+  { front: 'カワイイ', back: '카와이이 (kawaii) — 귀여운' }
+]" />
+
 ## 카타카나 퀴즈
 
 <Quiz quizId="katakana" :questions="[

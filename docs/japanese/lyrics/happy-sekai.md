@@ -124,11 +124,22 @@
 
 ---
 
+## 핵심 표현 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'ハッピー世界', romaji: 'happii sekai', meaning: '행복한 세계!' },
+  { japanese: '可愛いって何だろう', romaji: 'kawaii tte nan darou', meaning: '귀여움이란 뭘까?' },
+  { japanese: '笑顔を届けたい', romaji: 'egao wo todoketai', meaning: '미소를 전하고 싶다' },
+  { japanese: '私からあなたへ', romaji: 'watashi kara anata e', meaning: '나에서 너에게' },
+  { japanese: '自分らしく輝こう', romaji: 'jibun rashiku kagayakou', meaning: '자신답게 빛나자' },
+  { japanese: '可愛いは無限大', romaji: 'kawaii wa mugendai', meaning: '귀여움은 무한대!' }
+]" />
+
 ## 단어 플래시카드
 
 클릭해서 뒤집어 보세요!
 
-<Flashcard :cards="[
+<Flashcard cardSetId="lyrics-happy-sekai" :cards="[
   { front: '世界 (せかい)', back: '세계' },
   { front: '幸せ (しあわせ)', back: '행복' },
   { front: '笑顔 (えがお)', back: '미소, 웃는 얼굴' },
@@ -152,7 +163,7 @@
 
 8문제에 도전! 어휘와 문법을 함께 확인해 봅시다.
 
-<Quiz :questions="[
+<Quiz quizId="lyrics-happy-sekai" :questions="[
   { q: '「世界」(せかい)의 뜻은?', options: ['나라', '도시', '세계', '우주'], answer: 2 },
   { q: '「幸せ」(しあわせ)의 뜻은?', options: ['슬픔', '행복', '외로움', '분노'], answer: 1 },
   { q: '「届けたい」의 뜻은?', options: ['전했다', '전하지 않겠다', '전하고 싶다', '전할 수 있다'], answer: 2 },

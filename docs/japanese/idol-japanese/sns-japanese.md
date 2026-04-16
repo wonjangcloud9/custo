@@ -28,6 +28,18 @@
 | #新曲 | 싱쿄쿠 | 신곡 |
 | #推し | 오시 | 최애 |
 
+## 필수 SNS 표현 저장
+
+별을 눌러 단어장에 저장하세요! → [나의 단어장](/japanese/my-progress)
+
+<WordBookmark word="お知らせ" reading="오시라세" meaning="공지/알림" />
+<WordBookmark word="本日" reading="혼지츠" meaning="오늘" />
+<WordBookmark word="出演" reading="슈츠엔" meaning="출연" />
+<WordBookmark word="開催" reading="카이사이" meaning="개최" />
+<WordBookmark word="楽しかった" reading="타노시캇타" meaning="즐거웠다" />
+<WordBookmark word="会いに来てね" reading="아이니키테네" meaning="만나러 와줘" />
+<WordBookmark word="よろしくお願いします" reading="요로시쿠 오네가이시마스" meaning="잘 부탁드립니다" />
+
 ## SNS 일본어 퀴즈
 
 <Quiz quizId="sns-japanese" :questions="[
