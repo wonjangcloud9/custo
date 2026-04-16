@@ -156,6 +156,28 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Footer ── */
 .VPFooter {
   border-top: 1px solid rgba(255, 107, 157, 0.15) !important;
+  background: linear-gradient(135deg, #fff8f0 0%, #fff0f6 100%) !important;
+}
+
+.VPFooter .message {
+  font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
+  color: #9966cc;
+  font-weight: 600;
+}
+
+.VPFooter .copyright {
+  font-size: 0.78rem;
+  color: #b89ac8;
+}
+
+/* ── Prev/Next Footer ── */
+.VPDocFooter .pager-link .title {
+  font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
+  color: var(--custo-pink);
+}
+
+.VPDocFooter .pager-link:hover .title {
+  color: var(--custo-lavender);
 }
 
 /* ══════════════════════════════════════

@@ -115,6 +115,15 @@ export default defineConfig({
     socialLinks: [
       { icon: 'x', link: 'https://x.com/CUTIE_STREET_' },
       { icon: 'instagram', link: 'https://www.instagram.com/cutie_street' },
+      { icon: 'youtube', link: 'https://www.youtube.com/@CUTIE_STREET' },
     ],
+    footer: {
+      message: '큐티스트리트(CUTIE STREET)와 함께하는 일본어 학습 사이트',
+      copyright: 'Fan-made project. CUTIE STREET is managed by ASOBISYSTEM / KAWAII LAB.',
+    },
+    docFooter: {
+      prev: '이전 학습',
+      next: '다음 학습',
+    },
   },
 })
