@@ -107,6 +107,17 @@
 
 ## 정중 표현 퀴즈
 
+## 정중 표현 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'ありがとうございます', romaji: 'arigatou gozaimasu', meaning: '감사합니다' },
+  { japanese: '申し訳ありません', romaji: 'moushiwake arimasen', meaning: '죄송합니다' },
+  { japanese: 'よろしいですか', romaji: 'yoroshii desu ka', meaning: '괜찮으시겠어요?' },
+  { japanese: 'ご覧ください', romaji: 'goran kudasai', meaning: '봐주세요' },
+  { japanese: 'お待ちください', romaji: 'omachi kudasai', meaning: '기다려주세요' },
+  { japanese: 'お写真を撮っていただけますか', romaji: 'oshashin wo totte itadakemasu ka', meaning: '사진 찍어주실 수 있을까요?' }
+]" />
+
 <Quiz quizId="polite-speech" :questions="[
   { q: '「ありがとう」의 정중한 표현은?', options: ['ありがとうね', 'ありがとうございます', 'ありがとうだ', 'ありがたい'], answer: 1 },
   { q: '사진을 정중하게 부탁할 때?', options: ['写真撮って', '写真ください', 'お写真を撮っていただけますか', '写真を撮れ'], answer: 2 },

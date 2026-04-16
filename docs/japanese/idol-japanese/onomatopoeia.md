@@ -72,6 +72,27 @@
 
 ## 오노마토페 퀴즈
 
+## 오노마토페 반복 학습 (SRS)
+
+<SrsFlashcard deckId="srs-onomatopoeia" :cards="[
+  { front: 'ドキドキ', back: '도키도키 — 두근두근' },
+  { front: 'キュンキュン', back: '큥큥 — 심쿵심쿵' },
+  { front: 'ワクワク', back: '와쿠와쿠 — 설렘설렘' },
+  { front: 'ニコニコ', back: '니코니코 — 싱글벙글' },
+  { front: 'キラキラ', back: '키라키라 — 반짝반짝' },
+  { front: 'ウルウル', back: '우루우루 — 눈물글썽' },
+  { front: 'ルンルン', back: '룬룬 — 콧노래~' }
+]" />
+
+## 감정 표현 저장
+
+<WordBookmark word="ドキドキ" reading="도키도키" meaning="두근두근" />
+<WordBookmark word="キュンキュン" reading="큥큥" meaning="심쿵심쿵" />
+<WordBookmark word="ワクワク" reading="와쿠와쿠" meaning="설렘설렘" />
+<WordBookmark word="やばい" reading="야바이" meaning="대박/미쳤어" />
+<WordBookmark word="尊い" reading="토토이" meaning="존귀" />
+<WordBookmark word="エモい" reading="에모이" meaning="감성적/감동" />
+
 <Quiz quizId="onomatopoeia" :questions="[
   { q: '「ドキドキ」의 뜻은?', options: ['화남', '두근두근', '졸림', '배고픔'], answer: 1 },
   { q: '「やばい」는 SNS에서 어떤 뜻?', options: ['위험해', '대박/미쳤어', '싫어', '모르겠어'], answer: 1 },

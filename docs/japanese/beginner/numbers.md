@@ -112,6 +112,18 @@
 
 ## 숫자/날짜/시간 퀴즈
 
+## 가격 반복 학습 (SRS)
+
+<SrsFlashcard deckId="srs-numbers" :cards="[
+  { front: '五百円', back: '고햐쿠엔 — 500엔' },
+  { front: '千円', back: '센엔 — 1,000엔' },
+  { front: '千五百円', back: '센고햐쿠엔 — 1,500엔' },
+  { front: '二千円', back: '니센엔 — 2,000엔' },
+  { front: '三千五百円', back: '산젠고햐쿠엔 — 3,500엔' },
+  { front: '五千円', back: '고센엔 — 5,000엔' },
+  { front: '一万円', back: '이치만엔 — 10,000엔' }
+]" />
+
 <Quiz quizId="numbers" :questions="[
   { q: '2,000円은 일본어로?', options: ['にひゃくえん', 'にまんえん', 'にせんえん', 'にじゅうえん'], answer: 2 },
   { q: '9월은 일본어로?', options: ['きゅうがつ', 'くがつ', 'ここのがつ', 'きゅうつき'], answer: 1 },

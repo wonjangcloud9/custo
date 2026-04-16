@@ -47,6 +47,26 @@
 [멤버이름]이 최애입니다.
 ```
 
+## 인사 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'こんにちは', romaji: 'konnichiwa', meaning: '안녕하세요' },
+  { japanese: 'おはようございます', romaji: 'ohayou gozaimasu', meaning: '좋은 아침이에요' },
+  { japanese: 'はじめまして', romaji: 'hajimemashite', meaning: '처음 뵙겠습니다' },
+  { japanese: 'ありがとうございます', romaji: 'arigatou gozaimasu', meaning: '감사합니다' },
+  { japanese: 'よろしくお願いします', romaji: 'yoroshiku onegaishimasu', meaning: '잘 부탁드립니다' },
+  { japanese: 'お疲れ様です', romaji: 'otsukaresama desu', meaning: '수고하셨습니다' }
+]" />
+
+## 필수 표현 저장
+
+<WordBookmark word="こんにちは" reading="콘니치와" meaning="안녕하세요" />
+<WordBookmark word="ありがとうございます" reading="아리가토 고자이마스" meaning="감사합니다" />
+<WordBookmark word="はじめまして" reading="하지메마시테" meaning="처음 뵙겠습니다" />
+<WordBookmark word="よろしくお願いします" reading="요로시쿠 오네가이시마스" meaning="잘 부탁드립니다" />
+<WordBookmark word="好きです" reading="스키데스" meaning="좋아해요" />
+<WordBookmark word="推し" reading="오시" meaning="최애" />
+
 ## 기초 표현 퀴즈
 
 <Quiz quizId="basics" :questions="[

@@ -98,6 +98,18 @@
 
 ## 조수사 퀴즈
 
+## 조수사 반복 학습 (SRS)
+
+<SrsFlashcard deckId="srs-counters" :cards="[
+  { front: '一つ (ひとつ)', back: '히토츠 — 1개 (만능)' },
+  { front: '二つ (ふたつ)', back: '후타츠 — 2개 (만능)' },
+  { front: '一枚 (いちまい)', back: '이치마이 — 1장 (체키/포카)' },
+  { front: '二枚 (にまい)', back: '니마이 — 2장' },
+  { front: '一個 (いっこ)', back: '잇코 — 1개 (작은 물건)' },
+  { front: '一着 (いっちゃく)', back: '잇챠쿠 — 1벌 (옷)' },
+  { front: '一本 (いっぽん)', back: '잇폰 — 1개 (긴 것/펜라이트)' }
+]" />
+
 <Quiz quizId="counters" :questions="[
   { q: '체키 2장을 주문할 때?', options: ['チェキ二つ', 'チェキ二枚', 'チェキ二個', 'チェキ二本'], answer: 1 },
   { q: '큐티스트리트는 몇 명?', options: ['七人', '八人', '九人', '六人'], answer: 1 },
