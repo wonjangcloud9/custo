@@ -32,7 +32,7 @@
 
 현장에서 바로 쓸 수 있나요?
 
-<Quiz :questions="[
+<Quiz quizId="comprehensive-test-3" :questions="[
   { q: '단독 공연을 뜻하는 단어는?', options: ['対バン', 'ワンマン', 'フェス', 'MC'], answer: 1 },
   { q: '「物販」의 뜻은?', options: ['물건 버리기', '굿즈 판매', '물 배급', '입장'], answer: 1 },
   { q: '체키 2장을 주문할 때?', options: ['チェキ二つ', 'チェキ二枚', 'チェキ二個', 'チェキ二本'], answer: 1 },
@@ -47,7 +47,7 @@
 
 가사와 SNS를 읽을 수 있나요?
 
-<Quiz :questions="[
+<Quiz quizId="comprehensive-test-4" :questions="[
   { q: '「かわいいだけじゃだめですか」의 뜻은?', options: ['귀여운 것만 좋아해', '귀엽기만 하면 안 되나요?', '귀여운 게 최고야', '귀엽지 않아'], answer: 1 },
   { q: '「未来」(미라이)의 뜻은?', options: ['과거', '현재', '미래', '영원'], answer: 2 },
   { q: '「届けたい」의 뜻은?', options: ['전하고 싶다', '받고 싶다', '버리고 싶다', '숨기고 싶다'], answer: 0 },
@@ -67,3 +67,21 @@
 | LEVEL 2 | 문법 완벽! | [조사](/japanese/beginner/particles) 복습 | [기초 표현](/japanese/beginner/basics)부터 |
 | LEVEL 3 | 현장 준비 완료! | [현장 용어](/japanese/idol-japanese/live-terms) 복습 | [현장 용어](/japanese/idol-japanese/live-terms)부터 |
 | LEVEL 4 | 독해 마스터! | [가사 학습](/japanese/lyrics/kawaii-dake) 복습 | [SNS 일본어](/japanese/idol-japanese/sns-japanese)부터 |
+
+> 테스트 점수는 자동 저장됩니다! [나의 학습 현황](/japanese/my-progress)에서 진도를 확인하세요.
+
+## 추천 학습 로드맵
+
+```
+STEP 1: 문자 익히기
+  히라가나 → 카타카나 → 일본어 입력
+      ↓
+STEP 2: 기초 문법
+  기초 표현 → 조사 → 동사 → 형용사 → 문장 만들기
+      ↓
+STEP 3: 덕질 실전
+  현장 용어 → SNS 일본어 → 현장 회화 → 팬레터 쓰기
+      ↓
+STEP 4: 심화
+  가사로 배우기 → SNS 읽기 연습 → 정중한 표현 → 종합 테스트 재도전!
+```
