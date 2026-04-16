@@ -38,6 +38,7 @@ export default defineConfig({
           { text: '나의 학습', link: '/japanese/my-progress' },
         ],
       },
+      { text: '레전드 무대', link: '/stages/' },
       { text: '스케줄', link: '/schedule/' },
     ],
     sidebar: {
