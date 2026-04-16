@@ -82,7 +82,7 @@
 
 ## 혼동 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="common-mistakes" :questions="[
   { q: '「遥花ちゃん（　）好きです」 빈칸은?', options: ['は', 'が', 'を', 'に'], answer: 1 },
   { q: '「きれい」는 い형? な형?', options: ['い형용사', 'な형용사'], answer: 1 },
   { q: '「は」가 조사로 쓰일 때 발음은?', options: ['ha', 'wa', 'ba', 'pa'], answer: 1 },

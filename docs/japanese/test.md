@@ -6,7 +6,7 @@
 
 히라가나, 카타카나, 기초 표현을 얼마나 기억하고 있나요?
 
-<Quiz :questions="[
+<Quiz quizId="comprehensive-test-1" :questions="[
   { q: '「さくらば はるか」는 누구?', options: ['梅田みゆ', '桜庭遥花', '佐野愛花', '真鍋凪咲'], answer: 1 },
   { q: '「ライブ」의 뜻은?', options: ['앨범', '공연', '연습', '촬영'], answer: 1 },
   { q: '「ありがとうございます」의 뜻은?', options: ['안녕하세요', '감사합니다', '잘 부탁해요', '실례합니다'], answer: 1 },
@@ -18,7 +18,7 @@
 
 조사, 동사, 형용사를 제대로 쓸 수 있나요?
 
-<Quiz :questions="[
+<Quiz quizId="comprehensive-test-2" :questions="[
   { q: '「ライブ（　）行きます」 빈칸은?', options: ['は', 'を', 'に', 'で'], answer: 2 },
   { q: '「見る」의 ます형은?', options: ['見きます', '見ります', '見ます', '見います'], answer: 2 },
   { q: '「かわいい」의 과거형은?', options: ['かわいいた', 'かわいかった', 'かわいだった', 'かわいくた'], answer: 1 },

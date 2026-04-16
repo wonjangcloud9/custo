@@ -35,7 +35,7 @@
 
 ## 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="live-terms" :questions="[
   { q: '단독 공연을 일본어로?', options: ['対バン', 'ワンマン', 'アンコール', 'MC'], answer: 1 },
   { q: '「物販」(붓판)의 뜻은?', options: ['물건 버리기', '굿즈 판매', '물 배급', '팬미팅'], answer: 1 },
   { q: '폴라로이드 촬영을 뜻하는 단어는?', options: ['サイン', 'チェキ', 'グッズ', 'ケチャ'], answer: 1 },

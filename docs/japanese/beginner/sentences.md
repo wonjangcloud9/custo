@@ -78,7 +78,7 @@
 
 ## 문장 조립 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="sentences" :questions="[
   { q: '「나는 팬이에요」를 일본어로?', options: ['私がファンです', '私はファンです', '私のファンです', '私をファンです'], answer: 1 },
   { q: '「곡을 들어요」를 일본어로?', options: ['曲は聞きます', '曲が聞きます', '曲を聞きます', '曲に聞きます'], answer: 2 },
   { q: '「시부야에서 라이브를 봐요」의 올바른 어순은?', options: ['ライブを渋谷で見ます', '渋谷でライブを見ます', '見ます渋谷でライブを', '渋谷をライブで見ます'], answer: 1 },
@@ -91,7 +91,7 @@
 
 ## 문장 패턴 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="sentences" :cards="[
   { front: 'AはBです', back: 'A는 B예요 — 기본 명사문' },
   { front: 'AはBがCです', back: 'A는 B가 C해요 — 형용사 서술' },
   { front: 'AをBます', back: 'A를 B해요 — 목적어+동사' },

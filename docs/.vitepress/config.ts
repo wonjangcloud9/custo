@@ -34,6 +34,7 @@ export default defineConfig({
           { text: '가사로 배우기', link: '/japanese/lyrics/kawaii-dake' },
           { text: '종합 테스트', link: '/japanese/test' },
           { text: '용어 사전', link: '/japanese/dictionary' },
+          { text: '나의 학습', link: '/japanese/my-progress' },
         ],
       },
       { text: '스케줄', link: '/schedule/' },

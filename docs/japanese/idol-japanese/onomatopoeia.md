@@ -72,7 +72,7 @@
 
 ## 오노마토페 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="onomatopoeia" :questions="[
   { q: '「ドキドキ」의 뜻은?', options: ['화남', '두근두근', '졸림', '배고픔'], answer: 1 },
   { q: '「やばい」는 SNS에서 어떤 뜻?', options: ['위험해', '대박/미쳤어', '싫어', '모르겠어'], answer: 1 },
   { q: '「尊い」의 뜻은?', options: ['무서운', '슬픈', '존귀한', '재미없는'], answer: 2 },
@@ -85,7 +85,7 @@
 
 ## 오노마토페 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="onomatopoeia" :cards="[
   { front: 'ドキドキ', back: '도키도키 — 두근두근' },
   { front: 'キュンキュン', back: '큥큥 — 심쿵심쿵' },
   { front: 'ワクワク', back: '와쿠와쿠 — 설렘' },

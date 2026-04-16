@@ -30,7 +30,7 @@
 
 ## SNS 일본어 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="sns-japanese" :questions="[
   { q: '「お知らせ」의 뜻은?', options: ['인사', '공지/알림', '감사', '사과'], answer: 1 },
   { q: '「会いに来てね」는 무슨 뜻?', options: ['다음에 봐', '만나러 와줘', '잘 가', '조심해'], answer: 1 },
   { q: '「新曲」의 뜻은?', options: ['옛날 노래', '인기곡', '신곡', '타이틀곡'], answer: 2 },

@@ -112,7 +112,7 @@
 
 ## 숫자/날짜/시간 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="numbers" :questions="[
   { q: '2,000円은 일본어로?', options: ['にひゃくえん', 'にまんえん', 'にせんえん', 'にじゅうえん'], answer: 2 },
   { q: '9월은 일본어로?', options: ['きゅうがつ', 'くがつ', 'ここのがつ', 'きゅうつき'], answer: 1 },
   { q: '1일(ついたち)의 뜻은?', options: ['하루', '1일', '월요일', '첫날'], answer: 1 },
@@ -123,7 +123,7 @@
 
 ## 숫자 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="numbers" :cards="[
   { front: '百 (ひゃく)', back: '100 — 햐쿠' },
   { front: '千 (せん)', back: '1,000 — 센' },
   { front: '万 (まん)', back: '10,000 — 만' },

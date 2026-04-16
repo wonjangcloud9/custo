@@ -107,7 +107,7 @@
 
 ## 정중 표현 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="polite-speech" :questions="[
   { q: '「ありがとう」의 정중한 표현은?', options: ['ありがとうね', 'ありがとうございます', 'ありがとうだ', 'ありがたい'], answer: 1 },
   { q: '사진을 정중하게 부탁할 때?', options: ['写真撮って', '写真ください', 'お写真を撮っていただけますか', '写真を撮れ'], answer: 2 },
   { q: '「お名前」의 「お」는?', options: ['감탄사', '정중 접두어', '부정', '과거'], answer: 1 },
@@ -118,7 +118,7 @@
 
 ## 정중 표현 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="polite-speech" :cards="[
   { front: 'ありがとうございます', back: '감사합니다 (정중)' },
   { front: '~ていただけますか', back: '~해주실 수 있을까요? (가장 정중한 부탁)' },
   { front: '応援させていただきます', back: '응원하겠습니다 (겸양 표현)' },

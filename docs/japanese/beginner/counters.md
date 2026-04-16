@@ -98,7 +98,7 @@
 
 ## 조수사 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="counters" :questions="[
   { q: '체키 2장을 주문할 때?', options: ['チェキ二つ', 'チェキ二枚', 'チェキ二個', 'チェキ二本'], answer: 1 },
   { q: '큐티스트리트는 몇 명?', options: ['七人', '八人', '九人', '六人'], answer: 1 },
   { q: '펜라이트 1개의 조수사는?', options: ['一枚', '一個', '一本', '一着'], answer: 2 },
@@ -111,7 +111,7 @@
 
 ## 조수사 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="counters" :cards="[
   { front: '一つ (ひとつ)', back: '1개 — 만능 카운터' },
   { front: '一枚 (いちまい)', back: '1장 — 체키, 포카, CD 등 납작한 것' },
   { front: '一本 (いっぽん)', back: '1개 — 펜라이트 등 길고 가는 것' },

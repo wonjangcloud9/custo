@@ -62,7 +62,7 @@
 | 原宿 | 하라주쿠 | 하라주쿠 (도쿄의 패션 거리) |
 | 武道館 | 부도칸 | 무도관 |
 
-<Quiz :questions="[
+<Quiz quizId="about" :questions="[
   { q: '큐티스트리트의 소속사는?', options: ['SM', 'HYBE', 'ASOBISYSTEM', 'JYP'], answer: 2 },
   { q: '큐티스트리트는 KAWAII LAB.의 몇 번째 그룹?', options: ['1번째', '2번째', '3번째', '4번째'], answer: 3 },
   { q: '데뷔곡의 Billboard HOT100 최고 순위는?', options: ['1위', '2위', '5위', '10위'], answer: 1 },

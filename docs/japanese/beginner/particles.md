@@ -68,7 +68,7 @@
 
 ## は vs が 구분 연습
 
-<Quiz :questions="[
+<Quiz quizId="particles" :questions="[
   { q: '「私（　）ファンです」— 자기소개할 때', options: ['は', 'が', 'を', 'に'], answer: 0 },
   { q: '「誰（　）推しですか？」— 누가 최애냐고 물을 때', options: ['は', 'が', 'を', 'に'], answer: 1 },
   { q: '「曲（　）聞きます」— 곡을 들을 때', options: ['は', 'が', 'を', 'に'], answer: 2 },
@@ -81,7 +81,7 @@
 
 ## 조사 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="particles" :cards="[
   { front: 'は', back: '~은/는 (주제) — wa로 읽음!' },
   { front: 'が', back: '~이/가 (주어 강조)' },
   { front: 'を', back: '~을/를 (목적어) — o로 읽음!' },

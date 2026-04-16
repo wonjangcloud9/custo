@@ -20,7 +20,7 @@
 
 ## 큐티스트리트 멤버 이름으로 연습
 
-<Flashcard :cards="[
+<Flashcard cardSetId="hiragana-members" :cards="[
   { front: 'さくらば はるか', back: '사쿠라바 하루카 (桜庭遥花 / Haruka)' },
   { front: 'うめだ みゆ', back: '우메다 미유 (梅田みゆ / Miyu)' },
   { front: 'まなべ なぎさ', back: '마나베 나기사 (真鍋凪咲 / Nagisa)' },
@@ -33,7 +33,7 @@
 
 ## 히라가나 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="hiragana" :questions="[
   { q: '「さ」의 발음은?', options: ['sa', 'shi', 'su', 'ka'], answer: 0 },
   { q: '「は」의 발음은?', options: ['na', 'ha', 'ma', 'ra'], answer: 1 },
   { q: '멤버 이름 「みゆ」를 로마자로 쓰면?', options: ['miyo', 'miyu', 'miya', 'miyu'], answer: 1 },

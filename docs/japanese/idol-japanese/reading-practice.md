@@ -32,7 +32,7 @@
 | 皆さん | 미나상 | 여러분 |
 | 会いに来てね | 아이니키테네 | 만나러 와줘 |
 
-<Quiz :questions="[
+<Quiz quizId="reading-practice-1" :questions="[
   { q: '이 라이브는 언제?', options: ['12월14일', '12월15일', '12월25일', '11월15일'], answer: 1 },
   { q: '장소는?', options: ['新宿LOFT', '渋谷WWW', '池袋CLUB', '原宿STAGE'], answer: 1 },
   { q: '개장(문 오픈) 시간은?', options: ['16:00', '17:00', '18:00', '19:00'], answer: 1 },
@@ -69,7 +69,7 @@
 | 明日 | 아시타 | 내일 |
 | 物販 | 붓판 | 물판 (굿즈 판매) |
 
-<Quiz :questions="[
+<Quiz quizId="reading-practice-2" :questions="[
   { q: '이 트윗은 언제 쓴 것?', options: ['라이브 전', '라이브 후', '연습 중', '물판 중'], answer: 1 },
   { q: '「初披露」의 뜻은?', options: ['마지막 공연', '첫 공개', '연습', '녹음'], answer: 1 },
   { q: '내일 무엇이 있다고?', options: ['ライブ', '物販', '撮影', '練習'], answer: 1 },
@@ -102,7 +102,7 @@
 | 着る | 키루 | 입다 |
 | お楽しみに | 오타노시미니 | 기대해주세요 |
 
-<Quiz :questions="[
+<Quiz quizId="reading-practice-3" :questions="[
   { q: '오늘 뭘 했다고?', options: ['ライブ', '撮影', '物販', '練習'], answer: 1 },
   { q: '「新しい衣装」의 뜻은?', options: ['옛날 의상', '새 의상', '검은 의상', '빨간 의상'], answer: 1 },
   { q: '새 의상은 언제 볼 수 있다고?', options: ['오늘', '내일', '다음 주 라이브', '다음 달'], answer: 2 },
@@ -137,7 +137,7 @@
 | 詳細 | 쇼사이 | 상세/자세히 |
 | 確認 | 카쿠닌 | 확인 |
 
-<Quiz :questions="[
+<Quiz quizId="reading-practice-4" :questions="[
   { q: '1월에 공연이 몇 번?', options: ['1번', '2번', '3번', '4번'], answer: 2 },
   { q: '단독 라이브는 어디서?', options: ['下北沢', '渋谷', '池袋', '原宿'], answer: 1 },
   { q: '티켓 판매 시작은?', options: ['내일', '오늘 12시', '다음 주', '1월 1일'], answer: 1 },

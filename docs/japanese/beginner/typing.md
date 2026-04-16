@@ -101,7 +101,7 @@
 
 ## 입력 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="typing" :questions="[
   { q: '「し」를 로마자로 입력하려면?', options: ['si 또는 shi', 'ci', 'xi', 'zi'], answer: 0 },
   { q: '「つ」를 로마자로 입력하려면?', options: ['tu 또는 tsu', 'cu', 'su', 'zu'], answer: 0 },
   { q: '촉음 「っ」를 입력하려면?', options: ['xtu', '자음을 두 번 입력', 'ltu', '모두 가능'], answer: 3 },

@@ -20,7 +20,7 @@
 
 ## 아이돌 용어로 카타카나 연습
 
-<Flashcard :cards="[
+<Flashcard cardSetId="katakana" :cards="[
   { front: 'ライブ', back: '라이브 (live) - 공연' },
   { front: 'チェキ', back: '체키 (cheki) - 폴라로이드 사진' },
   { front: 'グッズ', back: '굿즈 (goods) - 상품/굿즈' },
@@ -35,7 +35,7 @@
 
 ## 카타카나 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="katakana" :questions="[
   { q: '「ライブ」의 뜻은?', options: ['앨범', '공연', '팬미팅', '굿즈'], answer: 1 },
   { q: '「チェキ」는 무엇인가요?', options: ['콘서트', '응원봉', '폴라로이드 사진', '사인'], answer: 2 },
   { q: '큐티스트리트를 카타카나로 쓰면?', options: ['クティストリト', 'キューティーストリート', 'クーティストリート', 'キュティストリト'], answer: 1 },

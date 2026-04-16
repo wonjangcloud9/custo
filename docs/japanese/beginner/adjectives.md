@@ -94,7 +94,7 @@
 
 ## 형용사 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="adjectives" :questions="[
   { q: '「かわいい」의 과거형은?', options: ['かわいいた', 'かわいかった', 'かわいくた', 'かわいだった'], answer: 1 },
   { q: '「楽しい」의 부정형은?', options: ['楽しいない', '楽しくない', '楽しじゃない', '楽しないい'], answer: 1 },
   { q: '「素敵」로 명사를 수식할 때?', options: ['素敵い笑顔', '素敵の笑顔', '素敵な笑顔', '素敵く笑顔'], answer: 2 },
@@ -107,7 +107,7 @@
 
 ## 형용사 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="adjectives" :cards="[
   { front: 'かわいい', back: '귀여운 (い형) — かわいかった(과거)' },
   { front: 'かっこいい', back: '멋진 (い형) — かっこよかった(과거)' },
   { front: '楽しい', back: '타노시이 — 즐거운 (い형)' },

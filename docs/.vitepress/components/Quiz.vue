@@ -48,7 +48,7 @@ interface Question {
   answer: number
 }
 
-const props = defineProps<{ questions: Question[] }>()
+const props = defineProps<{ questions: Question[], quizId?: string }>()
 
 const currentIndex = ref(0)
 const selectedOption = ref<number | null>(null)
@@ -65,6 +65,24 @@ function answer(idx: number) {
   }
 }
 
+function saveProgress() {
+  if (!props.quizId) return
+  try {
+    const key = 'custo-study-progress'
+    const raw = localStorage.getItem(key)
+    const data = raw ? JSON.parse(raw) : { quizScores: {}, flashcardProgress: {}, lastStudyDate: '' }
+    if (!data.quizScores) data.quizScores = {}
+    if (!data.quizScores[props.quizId]) data.quizScores[props.quizId] = []
+    data.quizScores[props.quizId].push({
+      score: score.value,
+      total: props.questions.length,
+      date: new Date().toISOString().slice(0, 10),
+    })
+    data.lastStudyDate = new Date().toISOString().slice(0, 10)
+    localStorage.setItem(key, JSON.stringify(data))
+  } catch { /* localStorage 불가 환경 무시 */ }
+}
+
 function next() {
   if (currentIndex.value < props.questions.length - 1) {
     currentIndex.value++
@@ -72,6 +90,7 @@ function next() {
     answered.value = false
   } else {
     finished.value = true
+    saveProgress()
   }
 }
 

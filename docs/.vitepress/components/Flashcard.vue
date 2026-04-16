@@ -28,10 +28,28 @@ interface Card {
   back: string
 }
 
-const props = defineProps<{ cards: Card[] }>()
+const props = defineProps<{ cards: Card[], cardSetId?: string }>()
 
 const currentIndex = ref(0)
 const isFlipped = ref(false)
+const maxViewed = ref(0)
+
+function saveFlashcardProgress() {
+  if (!props.cardSetId) return
+  try {
+    const key = 'custo-study-progress'
+    const raw = localStorage.getItem(key)
+    const data = raw ? JSON.parse(raw) : { quizScores: {}, flashcardProgress: {}, lastStudyDate: '' }
+    if (!data.flashcardProgress) data.flashcardProgress = {}
+    data.flashcardProgress[props.cardSetId] = {
+      viewed: maxViewed.value,
+      total: props.cards.length,
+      date: new Date().toISOString().slice(0, 10),
+    }
+    data.lastStudyDate = new Date().toISOString().slice(0, 10)
+    localStorage.setItem(key, JSON.stringify(data))
+  } catch { /* localStorage 불가 환경 무시 */ }
+}
 
 function flip() {
   isFlipped.value = !isFlipped.value
@@ -48,6 +66,10 @@ function next() {
   if (currentIndex.value < props.cards.length - 1) {
     currentIndex.value++
     isFlipped.value = false
+    if (currentIndex.value + 1 > maxViewed.value) {
+      maxViewed.value = currentIndex.value + 1
+      saveFlashcardProgress()
+    }
   }
 }
 </script>

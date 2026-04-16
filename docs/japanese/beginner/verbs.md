@@ -113,7 +113,7 @@
 
 ## 동사 활용 퀴즈
 
-<Quiz :questions="[
+<Quiz quizId="verbs" :questions="[
   { q: '「行く」의 ます형은?', options: ['行います', '行きます', '行ります', '行ちます'], answer: 1 },
   { q: '「見る」의 ます형은?', options: ['見きます', '見ります', '見ます', '見います'], answer: 2 },
   { q: '「する」의 ます형은?', options: ['すります', 'しります', 'します', 'すます'], answer: 2 },
@@ -126,7 +126,7 @@
 
 ## 동사 플래시카드
 
-<Flashcard :cards="[
+<Flashcard cardSetId="verbs" :cards="[
   { front: '行きます', back: '이키마스 — 가요 (行く의 ます형)' },
   { front: '見ます', back: '미마스 — 봐요 (見る의 ます형)' },
   { front: '聞きます', back: '키키마스 — 들어요 (聞く의 ます형)' },
