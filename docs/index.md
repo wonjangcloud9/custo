@@ -30,6 +30,12 @@ features:
   - title: 🔢 숫자/날짜/시간
     details: 물판 가격, 공연 시간, 발매일을 일본어로 읽어봐요.
     link: /japanese/beginner/numbers
+  - title: 🎬 레전드 무대
+    details: 엠카운트다운, THE FIRST TAKE 등 레전드 무대 영상으로 배우기.
+    link: /stages/
+  - title: 📊 나의 학습
+    details: 퀴즈 점수, SRS 진도, 저장한 단어장을 한눈에 확인!
+    link: /japanese/my-progress
 ---
 
 ## 학습 로드맵
@@ -75,8 +81,11 @@ features:
 | 4-2 | [Hello Hello Mirai](/japanese/lyrics/hello-hello-mirai) | 미래, 꿈 관련 어휘 |
 | 4-3 | [Happy Sekai!](/japanese/lyrics/happy-sekai) | ~たい형 희망 표현 |
 
-### BONUS: 실력 확인
+### BONUS: 실력 확인 & 더 보기
 
 | | 페이지 | 내용 |
 |--|--------|------|
 | | [종합 테스트](/japanese/test) | 4레벨 전 영역 퀴즈 + 점수별 추천 |
+| | [용어 사전](/japanese/dictionary) | 덕질 용어 사전 + 단어 저장 |
+| | [레전드 무대](/stages/) | 엠카/THE FIRST TAKE 영상 + 무대 일본어 |
+| | [나의 학습](/japanese/my-progress) | 퀴즈 점수, SRS 진도, 단어장 확인 |

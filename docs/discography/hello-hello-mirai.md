@@ -32,7 +32,16 @@
 
 ## 곡 정보 퀴즈
 
-<Quiz :questions="[
+## 타이틀 SRS 학습
+
+<SrsFlashcard deckId="srs-disco-mirai" :cards="[
+  { front: 'ハロハロ', back: '하로하로 — Hello Hello' },
+  { front: '未来 (ミライ)', back: '미라이 — 미래' },
+  { front: '仲間', back: '나카마 — 동료' },
+  { front: '全力', back: '젠료쿠 — 전력, 최선' }
+]" />
+
+<Quiz quizId="disco-hello-hello-mirai" :questions="[
   { q: '「未来」(미라이)의 뜻은?', options: ['과거', '현재', '미래', '영원'], answer: 2 },
   { q: '이 곡의 작사/작곡가는?', options: ['早川裕高', 'Yuki.KT', '渡辺俊彦', '秋元康'], answer: 1 },
   { q: '이 곡의 주요 테마는?', options: ['사랑', '이별', '우정과 미래', '여름'], answer: 2 },

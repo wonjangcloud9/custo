@@ -39,7 +39,17 @@ CUTIE STREET의 데뷔곡이자 시그니처 송!
 
 ## 곡 정보 퀴즈
 
-<Quiz :questions="[
+## 타이틀 SRS 학습
+
+<SrsFlashcard deckId="srs-disco-kawaii" :cards="[
+  { front: 'かわいい', back: '카와이이 — 귀여운' },
+  { front: 'だけ', back: '다케 — ~만, ~뿐' },
+  { front: 'だめ', back: '다메 — 안 돼, 소용없어' },
+  { front: '早川裕高', back: '하야카와 히로타카 — 작사가' },
+  { front: '渡辺俊彦', back: '와타나베 토시히코 — 작곡가' }
+]" />
+
+<Quiz quizId="disco-kawaii-dake" :questions="[
   { q: '이 곡의 Billboard HOT100 최고 순위는?', options: ['1위', '2위', '3위', '5위'], answer: 1 },
   { q: '「だけ」의 뜻은?', options: ['많이', '조금', '~만/~뿐', '전부'], answer: 2 },
   { q: '이 곡의 발매 형식은?', options: ['디지털만', 'CD만', '디지털 + CD', 'LP'], answer: 2 },
