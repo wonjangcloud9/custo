@@ -2,6 +2,17 @@
 
 큐티스트리트의 SNS 포스트를 읽어보면서 일본어 실력을 테스트해봅시다!
 
+## 핵심 읽기 단어 발음 가이드
+
+<RomajiToggle :items="[
+  { japanese: 'お知らせ', romaji: 'oshirase', meaning: '공지' },
+  { japanese: '開場 / 開演', romaji: 'kaijou / kaien', meaning: '개장 / 개연' },
+  { japanese: '皆さん', romaji: 'minasan', meaning: '여러분' },
+  { japanese: '会いに来てね', romaji: 'ai ni kite ne', meaning: '만나러 와줘' },
+  { japanese: 'ありがとうございました', romaji: 'arigatou gozaimashita', meaning: '감사했습니다' },
+  { japanese: '楽しかった', romaji: 'tanoshikatta', meaning: '즐거웠다' }
+]" />
+
 ## 연습 1: 공연 공지
 
 다음 포스트를 읽고 질문에 답해보세요.
