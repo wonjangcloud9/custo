@@ -2,7 +2,7 @@
 import { computed, ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
-import videosRaw from '../data/videos.json'
+import MemberFeed from './MemberFeed.vue'
 
 const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
@@ -10,8 +10,6 @@ const idx = computed(() => members.findIndex((x) => x.id === props.id))
 const prev = computed(() => members[(idx.value + members.length - 1) % members.length])
 const next = computed(() => members[(idx.value + 1) % members.length])
 
-interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string }
-const myVideos = computed(() => (videosRaw as Video[]).filter((v) => v.members.includes(props.id)).slice(0, 12))
 
 const now = ref<Date | null>(null)
 const age = computed(() => (now.value ? ageOn(m.value.birthday, now.value) : null))
@@ -54,9 +52,6 @@ onMounted(() => {
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 })
 
-function cleanTitle(t: string) {
-  return t.replace(/【CUTIE STREET[^】]*】/g, '').replace(/\s*CUTIE STREET\s*/g, ' ').replace(/📍[^【]*/, '').trim()
-}
 </script>
 
 <template>
@@ -140,19 +135,8 @@ function cleanTitle(t: string) {
       </div>
     </div>
 
-    <!-- VIDEOS -->
-    <div v-if="myVideos.length" class="rail-wrap">
-      <div class="rail-head">
-        <h3>{{ m.ko.split(' ')[1] }}의 영상 <small>{{ myVideos.length }}</small></h3>
-        <a :href="withBase(`/videos/?m=${m.id}`)">아카이브에서 전체 보기 →</a>
-      </div>
-      <div class="rail">
-        <a v-for="v in myVideos" :key="v.id" class="rv" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
-          <span class="rv-thumb"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" /><span v-if="v.duration" class="rv-dur">{{ v.duration }}</span></span>
-          <span class="rv-ttl">{{ cleanTitle(v.title) }}</span>
-        </a>
-      </div>
-    </div>
+    <!-- LEGEND FEED (Instagram-style) -->
+    <MemberFeed :id="m.id" />
 
     <!-- PREV / NEXT -->
     <nav class="pn" aria-label="다른 멤버">
@@ -304,20 +288,6 @@ function cleanTitle(t: string) {
 .bar.me .bar-cm { color: var(--mc-deep); font-size: 13px; }
 .bar-nm { font-size: 13px; font-weight: 700; margin-top: 4px; color: color-mix(in srgb, var(--bc) 70%, #3a2340); }
 
-/* RAIL */
-.rail-wrap { margin-top: 28px; }
-.rail-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.rail-head h3 { margin: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 22px; }
-.rail-head h3 small { font-size: 13px; color: var(--mc-deep); background: var(--mc-soft); padding: 2px 8px; border-radius: 999px; margin-left: 4px; }
-.rail-head a { font-size: 13px; font-weight: 700; color: var(--mc-deep) !important; white-space: nowrap; }
-.rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 14px 2px 10px; scrollbar-width: thin; }
-.rv { flex: none; width: 240px; scroll-snap-align: start; text-decoration: none !important; color: var(--ink) !important; }
-.rv-thumb { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: var(--mc-soft); box-shadow: 0 10px 20px -14px color-mix(in srgb, var(--mc) 80%, #000); }
-.rv-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(.2, .8, .2, 1); }
-.rv:hover img { transform: scale(1.07); }
-.rv-dur { position: absolute; right: 6px; bottom: 6px; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; background: rgba(30, 10, 30, 0.72); color: #fff; }
-.rv-ttl { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 13px; font-weight: 600; line-height: 1.45; font-family: 'Noto Sans JP', sans-serif; }
-
 /* PREV/NEXT */
 .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .pn a {
@@ -341,7 +311,6 @@ function cleanTitle(t: string) {
 @media (max-width: 420px) {
   .big { font-size: 36px; }
   .mid { font-size: 20px; }
-  .rv { width: 200px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .blob, .marquee, .ja span, .holo-inner, .pin, .tile, .bar-fill { animation: none !important; }
