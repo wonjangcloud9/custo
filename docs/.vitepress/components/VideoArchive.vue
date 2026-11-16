@@ -3,7 +3,7 @@ import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import videosRaw from '../data/videos.json'
 import { members, memberById } from '../data/members'
 
-interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string }
+interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
 const videos = videosRaw as Video[]
 
 const CATS: { id: string; label: string; emoji: string }[] = [
@@ -89,6 +89,8 @@ function randomPick() {
   play(pool[Math.floor(Math.random() * pool.length)])
 }
 
+const nowMs = ref(0)
+const isNew = (v: Video) => !!v.published && nowMs.value > 0 && nowMs.value - new Date(v.published + 'T00:00:00Z').getTime() < 7 * 86400000
 function fmtDate(d: string) { return d ? d.replace(/-/g, '.') : '' }
 function cleanTitle(t: string) {
   return t.replace(/【CUTIE STREET[^】]*】/g, '').replace(/\s*CUTIE STREET\s*/g, ' ').replace(/📍[^【]*/, '').trim()
@@ -100,6 +102,7 @@ onMounted(() => {
   if (p.get('m') && memberById[p.get('m')!]) member.value = p.get('m')!
   if (p.get('q')) q.value = p.get('q')!
   loadWatched()
+  nowMs.value = Date.now()
   watch([cat, member, q], syncUrl)
 })
 </script>
@@ -149,6 +152,7 @@ onMounted(() => {
           <span v-if="v.duration" class="dur">{{ v.duration }}</span>
           <span v-if="watched.has(v.id)" class="seen">✓ 봤어요</span>
           <span v-if="v.channel" class="official">OFFICIAL MV</span>
+          <span v-else-if="isNew(v)" class="official new">NEW</span>
         </button>
         <div class="body">
           <span class="pill" :data-cat="v.category">{{ catLabel[v.category]?.emoji }} {{ catLabel[v.category]?.label }}</span>
@@ -315,6 +319,8 @@ onMounted(() => {
 }
 .dur { right: 8px; font-variant-numeric: tabular-nums; }
 .seen { left: 8px; background: rgba(255, 107, 157, 0.9); }
+.official.new { background: linear-gradient(135deg, #ff4757, #ff9f43); animation: newPulse 1.6s ease-in-out infinite; }
+@keyframes newPulse { 50% { transform: scale(1.08); } }
 .official { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; padding: 4px 8px; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #ff6b9d, #a06cd5); box-shadow: 0 4px 12px rgba(160, 108, 213, 0.5); }
 .body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .pill { align-self: flex-start; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #fff0f6; color: #c2457a; }
@@ -368,7 +374,7 @@ onMounted(() => {
   .va-player-bar a { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .va-ch, .play { animation: none; }
+  .va-ch, .play, .official.new { animation: none; }
   .card { animation: none !important; }
   .card, .chip, .mchip-ring, .va-dice, .va-more button { transition: none; }
 }

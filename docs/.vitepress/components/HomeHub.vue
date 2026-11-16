@@ -6,7 +6,7 @@ import videosRaw from '../data/videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
 
-interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string }
+interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
 const videos = videosRaw as Video[]
 const latest = videos.filter((v) => !v.channel).slice(0, 8)
 
@@ -161,7 +161,7 @@ function cleanTitle(t: string) {
       <div class="sec-head"><h2>NEW ON YOUTUBE</h2><a :href="withBase('/videos/')">아카이브 {{ videos.length }}편 →</a></div>
       <div class="rail">
         <a v-for="v in latest" :key="v.id" class="rv" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
-          <span class="rv-thumb"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" /><span v-if="v.duration" class="rv-dur">{{ v.duration }}</span></span>
+          <span class="rv-thumb"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" /><span v-if="v.duration" class="rv-dur">{{ v.duration }}</span><span v-if="v.published && now !== null && now - new Date(v.published + 'T00:00:00Z').getTime() < 7 * 86400000" class="rv-new">NEW</span></span>
           <span class="rv-ttl">{{ cleanTitle(v.title) }}</span>
           <span v-if="v.date" class="rv-date">{{ v.date.replace(/-/g, '.') }}</span>
         </a>
@@ -328,6 +328,7 @@ function cleanTitle(t: string) {
 .rv-thumb { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden; background: #fbe9f1; box-shadow: 0 12px 24px -16px rgba(150, 60, 110, 0.6); }
 .rv-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(.2, .8, .2, 1); }
 .rv:hover img { transform: scale(1.07); }
+.rv-new { position: absolute; left: 6px; top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 6px; color: #fff; background: linear-gradient(135deg, #ff4757, #ff9f43); }
 .rv-dur { position: absolute; right: 6px; bottom: 6px; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; background: rgba(30, 10, 30, 0.72); color: #fff; }
 .rv-ttl { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 13.5px; font-weight: 600; line-height: 1.45; font-family: 'Noto Sans JP', sans-serif; }
 .rv-date { font-size: 12px; color: #9a7aa0; }

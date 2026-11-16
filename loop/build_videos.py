@@ -63,6 +63,13 @@ for line in mv_src.read_text(encoding='utf-8').splitlines():
     videos.append({'id': cols[0], 'title': cols[2], 'duration': '', 'category': 'mv', 'members': [],
                    'date': '', 'venue': '', 'channel': 'KAWAII LAB.'})
 
+# publish timestamps from the RSS refresh (loop/refresh.mjs) power the NEW badge
+pub_path = root / 'loop' / 'published.json'
+pub = json.loads(pub_path.read_text(encoding='utf-8')) if pub_path.exists() else {}
+for v in videos:
+    if pub.get(v['id']):
+        v['published'] = pub[v['id']][:10]
+
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(videos, ensure_ascii=False, indent=1), encoding='utf-8')
 from collections import Counter
