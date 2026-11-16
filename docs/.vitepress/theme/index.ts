@@ -27,6 +27,7 @@ const lazy = {
   UnitLab: () => import('../components/UnitLab.vue'),
   PenlightOcean: () => import('../components/PenlightOcean.vue'),
   MemberMatch: () => import('../components/MemberMatch.vue'),
+  NewsFeed: () => import('../components/NewsFeed.vue'),
 }
 
 export default {

@@ -5,6 +5,7 @@ import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
+import NewsFeed from './NewsFeed.vue'
 
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
 const videos = videosRaw as Video[]
@@ -131,6 +132,8 @@ function cleanTitle(t: string) {
         </template>
       </a>
     </section>
+
+    <NewsFeed mode="ticker" />
 
     <!-- STATS -->
     <section ref="statsEl" class="stats">
