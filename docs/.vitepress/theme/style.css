@@ -481,3 +481,9 @@ html {
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
+
+/* ── Member pages: wider canvas for the profile hero ── */
+.member-page .VPDoc .content-container,
+.member-page .VPDoc.has-aside .content-container { max-width: 1040px !important; }
+.member-page .VPDoc .container { max-width: 1200px !important; }
+.member-page .VPDoc .content { max-width: none !important; }

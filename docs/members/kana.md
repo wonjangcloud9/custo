@@ -1,18 +1,11 @@
+---
+pageClass: member-page
+aside: false
+---
+
 # 板倉可奈 (이타쿠라 카나)
 
-<MemberCard name="이타쿠라 카나" name-ja="板倉可奈" color="#7FDBCA" birthday="2001.11.11" position="멤버 / 157cm" />
-
-## 프로필 상세
-
-| 항목 | 내용 |
-|------|------|
-| 출신지 | 치바현 (千葉県) |
-| 생년월일 | 2001년 11월 11일 |
-| 키 | 157cm |
-| 멤버 컬러 | Mint Green 🌿 |
-| 닉네임 | 카나짱(かなちゃん), 카나린(かなりん) |
-| 특기 | 댄스 |
-| 취미 | YouTube · 애니메이션 감상, 옷 태그 모으기 |
+<MemberProfile id="kana" />
 
 ## 매력 포인트
 

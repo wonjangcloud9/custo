@@ -1,18 +1,11 @@
+---
+pageClass: member-page
+aside: false
+---
+
 # 真鍋凪咲 (마나베 나기사)
 
-<MemberCard name="마나베 나기사" name-ja="真鍋凪咲" color="#A06CD5" birthday="2004.06.28" position="멤버 / 161cm" />
-
-## 프로필 상세
-
-| 항목 | 내용 |
-|------|------|
-| 출신지 | 카나가와현 (神奈川県) |
-| 생년월일 | 2004년 6월 28일 |
-| 키 | 161cm (그룹 최장신!) |
-| 멤버 컬러 | Purple 💜 |
-| 닉네임 | 나베짱(なべちゃん) |
-| 특기 | 댄스, 배드민턴 |
-| 취미 | YouTube 감상, 호러 작품 감상 |
+<MemberProfile id="nagisa" />
 
 ## 매력 포인트
 

@@ -1,18 +1,11 @@
+---
+pageClass: member-page
+aside: false
+---
+
 # 古澤里紗 (후루사와 리사)
 
-<MemberCard name="후루사와 리사" name-ja="古澤里紗" color="#FFD700" birthday="2000.11.08" position="멤버 / 158cm" />
-
-## 프로필 상세
-
-| 항목 | 내용 |
-|------|------|
-| 출신지 | 쿠마모토현 (熊本県) |
-| 생년월일 | 2000년 11월 8일 |
-| 키 | 158cm |
-| 멤버 컬러 | Yellow 🌟 |
-| 닉네임 | 후리(ふーりー), 후리탄(ふりたん) |
-| 특기 | 댄스 |
-| 취미 | 양복 제작 |
+<MemberProfile id="risa" />
 
 ## 매력 포인트
 

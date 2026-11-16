@@ -38,8 +38,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 |---|------|---|---|---|---|-------|--------|
 | 1 | 영상 아카이브 `/videos/` (공식 채널 261개, 카테고리·멤버 필터, 검색, 모달 플레이어, 시청기록, 랜덤재생, URL 공유) | 10 | 3 | 1 | 1 | 30 | ✅ Done #1 |
 | 2 | 버그: IG 그룹 링크 `cutie_street`→`cutie_street_`, favicon 404 | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #1 |
-| 3 | 멤버 데이터 단일화: 8개 멤버 페이지·MemberCard를 `data/members.ts`로 통일 (아야노 156→157cm 불일치, 공식 SNS X/IG/TikTok 링크 추가, 나이 자동계산) | 9 | 2 | 1 | 1 | 18 | Todo |
-| 4 | 멤버 전용 페이지 리디자인: 멤버 컬러 히어로(키네틱 이름, 홀로 포일 프로필 카드 pointer-tilt), 프로필 bento(나이·키·출신 지도 핀·생일 D-day·유닛), 해당 멤버 영상 레일(videos.json 필터), SNS 버튼 | 10 | 3 | 0.8 | 2 | 12 | Todo |
+| 3 | 멤버 데이터 단일화: 8개 멤버 페이지·MemberCard를 `data/members.ts`로 통일 (아야노 156→157cm 불일치, 공식 SNS X/IG/TikTok 링크 추가, 나이 자동계산) | 9 | 2 | 1 | 1 | 18 | ✅ Done #2 |
+| 4 | 멤버 전용 페이지 리디자인: 멤버 컬러 히어로(키네틱 이름, 홀로 포일 프로필 카드 pointer-tilt), 프로필 bento(나이·키·출신 지도 핀·생일 D-day·유닛), 해당 멤버 영상 레일(videos.json 필터), SNS 버튼 | 10 | 3 | 0.8 | 2 | 12 | ✅ Done #2 (hero·holo card·bento·height ruler·video rail·prev/next; members index grid) |
 | 5 | 홈 리뉴얼: "귀여움으로 세계까지" 키네틱 히어로, 다음 일정 카운트다운(紅白 12/31, CUTIE LAND 12/2), 최신 영상 레일, 8색 멤버 스트립, 학습 섹션은 하단으로 | 10 | 3 | 0.8 | 2 | 12 | Todo |
 | 6 | 스케줄 페이지 갱신: ARENA TOUR 2026 AUTUMN 13공연(IG아레나 11/28-29 피날레), 11/19 모니터링, 11/20 사인회·さんまのまんま, 11/23 삿포로 팬이벤트, 12/2 앨범, 12/31 紅白 — 타임라인 UI + .ics 내보내기 | 9 | 2 | 1 | 1.5 | 12 | Todo |
 | 7 | 디스코그래피 확장: 3 CD싱글 + 디지털 싱글 전곡 + 1st album CUTIE LAND, 곡별 관련 영상(안무/FOCUS/라이브) 자동 연결 | 8 | 2 | 0.8 | 1.5 | 8.5 | Todo |
@@ -50,6 +50,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 12 | 전역 커서/마이크로 인터랙션: 멤버 컬러 스파클 트레일(포인터), 페이지 전환 View Transition, 스티커 peel 배지 | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
 | 13 | i18n: 일본어 UI 토글(일본 팬 대상) — 주요 페이지 제목/라벨 | 6 | 2 | 0.5 | 3 | 2 | Todo |
 | 14 | OG 이미지/SEO 업데이트(팬허브 포지셔닝), sitemap | 6 | 1 | 1 | 0.5 | 12 | Todo |
+| 15 | 멤버 특기/취미/닉네임 재검증 (기존 사이트 데이터 → 공식 Q&A/위키 대조), 멤버별 대표 무대 영상 큐레이션 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
+| 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | Todo |
 
 ## Research notes (verified facts + sources)
 - Official profile + SNS handles: https://cutiestreet.asobisystem.com/news/2 → stored in `docs/.vitepress/data/members.ts`.
@@ -66,3 +68,4 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 ## Iteration log
 _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #1 2026-11-17 00:45 — research + RICE backlog; /videos/ archive (261 videos); members.ts; IG link + favicon fix — next: #3 member data unification, #4 member page redesign
+- #2 2026-11-17 00:52 — MemberProfile (member-color hero, kinetic kanji, pointer-tilt holo ID card, bento: age/D-day/hometown/color copy/nick/likes, height ruler, member video rail, prev/next) on all 8 pages; MemberGrid on /members/; members.ts = single source (ayano 157cm); removed MemberCard — next: #16 page body theming, #5 home renewal, #6 schedule
