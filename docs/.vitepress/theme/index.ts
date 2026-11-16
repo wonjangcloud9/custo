@@ -7,6 +7,7 @@ import StudyDashboard from '../components/StudyDashboard.vue'
 import SrsFlashcard from '../components/SrsFlashcard.vue'
 import WordBookmark from '../components/WordBookmark.vue'
 import BookmarkList from '../components/BookmarkList.vue'
+import VideoArchive from '../components/VideoArchive.vue'
 import './style.css'
 
 export default {
@@ -20,5 +21,6 @@ export default {
     app.component('SrsFlashcard', SrsFlashcard)
     app.component('WordBookmark', WordBookmark)
     app.component('BookmarkList', BookmarkList)
+    app.component('VideoArchive', VideoArchive)
   },
 }

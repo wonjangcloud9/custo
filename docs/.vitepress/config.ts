@@ -7,6 +7,7 @@ export default defineConfig({
   lang: 'ko',
   appearance: false,
   head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/custo/favicon.svg' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap', rel: 'stylesheet' }],
@@ -38,6 +39,7 @@ export default defineConfig({
           { text: '나의 학습', link: '/japanese/my-progress' },
         ],
       },
+      { text: '영상', link: '/videos/' },
       { text: '레전드 무대', link: '/stages/' },
       { text: '스케줄', link: '/schedule/' },
     ],
@@ -114,7 +116,7 @@ export default defineConfig({
     },
     socialLinks: [
       { icon: 'x', link: 'https://x.com/CUTIE_STREET_' },
-      { icon: 'instagram', link: 'https://www.instagram.com/cutie_street' },
+      { icon: 'instagram', link: 'https://www.instagram.com/cutie_street_/' },
       { icon: 'youtube', link: 'https://www.youtube.com/@CUTIE_STREET' },
     ],
     footer: {
