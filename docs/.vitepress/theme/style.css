@@ -456,8 +456,10 @@ html {
 }
 
 /* ── Prevent horizontal overflow ── */
+/* clip (not hidden): hidden makes .vp-doc a scroll container, which breaks position: sticky inside it */
 .vp-doc {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ── Better code blocks on mobile ── */

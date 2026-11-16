@@ -28,6 +28,7 @@ const lazy = {
   PenlightOcean: () => import('../components/PenlightOcean.vue'),
   MemberMatch: () => import('../components/MemberMatch.vue'),
   NewsFeed: () => import('../components/NewsFeed.vue'),
+  CutieLand: () => import('../components/CutieLand.vue'),
 }
 
 export default {

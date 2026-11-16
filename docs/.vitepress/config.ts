@@ -138,6 +138,7 @@ export default defineConfig({
           text: '디스코그래피',
           items: [
             { text: '전체 목록', link: '/discography/' },
+            { text: '💿 CUTIE LAND 특집', link: '/cutie-land/' },
             { text: 'かわいいだけじゃだめですか？', link: '/discography/kawaii-dake' },
             { text: 'Hello Hello Mirai', link: '/discography/hello-hello-mirai' },
             { text: 'Happy Sekai!', link: '/discography/happy-sekai' },

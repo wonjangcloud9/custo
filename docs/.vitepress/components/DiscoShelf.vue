@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
+import { withBase } from 'vitepress'
 import { releases, cutieLand, MV, officialUrl, type Release, type RelType } from '../data/discography'
 import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
@@ -77,7 +78,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         <div class="eds">
           <span v-for="e in cutieLand.editions" :key="e.code" class="ed"><b>{{ e.name }}</b> {{ e.spec }} · {{ e.price }}</span>
         </div>
-        <a class="cta" :href="cutieLand.url" target="_blank" rel="noopener">공식 앨범 특설 페이지 ↗</a>
+        <a class="cta" :href="withBase('/cutie-land/')">트랙별 가이드 보기 →</a> <a class="cta" :href="cutieLand.url" target="_blank" rel="noopener">공식 앨범 특설 페이지 ↗</a>
       </div>
     </div>
 
