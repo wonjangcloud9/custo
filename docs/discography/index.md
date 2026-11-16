@@ -1,36 +1,19 @@
-# 디스코그래피
+---
+pageClass: wide-page
+aside: false
+title: 디스코그래피
+description: CUTIE STREET 공식 디스코그래피 31릴리즈 — 1st ALBUM CUTIE LAND 트랙리스트, CD 싱글, 디지털, 라이브 필름과 공식 MV
+---
 
-CUTIE STREET의 전체 릴리즈 목록입니다.
+# 디스코그래피 💿
 
-## CD 싱글
+<DiscoShelf />
 
-| # | 타이틀 | 발매일 | 차트 |
-|---|--------|--------|------|
-| 1st | [かわいいだけじゃだめですか？](/discography/kawaii-dake) | 2024.11.13 | Oricon 3위, Billboard HOT100 2위 |
-| 2nd | キューにストップできません！ | 2025.07.23 | Oricon 2위, Billboard HOT100 3위 |
-| 3rd | 2026.05.27 발매 예정 | - | - |
+## 가사로 배우기
 
-## 디지털 싱글
-
-| 타이틀 | 발매일 | 비고 |
-|--------|--------|------|
-| かわいいだけじゃだめですか？ | 2024.09 | 데뷔 디지털 싱글 |
-| ひたむきシンデレラ！ | 2024.10 | Billboard HOT100 36위 |
-| [ハロハロミライ](/discography/hello-hello-mirai) | 2024.10 | 2nd 디지털 싱글 |
-| [ハッピー世界！](/discography/happy-sekai) | 2025.01 | 3rd 디지털 싱글 |
-| ぷりきゅきゅ | 2025.03 | |
-| ラブトレ | 2025.05 | Billboard HOT100 100위 |
-| モアベリサマー | 2025.08.13 | |
-| かわいいさがしてくれますか？ | 2025.08.25 | Billboard HOT100 67위 |
-| 多元幸福論 | 2025.09.29 | |
-| Shooting Star | 2025.10.14 | |
-
-## 영상
-
-| 타이틀 | 발매일 | 형식 |
-|--------|--------|------|
-| 1st LIVE FILM at 豊洲PIT | 2025.10.14 | 디지털 |
-| ぷりきゅきゅ | 2026.01.10 | Blu-ray/DVD |
+- [かわいいだけじゃだめですか？ — 곡 해설](/discography/kawaii-dake)
+- [Hello Hello Mirai (ハロハロミライ) — 곡 해설](/discography/hello-hello-mirai)
+- [Happy Sekai! (ハッピー世界！) — 곡 해설](/discography/happy-sekai)
 
 ## 인증
 
