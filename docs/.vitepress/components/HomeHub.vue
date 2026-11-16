@@ -4,6 +4,7 @@ import { withBase } from 'vitepress'
 import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
 import { events, startMs } from '../data/events'
+import LegendOfDay from './LegendOfDay.vue'
 
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string }
 const videos = videosRaw as Video[]
@@ -138,6 +139,8 @@ function cleanTitle(t: string) {
         <span>{{ s.label }}</span>
       </div>
     </section>
+
+    <LegendOfDay />
 
     <!-- MEMBERS ACCORDION -->
     <section class="sec">
