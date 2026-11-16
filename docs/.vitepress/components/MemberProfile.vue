@@ -3,6 +3,7 @@ import { computed, ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
@@ -71,6 +72,7 @@ onMounted(() => {
         <div class="sns">
           <a :href="`https://x.com/${m.x}`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.2 2.25h3.4l-7.4 8.47L23 21.75h-6.8l-5.3-6.95-6.1 6.95H1.4l7.9-9.06L.9 2.25h7l4.8 6.35 5.5-6.35Zm-1.2 17.5h1.9L7 4.13H5z" /></svg>@{{ m.x }}</a>
           <a :href="`https://www.instagram.com/${m.instagram}/`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2c-2.7 0-3 0-4.1.1C4.3 2.3 2.3 4.3 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.2 3.6 2.2 5.6 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c-.2-3.6-2.2-5.6-5.8-5.8C15 2 14.7 2 12 2Z" /></svg>Instagram</a>
+          <ShareButton :title="`${m.ja} (${m.ko}) — CUTIE STREET 팬허브`" :text="`${m.ko} ${m.emoji} 프로필·레전드 컷 모음`" label="공유" />
           <a :href="`https://www.tiktok.com/@${m.tiktok}`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 1 1-2-2.7V9.3a6.2 6.2 0 1 0 5.3 6.1V8.6a7.9 7.9 0 0 0 4.6 1.5V6.8a4.6 4.6 0 0 1-4.6-4.8Z" /></svg>TikTok</a>
         </div>
       </div>

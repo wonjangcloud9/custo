@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
+import ShareButton from './ShareButton.vue'
 import videosRaw from '../data/videos.json'
 import { members, memberById } from '../data/members'
 
@@ -79,7 +80,32 @@ function saveWatched() {
 function play(v: Video) {
   playing.value = v
   const s = new Set(watched.value); s.add(v.id); watched.value = s; saveWatched()
-  nextTick(() => dialog.value?.showModal())
+  nextTick(() => { if (!dialog.value?.open) dialog.value?.showModal() })
+}
+// Continuous play: listen to the YouTube embed's state via postMessage (enablejsapi=1)
+const autoNext = ref(true)
+const frame = ref<HTMLIFrameElement | null>(null)
+const queue = computed(() => (playing.value ? filtered.value : []))
+const nextVideo = computed(() => {
+  if (!playing.value) return null
+  const i = queue.value.findIndex((v) => v.id === playing.value!.id)
+  return i >= 0 && i < queue.value.length - 1 ? queue.value[i + 1] : null
+})
+function playNext() { if (nextVideo.value) play(nextVideo.value) }
+function subscribe() {
+  const w = frame.value?.contentWindow
+  if (!w) return
+  w.postMessage(JSON.stringify({ event: 'listening', id: 'va', channel: 'widget' }), '*')
+  w.postMessage(JSON.stringify({ event: 'command', func: 'addEventListener', args: ['onStateChange'], id: 'va', channel: 'widget' }), '*')
+}
+function onYtMessage(e: MessageEvent) {
+  let host = ''
+  try { host = new URL(e.origin).hostname } catch { return }
+  if (!/youtube(-nocookie)?\.com$/.test(host)) return
+  let d: any
+  try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data } catch { return }
+  const ended = (d?.event === 'onStateChange' && d.info === 0) || (d?.event === 'infoDelivery' && d.info?.playerState === 0)
+  if (ended && autoNext.value && nextVideo.value) playNext()
 }
 function close() { dialog.value?.close() }
 function onDialogClose() { playing.value = null }
@@ -104,7 +130,9 @@ onMounted(() => {
   loadWatched()
   nowMs.value = Date.now()
   watch([cat, member, q], syncUrl)
+  window.addEventListener('message', onYtMessage)
 })
+onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 </script>
 
 <template>
@@ -176,13 +204,20 @@ onMounted(() => {
     <dialog ref="dialog" class="va-dialog" aria-label="영상 플레이어" @close="onDialogClose" @click="onBackdrop">
       <div v-if="playing" class="va-player">
         <div class="frame">
-          <iframe :src="`https://www.youtube-nocookie.com/embed/${playing.id}?autoplay=1&rel=0`" :title="playing.title"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
+          <iframe ref="frame" :key="playing.id" :src="`https://www.youtube-nocookie.com/embed/${playing.id}?autoplay=1&rel=0&enablejsapi=1`" :title="playing.title"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen @load="subscribe" />
         </div>
         <div class="va-player-bar">
           <p>{{ playing.title }}</p>
           <a :href="`https://www.youtube.com/watch?v=${playing.id}`" target="_blank" rel="noopener">YouTube에서 보기 ↗</a>
           <button type="button" class="x" aria-label="닫기" @click="close">✕</button>
+        </div>
+        <div class="va-queue">
+          <label class="auto"><input v-model="autoNext" type="checkbox" /> 연속 재생</label>
+          <button v-if="nextVideo" type="button" class="next" @click="playNext">
+            <img :src="`https://i.ytimg.com/vi/${nextVideo.id}/default.jpg`" alt="" /><span><small>다음 영상</small>{{ cleanTitle(nextVideo.title) }}</span><b>▶</b>
+          </button>
+          <ShareButton :title="playing.title" :url="`https://www.youtube.com/watch?v=${playing.id}`" label="공유" dark />
         </div>
       </div>
     </dialog>
@@ -362,6 +397,15 @@ onMounted(() => {
 .frame iframe { width: 100%; height: 100%; border: 0; display: block; }
 .va-player-bar { display: flex; align-items: center; gap: 14px; padding: 12px 16px; color: #fff; }
 .va-player-bar p { flex: 1; margin: 0; font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.va-queue { display: flex; align-items: center; gap: 10px; padding: 0 16px 14px; color: #fff; }
+.auto { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.auto input { accent-color: #ff6b9d; }
+.next { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 14px; background: rgba(255, 255, 255, 0.1); color: #fff; text-align: left; transition: background 0.2s; }
+.next:hover { background: rgba(255, 255, 255, 0.18); }
+.next img { width: 56px; height: 42px; object-fit: cover; border-radius: 8px; flex: none; }
+.next span { min-width: 0; display: flex; flex-direction: column; font-size: 13px; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.next small { font-size: 11px; color: #ffb3cf; }
+.next b { margin-left: auto; color: #ffb3cf; }
 .va-player-bar a { color: #ffb3cf; font-size: 13px; font-weight: 700; white-space: nowrap; }
 .x { width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 14px; flex: none; }
 
@@ -372,6 +416,8 @@ onMounted(() => {
   .va-grid { grid-template-columns: 1fr; gap: 16px; }
   .va-toggle { margin-left: 0; }
   .va-player-bar a { display: none; }
+  .va-queue { flex-wrap: wrap; }
+  .next { flex-basis: 100%; order: 3; }
 }
 @media (prefers-reduced-motion: reduce) {
   .va-ch, .play, .official.new { animation: none; }

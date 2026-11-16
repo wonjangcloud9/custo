@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
 import { milestones } from '../data/journey'
+import ShareButton from './ShareButton.vue'
 
 const N = milestones.length
 const SUMMIT = 3776
@@ -396,6 +397,7 @@ onBeforeUnmount(() => cleanup?.())
           <a class="btn primary" href="https://www.youtube.com/watch?v=KGFOrSUL-uc" target="_blank" rel="noopener">▶ 「Top of the top」 부도칸 LIVE</a>
           <a class="btn" :href="withBase('/members/')">멤버 만나기</a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
+          <ShareButton title="정상까지의 여정 — CUTIE STREET 3D 스토리" text="데뷔부터 紅白까지, 후지산 3,776m 등반으로 그린 큐티스트리트의 여정 🗻" label="여정 공유하기" />
         </div>
       </section>
     </div>
