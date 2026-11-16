@@ -13,6 +13,8 @@ import HomeHub from '../components/HomeHub.vue'
 import JourneyToTop from '../components/JourneyToTop.vue'
 import ScheduleBoard from '../components/ScheduleBoard.vue'
 import DiscoShelf from '../components/DiscoShelf.vue'
+import BirthdayRing from '../components/BirthdayRing.vue'
+import LikesAlbum from '../components/LikesAlbum.vue'
 import './style.css'
 
 export default {
@@ -32,5 +34,7 @@ export default {
     app.component('JourneyToTop', JourneyToTop)
     app.component('ScheduleBoard', ScheduleBoard)
     app.component('DiscoShelf', DiscoShelf)
+    app.component('BirthdayRing', BirthdayRing)
+    app.component('LikesAlbum', LikesAlbum)
   },
 }

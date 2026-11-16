@@ -88,7 +88,7 @@ onMounted(() => {
         <ul class="ig-stats">
           <li><b>{{ all.length }}</b> 레전드 컷</li>
           <li><b>{{ counts.teaser || 0 }}</b> MV 티저</li>
-          <li><b>{{ myLikes }}</b> 내 ♡</li>
+          <li><a class="to-album" :href="withBase('/likes/')"><b>{{ myLikes }}</b> 내 ♡</a></li>
         </ul>
         <p class="ig-bio"><b>{{ m.ja }}</b> {{ m.emoji }} {{ m.nickname }}<br />CUTIE STREET · {{ m.colorName }} · 더블탭으로 ♡</p>
       </div>
@@ -177,6 +177,7 @@ onMounted(() => {
 .ig-stats { display: flex; gap: 22px; list-style: none; padding: 0 !important; margin: 12px 0 !important; }
 .ig-stats li { margin: 0 !important; font-size: 14px; }
 .ig-stats b { font-size: 16px; }
+.to-album { color: inherit !important; text-decoration: none !important; display: contents; }
 .ig-bio { margin: 0 !important; font-size: 13.5px; line-height: 1.6 !important; color: #5a4060; }
 
 .hl { display: flex; gap: 18px; overflow-x: auto; padding: 8px 24px 18px; scrollbar-width: none; border-bottom: 1px solid #f3e6ee; }

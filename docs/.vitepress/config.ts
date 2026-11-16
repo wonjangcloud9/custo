@@ -77,6 +77,7 @@ export default defineConfig({
             { text: '우메다 (梅田)', link: '/members/miyu' },
             { text: '마나베 (真鍋)', link: '/members/nagisa' },
             { text: '사쿠라바 (桜庭)', link: '/members/haruka' },
+            { text: '♡ 나의 앨범', link: '/likes/' },
           ],
         },
       ],

@@ -39,9 +39,10 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 21 | ⭐ USER REQUEST: 멤버별 "레전드 사진" 인스타풍 갤러리 — 공식 MV Teaser(멤버별)·推しカメラ·生誕祭·KAWAII FOCUS 영상의 maxres 썸네일(i.ytimg.com, 공식 임베드)로 masonry 피드 + 라이트박스(클릭 시 영상). 사진 파일 저장/재호스팅 금지 규칙 유지. 특정 IG 게시물은 유저가 링크 주면 공식 embed | 10 | 3 | 0.8 | 1.5 | 16 (+user priority) | ✅ Done #6 |
 | 24 | 12월 공식 스케줄 수집 (schedule/list는 월 파라미터 미지원 — 상세 페이지/뉴스로 12월 이벤트 확인 후 events.ts 추가) | 8 | 1 | 0.8 | 0.5 | 12.8 | ✅ Done #9 |
 | 22 | 홈/멤버 인덱스에도 '오늘의 레전드 컷' (feeds.json 랜덤 1장, 멤버 컬러 프레임, 매일 바뀜) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #8 (home) |
+| 27 | 버그 주의: VitePress 링크 프리페치가 SVG `<a>`(pathname 없음)에서 TypeError → SVG 안에서는 `<a>` 대신 role=link + router.go 사용 | - | - | - | - | - | ✅ Fixed #11 |
 | 25 | 정기 데이터 갱신 스크립트: 새 YouTube 업로드·공식 스케줄 재수집 → videos/feeds/events 업데이트 (루프가 매 N회차 자동 실행) | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
 | 26 | 디스코그래피 페이지 리뉴얼: 공식 MV 16개 + 싱글/앨범 커버 대신 오리지널 아트, CUTIE LAND 수록곡(공식 뉴스 95941) | 8 | 2 | 0.8 | 1.5 | 8.5 | ✅ Done #10 |
-| 23 | 전 멤버 '좋아요' 모아보기 페이지 (custo-likes localStorage → 나만의 앨범) | 6 | 1 | 1 | 0.5 | 12 | Todo |
+| 23 | 전 멤버 '좋아요' 모아보기 페이지 (custo-likes localStorage → 나만의 앨범) | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #11 (+share link) |
 | 19 | ⭐ USER REQUEST: `/journey/` "정상까지의 여정" — three.js 3D 스크롤 스토리 (TIF 데뷔 → 레코드대상 신인상 → M COUNTDOWN → 武道館 → 아레나 → 紅白, 8멤버 컬러 파티클/별길, 산 정상 등반 메타포) | 10 | 3 | 0.8 | 2 | 12 (+user priority) | ✅ Done #5 |
 | 20 | 데뷔 MV「かわいいだけじゃだめですか？」·「キューにストップできません！」·「ハッピー世界！」·「ゆめみるプリマドンナ」 MV ID 찾기 (KAWAII LAB. 채널 검색 결과에 안 나옴 — 공유 플레이리스트/공식사이트 movie 페이지 확인) | 8 | 1 | 0.8 | 0.5 | 12.8 | ✅ Done #8 (3/4 found; ハッピー世界！ has no official MV in search) |
 | 1 | 영상 아카이브 `/videos/` (공식 채널 261개, 카테고리·멤버 필터, 검색, 모달 플레이어, 시청기록, 랜덤재생, URL 공유) | 10 | 3 | 1 | 1 | 30 | ✅ Done #1 |
@@ -54,7 +55,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 8 | (→ #19 /journey/로 대체 완료) 타임라인/연혁 페이지 `/history/` (2024 결성→TIF 데뷔→레코드대상 신인상→武道館→아레나→紅白), 수상 목록, scroll-driven 진행 라인 | 7 | 2 | 1 | 1.5 | 9.3 | ✅ Covered by #19 |
 | 9 | 영상 길이 정확도: 스크랩한 "22분" 반올림 → 썸네일 오버레이(22:21)로 재수집, 오래된 영상(데뷔 MV 등) 추가 수집 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #4 (523 uploads, exact durations, +13 official MVs from KAWAII LAB.) |
 | 10 | 유닛 페이지: 2026 신유닛(どんどんどん！ 리사·아이카·미유 / 君なんだ 에미루·아야노·카나 / おやすみサイレンナイト 하루카·나기사), Cotton Candy 등 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
-| 11 | 생일 캘린더 + 오늘의 멤버(생일 D-day, 생탄제 영상 링크) | 7 | 1 | 1 | 1 | 7 | Todo |
+| 11 | 생일 캘린더 + 오늘의 멤버(생일 D-day, 생탄제 영상 링크) | 7 | 1 | 1 | 1 | 7 | ✅ Done #11 (BirthdayRing on /members/) |
 | 12 | 전역 커서/마이크로 인터랙션: 멤버 컬러 스파클 트레일(포인터), 페이지 전환 View Transition, 스티커 peel 배지 | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
 | 13 | i18n: 일본어 UI 토글(일본 팬 대상) — 주요 페이지 제목/라벨 | 6 | 2 | 0.5 | 3 | 2 | Todo |
 | 14 | OG 이미지/SEO 업데이트(팬허브 포지셔닝), sitemap | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #9 |
@@ -91,3 +92,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #8 2026-11-17 02:15 — +3 official MVs (debut かわいいだけじゃだめですか？, キューにストップできません！, ゆめみるプリマドンナ → 16 MVs); journey debut milestone now links debut MV; home 'TODAY'S LEGEND CUT': JST-date-seeded polaroid per member, instant-film 'develop' reveal, fanned 7 mini polaroids → View Transition swap, 🎲 reroll — next: #24 Dec schedule, #14 SEO/OG, #23 likes album
 - #9 2026-11-17 02:35 — schedule: +4 verified December events (Osaka 大特典会, Christmas SESSION ×2, KAWAII CLOSET) + 紅白 19:20 JST; per-category time labels (開演/放送/開始); SEO: new 1200×630 OG image (original art, no member photos), og/twitter image tags, per-page og:title/description/url + canonical via transformHead, sitemap.xml (45 URLs), theme-color, fan-hub description — next: #26 discography renewal, #23 likes album, #25 data refresh script
 - #10 2026-11-17 02:55 — /discography/ rebuilt as DiscoShelf from official data (31 releases): CUTIE LAND hero (spinning vinyl + rainbow sleeve, D-day, 16-track list linking MVs, editions), type filters, year 'record shelf' where hovering slides the vinyl out of its sleeve, MV-thumbnail sleeves or generative member-color art, detail dialog with inline MV + related official videos — next: #23 likes album, #11 birthday calendar, #25 data refresh
+- #11 2026-11-17 03:15 — /likes/ '나의 ♡ 앨범': scrapbook polaroid board of double-tapped legend cuts (washi tape in member color, deterministic tilt, drop-in), member filter, 최애 지수, remove w/ shrink, share-link (?ids=) read-only album + 'import all'; members index BirthdayRing: SVG ring calendar w/ month ticks, today needle, staggered dots for clustered Nov birthdays, NEXT 🎂 center, sorted D-day list; MemberFeed '내 ♡' links to album; sidebar link. Fixed VitePress prefetch crash on SVG <a> — next: #25 data refresh, #12 micro-interactions, #10 units
