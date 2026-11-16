@@ -22,7 +22,7 @@ Motto = CUTIE STREET's motto: **"귀여움으로 세계까지" (Kawaii to the wo
 2. **Images**: do NOT download/commit copyrighted member photos into the repo, and do NOT AI-generate likenesses of the real members. Use official embeds (YouTube iframes / `i.ytimg.com` thumbnails), links to official profile pages, and original illustrated/graphic UI (SVG, gradients, member-color art).
 3. Keep the existing Japanese-learning features working (they're the site's origin); evolve the site into a fan hub *around* them.
 4. Each iteration must end with `npm run docs:build` passing AND a Playwright visual check (desktop 1440 + mobile 390) of changed pages via `npm run docs:preview` (port 4173, base `/custo/`). No console errors. Respect `prefers-reduced-motion`.
-5. Commit on branch **`fanpage-overhaul`** only (never push, never touch `main`). One focused commit per iteration, conventional message, with the Co-Authored-By trailer.
+5. Commit on branch **`fanpage-overhaul`** only (never touch `main`). One focused commit per iteration, conventional message, with the Co-Authored-By trailer, then **`git push origin fanpage-overhaul`** (user request 2026-11-17).
 6. Iteration scope: pick the top 1–3 RICE items that fit ~20 min. Small and shipped > big and broken.
 7. Keep the site Korean-first UI, with Japanese names/terms alongside.
 
@@ -36,6 +36,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
+| 19 | ⭐ USER REQUEST: `/journey/` "정상까지의 여정" — three.js 3D 스크롤 스토리 (TIF 데뷔 → 레코드대상 신인상 → M COUNTDOWN → 武道館 → 아레나 → 紅白, 8멤버 컬러 파티클/별길, 산 정상 등반 메타포) | 10 | 3 | 0.8 | 2 | 12 (+user priority) | In progress #5 |
+| 20 | 데뷔 MV「かわいいだけじゃだめですか？」·「キューにストップできません！」·「ハッピー世界！」·「ゆめみるプリマドンナ」 MV ID 찾기 (KAWAII LAB. 채널 검색 결과에 안 나옴 — 공유 플레이리스트/공식사이트 movie 페이지 확인) | 8 | 1 | 0.8 | 0.5 | 12.8 | Todo |
 | 1 | 영상 아카이브 `/videos/` (공식 채널 261개, 카테고리·멤버 필터, 검색, 모달 플레이어, 시청기록, 랜덤재생, URL 공유) | 10 | 3 | 1 | 1 | 30 | ✅ Done #1 |
 | 2 | 버그: IG 그룹 링크 `cutie_street`→`cutie_street_`, favicon 404 | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #1 |
 | 3 | 멤버 데이터 단일화: 8개 멤버 페이지·MemberCard를 `data/members.ts`로 통일 (아야노 156→157cm 불일치, 공식 SNS X/IG/TikTok 링크 추가, 나이 자동계산) | 9 | 2 | 1 | 1 | 18 | ✅ Done #2 |
@@ -44,7 +46,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 6 | 스케줄 페이지 갱신: ARENA TOUR 2026 AUTUMN 13공연(IG아레나 11/28-29 피날레), 11/19 모니터링, 11/20 사인회·さんまのまんま, 11/23 삿포로 팬이벤트, 12/2 앨범, 12/31 紅白 — 타임라인 UI + .ics 내보내기 | 9 | 2 | 1 | 1.5 | 12 | Todo |
 | 7 | 디스코그래피 확장: 3 CD싱글 + 디지털 싱글 전곡 + 1st album CUTIE LAND, 곡별 관련 영상(안무/FOCUS/라이브) 자동 연결 | 8 | 2 | 0.8 | 1.5 | 8.5 | Todo |
 | 8 | 타임라인/연혁 페이지 `/history/` (2024 결성→TIF 데뷔→레코드대상 신인상→武道館→아레나→紅白), 수상 목록, scroll-driven 진행 라인 | 7 | 2 | 1 | 1.5 | 9.3 | Todo |
-| 9 | 영상 길이 정확도: 스크랩한 "22분" 반올림 → 썸네일 오버레이(22:21)로 재수집, 오래된 영상(데뷔 MV 등) 추가 수집 | 7 | 1 | 1 | 0.5 | 14 | Todo |
+| 9 | 영상 길이 정확도: 스크랩한 "22분" 반올림 → 썸네일 오버레이(22:21)로 재수집, 오래된 영상(데뷔 MV 등) 추가 수집 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #4 (523 uploads, exact durations, +13 official MVs from KAWAII LAB.) |
 | 10 | 유닛 페이지: 2026 신유닛(どんどんどん！ 리사·아이카·미유 / 君なんだ 에미루·아야노·카나 / おやすみサイレンナイト 하루카·나기사), Cotton Candy 등 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
 | 11 | 생일 캘린더 + 오늘의 멤버(생일 D-day, 생탄제 영상 링크) | 7 | 1 | 1 | 1 | 7 | Todo |
 | 12 | 전역 커서/마이크로 인터랙션: 멤버 컬러 스파클 트레일(포인터), 페이지 전환 View Transition, 스티커 peel 배지 | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
@@ -63,7 +65,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
   Timeline: 2024-08-04 TIF debut; 2024-12-27 MステSUPER LIVE; 2025-11-21 レコード大賞 新人賞; 2026-03-26 M Countdown; 2026-08-25/26 日本武道館; 2026-09-23~11-29 ARENA TOUR (7都市13公演); 2026-11-13 紅白 初出場 決定.
 - Official top page (2026-11-17): 11/19 TBS モニタリング, 11/20 1st album online sign event (YouTube) + さんまのまんま, 11/23 Sapporo fan event, tour page https://cutiestreet.asobisystem.com/feature/autumntour , schedule https://cutiestreet.asobisystem.com/live_information/schedule/list
 - Arena tour dates (realsound/livedoor): 9/23 横浜アリーナ, 9/29-30 有明アリーナ, 10/3-4 セキスイハイムスーパーアリーナ, 10/28-29 マリンメッセ福岡A館, 10/31-11/1 神戸ワールド記念ホール, 11/14-15 広島グリーンアリーナ, 11/28-29 IGアリーナ(愛知). Korea: 2026-07-25/26 Live in Korea 2026 SUMMER (世宗大 大洋ホール).
-- YouTube: scraped 261 videos (2025-10 → 2026-11) from https://www.youtube.com/@CUTIE_STREET/videos via Playwright → `loop/yt-videos.tsv` → `python3 -I loop/build_videos.py` → `docs/.vitepress/data/videos.json`. IDs are real (taken from official channel links). Older videos (2024–2025-09, original MVs) not yet scraped — needs more scrolling.
+- YouTube (#4): full scrape = 523 uploads back to 初投稿 (2024-07) with exact durations → `loop/yt-videos-full.tsv`; official MVs are on KAWAII LAB. channel @KAWAII_LAB_OFFICIAL → `loop/mvs.tsv` (titles verified via oEmbed). NOTE: scraped titles from YouTube UI can be auto-translated to Korean; use oEmbed for canonical titles.
+- YouTube (#1, superseded): scraped 261 videos (2025-10 → 2026-11) from https://www.youtube.com/@CUTIE_STREET/videos via Playwright → `loop/yt-videos.tsv` → `python3 -I loop/build_videos.py` → `docs/.vitepress/data/videos.json`. IDs are real (taken from official channel links). Older videos (2024–2025-09, original MVs) not yet scraped — needs more scrolling.
 - Mobbin refs: Quartz video page (chip filters + pill tags), folk team grid (gradient ring avatars + emoji meta), Craft Agency (member-color backdrop portrait cards).
 - Modern web techniques in use: View Transitions API (filter reflow), CSS scroll-driven `animation-timeline: view()`, `linear()` spring easing, `@starting-style` dialog entry, `color-mix()`.
 
@@ -72,3 +75,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #1 2026-11-17 00:45 — research + RICE backlog; /videos/ archive (261 videos); members.ts; IG link + favicon fix — next: #3 member data unification, #4 member page redesign
 - #2 2026-11-17 00:52 — MemberProfile (member-color hero, kinetic kanji, pointer-tilt holo ID card, bento: age/D-day/hometown/color copy/nick/likes, height ruler, member video rail, prev/next) on all 8 pages; MemberGrid on /members/; members.ts = single source (ayano 157cm); removed MemberCard — next: #16 page body theming, #5 home renewal, #6 schedule
 - #3 2026-11-17 01:00 — member pages: whole page follows member color (per-member pageClass → brand vars, h2 scroll-highlight, tables, quiz/SRS accent vars); home HomeHub (kinetic '귀여움으로 세계까지', 8-member orbit, sparkle trail, live countdown to 札幌/아레나 FINAL/CUTIE LAND/紅白, count-up stats, member accordion, latest video rail, explore bento); table fit-content fix — next: #9 video durations + older videos, #6 schedule (+#18 events.ts), #14 SEO
+- #4 2026-11-17 01:05 — videos: 523 uploads (exact durations, venues/dates for 2024 '@venue' format) + 13 official KAWAII LAB. MVs pinned w/ OFFICIAL MV badge; home rail excludes MVs; loop now pushes each iteration — next: #19 journey (user request), #20 missing MV IDs, #6 schedule

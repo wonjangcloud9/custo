@@ -5,7 +5,8 @@ Usage: python3 -I loop/build_videos.py  (run from repo root)"""
 import json, re, pathlib
 
 root = pathlib.Path(__file__).resolve().parent.parent
-src = root / 'loop' / 'yt-videos.tsv'
+src = root / 'loop' / 'yt-videos-full.tsv'
+mv_src = root / 'loop' / 'mvs.tsv'
 out = root / 'docs' / '.vitepress' / 'data' / 'videos.json'
 
 MEMBERS = {
@@ -30,25 +31,37 @@ def duration(s):
         return ''
     return f'{h}:{m:02d}:{sec:02d}' if h else f'{m}:{sec:02d}'
 
+def parse_date(title):
+    d = re.search(r'(20\d\d)/(\d{1,2})/(\d{1,2})', title)
+    return f'{d.group(1)}-{int(d.group(2)):02d}-{int(d.group(3)):02d}' if d else ''
+
+def tags(title):
+    return [k for k, (name, emo) in MEMBERS.items() if name in title or (emo in title and '【' in title)]
+
 videos = []
 for line in src.read_text(encoding='utf-8').splitlines():
-    if '\t' not in line:
+    cols = line.split('\t')
+    if len(cols) < 3 or not re.fullmatch(r'[\w-]{11}', cols[0]):
         continue
-    vid, rest = line.split('\t', 1)
-    if not re.fullmatch(r'[\w-]{11}', vid):
-        continue
+    vid, rest, dur = cols[0], cols[1], cols[2].strip()
     dm = re.search(r'\s((?:\d+시간\s?)?(?:\d+분\s?)?(?:\d+초)?)$', rest)
     title = rest[: dm.start()].strip() if dm and dm.group(1) else rest.strip()
-    dur = duration(dm.group(1)) if dm else ''
+    if not dur and dm:
+        dur = duration(dm.group(1))
     cat = next((c for c, rx in CATS if re.search(rx, title)), 'variety')
-    members = [k for k, (name, emo) in MEMBERS.items() if name in title or (emo in title and '【' in title)]
-    date = re.search(r'\((20\d\d)/(\d{1,2})/(\d{1,2})\)', title)
-    venue = re.search(r'📍([^()（【]+)', title)
+    venue = re.search(r'(?:📍|@\s?)([^()（【@]+)', title)
     videos.append({
-        'id': vid, 'title': title, 'duration': dur, 'category': cat, 'members': members,
-        'date': f'{date.group(1)}-{int(date.group(2)):02d}-{int(date.group(3)):02d}' if date else '',
-        'venue': venue.group(1).strip() if venue else '',
+        'id': vid, 'title': title, 'duration': dur, 'category': cat, 'members': tags(title),
+        'date': parse_date(title), 'venue': venue.group(1).strip() if venue else '',
     })
+
+# Official MVs live on the KAWAII LAB. channel (titles verified via oEmbed)
+for line in mv_src.read_text(encoding='utf-8').splitlines():
+    cols = line.split('\t')
+    if len(cols) < 3 or cols[1] != 'KAWAII LAB.':
+        continue
+    videos.append({'id': cols[0], 'title': cols[2], 'duration': '', 'category': 'mv', 'members': [],
+                   'date': '', 'venue': '', 'channel': 'KAWAII LAB.'})
 
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(videos, ensure_ascii=False, indent=1), encoding='utf-8')

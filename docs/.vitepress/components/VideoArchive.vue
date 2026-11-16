@@ -3,7 +3,7 @@ import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import videosRaw from '../data/videos.json'
 import { members, memberById } from '../data/members'
 
-interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string }
+interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string }
 const videos = videosRaw as Video[]
 
 const CATS: { id: string; label: string; emoji: string }[] = [
@@ -47,7 +47,7 @@ const filtered = computed(() => {
     (!member.value || v.members.includes(member.value)) &&
     (!needle || v.title.toLowerCase().includes(needle) || v.venue.toLowerCase().includes(needle)) &&
     (!unwatchedOnly.value || !watched.value.has(v.id)),
-  )
+  ).sort((a, b) => (cat.value === 'mv' ? Number(!!b.channel) - Number(!!a.channel) : 0))
 })
 const visible = computed(() => filtered.value.slice(0, shown.value))
 
@@ -111,7 +111,7 @@ onMounted(() => {
       <h1 class="va-title">
         <span v-for="(ch, i) in 'VIDEO ARCHIVE'.split('')" :key="i" class="va-ch" :style="{ '--i': i }">{{ ch === ' ' ? ' ' : ch }}</span>
       </h1>
-      <p class="va-sub">공식 채널 영상 <b>{{ videos.length }}</b>개를 무대·안무·메이킹·생탄제별로. 본 영상은 <b>{{ watched.size }}</b>개예요.</p>
+      <p class="va-sub">공식 채널 + KAWAII LAB. MV 영상 <b>{{ videos.length }}</b>개를 무대·안무·메이킹·생탄제별로. 본 영상은 <b>{{ watched.size }}</b>개예요.</p>
     </header>
 
     <div class="va-toolbar">
@@ -148,6 +148,7 @@ onMounted(() => {
           <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" /></svg></span>
           <span v-if="v.duration" class="dur">{{ v.duration }}</span>
           <span v-if="watched.has(v.id)" class="seen">✓ 봤어요</span>
+          <span v-if="v.channel" class="official">OFFICIAL MV</span>
         </button>
         <div class="body">
           <span class="pill" :data-cat="v.category">{{ catLabel[v.category]?.emoji }} {{ catLabel[v.category]?.label }}</span>
@@ -314,6 +315,7 @@ onMounted(() => {
 }
 .dur { right: 8px; font-variant-numeric: tabular-nums; }
 .seen { left: 8px; background: rgba(255, 107, 157, 0.9); }
+.official { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; padding: 4px 8px; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #ff6b9d, #a06cd5); box-shadow: 0 4px 12px rgba(160, 108, 213, 0.5); }
 .body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .pill { align-self: flex-start; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #fff0f6; color: #c2457a; }
 .pill[data-cat='live'] { background: #ffefe3; color: #c25a14; }

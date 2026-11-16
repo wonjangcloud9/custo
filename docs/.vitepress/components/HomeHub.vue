@@ -4,9 +4,9 @@ import { withBase } from 'vitepress'
 import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
 
-interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string }
+interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string }
 const videos = videosRaw as Video[]
-const latest = videos.slice(0, 8)
+const latest = videos.filter((v) => !v.channel).slice(0, 8)
 
 // Verified upcoming milestones (see loop/ROADMAP.md research notes)
 const EVENTS = [
