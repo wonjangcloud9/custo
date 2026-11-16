@@ -19,8 +19,7 @@ description: CUTIE STREET 공식 디스코그래피 31릴리즈 — 1st ALBUM CU
 
 | 곡 | 인증 |
 |----|------|
-| かわいいだけじゃだめですか？ | RIAJ Gold (피지컬) / Platinum (스트리밍) |
-| キューにストップできません！ | RIAJ Gold (피지컬) |
+| かわいいだけじゃだめですか？ | RIAJ 골드 (스트리밍) — 출처: Wikipedia 일본어판 |
 
 ## 디스코그래피 관련 일본어
 
