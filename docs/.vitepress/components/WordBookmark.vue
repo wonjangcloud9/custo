@@ -98,7 +98,7 @@ onMounted(checkState)
   padding: 0;
   border: none;
   background: transparent;
-  color: #C49CFF;
+  color: var(--custo-accent-2, #C49CFF);
   cursor: pointer;
   vertical-align: middle;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -106,12 +106,12 @@ onMounted(checkState)
 }
 
 .word-bookmark:hover {
-  color: #FF6B9D;
+  color: var(--custo-accent, #FF6B9D);
   transform: scale(1.2);
 }
 
 .word-bookmark.active {
-  color: #FF6B9D;
+  color: var(--custo-accent, #FF6B9D);
   animation: bm-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

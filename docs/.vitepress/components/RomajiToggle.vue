@@ -45,10 +45,10 @@ const showRomaji = ref(false)
   align-items: center;
   gap: 0.4rem;
   padding: 0.55rem 1.4rem;
-  border: 2px solid var(--custo-pink, #FF6B9D);
+  border: 2px solid var(--custo-accent, var(--custo-accent, #FF6B9D));
   border-radius: 999px;
   background: #fff;
-  color: #FF6B9D;
+  color: var(--custo-accent, #FF6B9D);
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 0.88rem;
   font-weight: 600;
@@ -57,7 +57,7 @@ const showRomaji = ref(false)
 }
 
 .toggle-btn:hover {
-  background: #FF6B9D;
+  background: var(--custo-accent, #FF6B9D);
   color: #fff;
   box-shadow: 0 4px 14px rgba(255, 107, 157, 0.3);
 }

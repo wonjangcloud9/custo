@@ -176,7 +176,7 @@ const resultLabel = computed(() => {
 }
 
 .option-btn:hover:not(:disabled) {
-  border-color: #FF6B9D;
+  border-color: var(--custo-accent, #FF6B9D);
   transform: translateY(-1px);
 }
 
@@ -224,7 +224,7 @@ const resultLabel = computed(() => {
   padding: 0.55rem 1.5rem;
   border-radius: 999px;
   border: none;
-  background: linear-gradient(135deg, #FF6B9D 0%, #C49CFF 100%);
+  background: linear-gradient(135deg, var(--custo-accent, #FF6B9D) 0%, var(--custo-accent-2, #C49CFF) 100%);
   color: #fff;
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
   font-size: 0.9rem;
@@ -255,7 +255,7 @@ const resultLabel = computed(() => {
   font-family: 'Zen Maru Gothic', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #FF6B9D;
+  color: var(--custo-accent, #FF6B9D);
   margin: 0;
 }
 
@@ -272,7 +272,7 @@ const resultLabel = computed(() => {
   padding: 0.6rem 1.75rem;
   border-radius: 999px;
   border: none;
-  background: linear-gradient(135deg, #FF6B9D 0%, #C49CFF 100%);
+  background: linear-gradient(135deg, var(--custo-accent, #FF6B9D) 0%, var(--custo-accent-2, #C49CFF) 100%);
   color: #fff;
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
   font-size: 0.95rem;

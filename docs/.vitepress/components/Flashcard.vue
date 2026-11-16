@@ -123,7 +123,7 @@ function next() {
 }
 
 .card-back {
-  background: linear-gradient(135deg, #FF6B9D 0%, #C49CFF 100%);
+  background: linear-gradient(135deg, var(--custo-accent, #FF6B9D) 0%, var(--custo-accent-2, #C49CFF) 100%);
   color: #fff;
   transform: rotateY(180deg);
 }
@@ -159,8 +159,8 @@ function next() {
 
 .nav-btn {
   background: #fff;
-  border: 2px solid #FF6B9D;
-  color: #FF6B9D;
+  border: 2px solid var(--custo-accent, #FF6B9D);
+  color: var(--custo-accent, #FF6B9D);
   border-radius: 999px;
   width: 40px;
   height: 40px;
@@ -173,7 +173,7 @@ function next() {
 }
 
 .nav-btn:hover:not(:disabled) {
-  background: #FF6B9D;
+  background: var(--custo-accent, #FF6B9D);
   color: #fff;
 }
 

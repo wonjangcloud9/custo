@@ -178,7 +178,7 @@ watch(() => props.deckId, () => {
   font-family: 'Zen Maru Gothic', sans-serif; }
 .progress-track { height: 10px; background: #f5eeff; border-radius: 999px; overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 999px;
-  background: linear-gradient(90deg, #FF6B9D, #C49CFF);
+  background: linear-gradient(90deg, var(--custo-accent, #FF6B9D), var(--custo-accent-2, #C49CFF));
   transition: width .4s ease; }
 
 /* Card */
@@ -201,7 +201,7 @@ watch(() => props.deckId, () => {
 }
 .card-front { background: linear-gradient(135deg, #ffe8f4 0%, #f0e4ff 100%); }
 .card-back {
-  background: linear-gradient(135deg, #FF6B9D 0%, #C49CFF 100%);
+  background: linear-gradient(135deg, var(--custo-accent, #FF6B9D) 0%, var(--custo-accent-2, #C49CFF) 100%);
   color: #fff; transform: rotateY(180deg);
 }
 .card-text {
@@ -221,9 +221,9 @@ watch(() => props.deckId, () => {
   font-family: 'Noto Sans KR', sans-serif; font-size: .85rem; font-weight: 600;
   cursor: pointer; transition: transform .15s, box-shadow .2s; }
 .srs-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(196,156,255,.25); }
-.srs-hard { background: #fff0f3; border-color: #FF6B9D; color: #FF6B9D; }
-.srs-ok { background: #f5eeff; border-color: #C49CFF; color: #9966cc; }
-.srs-easy { background: linear-gradient(135deg, #FF6B9D, #C49CFF); color: #fff; border: none; }
+.srs-hard { background: #fff0f3; border-color: var(--custo-accent, #FF6B9D); color: var(--custo-accent, #FF6B9D); }
+.srs-ok { background: #f5eeff; border-color: var(--custo-accent-2, #C49CFF); color: #9966cc; }
+.srs-easy { background: linear-gradient(135deg, var(--custo-accent, #FF6B9D), var(--custo-accent-2, #C49CFF)); color: #fff; border: none; }
 
 .queue-hint { font-size: .75rem; color: #b89ac8; }
 
@@ -241,10 +241,10 @@ watch(() => props.deckId, () => {
   font-size: 1.15rem; font-weight: 700; color: #9966cc; margin: 0;
 }
 .reset-btn {
-  padding: .55rem 1.5rem; border-radius: 999px; border: 2px solid #FF6B9D;
-  background: #fff; color: #FF6B9D;
+  padding: .55rem 1.5rem; border-radius: 999px; border: 2px solid var(--custo-accent, #FF6B9D);
+  background: #fff; color: var(--custo-accent, #FF6B9D);
   font-family: 'Noto Sans KR', sans-serif; font-size: .85rem; font-weight: 600;
   cursor: pointer; transition: background .2s, color .2s;
 }
-.reset-btn:hover { background: #FF6B9D; color: #fff; }
+.reset-btn:hover { background: var(--custo-accent, #FF6B9D); color: #fff; }
 </style>

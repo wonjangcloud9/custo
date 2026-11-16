@@ -1,5 +1,5 @@
 ---
-pageClass: member-page
+pageClass: member-page member-kana
 aside: false
 ---
 

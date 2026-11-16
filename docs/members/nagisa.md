@@ -1,5 +1,5 @@
 ---
-pageClass: member-page
+pageClass: member-page member-nagisa
 aside: false
 ---
 

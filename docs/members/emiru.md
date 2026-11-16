@@ -1,5 +1,5 @@
 ---
-pageClass: member-page
+pageClass: member-page member-emiru
 aside: false
 ---
 
