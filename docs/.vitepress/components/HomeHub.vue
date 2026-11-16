@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
-import { members } from '../data/members'
+import { members, daysToBirthday, ageOn } from '../data/members'
+import BirthdayParty from './BirthdayParty.vue'
 import videosRaw from '../data/videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
@@ -61,7 +62,23 @@ function sparkle(e: PointerEvent) {
   setTimeout(() => s.remove(), 900)
 }
 
+const today = ref<Date | null>(null)
+const forceBday = ref('')
+const bdayToday = computed(() => (today.value ? members.find((m) => m.id === forceBday.value || daysToBirthday(m.birthday, today.value!) === 0) ?? null : null))
+const bdaySoon = computed(() => (today.value && !bdayToday.value ? members.map((m) => ({ m, d: daysToBirthday(m.birthday, today.value!) })).filter((x) => x.d > 0 && x.d <= 14).sort((a, b) => a.d - b.d)[0] ?? null : null))
+// N years ago around today (JST month-day, ±3 days) from dated official videos
+const onThisDay = computed(() => {
+  if (!today.value) return []
+  const jst = new Date(today.value.getTime() + 9 * 3600e3)
+  const y = jst.getUTCFullYear(), md = Date.UTC(2000, jst.getUTCMonth(), jst.getUTCDate())
+  return videos.filter((v) => v.date && Number(v.date.slice(0, 4)) < y).map((v) => {
+    const [vy, vm, vd] = v.date.split('-').map(Number)
+    return { v, ago: y - vy, diff: Math.round((Date.UTC(2000, vm - 1, vd) - md) / 86400000) }
+  }).filter((x) => Math.abs(x.diff) <= 3).sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff) || b.ago - a.ago).slice(0, 4)
+})
 onMounted(() => {
+  today.value = new Date()
+  forceBday.value = new URLSearchParams(location.search).get('bday') ?? '' // preview: ?bday=<id>
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   now.value = Date.now()
   timer = window.setInterval(() => (now.value = Date.now()), 1000)
@@ -134,6 +151,8 @@ function cleanTitle(t: string) {
       </a>
     </section>
 
+    <BirthdayParty v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" compact />
+    <a v-else-if="bdaySoon" class="soon" :href="withBase(`/members/${bdaySoon.m.id}`)" :style="{ '--mc': bdaySoon.m.color }">🎂 <b>{{ bdaySoon.m.ko }}</b> 생일까지 <b>D-{{ bdaySoon.d }}</b> · {{ bdaySoon.m.birthday.slice(5).replace('-', '/') }} {{ bdaySoon.m.emoji }}</a>
     <NewsFeed mode="ticker" />
 
     <!-- STATS -->
@@ -145,6 +164,16 @@ function cleanTitle(t: string) {
     </section>
 
     <LegendOfDay />
+
+    <section v-if="onThisDay.length" class="sec otd">
+      <div class="sec-head"><h2>ON THIS DAY</h2><span class="otd-sub">몇 년 전 이맘때의 큐티스트리트</span></div>
+      <div class="otd-grid">
+        <a v-for="x in onThisDay" :key="x.v.id" class="otd-card" :href="`https://www.youtube.com/watch?v=${x.v.id}`" target="_blank" rel="noopener">
+          <span class="otd-th"><img :src="`https://i.ytimg.com/vi/${x.v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b>{{ x.ago }}년 전 {{ x.diff === 0 ? '오늘' : '이맘때' }}</b></span>
+          <span class="otd-t">{{ cleanTitle(x.v.title) }}</span><small>{{ x.v.date.replace(/-/g, '.') }}</small>
+        </a>
+      </div>
+    </section>
 
     <!-- MEMBERS ACCORDION -->
     <section class="sec">
@@ -304,6 +333,20 @@ function cleanTitle(t: string) {
   @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); letter-spacing: 0.3em; } }
 }
 
+/* BIRTHDAY SOON + ON THIS DAY */
+.soon { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; border-radius: 999px; font-size: 14px; text-decoration: none !important; color: color-mix(in srgb, var(--mc) 60%, #2a1030) !important; background: color-mix(in srgb, var(--mc) 14%, white); border: 1.5px solid color-mix(in srgb, var(--mc) 35%, white); transition: transform 0.45s var(--spring); }
+.soon:hover { transform: translateY(-2px); }
+.otd-sub { font-size: 13px; color: #735779; font-weight: 600; }
+.otd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.otd-card { display: flex; flex-direction: column; gap: 4px; text-decoration: none !important; color: var(--ink) !important; transition: transform 0.5s var(--spring); }
+.otd-card:hover { transform: translateY(-4px) rotate(-1deg); }
+.otd-th { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #fbe9f1; filter: sepia(0.25) saturate(0.9); transition: filter 0.4s; }
+.otd-card:hover .otd-th { filter: none; }
+.otd-th img { width: 100%; height: 100%; object-fit: cover; }
+.otd-th b { position: absolute; left: 8px; top: 8px; font-size: 11px; padding: 3px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.92); color: #a33366; }
+.otd-t { font-size: 13px; font-weight: 600; line-height: 1.4; font-family: 'Noto Sans JP', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.otd-card small { font-size: 12px; color: #735779; }
+
 /* ACCORDION */
 .acc { display: flex; gap: 8px; height: 320px; }
 .acc-item {
@@ -368,6 +411,7 @@ function cleanTitle(t: string) {
   .acc-body { opacity: 1; transform: none; padding: 12px 18px 12px 72px; }
   .acc-body b { font-size: 18px; }
   .bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 130px; }
+  .otd-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 520px) {
   .hh { padding: 8px 16px 64px; }

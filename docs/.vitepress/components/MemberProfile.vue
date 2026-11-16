@@ -3,6 +3,7 @@ import { computed, ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
+import BirthdayParty from './BirthdayParty.vue'
 import ShareButton from './ShareButton.vue'
 
 const props = defineProps<{ id: string }>()
@@ -48,15 +49,19 @@ async function copyColor() {
   setTimeout(() => (copied.value = false), 1400)
 }
 
+const forceBday = ref(false)
+const isBday = computed(() => forceBday.value || dday.value === 0)
 onMounted(() => {
   now.value = new Date()
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  forceBday.value = new URLSearchParams(location.search).get('bday') === props.id // preview: ?bday=<id>
 })
 
 </script>
 
 <template>
   <section v-if="m" class="mp" :style="{ '--mc': m.color }">
+    <BirthdayParty v-if="isBday" :m="m" :age="age === null ? null : age + (dday === 0 ? 0 : 1)" />
     <!-- HERO -->
     <div class="hero">
       <div class="hero-bg" aria-hidden="true">
