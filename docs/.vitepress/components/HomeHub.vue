@@ -3,14 +3,15 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { members, daysToBirthday, ageOn } from '../data/members'
 import BirthdayParty from './BirthdayParty.vue'
-import videosRaw from '../data/videos.json'
+import homeVideos from '../data/home-videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
 import NewsFeed from './NewsFeed.vue'
 
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
-const videos = videosRaw as Video[]
-const latest = videos.filter((v) => !v.channel).slice(0, 8)
+const TOTAL = (homeVideos as { total: number }).total
+const latest = (homeVideos as { latest: Video[] }).latest
+const dated = (homeVideos as { dated: Video[] }).dated
 
 // Featured milestones come from the shared, source-verified schedule data
 const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: '💿', tv: '🎍' }
@@ -34,7 +35,7 @@ const pad = (n: number) => String(n).padStart(2, '0')
 const STATS = [
   { n: 8, unit: '명', label: '멤버' },
   { n: 3, unit: '장', label: 'CD 싱글 (3rd 오리콘 1위)' },
-  { n: videos.length, unit: '편', label: '공식 영상 아카이브' },
+  { n: TOTAL, unit: '편', label: '공식 영상 아카이브' },
   { n: 77, unit: '회', label: '紅白 첫 출장' },
 ]
 const shown = ref(STATS.map(() => 0))
@@ -71,7 +72,7 @@ const onThisDay = computed(() => {
   if (!today.value) return []
   const jst = new Date(today.value.getTime() + 9 * 3600e3)
   const y = jst.getUTCFullYear(), md = Date.UTC(2000, jst.getUTCMonth(), jst.getUTCDate())
-  return videos.filter((v) => v.date && Number(v.date.slice(0, 4)) < y).map((v) => {
+  return dated.filter((v) => Number(v.date.slice(0, 4)) < y).map((v) => {
     const [vy, vm, vd] = v.date.split('-').map(Number)
     return { v, ago: y - vy, diff: Math.round((Date.UTC(2000, vm - 1, vd) - md) / 86400000) }
   }).filter((x) => Math.abs(x.diff) <= 3).sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff) || b.ago - a.ago).slice(0, 4)
@@ -191,7 +192,7 @@ function cleanTitle(t: string) {
 
     <!-- LATEST VIDEOS -->
     <section class="sec">
-      <div class="sec-head"><h2>NEW ON YOUTUBE</h2><a :href="withBase('/videos/')">아카이브 {{ videos.length }}편 →</a></div>
+      <div class="sec-head"><h2>NEW ON YOUTUBE</h2><a :href="withBase('/videos/')">아카이브 {{ TOTAL }}편 →</a></div>
       <div class="rail">
         <a v-for="v in latest" :key="v.id" class="rv" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
           <span class="rv-thumb"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" /><span v-if="v.duration" class="rv-dur">{{ v.duration }}</span><span v-if="v.published && now !== null && now - new Date(v.published + 'T00:00:00Z').getTime() < 7 * 86400000" class="rv-new">NEW</span></span>

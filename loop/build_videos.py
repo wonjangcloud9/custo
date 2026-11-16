@@ -72,5 +72,13 @@ for v in videos:
 
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(videos, ensure_ascii=False, indent=1), encoding='utf-8')
+# slim subset for the home page (latest rail + 'on this day'), keeps the home bundle small
+slim = lambda v: {k: v[k] for k in ('id', 'title', 'duration', 'date') if v.get(k)} | ({'published': v['published']} if v.get('published') else {})
+home = {
+    'total': len(videos),
+    'latest': [slim(v) for v in videos if not v.get('channel')][:8],
+    'dated': [slim(v) for v in videos if v.get('date')],
+}
+(out.parent / 'home-videos.json').write_text(json.dumps(home, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 from collections import Counter
 print(len(videos), Counter(v['category'] for v in videos), Counter(m for v in videos for m in v['members']))

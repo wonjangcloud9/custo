@@ -16,8 +16,35 @@ const PAGES: [string, string, string][] = [
   ['영상 아카이브', '/videos/', '🎬'], ['디스코그래피', '/discography/', '💿'], ['스케줄', '/schedule/', '🗓️'], ['나의 ♡ 앨범', '/likes/', '♡'], ['라이브 가이드 · 펜라이트', '/live-guide/', '🔦'], ['나와 닮은 멤버 테스트', '/which-member/', '🔮'], ['공식 소식', '/news/', '📰'], ['CUTIE LAND 앨범 특집', '/cutie-land/', '💿'], ['입문 가이드 (처음이에요)', '/start/', '🎓'], ['紅白 특집', '/kohaku/', '🎍'],
   ['레전드 무대', '/stages/', '🎤'], ['히라가나 배우기', '/japanese/beginner/hiragana', '🔤'], ['현장 일본어', '/japanese/idol-japanese/live-terms', '📣'], ['덕질 용어 사전', '/japanese/dictionary', '📖'],
 ]
+
+// Japanese-learning pages (from the docs sidebar)
+const LEARN: [string, string][] = [
+  ['히라가나', '/japanese/beginner/hiragana'],
+  ['카타카나', '/japanese/beginner/katakana'],
+  ['기초 표현', '/japanese/beginner/basics'],
+  ['조사', '/japanese/beginner/particles'],
+  ['동사 활용', '/japanese/beginner/verbs'],
+  ['형용사', '/japanese/beginner/adjectives'],
+  ['숫자/날짜/시간', '/japanese/beginner/numbers'],
+  ['문장 만들기', '/japanese/beginner/sentences'],
+  ['조수사', '/japanese/beginner/counters'],
+  ['일본어 입력', '/japanese/beginner/typing'],
+  ['자주 틀리는 표현', '/japanese/beginner/common-mistakes'],
+  ['현장 용어', '/japanese/idol-japanese/live-terms'],
+  ['SNS 일본어', '/japanese/idol-japanese/sns-japanese'],
+  ['팬레터 쓰기', '/japanese/idol-japanese/fan-letter'],
+  ['현장 회화', '/japanese/idol-japanese/conversations'],
+  ['SNS 읽기 연습', '/japanese/idol-japanese/reading-practice'],
+  ['정중한 표현', '/japanese/idol-japanese/polite-speech'],
+  ['오노마토페', '/japanese/idol-japanese/onomatopoeia'],
+  ['かわいいだけじゃだめですか？', '/japanese/lyrics/kawaii-dake'],
+  ['Hello Hello Mirai', '/japanese/lyrics/hello-hello-mirai'],
+  ['Happy Sekai!', '/japanese/lyrics/happy-sekai'],
+]
+
 export function buildIndex(withBase: (p: string) => string): Hit[] {
   return [
+  ...LEARN.map(([t, h]) => ({ kind: 'page' as const, title: `${t}`, sub: '일본어 배우기', href: withBase(h), icon: '🔤', hay: norm(t + ' 일본어 ' + h) })),
   ...PAGES.map(([t, h, i]) => ({ kind: 'page' as const, title: t, sub: '페이지', href: withBase(h), icon: i, hay: norm(t) })),
   ...members.map((m) => ({ kind: 'member' as const, title: `${m.ja} ${m.ko}`, sub: `${m.colorName} · ${m.nickname} · ${m.birthplace}`, href: withBase(`/members/${m.id}`), color: m.color, icon: m.ja.slice(-2, -1),
     hay: norm([m.ja, m.ko, m.en, m.kana, m.nickname, m.nicknameKo, m.colorName, m.id].join(' ')) })),
