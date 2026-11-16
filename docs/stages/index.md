@@ -8,9 +8,7 @@
 
 > 2026년 3월 26일 — 일본 아이돌 최초 한국어 버전 무대! 420만뷰 돌파 후 760만뷰까지 폭발적 성장. 한국 바이럴 차트 1위 달성!
 
-<div class="video-wrapper">
-<iframe src="https://www.youtube.com/embed/aanKhmeCl-s" title="CUTIE STREET - M COUNTDOWN" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+<YtLite id="aanKhmeCl-s" title="CUTIE STREET - M COUNTDOWN" />
 
 ### 이 무대에서 배우는 일본어
 
@@ -29,9 +27,7 @@
 
 > 2024년 12월 13일 — THE FIRST TAKE 500회 특별 출연! 데뷔곡 일발 촬영 스페셜 어레인지. TikTok 29억뷰 바이럴 후 출연.
 
-<div class="video-wrapper">
-<iframe src="https://www.youtube.com/embed/H4ZRCW5HamI" title="CUTIE STREET - THE FIRST TAKE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+<YtLite id="H4ZRCW5HamI" title="CUTIE STREET - THE FIRST TAKE" />
 
 ### 이 무대에서 배우는 일본어
 
@@ -49,9 +45,7 @@
 
 > 2024년 10월 — ヒューリックホール東京 첫 공연에서 초연! 라이브 정규 곡이 된 팬 앤섬.
 
-<div class="video-wrapper">
-<iframe src="https://www.youtube.com/embed/4j2aQHAmvJs" title="CUTIE STREET - ハッピー世界！ Live" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+<YtLite id="4j2aQHAmvJs" title="CUTIE STREET - ハッピー世界！ Live" />
 
 ### 이 무대에서 배우는 일본어
 
@@ -70,9 +64,7 @@
 
 > 2025년 2월 26일 — 사랑에 빠진 소녀의 일상을 담은 뮤직비디오. 기차역과 전철 안을 배경으로 한 청춘 러브송.
 
-<div class="video-wrapper">
-<iframe src="https://www.youtube.com/embed/0DkagMiDNf0" title="CUTIE STREET - ラブトレ MV" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+<YtLite id="0DkagMiDNf0" title="CUTIE STREET - ラブトレ MV" />
 
 ### 이 무대에서 배우는 일본어
 

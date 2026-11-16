@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, defineAsyncComponent } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import Flashcard from '../components/Flashcard.vue'
 import Quiz from '../components/Quiz.vue'
@@ -7,21 +7,27 @@ import StudyDashboard from '../components/StudyDashboard.vue'
 import SrsFlashcard from '../components/SrsFlashcard.vue'
 import WordBookmark from '../components/WordBookmark.vue'
 import BookmarkList from '../components/BookmarkList.vue'
-import VideoArchive from '../components/VideoArchive.vue'
-import MemberProfile from '../components/MemberProfile.vue'
-import MemberGrid from '../components/MemberGrid.vue'
-import HomeHub from '../components/HomeHub.vue'
-import JourneyToTop from '../components/JourneyToTop.vue'
-import ScheduleBoard from '../components/ScheduleBoard.vue'
-import DiscoShelf from '../components/DiscoShelf.vue'
-import BirthdayRing from '../components/BirthdayRing.vue'
-import LikesAlbum from '../components/LikesAlbum.vue'
-import UnitLab from '../components/UnitLab.vue'
 import GlobalFx from '../components/GlobalFx.vue'
 import SearchPalette from '../components/SearchPalette.vue'
-import PenlightOcean from '../components/PenlightOcean.vue'
-import MemberMatch from '../components/MemberMatch.vue'
+import YtLite from '../components/YtLite.vue'
 import './style.css'
+
+// Page-specific (and data-heavy) components are split into their own chunks so each page only
+// downloads what it renders — the shared theme bundle stays small.
+const lazy = {
+  VideoArchive: () => import('../components/VideoArchive.vue'),
+  MemberProfile: () => import('../components/MemberProfile.vue'),
+  MemberGrid: () => import('../components/MemberGrid.vue'),
+  HomeHub: () => import('../components/HomeHub.vue'),
+  JourneyToTop: () => import('../components/JourneyToTop.vue'),
+  ScheduleBoard: () => import('../components/ScheduleBoard.vue'),
+  DiscoShelf: () => import('../components/DiscoShelf.vue'),
+  BirthdayRing: () => import('../components/BirthdayRing.vue'),
+  LikesAlbum: () => import('../components/LikesAlbum.vue'),
+  UnitLab: () => import('../components/UnitLab.vue'),
+  PenlightOcean: () => import('../components/PenlightOcean.vue'),
+  MemberMatch: () => import('../components/MemberMatch.vue'),
+}
 
 export default {
   extends: DefaultTheme,
@@ -37,17 +43,7 @@ export default {
     app.component('SrsFlashcard', SrsFlashcard)
     app.component('WordBookmark', WordBookmark)
     app.component('BookmarkList', BookmarkList)
-    app.component('VideoArchive', VideoArchive)
-    app.component('MemberProfile', MemberProfile)
-    app.component('MemberGrid', MemberGrid)
-    app.component('HomeHub', HomeHub)
-    app.component('JourneyToTop', JourneyToTop)
-    app.component('ScheduleBoard', ScheduleBoard)
-    app.component('DiscoShelf', DiscoShelf)
-    app.component('BirthdayRing', BirthdayRing)
-    app.component('LikesAlbum', LikesAlbum)
-    app.component('UnitLab', UnitLab)
-    app.component('PenlightOcean', PenlightOcean)
-    app.component('MemberMatch', MemberMatch)
+    app.component('YtLite', YtLite)
+    for (const [name, loader] of Object.entries(lazy)) app.component(name, defineAsyncComponent(loader))
   },
 }

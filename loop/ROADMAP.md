@@ -37,6 +37,12 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
+| 33 | 성능: theme 청크 329KB→79KB (페이지 컴포넌트 async 분할, 검색 인덱스 지연 로드) | 10 | 1 | 1 | 0.5 | 20 | ✅ Done #17 |
+| 34 | 버그: 내부 설계 문서(superpowers/plans·specs)가 공개 페이지+sitemap에 노출 → srcExclude | 6 | 1 | 1 | 0.1 | 60 | ✅ Done #17 |
+| 35 | /stages/ YouTube iframe 4개 즉시 로드(콘솔 권한 경고·무거움) → YtLite 파사드 | 7 | 1 | 1 | 0.3 | 23 | ✅ Done #17 |
+| 36 | 남은 학습 페이지(가사·SNS 등)의 하드코딩 YouTube/외부 링크도 YtLite·공식 링크로 통일 + 디스코그래피 하위 곡 페이지에 공식 MV 연결 | 6 | 1 | 0.8 | 1 | 4.8 | Todo |
+| 37 | 홈 히어로 첫 페인트 최적화: Zen Maru Gothic 서브셋/preload, LCP 측정 | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
+| 38 | 접근성 패스: 대비(연한 보라 텍스트), focus-visible 링, 대화상자 포커스 트랩, aria-live 점검 | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
 | 28 | ⌘K / '/' 통합 검색 팔레트 (멤버·영상 539·릴리즈·스케줄·페이지, 한/일 검색, 키보드 내비) — Mobbin: Stripe/incident.io 팔레트 | 9 | 2 | 0.8 | 1 | 14.4 | ✅ Done #13 |
 | 30 | 펜라이트 컬러 가이드 + 라이브 준비 체크리스트 (멤버 컬러 순서, 현장 일본어 링크, 체크 저장) | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #14 (/live-guide/) |
 | 31 | 멤버 페이지 본문의 나머지 미검증 수치(SNS 팔로워 수 등) 출처 확인/정리 | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #14 (follower counts + 미유 예명/百人一首 removed) |
@@ -107,3 +113,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #14 2026-11-17 04:15 — /live-guide/: penlight ocean simulator (72 swaying glowing sticks, per-member color or 8-color cycle, stage spotlights in member color) + live-prep checklist (localStorage, links to schedule/videos/현장 회화); nav 스케줄 dropdown + search entry; member bodies: removed time-sensitive/unverified follower counts, 미유 예명 & 百人一首 quiz; fixed risa sentence grammar — next: #29 '나와 닮은 멤버' 테스트, #25/#32 data refresh
 - #15 2026-11-17 04:35 — /which-member/ '나와 닮은 멤버' test: 6 questions mapped ONLY to verified facts (color, hobbies, hometown, birthday season, unit song), animated options, flip-card reveal + member-color confetti, score board, canvas share PNG (original graphic, no photos), links; home bento + members sidebar + search entries — next: #25/#32 data refresh script, #13 JP UI toggle; then new research round
 - #16 2026-11-17 04:55 — loop/refresh.mjs: browser-free data refresh via official channel RSS (new uploads w/ durations, KAWAII LAB. MVs, member teaser cuts, publish timestamps → published.json) + rebuild; build_videos attaches `published`; NEW badge (≤7 days) on archive cards + home rail; rule #8 added (refresh every iteration) — next: #13 JP UI toggle (low), then fresh research round for new backlog
+- #17 2026-11-17 05:15 — audit round: refresh (0 new); official news (nothing new beyond Dec events); static link check 50 pages = 0 broken; runtime crawl 47 pages desktop + 25 mobile → only /stages/ YouTube iframe warning → YtLite facade; internal planning docs were published → srcExclude; perf: async page components + lazy search index (theme chunk 329KB→79KB); backlog +#36–#38 — next: #37 font/LCP, #38 a11y pass
