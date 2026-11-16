@@ -37,8 +37,10 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
 | 21 | ⭐ USER REQUEST: 멤버별 "레전드 사진" 인스타풍 갤러리 — 공식 MV Teaser(멤버별)·推しカメラ·生誕祭·KAWAII FOCUS 영상의 maxres 썸네일(i.ytimg.com, 공식 임베드)로 masonry 피드 + 라이트박스(클릭 시 영상). 사진 파일 저장/재호스팅 금지 규칙 유지. 특정 IG 게시물은 유저가 링크 주면 공식 embed | 10 | 3 | 0.8 | 1.5 | 16 (+user priority) | ✅ Done #6 |
-| 24 | 12월 공식 스케줄 수집 (schedule/list는 월 파라미터 미지원 — 상세 페이지/뉴스로 12월 이벤트 확인 후 events.ts 추가) | 8 | 1 | 0.8 | 0.5 | 12.8 | Todo |
+| 24 | 12월 공식 스케줄 수집 (schedule/list는 월 파라미터 미지원 — 상세 페이지/뉴스로 12월 이벤트 확인 후 events.ts 추가) | 8 | 1 | 0.8 | 0.5 | 12.8 | ✅ Done #9 |
 | 22 | 홈/멤버 인덱스에도 '오늘의 레전드 컷' (feeds.json 랜덤 1장, 멤버 컬러 프레임, 매일 바뀜) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #8 (home) |
+| 25 | 정기 데이터 갱신 스크립트: 새 YouTube 업로드·공식 스케줄 재수집 → videos/feeds/events 업데이트 (루프가 매 N회차 자동 실행) | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
+| 26 | 디스코그래피 페이지 리뉴얼: 공식 MV 16개 + 싱글/앨범 커버 대신 오리지널 아트, CUTIE LAND 수록곡(공식 뉴스 95941) | 8 | 2 | 0.8 | 1.5 | 8.5 | Todo |
 | 23 | 전 멤버 '좋아요' 모아보기 페이지 (custo-likes localStorage → 나만의 앨범) | 6 | 1 | 1 | 0.5 | 12 | Todo |
 | 19 | ⭐ USER REQUEST: `/journey/` "정상까지의 여정" — three.js 3D 스크롤 스토리 (TIF 데뷔 → 레코드대상 신인상 → M COUNTDOWN → 武道館 → 아레나 → 紅白, 8멤버 컬러 파티클/별길, 산 정상 등반 메타포) | 10 | 3 | 0.8 | 2 | 12 (+user priority) | ✅ Done #5 |
 | 20 | 데뷔 MV「かわいいだけじゃだめですか？」·「キューにストップできません！」·「ハッピー世界！」·「ゆめみるプリマドンナ」 MV ID 찾기 (KAWAII LAB. 채널 검색 결과에 안 나옴 — 공유 플레이리스트/공식사이트 movie 페이지 확인) | 8 | 1 | 0.8 | 0.5 | 12.8 | ✅ Done #8 (3/4 found; ハッピー世界！ has no official MV in search) |
@@ -55,7 +57,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 11 | 생일 캘린더 + 오늘의 멤버(생일 D-day, 생탄제 영상 링크) | 7 | 1 | 1 | 1 | 7 | Todo |
 | 12 | 전역 커서/마이크로 인터랙션: 멤버 컬러 스파클 트레일(포인터), 페이지 전환 View Transition, 스티커 peel 배지 | 8 | 1 | 0.8 | 1 | 6.4 | Todo |
 | 13 | i18n: 일본어 UI 토글(일본 팬 대상) — 주요 페이지 제목/라벨 | 6 | 2 | 0.5 | 3 | 2 | Todo |
-| 14 | OG 이미지/SEO 업데이트(팬허브 포지셔닝), sitemap | 6 | 1 | 1 | 0.5 | 12 | Todo |
+| 14 | OG 이미지/SEO 업데이트(팬허브 포지셔닝), sitemap | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #9 |
 | 15 | 멤버 특기/취미/닉네임 재검증 (기존 사이트 데이터 → 공식 Q&A/위키 대조), 멤버별 대표 무대 영상 큐레이션 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
 | 17 | 버그: 전역 표 테두리가 내용보다 넓게 늘어남 → `width: fit-content` | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #3 |
 | 18 | 홈 카운트다운 이벤트를 `data/events.ts`로 분리 → 스케줄 페이지와 공유 (#6과 함께) | 7 | 0.5 | 1 | 0.3 | 11.7 | ✅ Done #7 |
@@ -69,6 +71,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
   Timeline: 2024-08-04 TIF debut; 2024-12-27 MステSUPER LIVE; 2025-11-21 レコード大賞 新人賞; 2026-03-26 M Countdown; 2026-08-25/26 日本武道館; 2026-09-23~11-29 ARENA TOUR (7都市13公演); 2026-11-13 紅白 初出場 決定.
 - Official top page (2026-11-17): 11/19 TBS モニタリング, 11/20 1st album online sign event (YouTube) + さんまのまんま, 11/23 Sapporo fan event, tour page https://cutiestreet.asobisystem.com/feature/autumntour , schedule https://cutiestreet.asobisystem.com/live_information/schedule/list
 - Official schedule Nov 2026 (36 entries incl. tour OPEN/START times) → `docs/.vitepress/data/events.ts` (single source for /schedule/ + home countdown). Sapporo 11/23 is officially「大特典会 in 北海道」@アクセスサッポロ (earlier home label '大感謝祭 in 札幌' was wrong → fixed).
+- Dec 2026 (official news): 12/6 大特典会 @インテックス大阪3号館 10:00–19:00 (96353); 12/12–13 KAWAII LAB. Christmas SESSION 2026 @有明アリーナ START 17:00 / 16:00 (96002); 12/19–1/31 KAWAII CLOSET 2026 衣装展 hmv museum 渋谷・栄・なんば (96078); 紅白 12/31 19:20–23:45 JST (natalie 697917). Album tracklist: news/detail/95941.
 - Arena tour dates (realsound/livedoor): 9/23 横浜アリーナ, 9/29-30 有明アリーナ, 10/3-4 セキスイハイムスーパーアリーナ, 10/28-29 マリンメッセ福岡A館, 10/31-11/1 神戸ワールド記念ホール, 11/14-15 広島グリーンアリーナ, 11/28-29 IGアリーナ(愛知). Korea: 2026-07-25/26 Live in Korea 2026 SUMMER (世宗大 大洋ホール).
 - YouTube (#4): full scrape = 523 uploads back to 初投稿 (2024-07) with exact durations → `loop/yt-videos-full.tsv`; official MVs are on KAWAII LAB. channel @KAWAII_LAB_OFFICIAL → `loop/mvs.tsv` (titles verified via oEmbed). NOTE: scraped titles from YouTube UI can be auto-translated to Korean; use oEmbed for canonical titles. Collab uploads ("KAWAII LAB. 및 CUTIE STREET") render as lockups that my DOM scraper mislabeled as playlists — parse ytInitialData videoRenderer instead. Debut MV = jZqTz1G8G04, キューにストップ MV = _gfwU-heIkA, ゆめみるプリマドンナ MV = xwAQL_BSfxo.
 - YouTube (#1, superseded): scraped 261 videos (2025-10 → 2026-11) from https://www.youtube.com/@CUTIE_STREET/videos via Playwright → `loop/yt-videos.tsv` → `python3 -I loop/build_videos.py` → `docs/.vitepress/data/videos.json`. IDs are real (taken from official channel links). Older videos (2024–2025-09, original MVs) not yet scraped — needs more scrolling.
@@ -85,3 +88,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #6 2026-11-17 01:35 — MemberFeed: Instagram-style 'legend cut' feed on all 8 member pages (31–37 official maxres thumbs each: KAWAII LAB. MV teasers + @CUTIE_STREET fancam/birthday/live), conic ring avatar, story-highlight filters, 4:5 grid, double-tap ♥ burst (localStorage), lightbox w/ swipe/arrow keys + inline play; replaces member video rail. `loop/build_feeds.py` regenerates feeds.json — next: #22 daily legend cut, #20 missing MV IDs, #6 schedule
 - #7 2026-11-17 01:55 — /schedule/ rebuilt as ScheduleBoard from events.ts (official Nov schedule + tour START times + album + 紅白): NEXT UP live countdown, category chips, month timeline w/ today state, member-colored 生誕祭, .ics download + Google Calendar; home countdown now reads events.ts (fixed wrong Sapporo event name, uses real 18:00 tour-final start) — next: #22 daily legend cut, #24 December schedule, #20 MV IDs
 - #8 2026-11-17 02:15 — +3 official MVs (debut かわいいだけじゃだめですか？, キューにストップできません！, ゆめみるプリマドンナ → 16 MVs); journey debut milestone now links debut MV; home 'TODAY'S LEGEND CUT': JST-date-seeded polaroid per member, instant-film 'develop' reveal, fanned 7 mini polaroids → View Transition swap, 🎲 reroll — next: #24 Dec schedule, #14 SEO/OG, #23 likes album
+- #9 2026-11-17 02:35 — schedule: +4 verified December events (Osaka 大特典会, Christmas SESSION ×2, KAWAII CLOSET) + 紅白 19:20 JST; per-category time labels (開演/放送/開始); SEO: new 1200×630 OG image (original art, no member photos), og/twitter image tags, per-page og:title/description/url + canonical via transformHead, sitemap.xml (45 URLs), theme-color, fan-hub description — next: #26 discography renewal, #23 likes album, #25 data refresh script

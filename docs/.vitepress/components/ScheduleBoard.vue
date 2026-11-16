@@ -20,6 +20,7 @@ const cd = computed(() => {
   return { d: Math.floor(s / 86400), h: Math.floor((s % 86400) / 3600), m: Math.floor((s % 3600) / 60), s: s % 60 }
 })
 const pad = (n: number) => String(n).padStart(2, '0')
+const timeLabel = (e: CsEvent) => (e.cat === 'live' ? '開演' : e.cat === 'tv' ? '放送' : '開始')
 
 const filtered = computed(() => sorted.filter((e) => (cat.value === 'all' || e.cat === cat.value) && (showPast.value || !isPast(e))))
 const pastCount = computed(() => sorted.filter((e) => isPast(e) && (cat.value === 'all' || e.cat === cat.value)).length)
@@ -81,7 +82,7 @@ onBeforeUnmount(() => clearInterval(timer))
         <span><b>{{ pad(cd.m) }}</b><small>MIN</small></span>
         <span><b :key="cd.s" class="tick">{{ pad(cd.s) }}</b><small>SEC</small></span>
       </span>
-      <span class="next-when">{{ next.date.replace(/-/g, '.') }} ({{ wd(next.date) }}){{ next.time ? ' ' + next.time + ' JST 開演' : '' }}</span>
+      <span class="next-when">{{ next.date.replace(/-/g, '.') }} ({{ wd(next.date) }}){{ next.time ? ' ' + next.time + ' JST ' + timeLabel(next) : '' }}</span>
     </a>
     <div v-else class="next skeleton" aria-hidden="true" />
 
@@ -115,7 +116,7 @@ onBeforeUnmount(() => clearInterval(timer))
               <h3 class="ev-ja">{{ e.ja }}</h3>
               <p class="ev-ko">{{ e.ko }}</p>
               <p class="ev-meta">
-                <span v-if="e.time">🕕 {{ e.time }} 開演</span>
+                <span v-if="e.time">🕕 {{ e.time }} {{ timeLabel(e) }}</span>
                 <span v-if="e.venue">📍 {{ e.venue }}</span>
               </p>
               <div class="ev-act">
