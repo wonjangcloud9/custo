@@ -1,31 +1,17 @@
-# 스케줄
+---
+pageClass: wide-page
+aside: false
+title: 스케줄
+description: CUTIE STREET 공식 스케줄 — 아레나 투어, TV, 이벤트, 앨범 발매, 紅白. 카운트다운과 캘린더 추가 지원
+---
 
-CUTIE STREET의 활동 일정입니다.
+# 스케줄 🗓️
 
-> 💡 공식 X([@CUTIE_STREET_](https://x.com/CUTIE_STREET_))와 [공식 사이트](https://cutiestreet.asobisystem.com/)에서 최신 일정을 확인하세요!
+<ScheduleBoard />
 
-## 2026 예정
+## 릴리즈 히스토리
 
-| 날짜 | 이벤트 | 장소 | 비고 |
-|------|--------|------|------|
-| 5/27 | 3rd 싱글 CD 발매 | - | 타이틀 미정 |
-| 5/30-31 | 단독 LIVE -04 STREET- | GLION ARENA KOBE | Day1, Day2 |
-| 6/16-17 | 단독 LIVE -05 STREET- | 有明アリーナ (도쿄) | Day1, Day2 |
-| 8/25-26 | **2nd ANNIVERSARY LIVE** | **日本武道館** | 2주년 기념! |
-
-## 2026 완료
-
-| 날짜 | 이벤트 | 장소 | 비고 |
-|------|--------|------|------|
-| 2/4-5 | FC TOUR 2026 WINTER | Zepp Osaka Bayside | 오사카 |
-| 2/7 | ユニ春! ライブ 2026 | UNIVERSAL STUDIOS JAPAN | USJ 특별 공연 |
-| 2/9-10 | FC TOUR 2026 WINTER | Zepp Haneda (도쿄) | 도쿄 |
-| 2/13 | FC TOUR 2026 WINTER | Zepp Fukuoka | 후쿠오카 |
-| 2/18 | FC TOUR 2026 WINTER | Zepp Nagoya | 나고야 |
-| 2/22-23 | FC TOUR 2026 WINTER | SENDAI GIGS | 센다이 |
-| 2/27 | FC TOUR 2026 WINTER | Zepp Sapporo | 삿포로 |
-
-## 2025 릴리즈
+### 2025
 
 | 날짜 | 이벤트 | 비고 |
 |------|--------|------|
@@ -38,7 +24,7 @@ CUTIE STREET의 활동 일정입니다.
 | 9/29 | 多元幸福論 배신 | |
 | 10/14 | Shooting Star 배신 + 1st LIVE FILM | 토요스PIT 라이브 영상 |
 
-## 2024 릴리즈
+### 2024
 
 | 날짜 | 이벤트 | 비고 |
 |------|--------|------|

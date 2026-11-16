@@ -3,18 +3,17 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
+import { events, startMs } from '../data/events'
 
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string }
 const videos = videosRaw as Video[]
 const latest = videos.filter((v) => !v.channel).slice(0, 8)
 
-// Verified upcoming milestones (see loop/ROADMAP.md research notes)
-const EVENTS = [
-  { id: 'sapporo', at: '2026-11-23T00:00:00+09:00', label: '大感謝祭 in 札幌', ko: '삿포로 팬 이벤트', emoji: '❄️', link: 'https://cutiestreet.asobisystem.com/news/detail/96375' },
-  { id: 'final', at: '2026-11-28T00:00:00+09:00', label: 'ARENA TOUR FINAL', ko: 'IG아레나 (아이치) 11/28·29', emoji: '🎡', link: 'https://cutiestreet.asobisystem.com/feature/autumntour' },
-  { id: 'album', at: '2026-12-02T00:00:00+09:00', label: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', emoji: '💿', link: 'https://cutiestreet.asobisystem.com/feature/1stalbumcutieland' },
-  { id: 'kohaku', at: '2026-12-31T00:00:00+09:00', label: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장', emoji: '🎍', link: 'https://cutiestreet.asobisystem.com/photo/331/detail/84978' },
-]
+// Featured milestones come from the shared, source-verified schedule data
+const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: '💿', tv: '🎍' }
+const EVENTS = events.filter((e) => e.featured).map((e) => ({
+  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: e.url,
+}))
 
 const now = ref<number | null>(null)
 let timer: number | undefined

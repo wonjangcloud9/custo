@@ -11,6 +11,7 @@ import MemberProfile from '../components/MemberProfile.vue'
 import MemberGrid from '../components/MemberGrid.vue'
 import HomeHub from '../components/HomeHub.vue'
 import JourneyToTop from '../components/JourneyToTop.vue'
+import ScheduleBoard from '../components/ScheduleBoard.vue'
 import './style.css'
 
 export default {
@@ -28,5 +29,6 @@ export default {
     app.component('MemberGrid', MemberGrid)
     app.component('HomeHub', HomeHub)
     app.component('JourneyToTop', JourneyToTop)
+    app.component('ScheduleBoard', ScheduleBoard)
   },
 }

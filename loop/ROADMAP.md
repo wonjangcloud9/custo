@@ -37,6 +37,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
 | 21 | ⭐ USER REQUEST: 멤버별 "레전드 사진" 인스타풍 갤러리 — 공식 MV Teaser(멤버별)·推しカメラ·生誕祭·KAWAII FOCUS 영상의 maxres 썸네일(i.ytimg.com, 공식 임베드)로 masonry 피드 + 라이트박스(클릭 시 영상). 사진 파일 저장/재호스팅 금지 규칙 유지. 특정 IG 게시물은 유저가 링크 주면 공식 embed | 10 | 3 | 0.8 | 1.5 | 16 (+user priority) | ✅ Done #6 |
+| 24 | 12월 공식 스케줄 수집 (schedule/list는 월 파라미터 미지원 — 상세 페이지/뉴스로 12월 이벤트 확인 후 events.ts 추가) | 8 | 1 | 0.8 | 0.5 | 12.8 | Todo |
 | 22 | 홈/멤버 인덱스에도 '오늘의 레전드 컷' (feeds.json 랜덤 1장, 멤버 컬러 프레임, 매일 바뀜) | 8 | 1 | 1 | 0.5 | 16 | Todo |
 | 23 | 전 멤버 '좋아요' 모아보기 페이지 (custo-likes localStorage → 나만의 앨범) | 6 | 1 | 1 | 0.5 | 12 | Todo |
 | 19 | ⭐ USER REQUEST: `/journey/` "정상까지의 여정" — three.js 3D 스크롤 스토리 (TIF 데뷔 → 레코드대상 신인상 → M COUNTDOWN → 武道館 → 아레나 → 紅白, 8멤버 컬러 파티클/별길, 산 정상 등반 메타포) | 10 | 3 | 0.8 | 2 | 12 (+user priority) | ✅ Done #5 |
@@ -46,7 +47,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 3 | 멤버 데이터 단일화: 8개 멤버 페이지·MemberCard를 `data/members.ts`로 통일 (아야노 156→157cm 불일치, 공식 SNS X/IG/TikTok 링크 추가, 나이 자동계산) | 9 | 2 | 1 | 1 | 18 | ✅ Done #2 |
 | 4 | 멤버 전용 페이지 리디자인: 멤버 컬러 히어로(키네틱 이름, 홀로 포일 프로필 카드 pointer-tilt), 프로필 bento(나이·키·출신 지도 핀·생일 D-day·유닛), 해당 멤버 영상 레일(videos.json 필터), SNS 버튼 | 10 | 3 | 0.8 | 2 | 12 | ✅ Done #2 (hero·holo card·bento·height ruler·video rail·prev/next; members index grid) |
 | 5 | 홈 리뉴얼: "귀여움으로 세계까지" 키네틱 히어로, 다음 일정 카운트다운(紅白 12/31, CUTIE LAND 12/2), 최신 영상 레일, 8색 멤버 스트립, 학습 섹션은 하단으로 | 10 | 3 | 0.8 | 2 | 12 | ✅ Done #3 |
-| 6 | 스케줄 페이지 갱신: ARENA TOUR 2026 AUTUMN 13공연(IG아레나 11/28-29 피날레), 11/19 모니터링, 11/20 사인회·さんまのまんま, 11/23 삿포로 팬이벤트, 12/2 앨범, 12/31 紅白 — 타임라인 UI + .ics 내보내기 | 9 | 2 | 1 | 1.5 | 12 | Todo |
+| 6 | 스케줄 페이지 갱신: ARENA TOUR 2026 AUTUMN 13공연(IG아레나 11/28-29 피날레), 11/19 모니터링, 11/20 사인회·さんまのまんま, 11/23 삿포로 팬이벤트, 12/2 앨범, 12/31 紅白 — 타임라인 UI + .ics 내보내기 | 9 | 2 | 1 | 1.5 | 12 | ✅ Done #7 |
 | 7 | 디스코그래피 확장: 3 CD싱글 + 디지털 싱글 전곡 + 1st album CUTIE LAND, 곡별 관련 영상(안무/FOCUS/라이브) 자동 연결 | 8 | 2 | 0.8 | 1.5 | 8.5 | Todo |
 | 8 | 타임라인/연혁 페이지 `/history/` (2024 결성→TIF 데뷔→레코드대상 신인상→武道館→아레나→紅白), 수상 목록, scroll-driven 진행 라인 | 7 | 2 | 1 | 1.5 | 9.3 | Todo |
 | 9 | 영상 길이 정확도: 스크랩한 "22분" 반올림 → 썸네일 오버레이(22:21)로 재수집, 오래된 영상(데뷔 MV 등) 추가 수집 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #4 (523 uploads, exact durations, +13 official MVs from KAWAII LAB.) |
@@ -57,7 +58,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 14 | OG 이미지/SEO 업데이트(팬허브 포지셔닝), sitemap | 6 | 1 | 1 | 0.5 | 12 | Todo |
 | 15 | 멤버 특기/취미/닉네임 재검증 (기존 사이트 데이터 → 공식 Q&A/위키 대조), 멤버별 대표 무대 영상 큐레이션 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
 | 17 | 버그: 전역 표 테두리가 내용보다 넓게 늘어남 → `width: fit-content` | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #3 |
-| 18 | 홈 카운트다운 이벤트를 `data/events.ts`로 분리 → 스케줄 페이지와 공유 (#6과 함께) | 7 | 0.5 | 1 | 0.3 | 11.7 | Todo |
+| 18 | 홈 카운트다운 이벤트를 `data/events.ts`로 분리 → 스케줄 페이지와 공유 (#6과 함께) | 7 | 0.5 | 1 | 0.3 | 11.7 | ✅ Done #7 |
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
 
 ## Research notes (verified facts + sources)
@@ -67,6 +68,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
   Singles: かわいいだけじゃだめですか？ (digital 2024-09-09, CD 2024-11-13) / キューにストップできません！・ちきゅーめいくあっぷ計画 (CD 2025-07-23) / キュートなキューたい・ナイスだね (CD 2026-05-27, Oricon #1) ; digital: ハッピー世界！2025-01-24, ラブトレ 2025-02-26, チョットヒトサジ 2025-06-25, ホメマクリズム, Error404♡ ; 1st album CUTIE LAND 2026-12-02.
   Timeline: 2024-08-04 TIF debut; 2024-12-27 MステSUPER LIVE; 2025-11-21 レコード大賞 新人賞; 2026-03-26 M Countdown; 2026-08-25/26 日本武道館; 2026-09-23~11-29 ARENA TOUR (7都市13公演); 2026-11-13 紅白 初出場 決定.
 - Official top page (2026-11-17): 11/19 TBS モニタリング, 11/20 1st album online sign event (YouTube) + さんまのまんま, 11/23 Sapporo fan event, tour page https://cutiestreet.asobisystem.com/feature/autumntour , schedule https://cutiestreet.asobisystem.com/live_information/schedule/list
+- Official schedule Nov 2026 (36 entries incl. tour OPEN/START times) → `docs/.vitepress/data/events.ts` (single source for /schedule/ + home countdown). Sapporo 11/23 is officially「大特典会 in 北海道」@アクセスサッポロ (earlier home label '大感謝祭 in 札幌' was wrong → fixed).
 - Arena tour dates (realsound/livedoor): 9/23 横浜アリーナ, 9/29-30 有明アリーナ, 10/3-4 セキスイハイムスーパーアリーナ, 10/28-29 マリンメッセ福岡A館, 10/31-11/1 神戸ワールド記念ホール, 11/14-15 広島グリーンアリーナ, 11/28-29 IGアリーナ(愛知). Korea: 2026-07-25/26 Live in Korea 2026 SUMMER (世宗大 大洋ホール).
 - YouTube (#4): full scrape = 523 uploads back to 初投稿 (2024-07) with exact durations → `loop/yt-videos-full.tsv`; official MVs are on KAWAII LAB. channel @KAWAII_LAB_OFFICIAL → `loop/mvs.tsv` (titles verified via oEmbed). NOTE: scraped titles from YouTube UI can be auto-translated to Korean; use oEmbed for canonical titles.
 - YouTube (#1, superseded): scraped 261 videos (2025-10 → 2026-11) from https://www.youtube.com/@CUTIE_STREET/videos via Playwright → `loop/yt-videos.tsv` → `python3 -I loop/build_videos.py` → `docs/.vitepress/data/videos.json`. IDs are real (taken from official channel links). Older videos (2024–2025-09, original MVs) not yet scraped — needs more scrolling.
@@ -81,3 +83,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #4 2026-11-17 01:05 — videos: 523 uploads (exact durations, venues/dates for 2024 '@venue' format) + 13 official KAWAII LAB. MVs pinned w/ OFFICIAL MV badge; home rail excludes MVs; loop now pushes each iteration — next: #19 journey (user request), #20 missing MV IDs, #6 schedule
 - #5 2026-11-17 01:12 — /journey/ 3D scroll story (three.js r169, lazy-loaded): Fuji lathe mountain w/ snow cap, spiral rainbow shader road lit by progress, 13 verified milestones as flags w/ halos, 8 member orbs walking, summit 紅白 stars + fireworks, sky sparkles/clouds, altimeter 0→3,776m, glass milestone cards w/ official video links; reduced-motion + no-WebGL fallback. Bug: ConeGeometry(radiusTop 0) emitted 1 tri/quad in r169 → LatheGeometry. Deployed to main. — next: #21 member legend gallery (user request), #20, #6
 - #6 2026-11-17 01:35 — MemberFeed: Instagram-style 'legend cut' feed on all 8 member pages (31–37 official maxres thumbs each: KAWAII LAB. MV teasers + @CUTIE_STREET fancam/birthday/live), conic ring avatar, story-highlight filters, 4:5 grid, double-tap ♥ burst (localStorage), lightbox w/ swipe/arrow keys + inline play; replaces member video rail. `loop/build_feeds.py` regenerates feeds.json — next: #22 daily legend cut, #20 missing MV IDs, #6 schedule
+- #7 2026-11-17 01:55 — /schedule/ rebuilt as ScheduleBoard from events.ts (official Nov schedule + tour START times + album + 紅白): NEXT UP live countdown, category chips, month timeline w/ today state, member-colored 生誕祭, .ics download + Google Calendar; home countdown now reads events.ts (fixed wrong Sapporo event name, uses real 18:00 tour-final start) — next: #22 daily legend cut, #24 December schedule, #20 MV IDs

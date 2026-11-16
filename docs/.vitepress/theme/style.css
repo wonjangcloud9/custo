@@ -486,9 +486,10 @@ html {
 
 /* ── Member pages: wider canvas for the profile hero ── */
 .member-page .VPDoc .content-container,
-.member-page .VPDoc.has-aside .content-container { max-width: 1040px !important; }
-.member-page .VPDoc .container { max-width: 1200px !important; }
-.member-page .VPDoc .content { max-width: none !important; }
+.member-page .VPDoc.has-aside .content-container,
+.wide-page .VPDoc .content-container { max-width: 1040px !important; }
+.member-page .VPDoc .container, .wide-page .VPDoc .container { max-width: 1200px !important; }
+.member-page .VPDoc .content, .wide-page .VPDoc .content { max-width: none !important; }
 
 /* ── Member page theming: whole page follows the member color ── */
 .member-risa { --page-mc: #FFC93C; }
