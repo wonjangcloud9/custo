@@ -89,7 +89,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
   background: #fff; color: color-mix(in srgb, var(--mc) 70%, #3a2340); border: 3px solid color-mix(in srgb, var(--mc) 45%, white); transition: transform 0.5s var(--spring), background 0.2s, color 0.2s; }
 .pick small { font-size: 12px; font-weight: 700; }
 .pick:hover .pick-face { transform: translateY(-3px) rotate(-8deg); }
-.pick[aria-pressed='true'] .pick-face { background: var(--mc); color: #fff; border-color: #fff; box-shadow: 0 0 0 3px var(--mc), 0 10px 20px -8px var(--mc); transform: scale(1.08); }
+.pick[aria-pressed='true'] .pick-face { background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; border-color: #fff; box-shadow: 0 0 0 3px var(--mc), 0 10px 20px -8px var(--mc); transform: scale(1.08); }
 .result { margin-top: 16px; padding: 12px 14px; border-radius: 16px; background: #fdf3f8; font-size: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .u-tag { padding: 2px 9px; border-radius: 999px; background: #3a2340; color: #fff; font-size: 12px; margin-left: 4px; }
 .reset { margin-left: auto; font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; background: #fff; border: 1px solid #f0d6e3; }

@@ -275,7 +275,7 @@ onMounted(() => {
 .mchip:hover .mchip-ring { transform: rotate(-12deg) scale(1.08); }
 .mchip:active .mchip-ring { transform: scale(0.88); }
 .mchip[aria-pressed='true'] .mchip-ring { box-shadow: 0 6px 18px color-mix(in srgb, var(--mc) 55%, transparent); transform: scale(1.1); }
-.mchip[aria-pressed='true'] .mchip-face { background: var(--mc); color: #fff; }
+.mchip[aria-pressed='true'] .mchip-face { background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; }
 .va-toggle { margin-left: auto; flex: none; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #7a5a80; cursor: pointer; padding-left: 12px; }
 .va-toggle input { accent-color: #ff6b9d; width: 16px; height: 16px; }
 

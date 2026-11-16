@@ -15,6 +15,11 @@ CUTIE STREET의 데뷔곡이자 시그니처 송!
 | 차트 | Oricon 3위 / Billboard HOT100 2위 |
 | 인증 | RIAJ Gold (피지컬) / Platinum (스트리밍) |
 
+## 영상으로 보기 🎬
+
+<YtLite id="jZqTz1G8G04" title="【MV】かわいいだけじゃだめですか？" />
+<YtLite id="H4ZRCW5HamI" title="THE FIRST TAKE" />
+
 ## 타이틀 읽기
 
 | 단어 | 읽기 | 뜻 |

@@ -13,6 +13,11 @@
 | 작사/작곡 | Yuki.KT |
 | 테마 | 우정, 용기, 미래를 향한 도전 |
 
+## 영상으로 보기 🎬
+
+<YtLite id="YFb3f7f5nQs" title="【LIVE映像】ハロハロミライ · 恵比寿The Garden Hall" />
+<YtLite id="NCo7KGszkzg" title="【LIVE映像】ハロハロミライ · ぴあアリーナMM" />
+
 ## 타이틀 읽기
 
 | 단어 | 읽기 | 뜻 |

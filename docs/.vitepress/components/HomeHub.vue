@@ -306,7 +306,7 @@ function cleanTitle(t: string) {
 .acc { display: flex; gap: 8px; height: 320px; }
 .acc-item {
   position: relative; flex: 1; min-width: 0; border-radius: 28px; overflow: hidden; text-decoration: none !important; color: #fff !important;
-  background: linear-gradient(170deg, color-mix(in srgb, var(--mc) 70%, white), var(--mc));
+  background: linear-gradient(170deg, color-mix(in srgb, var(--mc) 70%, white), var(--mc) 45%, color-mix(in srgb, var(--mc) 60%, #2a1030));
   transition: flex-grow 0.7s var(--spring), transform 0.5s var(--spring);
   display: flex; align-items: flex-end;
 }
@@ -321,6 +321,7 @@ function cleanTitle(t: string) {
 }
 .acc-item:hover .acc-kanji { font-size: 150px; left: 18px; translate: 0 0; }
 .acc-body { padding: 18px; display: flex; flex-direction: column; gap: 2px; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.5s var(--spring); white-space: nowrap; }
+.acc-body { text-shadow: 0 1px 10px rgba(40, 10, 40, 0.45); }
 .acc-body b { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px; }
 .acc-body span { font-size: 13px; font-weight: 600; opacity: 0.9; }
 .acc-item:hover .acc-body, .acc-item:focus-visible .acc-body { opacity: 1; transform: none; transition-delay: 0.15s; }

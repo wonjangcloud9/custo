@@ -6,6 +6,11 @@
 
 ---
 
+## 영상으로 보기 🎬
+
+<YtLite id="jZqTz1G8G04" title="【MV】かわいいだけじゃだめですか？" />
+<YtLite id="H4ZRCW5HamI" title="THE FIRST TAKE" />
+
 ## 타이틀 분석
 
 | 단어 | 읽기 | 뜻 |

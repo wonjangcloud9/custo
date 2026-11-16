@@ -259,7 +259,7 @@ onMounted(() => {
 @keyframes bob { 0%, 70%, 100% { transform: translateY(0); } 35% { transform: translateY(-6px); } }
 .sub { font-size: 12.5px; color: #735779; }
 .t-bday { background: linear-gradient(150deg, var(--mc-soft), #fff); }
-.t-bday.today { background: var(--mc); }
+.t-bday.today { background: color-mix(in srgb, var(--mc) 62%, #2a1030); }
 .t-bday.today .big, .t-bday.today .sub, .t-bday.today .lbl { color: #fff; }
 .swatch { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 6px 0 0; background: none; text-align: left; cursor: copy; }
 .sw { width: 44px; height: 44px; border-radius: 14px; background: var(--mc); box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.08); flex: none; transition: transform 0.5s var(--spring), border-radius 0.5s var(--spring); }

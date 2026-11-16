@@ -6,6 +6,11 @@
 
 ---
 
+## 영상으로 보기 🎬
+
+<YtLite id="4j2aQHAmvJs" title="【LIVE映像】ハッピー世界！ · ヒューリックホール東京" />
+<YtLite id="WsumMB5dGEc" title="【LIVE映像】ハッピー世界！ · 東京ガーデンシアター" />
+
 ## 타이틀 분석
 
 | 단어 | 읽기 | 뜻 |
