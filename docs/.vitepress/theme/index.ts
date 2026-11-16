@@ -10,6 +10,7 @@ import VideoArchive from '../components/VideoArchive.vue'
 import MemberProfile from '../components/MemberProfile.vue'
 import MemberGrid from '../components/MemberGrid.vue'
 import HomeHub from '../components/HomeHub.vue'
+import JourneyToTop from '../components/JourneyToTop.vue'
 import './style.css'
 
 export default {
@@ -26,5 +27,6 @@ export default {
     app.component('MemberProfile', MemberProfile)
     app.component('MemberGrid', MemberGrid)
     app.component('HomeHub', HomeHub)
+    app.component('JourneyToTop', JourneyToTop)
   },
 }

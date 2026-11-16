@@ -22,7 +22,7 @@ Motto = CUTIE STREET's motto: **"귀여움으로 세계까지" (Kawaii to the wo
 2. **Images**: do NOT download/commit copyrighted member photos into the repo, and do NOT AI-generate likenesses of the real members. Use official embeds (YouTube iframes / `i.ytimg.com` thumbnails), links to official profile pages, and original illustrated/graphic UI (SVG, gradients, member-color art).
 3. Keep the existing Japanese-learning features working (they're the site's origin); evolve the site into a fan hub *around* them.
 4. Each iteration must end with `npm run docs:build` passing AND a Playwright visual check (desktop 1440 + mobile 390) of changed pages via `npm run docs:preview` (port 4173, base `/custo/`). No console errors. Respect `prefers-reduced-motion`.
-5. Commit on branch **`fanpage-overhaul`** only (never touch `main`). One focused commit per iteration, conventional message, with the Co-Authored-By trailer, then **`git push origin fanpage-overhaul`** (user request 2026-11-17).
+5. Commit on branch **`fanpage-overhaul`**. One focused commit per iteration, conventional message, with the Co-Authored-By trailer, then **`git push origin fanpage-overhaul`** AND deploy: **`git push origin fanpage-overhaul:main`** (fast-forward only; user request 2026-11-17 — main push = GitHub Pages deploy). Only deploy when build + visual check passed. Afterwards check `gh run list --branch main --limit 1`.
 6. Iteration scope: pick the top 1–3 RICE items that fit ~20 min. Small and shipped > big and broken.
 7. Keep the site Korean-first UI, with Japanese names/terms alongside.
 
@@ -36,7 +36,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
-| 19 | ⭐ USER REQUEST: `/journey/` "정상까지의 여정" — three.js 3D 스크롤 스토리 (TIF 데뷔 → 레코드대상 신인상 → M COUNTDOWN → 武道館 → 아레나 → 紅白, 8멤버 컬러 파티클/별길, 산 정상 등반 메타포) | 10 | 3 | 0.8 | 2 | 12 (+user priority) | In progress #5 |
+| 21 | ⭐ USER REQUEST: 멤버별 "레전드 사진" 인스타풍 갤러리 — 공식 MV Teaser(멤버별)·推しカメラ·生誕祭·KAWAII FOCUS 영상의 maxres 썸네일(i.ytimg.com, 공식 임베드)로 masonry 피드 + 라이트박스(클릭 시 영상). 사진 파일 저장/재호스팅 금지 규칙 유지. 특정 IG 게시물은 유저가 링크 주면 공식 embed | 10 | 3 | 0.8 | 1.5 | 16 (+user priority) | Todo — NEXT |
+| 19 | ⭐ USER REQUEST: `/journey/` "정상까지의 여정" — three.js 3D 스크롤 스토리 (TIF 데뷔 → 레코드대상 신인상 → M COUNTDOWN → 武道館 → 아레나 → 紅白, 8멤버 컬러 파티클/별길, 산 정상 등반 메타포) | 10 | 3 | 0.8 | 2 | 12 (+user priority) | ✅ Done #5 |
 | 20 | 데뷔 MV「かわいいだけじゃだめですか？」·「キューにストップできません！」·「ハッピー世界！」·「ゆめみるプリマドンナ」 MV ID 찾기 (KAWAII LAB. 채널 검색 결과에 안 나옴 — 공유 플레이리스트/공식사이트 movie 페이지 확인) | 8 | 1 | 0.8 | 0.5 | 12.8 | Todo |
 | 1 | 영상 아카이브 `/videos/` (공식 채널 261개, 카테고리·멤버 필터, 검색, 모달 플레이어, 시청기록, 랜덤재생, URL 공유) | 10 | 3 | 1 | 1 | 30 | ✅ Done #1 |
 | 2 | 버그: IG 그룹 링크 `cutie_street`→`cutie_street_`, favicon 404 | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #1 |
@@ -76,3 +77,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #2 2026-11-17 00:52 — MemberProfile (member-color hero, kinetic kanji, pointer-tilt holo ID card, bento: age/D-day/hometown/color copy/nick/likes, height ruler, member video rail, prev/next) on all 8 pages; MemberGrid on /members/; members.ts = single source (ayano 157cm); removed MemberCard — next: #16 page body theming, #5 home renewal, #6 schedule
 - #3 2026-11-17 01:00 — member pages: whole page follows member color (per-member pageClass → brand vars, h2 scroll-highlight, tables, quiz/SRS accent vars); home HomeHub (kinetic '귀여움으로 세계까지', 8-member orbit, sparkle trail, live countdown to 札幌/아레나 FINAL/CUTIE LAND/紅白, count-up stats, member accordion, latest video rail, explore bento); table fit-content fix — next: #9 video durations + older videos, #6 schedule (+#18 events.ts), #14 SEO
 - #4 2026-11-17 01:05 — videos: 523 uploads (exact durations, venues/dates for 2024 '@venue' format) + 13 official KAWAII LAB. MVs pinned w/ OFFICIAL MV badge; home rail excludes MVs; loop now pushes each iteration — next: #19 journey (user request), #20 missing MV IDs, #6 schedule
+- #5 2026-11-17 01:12 — /journey/ 3D scroll story (three.js r169, lazy-loaded): Fuji lathe mountain w/ snow cap, spiral rainbow shader road lit by progress, 13 verified milestones as flags w/ halos, 8 member orbs walking, summit 紅白 stars + fireworks, sky sparkles/clouds, altimeter 0→3,776m, glass milestone cards w/ official video links; reduced-motion + no-WebGL fallback. Bug: ConeGeometry(radiusTop 0) emitted 1 tri/quad in r169 → LatheGeometry. Deployed to main. — next: #21 member legend gallery (user request), #20, #6

@@ -25,5 +25,8 @@
   "homepage": "https://github.com/wonjangcloud9/custo#readme",
   "devDependencies": {
     "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "three": "^0.169.0"
   }
 }

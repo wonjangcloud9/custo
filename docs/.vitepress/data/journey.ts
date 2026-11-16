@@ -1,0 +1,28 @@
+// CUTIE STREET's climb, mapped onto Mt. Fuji (3,776m). Kohaku = the summit.
+// Facts: Wikipedia JA (https://ja.wikipedia.org/wiki/CUTIE_STREET) + official site.
+// Video IDs: taken from the official @CUTIE_STREET / @KAWAII_LAB_OFFICIAL channels (see loop/ROADMAP.md).
+
+export interface Milestone {
+  date: string
+  ja: string
+  ko: string
+  desc: string
+  video?: string
+  videoLabel?: string
+}
+
+export const milestones: Milestone[] = [
+  { date: '2024.07.30', ja: '8人、出会う。', ko: '멤버·그룹명 공개', desc: 'KAWAII LAB.의 새 그룹으로 8명의 이름이 처음 세상에 나온 날. 등산로 입구에 선 순간.', video: '9Ovm1N0Mr2s', videoLabel: '데뷔 전 첫 영상' },
+  { date: '2024.08.04', ja: 'TIF 2024 デビュー', ko: 'TOKYO IDOL FESTIVAL 데뷔', desc: '세계 최대급 아이돌 페스티벌 TIF에서 첫 무대. 원정의 첫 발.' },
+  { date: '2024.09.09', ja: '「かわいいだけじゃだめですか？」', ko: '데뷔곡 디지털 발매', desc: '“귀엽기만 하면 안 되나요?” — 한 줄의 질문이 SNS를 타고 퍼지며 신드롬이 시작됐다.', video: 'sYtAM4trUi0', videoLabel: '1억 회 기념 LIVE' },
+  { date: '2024.12.27', ja: 'Mステ SUPER LIVE', ko: '뮤직스테이션 첫 출연', desc: '데뷔 5개월 만에 일본 대표 음악 방송 무대에.', video: '65h-pneKvM0', videoLabel: '출연 결정의 순간' },
+  { date: '2025.02.02', ja: '1st ONE-MAN「CROSS STREET」', ko: '첫 단독 라이브 @豊洲PIT', desc: '우리만의 무대, 우리만의 큐티즈. 첫 원맨 라이브.', video: 'E_WBxfXU1BA', videoLabel: '전곡 LIVE 영상' },
+  { date: '2025.06.24', ja: 'TikTok上半期トレンド大賞', ko: 'TikTok 상반기 트렌드 대상 (음악 부문)', desc: '“かわいいだけじゃだめですか？” 챌린지가 일본 전체의 트렌드가 됐다.' },
+  { date: '2025.10.13', ja: '全国ツアー FINAL', ko: '첫 전국 투어 파이널 @ぴあアリーナMM', desc: '「CAN’T STOP CUTIE」 전국 투어를 아레나에서 마무리.', video: 'KnOdSw3E3t0', videoLabel: '파이널 LIVE' },
+  { date: '2025.11.21', ja: '日本レコード大賞 新人賞', ko: '제67회 일본 레코드대상 신인상', desc: '데뷔 1년 3개월, 일본 음악계가 인정한 신인.', video: 'BPXkXus_Bb8', videoLabel: '신인상 무대' },
+  { date: '2026.03.26', ja: 'M COUNTDOWN', ko: '한국 엠카운트다운 출연', desc: '바다를 건너 서울로. 한국어 버전까지 차트 1위에 오르며 “귀여움으로 세계까지”가 현실이 되기 시작.', video: 'aanKhmeCl-s', videoLabel: '엠카 스페셜 스테이지' },
+  { date: '2026.05.27', ja: 'オリコン週間1位', ko: '3rd 싱글 오리콘·빌보드 재팬 1위', desc: '「キュートなキューたい / ナイスだね」로 첫 주간 1위 더블 달성.', video: 'VQmdUnlNnds', videoLabel: 'キュートなキューたい MV' },
+  { date: '2026.08.25', ja: '日本武道館', ko: '첫 부도칸 공연 (2주년)', desc: '아이돌의 성지, 부도칸. 2주년을 8색 펜라이트로 물들였다.', video: 'Yygy6mM-MCs', videoLabel: '부도칸 LIVE' },
+  { date: '2026.09.23', ja: 'ARENA TOUR 2026', ko: '첫 아레나 투어 7도시 13공연', desc: '요코하마 아레나에서 시작해 아이치 IG아레나까지. 정상이 눈앞에.', video: 'W9FWnBUw-9U', videoLabel: '요코하마 아레나 LIVE' },
+  { date: '2026.12.31', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장', desc: '일본 음악의 정상, 홍백. 3,776m — 그리고 다음 산은 세계.', video: 'j5ywAzuerLQ', videoLabel: '출장 결정의 순간' },
+]
