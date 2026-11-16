@@ -30,6 +30,7 @@ const lazy = {
   NewsFeed: () => import('../components/NewsFeed.vue'),
   CutieLand: () => import('../components/CutieLand.vue'),
   StarterQuest: () => import('../components/StarterQuest.vue'),
+  KohakuSpecial: () => import('../components/KohakuSpecial.vue'),
 }
 
 export default {
