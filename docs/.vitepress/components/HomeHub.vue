@@ -184,6 +184,7 @@ function cleanTitle(t: string) {
         <a class="b" :href="withBase('/schedule/')"><span class="b-emoji">📅</span><b>스케줄</b><span>투어·방송·이벤트</span></a>
         <a class="b" :href="withBase('/which-member/')"><span class="b-emoji">🔮</span><b>나와 닮은 멤버</b><span>6문항 테스트</span></a>
         <a class="b" :href="withBase('/live-guide/')"><span class="b-emoji">🔦</span><b>펜라이트 가이드</b><span>라이브 준비</span></a>
+        <a class="b" :href="withBase('/kohaku/')"><span class="b-emoji">🎍</span><b>紅白 특집</b><span>12/31 첫 출장 카운트다운</span></a>
       </div>
     </section>
   </div>
