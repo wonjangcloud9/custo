@@ -116,7 +116,7 @@ const showRomaji = ref(false)
   font-family: 'Zen Maru Gothic', sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #9966cc;
+  color: #7a3fb0;
   margin: 0 0 0.2rem;
   letter-spacing: 0.03em;
 }
@@ -125,7 +125,7 @@ const showRomaji = ref(false)
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
-  color: #b89ac8;
+  color: #735779;
   margin: 0.3rem 0 0;
 }
 

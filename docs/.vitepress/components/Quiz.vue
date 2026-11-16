@@ -138,7 +138,7 @@ const resultLabel = computed(() => {
 
 .quiz-progress {
   font-size: 0.78rem;
-  color: #b89ac8;
+  color: #735779;
   text-align: right;
   margin: 0 0 0.75rem;
   font-family: 'Noto Sans KR', sans-serif;
@@ -262,7 +262,7 @@ const resultLabel = computed(() => {
 .result-label {
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
   font-size: 1.1rem;
-  color: #9966cc;
+  color: #7a3fb0;
   margin: 0;
   font-weight: 600;
 }

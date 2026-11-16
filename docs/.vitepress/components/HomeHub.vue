@@ -219,7 +219,7 @@ function cleanTitle(t: string) {
 .globe { display: inline-block; font-size: 0.7em; margin-left: 0.12em; vertical-align: 0.1em; animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; font-weight: 700; color: #c2457a; }
-.tag-ja span { display: block; font-size: 14px; font-weight: 500; color: #8a6a90; margin-top: 6px; font-family: 'Noto Sans JP', sans-serif; }
+.tag-ja span { display: block; font-size: 14px; font-weight: 500; color: #735779; margin-top: 6px; font-family: 'Noto Sans JP', sans-serif; }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 999px; font-weight: 700; font-size: 15px;
@@ -241,7 +241,7 @@ function cleanTitle(t: string) {
   font-family: 'Zen Maru Gothic', sans-serif; animation: breathe 4s ease-in-out infinite;
 }
 .core b { font-size: clamp(18px, 2.6vw, 28px); line-height: 1.05; letter-spacing: 0.06em; background: linear-gradient(135deg, #ff6b9d, #a06cd5); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.core small { font-size: 10px; letter-spacing: 0.24em; color: #a58aa8; margin-top: 6px; font-weight: 700; }
+.core small { font-size: 10px; letter-spacing: 0.24em; color: #7d6083; margin-top: 6px; font-weight: 700; }
 @keyframes breathe { 50% { transform: scale(1.04); } }
 .ring { position: absolute; border-radius: 50%; border: 1.5px dashed rgba(196, 156, 255, 0.45); }
 .r1 { inset: 6%; animation: spin 40s linear infinite; }
@@ -287,7 +287,7 @@ function cleanTitle(t: string) {
 .stat { padding: 18px; border-radius: 24px; background: linear-gradient(160deg, #fff0f6, #f6efff); text-align: center; }
 .stat b { display: block; font-family: 'Zen Maru Gothic', sans-serif; font-size: 44px; line-height: 1.1; font-variant-numeric: tabular-nums; background: linear-gradient(135deg, #ff6b9d, #a06cd5); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .stat b small { font-size: 18px; }
-.stat span { font-size: 13px; color: #8a6a90; font-weight: 600; }
+.stat span { font-size: 13px; color: #735779; font-weight: 600; }
 
 /* SECTIONS */
 .sec { margin-top: 64px; }
@@ -331,7 +331,7 @@ function cleanTitle(t: string) {
 .rv-new { position: absolute; left: 6px; top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 6px; color: #fff; background: linear-gradient(135deg, #ff4757, #ff9f43); }
 .rv-dur { position: absolute; right: 6px; bottom: 6px; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; background: rgba(30, 10, 30, 0.72); color: #fff; }
 .rv-ttl { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 13.5px; font-weight: 600; line-height: 1.45; font-family: 'Noto Sans JP', sans-serif; }
-.rv-date { font-size: 12px; color: #9a7aa0; }
+.rv-date { font-size: 12px; color: #735779; }
 
 /* BENTO */
 .bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 150px; gap: 12px; }
@@ -347,7 +347,7 @@ function cleanTitle(t: string) {
 .b-lg .b-emoji { font-size: 56px; }
 .b b { font-size: 16px; }
 .b-lg b { font-size: 26px; font-family: 'Zen Maru Gothic', sans-serif; }
-.b span:not(.b-emoji) { font-size: 12.5px; color: #8a6a90; }
+.b span:not(.b-emoji) { font-size: 12.5px; color: #735779; }
 
 @media (max-width: 960px) {
   .hero { grid-template-columns: 1fr; min-height: 0; text-align: left; }

@@ -117,7 +117,7 @@ onMounted(() => {
 .chips::-webkit-scrollbar { display: none; }
 .chip { flex: none; padding: 8px 13px; border-radius: 999px; font-size: 13px; font-weight: 700; background: #fff; border: 1.5px solid #f1dce7; color: var(--ink); transition: transform 0.45s var(--spring); }
 .chip small { opacity: 0.55; }
-.chip[aria-pressed='true'] { background: var(--mc, var(--ink)); border-color: var(--mc, var(--ink)); color: #fff; }
+.chip[aria-pressed='true'] { background: color-mix(in srgb, var(--mc, #3a2340) 62%, #2a1030); border-color: transparent; color: #fff; }
 
 .board { columns: 4 220px; column-gap: 22px; margin-top: 18px; }
 .snap { position: relative; break-inside: avoid; margin: 0 0 26px; padding: 10px 10px 14px; background: #fff; border-radius: 4px;
@@ -131,7 +131,7 @@ onMounted(() => {
 .ph img { width: 100%; height: 100%; object-fit: cover; }
 figcaption { display: flex; flex-direction: column; padding: 8px 2px 0; }
 figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 15px; color: color-mix(in srgb, var(--mc) 65%, #3a2340); }
-figcaption small { font-size: 11.5px; color: #8a6a90; font-family: 'Noto Sans JP', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+figcaption small { font-size: 11.5px; color: #735779; font-family: 'Noto Sans JP', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .rm { position: absolute; right: 16px; top: 16px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); color: #ff3b6f; font-size: 18px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); transition: transform 0.4s var(--spring); }
 .rm:hover { transform: scale(1.15) rotate(-12deg); }
 

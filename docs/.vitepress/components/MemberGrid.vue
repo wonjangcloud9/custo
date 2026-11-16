@@ -50,7 +50,7 @@ import { members } from '../data/members'
 .mg-info { position: relative; display: flex; flex-direction: column; gap: 2px; }
 .mg-ja { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; }
 .mg-ko { font-size: 14px; font-weight: 600; }
-.mg-meta { font-size: 11.5px; color: #8a6a90; margin-top: 2px; }
+.mg-meta { font-size: 11.5px; color: #735779; margin-top: 2px; }
 .mg-go {
   position: absolute; right: 14px; bottom: 14px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
   background: var(--mc); color: #fff; font-weight: 700; transform: scale(0.6); opacity: 0; transition: transform 0.5s var(--spring), opacity 0.2s;

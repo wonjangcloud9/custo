@@ -145,7 +145,7 @@ function download() {
         </div>
       </div>
       <div class="r-act">
-        <a class="btn primary" :href="withBase(`/members/${result.id}`)" :style="{ background: result.color, borderColor: result.color }">{{ result.ko.split(' ')[1] }} 만나러 가기 →</a>
+        <a class="btn primary" :href="withBase(`/members/${result.id}`)" :style="{ background: `color-mix(in srgb, ${result.color} 62%, #2a1030)`, borderColor: 'transparent' }">{{ result.ko.split(' ')[1] }} 만나러 가기 →</a>
         <button type="button" class="btn" @click="download">📸 결과 이미지 저장</button>
         <button type="button" class="btn" @click="restart">↺ 다시 하기</button>
       </div>
@@ -177,7 +177,7 @@ function download() {
 .opt:active { transform: scale(0.95); }
 .opt.sel { background: var(--c); color: #fff; border-color: var(--c); }
 .oe { font-size: 22px; }
-.back { margin-top: 14px; font-size: 13px; font-weight: 700; color: #8a6a90; background: none; }
+.back { margin-top: 14px; font-size: 13px; font-weight: 700; color: #735779; background: none; }
 .q-enter-active, .q-leave-active { transition: opacity 0.25s, transform 0.35s var(--spring); }
 .q-enter-from { opacity: 0; transform: translateX(30px); }
 .q-leave-to { opacity: 0; transform: translateX(-30px); }
@@ -198,7 +198,7 @@ function download() {
 .r-ko { margin: 4px 0 0 !important; font-weight: 700; }
 .why { list-style: none; padding: 0 !important; margin: 12px 0 0 !important; font-size: 13.5px; color: #5a4060; }
 .why li { margin: 2px 0 !important; }
-.facts { margin: 10px 0 0 !important; font-size: 12px; color: #9a7aa0; }
+.facts { margin: 10px 0 0 !important; font-size: 12px; color: #735779; }
 .r-act { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 22px; }
 .btn { padding: 12px 18px; border-radius: 999px; font-weight: 700; font-size: 14px; background: #fff; color: var(--ink) !important; text-decoration: none !important; border: 1.5px solid #f3cfe0; transition: transform 0.45s var(--spring); }
 .btn.primary { color: #fff !important; }

@@ -108,10 +108,10 @@ onBeforeUnmount(() => clearInterval(timer))
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; background: #fff; border: 1.5px solid #f1dce7; color: var(--ink); transition: transform 0.45s var(--spring); }
 .chip small { font-size: 10.5px; opacity: 0.6; }
 .chip .sw { width: 12px; height: 12px; border-radius: 50%; background: var(--mc); box-shadow: 0 0 8px var(--mc); }
-.chip[aria-pressed='true'] { background: var(--mc, #3a2340); border-color: var(--mc, #3a2340); color: #fff; transform: translateY(-2px); }
+.chip[aria-pressed='true'] { background: color-mix(in srgb, var(--mc, #3a2340) 62%, #2a1030); border-color: transparent; color: #fff; transform: translateY(-2px); }
 .chip[aria-pressed='true'] .sw { background: #fff; }
 .chip.all[aria-pressed='true'] { background: linear-gradient(90deg, #ffc93c, #ff4757, #3ccfa8, #4a90d9, #a06cd5, #ff6b9d); border-color: transparent; }
-.wave-toggle { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #8a6a90; }
+.wave-toggle { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #735779; }
 .wave-toggle input { accent-color: #ff6b9d; }
 
 .check { margin-top: 26px; padding: 22px; border-radius: 26px; background: #fff; border: 1.5px solid #f3dbe8; }
@@ -127,7 +127,7 @@ onBeforeUnmount(() => clearInterval(timer))
 .box[aria-pressed='true'] { background: #3ccfa8; border-color: #3ccfa8; transform: rotate(-8deg) scale(1.1); }
 .txt { display: flex; flex-direction: column; min-width: 0; }
 .txt b { font-size: 14px; }
-.txt small { font-size: 12px; color: #8a6a90; }
+.txt small { font-size: 12px; color: #735779; }
 .go { margin-left: auto; font-size: 12px; font-weight: 700; color: #c2457a !important; white-space: nowrap; }
 .ready { margin: 14px 0 0 !important; font-weight: 800; color: #3ccfa8; text-align: center; }
 @media (max-width: 640px) { .pick { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; } .pick::-webkit-scrollbar { display: none; } .chip { flex: none; } .wave-toggle { flex: none; margin-left: 4px; } .stage { height: 280px; } .stick { width: 7px; height: 70px; } .tube { height: 50px; } .grip { height: 20px; } .caption b { font-size: 18px; } .go { display: none; } }

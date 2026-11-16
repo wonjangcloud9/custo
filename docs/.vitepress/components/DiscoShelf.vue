@@ -180,7 +180,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .chip[aria-pressed='true'] { background: var(--ink); color: #fff; border-color: var(--ink); }
 
 .year { margin-top: 22px; }
-.yr { margin: 0 0 6px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px !important; color: #e3c9d8; letter-spacing: 0.04em; }
+.yr { margin: 0 0 6px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px !important; color: #b07a98; letter-spacing: 0.04em; }
 .shelf { display: flex; gap: 22px; overflow-x: auto; padding: 14px 6px 22px; scroll-snap-type: x proximity; scrollbar-width: thin; }
 .rec { position: relative; flex: none; width: 168px; scroll-snap-align: start; background: none; padding: 0; text-align: left; cursor: pointer; }
 .rec .disc { position: absolute; top: 8px; left: 8px; width: 152px; aspect-ratio: 1; transition: transform 0.8s var(--spring); }
@@ -190,14 +190,14 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .rec .sleeve img { width: 100%; height: 100%; object-fit: cover; }
 .sleeve-title.sm { position: absolute; inset: auto 12px 14px 12px; font-size: 22px; line-height: 1.05; word-break: break-word; }
 .type { position: absolute; top: 8px; left: 8px; font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em; padding: 3px 7px; border-radius: 6px; background: rgba(255, 255, 255, 0.92); color: var(--ink); }
-.album .type { background: #ff6b9d; color: #fff; }
-.single .type { background: #a06cd5; color: #fff; }
+.album .type { background: #c92f69; color: #fff; }
+.single .type { background: #7a3fb0; color: #fff; }
 .has-mv { position: absolute; right: 8px; bottom: 8px; font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 6px; background: rgba(30, 10, 30, 0.75); color: #fff; }
 .rec:hover .disc, .rec:focus-visible .disc { transform: translateX(62px) rotate(200deg); }
 .rec:hover .sleeve, .rec:focus-visible .sleeve { transform: translateX(-8px) rotate(-3deg); }
 .meta { display: flex; flex-direction: column; gap: 2px; margin-top: 12px; padding-right: 8px; }
 .meta b { font-size: 13px; line-height: 1.35; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.meta small { font-size: 11.5px; color: #9a7aa0; }
+.meta small { font-size: 11.5px; color: #735779; }
 .shelf { padding-right: 70px; }
 
 .dlg { border: 0; padding: 0; background: transparent; width: min(760px, 96vw); max-width: none; max-height: 92dvh;
@@ -216,7 +216,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .poster span { position: absolute; left: 50%; bottom: 16px; translate: -50% 0; padding: 10px 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.92); font-weight: 800; font-size: 14px; transition: transform 0.4s var(--spring); }
 .poster:hover span { transform: scale(1.06); }
 .dlg-body { padding: 14px 16px 18px; max-height: 40dvh; overflow: auto; }
-.dlg-meta { margin: 0 !important; font-size: 13px; color: #8a6a90; }
+.dlg-meta { margin: 0 !important; font-size: 13px; color: #735779; }
 .dlg-body h4 { margin: 14px 0 8px !important; font-size: 14px; }
 .rel { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
 .rv { text-decoration: none !important; color: var(--ink) !important; font-size: 12px; line-height: 1.4; }

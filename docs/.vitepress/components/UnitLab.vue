@@ -82,7 +82,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .finder { padding: 24px; border-radius: 28px; background: #fff; border: 1.5px solid #f3dbe8; box-shadow: 0 20px 40px -30px rgba(150, 60, 110, 0.5); }
 .eyebrow { margin: 0 !important; font-size: 12px; font-weight: 800; letter-spacing: 0.22em; color: #c2457a; }
 .finder h2 { margin: 4px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 28px !important; }
-.hint { margin: 4px 0 0 !important; font-size: 13px; color: #8a6a90; }
+.hint { margin: 4px 0 0 !important; font-size: 13px; color: #735779; }
 .picks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .pick { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; padding: 0; }
 .pick-face { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px;
@@ -120,7 +120,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .vids { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .vids a { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); color: var(--ink) !important; text-decoration: none !important; transition: transform 0.4s var(--spring); }
 .vids a:hover { transform: translateY(-2px); }
-.note { margin: 12px 0 0 !important; font-size: 12px; color: #8a6a90; }
+.note { margin: 12px 0 0 !important; font-size: 12px; color: #735779; }
 @media (max-width: 640px) { .finder { padding: 18px; } .pick-face { width: 46px; height: 46px; font-size: 17px; } .picks { gap: 6px; } }
 @media (prefers-reduced-motion: reduce) { .card, .av, .pick-face, .tg-v { transition: none; animation: none; } }
 </style>

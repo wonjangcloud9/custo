@@ -146,7 +146,7 @@ function next() {
   position: absolute;
   bottom: 0.75rem;
   font-size: 0.72rem;
-  color: #b89ac8;
+  color: #735779;
   font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: 0.02em;
 }
@@ -185,7 +185,7 @@ function next() {
 .progress {
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
   font-size: 0.9rem;
-  color: #9966cc;
+  color: #7a3fb0;
   font-weight: 600;
   min-width: 48px;
   text-align: center;

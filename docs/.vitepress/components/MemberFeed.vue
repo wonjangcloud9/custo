@@ -172,7 +172,7 @@ onMounted(() => {
 .ig-meta { min-width: 0; flex: 1; }
 .ig-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .ig-handle { font-size: 20px; font-weight: 600; }
-.ig-btn { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 10px; background: var(--mc); color: #fff !important; text-decoration: none !important; transition: transform 0.4s var(--spring); }
+.ig-btn { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 10px; background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff !important; text-decoration: none !important; transition: transform 0.4s var(--spring); }
 .ig-btn:hover { transform: translateY(-2px); }
 .ig-stats { display: flex; gap: 22px; list-style: none; padding: 0 !important; margin: 12px 0 !important; }
 .ig-stats li { margin: 0 !important; font-size: 14px; }
@@ -223,7 +223,7 @@ onMounted(() => {
 .lb-top { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
 .lb-av { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--mc); }
 .lb-top b { font-size: 14px; }
-.lb-top small { font-size: 12px; color: #8a6a90; }
+.lb-top small { font-size: 12px; color: #735779; }
 .lb-x { margin-left: auto; width: 32px; height: 32px; border-radius: 50%; background: #f6eef3; font-size: 13px; }
 .lb-media { position: relative; aspect-ratio: 16 / 9; background: #12060f; }
 .lb-media img, .lb-media iframe { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
@@ -238,7 +238,7 @@ onMounted(() => {
 .heart.on { color: #ff3b6f; animation: pulse 0.5s var(--spring); }
 @keyframes pulse { 40% { transform: scale(1.35); } }
 .yt { font-size: 13px; font-weight: 700; color: var(--ink) !important; }
-.pos { margin-left: auto; font-size: 12px; color: #8a6a90; font-variant-numeric: tabular-nums; }
+.pos { margin-left: auto; font-size: 12px; color: #735779; font-variant-numeric: tabular-nums; }
 .lb-cap { margin: 0 !important; padding: 8px 14px 16px; font-size: 13.5px; line-height: 1.6 !important; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; }
 
 @media (max-width: 640px) {

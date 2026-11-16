@@ -102,7 +102,7 @@ onMounted(() => {
 }
 .lod-head h2 { margin: 0; border: 0; padding: 0; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(26px, 4vw, 40px); line-height: 1.1; }
 .lod-head h2 span { color: #ff6b9d; }
-.lod-head p { margin: 6px 0 0; font-size: 13.5px; color: #8a6a90; }
+.lod-head p { margin: 6px 0 0; font-size: 13.5px; color: #735779; }
 .lod-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-top: 24px; }
 .lod-skel { height: 420px; border-radius: 24px; background: #fbeef4; margin-top: 24px; }
 
@@ -117,10 +117,10 @@ onMounted(() => {
 .pola-img:hover .play { transform: scale(1.15); }
 figcaption { display: flex; flex-direction: column; gap: 2px; padding: 14px 4px 0; }
 figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; color: color-mix(in srgb, var(--mc) 65%, #3a2340); }
-figcaption small { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #8a6a90; }
+figcaption small { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #735779; }
 .pola-act { display: flex; gap: 8px; margin-top: 12px; padding: 0 4px; flex-wrap: wrap; }
 .pola-act a, .pola-act button { font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; text-decoration: none !important; transition: transform 0.45s var(--spring); }
-.pola-act a { background: var(--mc); color: #fff !important; }
+.pola-act a { background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff !important; }
 .pola-act button { background: #f8eef4; color: var(--ink); }
 .pola-act a:hover, .pola-act button:hover { transform: translateY(-2px) rotate(-2deg); }
 .pola-act button:active { transform: scale(0.9) rotate(8deg); }

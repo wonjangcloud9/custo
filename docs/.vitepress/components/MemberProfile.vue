@@ -180,7 +180,7 @@ onMounted(() => {
 
 .hero-text { position: relative; z-index: 1; }
 .no { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--mc-deep); margin: 0 0 18px; }
-.kana { margin: 0; font-size: 15px; letter-spacing: 0.3em; color: #8a6a90; }
+.kana { margin: 0; font-size: 15px; letter-spacing: 0.3em; color: #735779; }
 .ja {
   margin: 4px 0 6px !important; padding: 0 !important; border: 0 !important;
   font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-weight: 700;
@@ -193,7 +193,7 @@ onMounted(() => {
 }
 @keyframes pop { from { opacity: 0; transform: translateY(0.4em) scale(0.6) rotate(-8deg); } }
 .ko { margin: 0; font-size: 18px; font-weight: 700; }
-.ko span { font-weight: 500; color: #8a6a90; font-size: 15px; }
+.ko span { font-weight: 500; color: #735779; font-size: 15px; }
 .sns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .sns-btn {
   display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px;
@@ -225,7 +225,7 @@ onMounted(() => {
 }
 .holo-name { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px; text-align: center; color: var(--mc-deep); }
 .holo-row { display: flex; justify-content: space-between; font-size: 11px; border-top: 1px dashed color-mix(in srgb, var(--mc) 35%, white); padding-top: 4px; }
-.holo-row span { letter-spacing: 0.14em; font-weight: 700; color: #a58aa8; }
+.holo-row span { letter-spacing: 0.14em; font-weight: 700; color: #7d6083; }
 .holo-bar { display: flex; gap: 2px; height: 18px; margin-top: 4px; }
 .holo-bar i { background: var(--ink); opacity: 0.75; }
 .holo-sheen {
@@ -251,13 +251,13 @@ onMounted(() => {
   .tile { animation: tin linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
   @keyframes tin { from { opacity: 0; transform: translateY(30px) scale(0.96); } }
 }
-.lbl { font-size: 12px; font-weight: 700; color: #a58aa8; letter-spacing: 0.04em; }
+.lbl { font-size: 12px; font-weight: 700; color: #7d6083; letter-spacing: 0.04em; }
 .big { font-family: 'Zen Maru Gothic', sans-serif; font-size: 44px; line-height: 1.1; color: var(--mc-deep); font-variant-numeric: tabular-nums; }
 .big small { font-size: 18px; margin-left: 2px; }
 .mid { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px; color: var(--mc-deep); }
 .pin { display: inline-block; animation: bob 2s var(--spring) infinite; margin-right: 4px; }
 @keyframes bob { 0%, 70%, 100% { transform: translateY(0); } 35% { transform: translateY(-6px); } }
-.sub { font-size: 12.5px; color: #8a6a90; }
+.sub { font-size: 12.5px; color: #735779; }
 .t-bday { background: linear-gradient(150deg, var(--mc-soft), #fff); }
 .t-bday.today { background: var(--mc); }
 .t-bday.today .big, .t-bday.today .sub, .t-bday.today .lbl { color: #fff; }
@@ -284,7 +284,7 @@ onMounted(() => {
 }
 .bar:hover .bar-fill { transform: scaleY(1.05); }
 .bar.me .bar-fill { background: var(--bc); box-shadow: 0 10px 20px -8px var(--bc); }
-.bar-cm { position: absolute; font-size: 11px; font-weight: 700; color: #8a6a90; bottom: calc(18% + var(--h) * 0.7 + 22px); }
+.bar-cm { position: absolute; font-size: 11px; font-weight: 700; color: #735779; bottom: calc(18% + var(--h) * 0.7 + 22px); }
 .bar.me .bar-cm { color: var(--mc-deep); font-size: 13px; }
 .bar-nm { font-size: 13px; font-weight: 700; margin-top: 4px; color: color-mix(in srgb, var(--bc) 70%, #3a2340); }
 
@@ -298,7 +298,7 @@ onMounted(() => {
 }
 .pn a:hover { transform: translateY(-3px); background: color-mix(in srgb, var(--pc) 24%, white); }
 .pn .nx { text-align: right; }
-.pn small { font-size: 12px; color: #8a6a90; }
+.pn small { font-size: 12px; color: #735779; }
 .pn b { font-size: 16px; }
 
 @media (max-width: 860px) {

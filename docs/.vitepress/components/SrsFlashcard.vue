@@ -173,8 +173,8 @@ watch(() => props.deckId, () => {
 /* Progress */
 .progress-bar { width: 100%; max-width: 480px; }
 .progress-header { display: flex; justify-content: space-between; margin-bottom: .3rem; }
-.progress-label { font-size: .78rem; color: #b89ac8; font-weight: 500; }
-.progress-count { font-size: .78rem; color: #9966cc; font-weight: 700;
+.progress-label { font-size: .78rem; color: #735779; font-weight: 500; }
+.progress-count { font-size: .78rem; color: #7a3fb0; font-weight: 700;
   font-family: 'Zen Maru Gothic', sans-serif; }
 .progress-track { height: 10px; background: #f5eeff; border-radius: 999px; overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 999px;
@@ -212,7 +212,7 @@ watch(() => props.deckId, () => {
 .card-front .card-text { color: #3a2050; }
 .flip-hint {
   position: absolute; bottom: .75rem; font-size: .72rem;
-  color: #b89ac8; font-family: 'Noto Sans KR', sans-serif;
+  color: #735779; font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* SRS Buttons */
@@ -222,10 +222,10 @@ watch(() => props.deckId, () => {
   cursor: pointer; transition: transform .15s, box-shadow .2s; }
 .srs-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(196,156,255,.25); }
 .srs-hard { background: #fff0f3; border-color: var(--custo-accent, #FF6B9D); color: var(--custo-accent, #FF6B9D); }
-.srs-ok { background: #f5eeff; border-color: var(--custo-accent-2, #C49CFF); color: #9966cc; }
+.srs-ok { background: #f5eeff; border-color: var(--custo-accent-2, #C49CFF); color: #7a3fb0; }
 .srs-easy { background: linear-gradient(135deg, var(--custo-accent, #FF6B9D), var(--custo-accent-2, #C49CFF)); color: #fff; border: none; }
 
-.queue-hint { font-size: .75rem; color: #b89ac8; }
+.queue-hint { font-size: .75rem; color: #735779; }
 
 /* Congrats */
 .congrats {
@@ -238,7 +238,7 @@ watch(() => props.deckId, () => {
 .congrats-icon { font-size: 2.5rem; }
 .congrats-text {
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
-  font-size: 1.15rem; font-weight: 700; color: #9966cc; margin: 0;
+  font-size: 1.15rem; font-weight: 700; color: #7a3fb0; margin: 0;
 }
 .reset-btn {
   padding: .55rem 1.5rem; border-radius: 999px; border: 2px solid var(--custo-accent, #FF6B9D);

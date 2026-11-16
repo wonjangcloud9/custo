@@ -79,7 +79,7 @@ onMounted(load)
 .bml-count {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #9966cc;
+  color: #7a3fb0;
 }
 
 .bml-clear {
@@ -151,7 +151,7 @@ onMounted(load)
   margin: 0.15rem 0 0;
   font-family: 'Zen Maru Gothic', sans-serif;
   font-size: 0.82rem;
-  color: #9966cc;
+  color: #7a3fb0;
 }
 
 .bml-meaning {
@@ -171,7 +171,7 @@ onMounted(load)
 .bml-empty {
   text-align: center;
   padding: 3rem 1rem;
-  color: #b89ac8;
+  color: #735779;
   font-size: 1rem;
   background: linear-gradient(135deg, #ffe8f4 0%, #f0e4ff 100%);
   border-radius: 16px;

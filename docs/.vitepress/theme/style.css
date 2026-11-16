@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
 
 /* ── Cutie Street Brand Colors ── */
 :root {
   --custo-pink: #FF6B9D;
+  --custo-accent: #C92F69; /* text/button accent with AA contrast */
   --custo-lavender: #C49CFF;
   --custo-cream: #FFF8F0;
 
@@ -17,7 +17,7 @@
   --member-haruka: #FF6B9D;
 
   /* VitePress Brand Overrides */
-  --vp-c-brand-1: #FF6B9D;
+  --vp-c-brand-1: #C92F69; /* AA-contrast text pink; decorative pink stays --custo-pink */
   --vp-c-brand-2: #e85d8e;
   --vp-c-brand-3: #C49CFF;
   --vp-c-bg: #FFF8F0;
@@ -85,7 +85,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ── Sidebar Active Color ── */
 .VPSidebarItem.is-active > .item .link {
-  color: var(--custo-pink) !important;
+  color: var(--vp-c-brand-1) !important;
   font-weight: 600;
 }
 
@@ -163,19 +163,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .VPFooter .message {
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
-  color: #9966cc;
+  color: #7a3fb0;
   font-weight: 600;
 }
 
 .VPFooter .copyright {
   font-size: 0.78rem;
-  color: #b89ac8;
+  color: #735779;
 }
 
 /* ── Prev/Next Footer ── */
 .VPDocFooter .pager-link .title {
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
-  color: var(--custo-pink);
+  color: var(--vp-c-brand-1);
 }
 
 .VPDocFooter .pager-link:hover .title {
@@ -303,7 +303,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .VPNavBarMenuLink:hover .text,
 .VPNavBarMenuGroup:hover .text {
-  color: var(--custo-pink) !important;
+  color: var(--vp-c-brand-1) !important;
 }
 
 /* ── Sidebar Links — 부드러운 전환 ── */
@@ -312,7 +312,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .VPSidebarItem .link:hover {
-  color: var(--custo-pink) !important;
+  color: var(--vp-c-brand-1) !important;
   padding-left: 4px;
 }
 
@@ -529,3 +529,10 @@ html {
 /* ── Home: learning roadmap below the hub ── */
 .home-learn { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
 .VPHome .vp-doc .home-learn h2 { font-family: 'Zen Maru Gothic', sans-serif; }
+
+/* ── Accessibility: visible keyboard focus everywhere ── */
+:where(a, button, [role='link'], [role='option'], input, summary, [tabindex]):focus-visible {
+  outline: 3px solid #c92f69;
+  outline-offset: 3px;
+  border-radius: 8px;
+}

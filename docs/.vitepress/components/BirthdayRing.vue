@@ -101,7 +101,7 @@ onMounted(() => { now.value = new Date() })
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; margin: 16px 0 40px; padding: 24px; border-radius: 32px; background: linear-gradient(160deg, #fff3f8, #f6f0ff); color: #3a2340; }
 .ring-wrap { max-width: 420px; width: 100%; justify-self: center; }
 .ring { width: 100%; height: auto; overflow: visible; }
-.mo { font-size: 11px; font-weight: 700; fill: #b89bb8; font-family: 'Zen Maru Gothic', sans-serif; }
+.mo { font-size: 11px; font-weight: 700; fill: #7d6083; font-family: 'Zen Maru Gothic', sans-serif; }
 .needle { transform-origin: 180px 180px; animation: needleIn 1.4s var(--spring) both; }
 @keyframes needleIn { from { transform: rotate(-200deg); opacity: 0; } }
 .dot { cursor: pointer; outline: none; }
@@ -113,7 +113,7 @@ onMounted(() => { now.value = new Date() })
 .kanji { fill: #fff; font-size: 15px; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; pointer-events: none; }
 .c-eyebrow { font-size: 10px; letter-spacing: 0.22em; font-weight: 800; fill: #c2457a; }
 .c-name { font-size: 20px; font-weight: 700; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; }
-.c-date { font-size: 13px; fill: #8a6a90; font-weight: 600; }
+.c-date { font-size: 13px; fill: #735779; font-weight: 600; }
 .c-dd { font-size: 24px; font-weight: 800; fill: #3a2340; font-family: 'Zen Maru Gothic', sans-serif; }
 .list { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; gap: 8px; }
 .list li { margin: 0 !important; }
@@ -123,7 +123,7 @@ onMounted(() => { now.value = new Date() })
 .li-dot { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; flex: none; }
 .li-name { display: flex; flex-direction: column; line-height: 1.3; }
 .li-name b { font-size: 14px; }
-.li-name small { font-size: 12px; color: #8a6a90; }
+.li-name small { font-size: 12px; color: #735779; }
 .li-dd { margin-left: auto; font-weight: 800; font-size: 15px; color: color-mix(in srgb, var(--mc) 70%, #3a2340); font-variant-numeric: tabular-nums; }
 @media (max-width: 760px) { .br { grid-template-columns: 1fr; padding: 16px; } }
 @media (prefers-reduced-motion: reduce) { .needle, .dot.next circle { animation: none; } .list a, .dot circle { transition: none; } }

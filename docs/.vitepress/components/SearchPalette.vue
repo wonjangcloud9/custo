@@ -37,8 +37,8 @@ const results = computed(() => {
 const flat = computed(() => results.value.flatMap((g) => g.items))
 watch([q, filter], () => (active.value = 0))
 
-function show() { open.value = true; q.value = ''; filter.value = 'all'; ensureIndex(); nextTick(() => input.value?.focus()) }
-function hide() { open.value = false }
+function show() { lastFocus = document.activeElement as HTMLElement | null; open.value = true; q.value = ''; filter.value = 'all'; ensureIndex(); nextTick(() => input.value?.focus()) }
+function hide() { open.value = false; nextTick(() => lastFocus?.focus?.()) }
 function go(h: Hit | undefined) {
   if (!h) return
   hide()
@@ -51,6 +51,16 @@ function onKey(e: KeyboardEvent) {
   else if (e.key === 'Enter') { e.preventDefault(); go(flat.value[active.value]) }
   else if (e.key === 'Escape') hide()
 }
+// keep keyboard focus inside the palette while it is open
+function trap(e: KeyboardEvent) {
+  const box = (e.currentTarget as HTMLElement)
+  const f = [...box.querySelectorAll<HTMLElement>('input, button')].filter((x) => x.offsetParent !== null)
+  if (!f.length) return
+  const first = f[0], last = f[f.length - 1]
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+}
+let lastFocus: HTMLElement | null = null
 function scrollActive() { nextTick(() => document.querySelector('.sp-item.on')?.scrollIntoView({ block: 'nearest' })) }
 function globalKey(e: KeyboardEvent) {
   const t = e.target as HTMLElement
@@ -70,7 +80,7 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
   <Teleport to="body">
     <Transition name="sp">
       <div v-if="open" class="sp-backdrop" @click.self="hide">
-        <div class="sp" role="dialog" aria-modal="true" aria-label="통합 검색">
+        <div class="sp" role="dialog" aria-modal="true" aria-label="통합 검색" @keydown.tab="trap">
           <div class="sp-input">
             <span aria-hidden="true">🔍</span>
             <input ref="input" v-model="q" type="search" placeholder="멤버, 곡, 영상, 일정 검색 (예: 하루카, 武道館, ぷりきゅきゅ)" aria-controls="sp-list" @keydown="onKey" />
@@ -102,7 +112,7 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 .sp-trigger { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px 0 12px; margin-right: 8px; border-radius: 999px; font-size: 13px; font-weight: 600;
   background: #fff; border: 1.5px solid #f3d6e4; color: #6a4a70; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), border-color 0.2s; }
 .sp-trigger:hover { transform: translateY(-1px); border-color: #ff9ec0; }
-.sp-trigger kbd, .sp kbd { font-family: inherit; font-size: 11px; padding: 1px 6px; border-radius: 6px; background: #f8eef4; border: 1px solid #efdbe6; color: #8a6a90; }
+.sp-trigger kbd, .sp kbd { font-family: inherit; font-size: 11px; padding: 1px 6px; border-radius: 6px; background: #f8eef4; border: 1px solid #efdbe6; color: #735779; }
 .sp-backdrop { position: fixed; inset: 0; z-index: 200; background: rgba(40, 10, 40, 0.42); backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: flex-start; padding: 12vh 16px 16px; }
 .sp { width: min(640px, 100%); max-height: 72vh; display: flex; flex-direction: column; background: #fff; border-radius: 22px; overflow: hidden; color: #3a2340;
   box-shadow: 0 40px 80px -24px rgba(60, 10, 50, 0.55), 0 0 0 1px rgba(255, 107, 157, 0.15); }
@@ -113,16 +123,16 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 .sp-filters button { flex: none; font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; background: #faf2f6; color: #6a4a70; }
 .sp-filters button[aria-pressed='true'] { background: #3a2340; color: #fff; }
 .sp-list { overflow-y: auto; padding: 6px 8px 10px; }
-.sp-group { margin: 10px 8px 4px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: #b89bb8; }
+.sp-group { margin: 10px 8px 4px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: #7d6083; }
 .sp-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 10px; border-radius: 12px; text-align: left; background: none; color: inherit; }
 .sp-item.on { background: #fff0f6; }
 .sp-ic { flex: none; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: #f6eef3; font-size: 14px; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .sp-txt { display: flex; flex-direction: column; min-width: 0; }
 .sp-txt b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; }
-.sp-txt small { font-size: 12px; color: #9a7aa0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sp-ext { margin-left: auto; color: #c5aac9; }
-.sp-empty { text-align: center; padding: 30px 0; color: #9a7aa0; }
-.sp-foot { display: flex; gap: 16px; padding: 10px 16px; border-top: 1px solid #f6e6ee; font-size: 12px; color: #9a7aa0; }
+.sp-txt small { font-size: 12px; color: #735779; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-ext { margin-left: auto; color: #7d6083; }
+.sp-empty { text-align: center; padding: 30px 0; color: #735779; }
+.sp-foot { display: flex; gap: 16px; padding: 10px 16px; border-top: 1px solid #f6e6ee; font-size: 12px; color: #735779; }
 .sp-foot kbd { margin-right: 3px; }
 .sp-enter-active, .sp-leave-active { transition: opacity 0.2s; }
 .sp-enter-active .sp { transition: transform 0.45s cubic-bezier(.34, 1.56, .64, 1), opacity 0.2s; }

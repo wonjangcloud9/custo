@@ -150,24 +150,24 @@ function resetProgress() {
 /* Empty */
 .empty-state { display: flex; flex-direction: column; align-items: center; gap: .5rem; padding: 2rem 0; }
 .empty-icon { font-size: 2.5rem; }
-.empty-msg { text-align: center; color: #b89ac8; font-size: .92rem; line-height: 1.6; margin: 0; }
+.empty-msg { text-align: center; color: #735779; font-size: .92rem; line-height: 1.6; margin: 0; }
 
 /* Info Row */
 .info-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.5rem; }
 .info-card { display: flex; align-items: center; gap: .6rem; background: linear-gradient(135deg, #fff0f8, #f5eeff); border-radius: 12px; padding: .75rem 1rem; }
 .info-icon { font-size: 1.4rem; }
-.info-label { font-size: .72rem; color: #b89ac8; margin: 0; }
+.info-label { font-size: .72rem; color: #735779; margin: 0; }
 .info-value { font-family: 'Zen Maru Gothic', sans-serif; font-size: 1.05rem; font-weight: 700; color: #3a2050; margin: 0; }
 
 /* Sections */
 .section { margin-bottom: 1.25rem; }
-.section-title { font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif; font-size: .95rem; font-weight: 700; color: #9966cc; margin: 0 0 .65rem; }
+.section-title { font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif; font-size: .95rem; font-weight: 700; color: #7a3fb0; margin: 0 0 .65rem; }
 
 /* Bar Items */
 .bar-item { margin-bottom: .65rem; }
 .bar-header { display: flex; justify-content: space-between; margin-bottom: .25rem; }
 .bar-label { font-size: .82rem; color: #3a2050; font-weight: 500; }
-.bar-score { font-size: .78rem; color: #b89ac8; }
+.bar-score { font-size: .78rem; color: #735779; }
 .bar-track { height: 10px; background: #f5eeff; border-radius: 999px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 999px; transition: width .4s ease; }
 .quiz-fill { background: linear-gradient(90deg, #FF6B9D, #C49CFF); }
