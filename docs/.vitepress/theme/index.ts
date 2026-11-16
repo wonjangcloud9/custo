@@ -20,6 +20,7 @@ import UnitLab from '../components/UnitLab.vue'
 import GlobalFx from '../components/GlobalFx.vue'
 import SearchPalette from '../components/SearchPalette.vue'
 import PenlightOcean from '../components/PenlightOcean.vue'
+import MemberMatch from '../components/MemberMatch.vue'
 import './style.css'
 
 export default {
@@ -47,5 +48,6 @@ export default {
     app.component('LikesAlbum', LikesAlbum)
     app.component('UnitLab', UnitLab)
     app.component('PenlightOcean', PenlightOcean)
+    app.component('MemberMatch', MemberMatch)
   },
 }

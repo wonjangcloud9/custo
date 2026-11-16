@@ -84,6 +84,7 @@ export default defineConfig({
             { text: '마나베 (真鍋)', link: '/members/nagisa' },
             { text: '사쿠라바 (桜庭)', link: '/members/haruka' },
             { text: '💞 유닛 & 케미', link: '/units/' },
+            { text: '🔮 나와 닮은 멤버', link: '/which-member/' },
             { text: '♡ 나의 앨범', link: '/likes/' },
           ],
         },
