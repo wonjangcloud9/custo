@@ -103,6 +103,7 @@ function cleanTitle(t: string) {
         <div class="cta">
           <a class="btn primary" :href="withBase('/members/')">멤버 만나기 <span aria-hidden="true">→</span></a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
+          <a class="btn ghost" :href="withBase('/start/')">🎓 처음이에요</a>
           <a class="btn ghost" :href="withBase('/japanese/beginner/hiragana')">일본어 배우기</a>
         </div>
       </div>

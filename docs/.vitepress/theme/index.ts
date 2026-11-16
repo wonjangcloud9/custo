@@ -29,6 +29,7 @@ const lazy = {
   MemberMatch: () => import('../components/MemberMatch.vue'),
   NewsFeed: () => import('../components/NewsFeed.vue'),
   CutieLand: () => import('../components/CutieLand.vue'),
+  StarterQuest: () => import('../components/StarterQuest.vue'),
 }
 
 export default {
