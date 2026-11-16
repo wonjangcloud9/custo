@@ -1,3 +1,4 @@
+import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import Flashcard from '../components/Flashcard.vue'
 import Quiz from '../components/Quiz.vue'
@@ -15,10 +16,13 @@ import ScheduleBoard from '../components/ScheduleBoard.vue'
 import DiscoShelf from '../components/DiscoShelf.vue'
 import BirthdayRing from '../components/BirthdayRing.vue'
 import LikesAlbum from '../components/LikesAlbum.vue'
+import UnitLab from '../components/UnitLab.vue'
+import GlobalFx from '../components/GlobalFx.vue'
 import './style.css'
 
 export default {
   extends: DefaultTheme,
+  Layout: () => h(DefaultTheme.Layout, null, { 'layout-top': () => h(GlobalFx) }),
   enhanceApp({ app }) {
     app.component('Flashcard', Flashcard)
     app.component('Quiz', Quiz)
@@ -36,5 +40,6 @@ export default {
     app.component('DiscoShelf', DiscoShelf)
     app.component('BirthdayRing', BirthdayRing)
     app.component('LikesAlbum', LikesAlbum)
+    app.component('UnitLab', UnitLab)
   },
 }
