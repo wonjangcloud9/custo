@@ -61,7 +61,13 @@ export default defineConfig({
       },
       { text: '영상', link: '/videos/' },
       { text: '레전드 무대', link: '/stages/' },
-      { text: '스케줄', link: '/schedule/' },
+      {
+        text: '스케줄',
+        items: [
+          { text: '스케줄 · 카운트다운', link: '/schedule/' },
+          { text: '라이브 가이드 · 펜라이트', link: '/live-guide/' },
+        ],
+      },
     ],
     sidebar: {
       '/members/': [

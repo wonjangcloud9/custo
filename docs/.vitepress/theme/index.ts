@@ -19,6 +19,7 @@ import LikesAlbum from '../components/LikesAlbum.vue'
 import UnitLab from '../components/UnitLab.vue'
 import GlobalFx from '../components/GlobalFx.vue'
 import SearchPalette from '../components/SearchPalette.vue'
+import PenlightOcean from '../components/PenlightOcean.vue'
 import './style.css'
 
 export default {
@@ -45,5 +46,6 @@ export default {
     app.component('BirthdayRing', BirthdayRing)
     app.component('LikesAlbum', LikesAlbum)
     app.component('UnitLab', UnitLab)
+    app.component('PenlightOcean', PenlightOcean)
   },
 }

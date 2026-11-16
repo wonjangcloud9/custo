@@ -14,7 +14,7 @@ const norm = (s: string) => s.toLowerCase().normalize('NFKC').replace(/[\s・·�
 
 const PAGES: [string, string, string][] = [
   ['홈', '/', '🏠'], ['정상까지의 여정 (3D)', '/journey/', '🗻'], ['멤버 전체', '/members/', '💖'], ['유닛 & 케미', '/units/', '💞'],
-  ['영상 아카이브', '/videos/', '🎬'], ['디스코그래피', '/discography/', '💿'], ['스케줄', '/schedule/', '🗓️'], ['나의 ♡ 앨범', '/likes/', '♡'],
+  ['영상 아카이브', '/videos/', '🎬'], ['디스코그래피', '/discography/', '💿'], ['스케줄', '/schedule/', '🗓️'], ['나의 ♡ 앨범', '/likes/', '♡'], ['라이브 가이드 · 펜라이트', '/live-guide/', '🔦'],
   ['레전드 무대', '/stages/', '🎤'], ['히라가나 배우기', '/japanese/beginner/hiragana', '🔤'], ['현장 일본어', '/japanese/idol-japanese/live-terms', '📣'], ['덕질 용어 사전', '/japanese/dictionary', '📖'],
 ]
 const index: Hit[] = [

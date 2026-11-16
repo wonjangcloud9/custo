@@ -37,8 +37,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
 | 28 | ⌘K / '/' 통합 검색 팔레트 (멤버·영상 539·릴리즈·스케줄·페이지, 한/일 검색, 키보드 내비) — Mobbin: Stripe/incident.io 팔레트 | 9 | 2 | 0.8 | 1 | 14.4 | ✅ Done #13 |
-| 30 | 펜라이트 컬러 가이드 + 라이브 준비 체크리스트 (멤버 컬러 순서, 현장 일본어 링크, 체크 저장) | 7 | 1 | 1 | 0.5 | 14 | Todo |
-| 31 | 멤버 페이지 본문의 나머지 미검증 수치(SNS 팔로워 수 등) 출처 확인/정리 | 6 | 1 | 1 | 0.5 | 12 | Todo |
+| 30 | 펜라이트 컬러 가이드 + 라이브 준비 체크리스트 (멤버 컬러 순서, 현장 일본어 링크, 체크 저장) | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #14 (/live-guide/) |
+| 31 | 멤버 페이지 본문의 나머지 미검증 수치(SNS 팔로워 수 등) 출처 확인/정리 | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #14 (follower counts + 미유 예명/百人一首 removed) |
 | 29 | '나와 닮은 멤버' 테스트 (취미·성향 6문항 → 결과 카드 + 공유 이미지 캔버스 생성) | 9 | 2 | 0.8 | 1.5 | 9.6 | Todo |
 | 32 | 홈 '이번 주 새 영상' 자동 하이라이트 + 데이터 갱신 스크립트(#25)와 연동 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
 | 21 | ⭐ USER REQUEST: 멤버별 "레전드 사진" 인스타풍 갤러리 — 공식 MV Teaser(멤버별)·推しカメラ·生誕祭·KAWAII FOCUS 영상의 maxres 썸네일(i.ytimg.com, 공식 임베드)로 masonry 피드 + 라이트박스(클릭 시 영상). 사진 파일 저장/재호스팅 금지 규칙 유지. 특정 IG 게시물은 유저가 링크 주면 공식 embed | 10 | 3 | 0.8 | 1.5 | 16 (+user priority) | ✅ Done #6 |
@@ -102,3 +102,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #11 2026-11-17 03:15 — /likes/ '나의 ♡ 앨범': scrapbook polaroid board of double-tapped legend cuts (washi tape in member color, deterministic tilt, drop-in), member filter, 최애 지수, remove w/ shrink, share-link (?ids=) read-only album + 'import all'; members index BirthdayRing: SVG ring calendar w/ month ticks, today needle, staggered dots for clustered Nov birthdays, NEXT 🎂 center, sorted D-day list; MemberFeed '내 ♡' links to album; sidebar link. Fixed VitePress prefetch crash on SVG <a> — next: #25 data refresh, #12 micro-interactions, #10 units
 - #12 2026-11-17 03:35 — /units/: 5 units w/ member-color mesh cards, avatar stacks that fan out on hover, unit songs/MVs/videos + CHEMISTRY FINDER (pick members → shared units + official videos they appear in together); GlobalFx via Layout slot: rainbow scroll-progress bar (animation-timeline: scroll()), member-color click heart bursts, page-enter motion on route change (all reduced-motion aware). Fixed non-Element pointer target crash — next: #25 data refresh script, #15 verify hobbies, then new research round (backlog nearly empty)
 - #13 2026-11-17 03:55 — research round: re-verified member hobbies/skills (2 sources), replaced unverified claims in member bodies/quizzes/vocab, Ayano height note; new ⌘K/'/' SearchPalette in navbar (members/539 videos/31 releases/schedule/pages, KR names indexed on videos, filters, ↑↓↵) ; backlog refilled (#28–#32) — next: #30 penlight guide, #31, #29 member test
+- #14 2026-11-17 04:15 — /live-guide/: penlight ocean simulator (72 swaying glowing sticks, per-member color or 8-color cycle, stage spotlights in member color) + live-prep checklist (localStorage, links to schedule/videos/현장 회화); nav 스케줄 dropdown + search entry; member bodies: removed time-sensitive/unverified follower counts, 미유 예명 & 百人一首 quiz; fixed risa sentence grammar — next: #29 '나와 닮은 멤버' 테스트, #25/#32 data refresh
