@@ -18,11 +18,15 @@ import BirthdayRing from '../components/BirthdayRing.vue'
 import LikesAlbum from '../components/LikesAlbum.vue'
 import UnitLab from '../components/UnitLab.vue'
 import GlobalFx from '../components/GlobalFx.vue'
+import SearchPalette from '../components/SearchPalette.vue'
 import './style.css'
 
 export default {
   extends: DefaultTheme,
-  Layout: () => h(DefaultTheme.Layout, null, { 'layout-top': () => h(GlobalFx) }),
+  Layout: () => h(DefaultTheme.Layout, null, {
+    'layout-top': () => h(GlobalFx),
+    'nav-bar-content-before': () => h(SearchPalette),
+  }),
   enhanceApp({ app }) {
     app.component('Flashcard', Flashcard)
     app.component('Quiz', Quiz)

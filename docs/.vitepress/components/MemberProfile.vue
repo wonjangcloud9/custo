@@ -125,7 +125,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="tile t-height">
-        <span class="lbl">키 {{ m.height }}cm · 8명 중 {{ heights.findIndex((x) => x.id === m.id) + 1 }}번째</span>
+        <span class="lbl">키 {{ m.height }}cm · 8명 중 {{ heights.findIndex((x) => x.id === m.id) + 1 }}번째<template v-if="m.heightNote"> ({{ m.heightNote }})</template></span>
         <div class="ruler">
           <a v-for="x in heights" :key="x.id" :href="withBase(`/members/${x.id}`)" class="bar" :class="{ me: x.id === m.id }"
             :style="{ '--h': ((x.height - minH) / (maxH - minH)) * 100 + '%', '--bc': x.color }" :title="`${x.ko} ${x.height}cm`">

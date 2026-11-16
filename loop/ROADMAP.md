@@ -36,6 +36,11 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 
 | # | Item | R | I | C | E | Score | Status |
 |---|------|---|---|---|---|-------|--------|
+| 28 | ⌘K / '/' 통합 검색 팔레트 (멤버·영상 539·릴리즈·스케줄·페이지, 한/일 검색, 키보드 내비) — Mobbin: Stripe/incident.io 팔레트 | 9 | 2 | 0.8 | 1 | 14.4 | ✅ Done #13 |
+| 30 | 펜라이트 컬러 가이드 + 라이브 준비 체크리스트 (멤버 컬러 순서, 현장 일본어 링크, 체크 저장) | 7 | 1 | 1 | 0.5 | 14 | Todo |
+| 31 | 멤버 페이지 본문의 나머지 미검증 수치(SNS 팔로워 수 등) 출처 확인/정리 | 6 | 1 | 1 | 0.5 | 12 | Todo |
+| 29 | '나와 닮은 멤버' 테스트 (취미·성향 6문항 → 결과 카드 + 공유 이미지 캔버스 생성) | 9 | 2 | 0.8 | 1.5 | 9.6 | Todo |
+| 32 | 홈 '이번 주 새 영상' 자동 하이라이트 + 데이터 갱신 스크립트(#25)와 연동 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
 | 21 | ⭐ USER REQUEST: 멤버별 "레전드 사진" 인스타풍 갤러리 — 공식 MV Teaser(멤버별)·推しカメラ·生誕祭·KAWAII FOCUS 영상의 maxres 썸네일(i.ytimg.com, 공식 임베드)로 masonry 피드 + 라이트박스(클릭 시 영상). 사진 파일 저장/재호스팅 금지 규칙 유지. 특정 IG 게시물은 유저가 링크 주면 공식 embed | 10 | 3 | 0.8 | 1.5 | 16 (+user priority) | ✅ Done #6 |
 | 24 | 12월 공식 스케줄 수집 (schedule/list는 월 파라미터 미지원 — 상세 페이지/뉴스로 12월 이벤트 확인 후 events.ts 추가) | 8 | 1 | 0.8 | 0.5 | 12.8 | ✅ Done #9 |
 | 22 | 홈/멤버 인덱스에도 '오늘의 레전드 컷' (feeds.json 랜덤 1장, 멤버 컬러 프레임, 매일 바뀜) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #8 (home) |
@@ -59,7 +64,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 12 | 전역 커서/마이크로 인터랙션: 멤버 컬러 스파클 트레일(포인터), 페이지 전환 View Transition, 스티커 peel 배지 | 8 | 1 | 0.8 | 1 | 6.4 | ✅ Done #12 (scroll progress, click hearts, page-enter) |
 | 13 | i18n: 일본어 UI 토글(일본 팬 대상) — 주요 페이지 제목/라벨 | 6 | 2 | 0.5 | 3 | 2 | Todo |
 | 14 | OG 이미지/SEO 업데이트(팬허브 포지셔닝), sitemap | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #9 |
-| 15 | 멤버 특기/취미/닉네임 재검증 (기존 사이트 데이터 → 공식 Q&A/위키 대조), 멤버별 대표 무대 영상 큐레이션 | 7 | 1 | 0.8 | 1 | 5.6 | Todo |
+| 15 | 멤버 특기/취미/닉네임 재검증 (기존 사이트 데이터 → 공식 Q&A/위키 대조), 멤버별 대표 무대 영상 큐레이션 | 7 | 1 | 0.8 | 1 | 5.6 | ✅ Done #13 (hobbies verified; unverified claims removed from bodies/quizzes) |
 | 17 | 버그: 전역 표 테두리가 내용보다 넓게 늘어남 → `width: fit-content` | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #3 |
 | 18 | 홈 카운트다운 이벤트를 `data/events.ts`로 분리 → 스케줄 페이지와 공유 (#6과 함께) | 7 | 0.5 | 1 | 0.3 | 11.7 | ✅ Done #7 |
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
@@ -75,6 +80,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 - Dec 2026 (official news): 12/6 大特典会 @インテックス大阪3号館 10:00–19:00 (96353); 12/12–13 KAWAII LAB. Christmas SESSION 2026 @有明アリーナ START 17:00 / 16:00 (96002); 12/19–1/31 KAWAII CLOSET 2026 衣装展 hmv museum 渋谷・栄・なんば (96078); 紅白 12/31 19:20–23:45 JST (natalie 697917). Album tracklist: news/detail/95941.
 - Official discography = 31 releases (1 album, 3 CD singles, 26 digital, 1 live film) — full list in `docs/.vitepress/data/discography.ts` (official detail ids). Old discography page had wrong entries (e.g. ひたむきシンデレラ！ as separate 2024 digital) → replaced. ひたむきシンデレラ！ MV = AtDErGSpfYQ.
 - Units (wiki JA): ちーむすとりーと(aika,kana,ayano,nagisa,haruka)=『Crush on you』, ちーむきゅーてぃー(risa,emiru,miyu)=『I Amai Me Mind』 (digital 2026-04-21); チーム占い(risa,aika,miyu), チーム自然(kana,ayano,emiru), コットンキャンディー(nagisa,haruka) — same lineups as 2026 新ユニット songs どんどんどん！/君なんだ/おやすみサイレンナイト (CUTIE LAND tracks 11–13). Data → `data/units.ts`.
+- Hobbies (#13, ciatr.jp/topics/336201 + ticket.co.jp/entx/?p=5758): risa 可愛い洋服づくり; aika ドラマ鑑賞・食べること(+焼肉屋巡り), dance 9y; kana ダンス・YouTube・アニメ鑑賞, dance 10y+; ayano ダンス・運動; emiru 水上バイク・ダンススタッキング (小型船舶免許); miyu カフェ巡り・ヘアアレンジ; nagisa ダンス・バドミントン; haruka 漫画鑑賞. Ayano height: wiki+ciatr 157 / ticket.co.jp 156. NOT verified (removed): kana 服のタグ集め, haruka エレクトーン/16h sleep, nagisa ホラー, miyu 百人一首.
 - Arena tour dates (realsound/livedoor): 9/23 横浜アリーナ, 9/29-30 有明アリーナ, 10/3-4 セキスイハイムスーパーアリーナ, 10/28-29 マリンメッセ福岡A館, 10/31-11/1 神戸ワールド記念ホール, 11/14-15 広島グリーンアリーナ, 11/28-29 IGアリーナ(愛知). Korea: 2026-07-25/26 Live in Korea 2026 SUMMER (世宗大 大洋ホール).
 - YouTube (#4): full scrape = 523 uploads back to 初投稿 (2024-07) with exact durations → `loop/yt-videos-full.tsv`; official MVs are on KAWAII LAB. channel @KAWAII_LAB_OFFICIAL → `loop/mvs.tsv` (titles verified via oEmbed). NOTE: scraped titles from YouTube UI can be auto-translated to Korean; use oEmbed for canonical titles. Collab uploads ("KAWAII LAB. 및 CUTIE STREET") render as lockups that my DOM scraper mislabeled as playlists — parse ytInitialData videoRenderer instead. Debut MV = jZqTz1G8G04, キューにストップ MV = _gfwU-heIkA, ゆめみるプリマドンナ MV = xwAQL_BSfxo.
 - YouTube (#1, superseded): scraped 261 videos (2025-10 → 2026-11) from https://www.youtube.com/@CUTIE_STREET/videos via Playwright → `loop/yt-videos.tsv` → `python3 -I loop/build_videos.py` → `docs/.vitepress/data/videos.json`. IDs are real (taken from official channel links). Older videos (2024–2025-09, original MVs) not yet scraped — needs more scrolling.
@@ -95,3 +101,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #10 2026-11-17 02:55 — /discography/ rebuilt as DiscoShelf from official data (31 releases): CUTIE LAND hero (spinning vinyl + rainbow sleeve, D-day, 16-track list linking MVs, editions), type filters, year 'record shelf' where hovering slides the vinyl out of its sleeve, MV-thumbnail sleeves or generative member-color art, detail dialog with inline MV + related official videos — next: #23 likes album, #11 birthday calendar, #25 data refresh
 - #11 2026-11-17 03:15 — /likes/ '나의 ♡ 앨범': scrapbook polaroid board of double-tapped legend cuts (washi tape in member color, deterministic tilt, drop-in), member filter, 최애 지수, remove w/ shrink, share-link (?ids=) read-only album + 'import all'; members index BirthdayRing: SVG ring calendar w/ month ticks, today needle, staggered dots for clustered Nov birthdays, NEXT 🎂 center, sorted D-day list; MemberFeed '내 ♡' links to album; sidebar link. Fixed VitePress prefetch crash on SVG <a> — next: #25 data refresh, #12 micro-interactions, #10 units
 - #12 2026-11-17 03:35 — /units/: 5 units w/ member-color mesh cards, avatar stacks that fan out on hover, unit songs/MVs/videos + CHEMISTRY FINDER (pick members → shared units + official videos they appear in together); GlobalFx via Layout slot: rainbow scroll-progress bar (animation-timeline: scroll()), member-color click heart bursts, page-enter motion on route change (all reduced-motion aware). Fixed non-Element pointer target crash — next: #25 data refresh script, #15 verify hobbies, then new research round (backlog nearly empty)
+- #13 2026-11-17 03:55 — research round: re-verified member hobbies/skills (2 sources), replaced unverified claims in member bodies/quizzes/vocab, Ayano height note; new ⌘K/'/' SearchPalette in navbar (members/539 videos/31 releases/schedule/pages, KR names indexed on videos, filters, ↑↓↵) ; backlog refilled (#28–#32) — next: #30 penlight guide, #31, #29 member test
