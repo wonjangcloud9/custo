@@ -25,7 +25,7 @@ const now = ref<number | null>(null)
 let timer: number | undefined
 const upcoming = computed(() => {
   const t = now.value ?? 0
-  return EVENTS.map((e) => ({ ...e, ms: new Date(e.at).getTime() - t })).filter((e) => !now.value || e.ms > -86400000)
+  return EVENTS.map((e) => ({ ...e, ms: new Date(e.at).getTime() - t })).filter((e) => !now.value || e.ms > -86400000).slice(0, 4) // nearest four fill the 4-col / 2-col grid
 })
 function parts(ms: number) {
   const s = Math.max(0, Math.floor(ms / 1000))
