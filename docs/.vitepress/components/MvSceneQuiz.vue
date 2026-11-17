@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { MV } from '../data/discography'
-import { members, memberById } from '../data/members'
+import { members, memberById, onColor } from '../data/members'
 
 // Two modes on blurred, zoomed official YouTube stills that clear up over 8s (faster answer = more points):
 //  - song:   YouTube's auto-generated frames of the 15 official MVs (i.ytimg.com/vi/<id>/maxres{1,2,3}.jpg)
@@ -12,7 +12,7 @@ const REVEAL_MS = 8000
 type Mode = 'song' | 'member'
 const KEY: Record<Mode, string> = { song: 'custo-mvquiz-best', member: 'custo-mvquiz-best-member' }
 
-interface Opt { key: string; label: string; color?: string; kanji?: string }
+interface Opt { key: string; label: string; color?: string; kanji?: string; on?: string }
 interface Round { id: string; img: string; key: string; label: string; fx: number; fy: number; options: Opt[] }
 const mode = ref<Mode>('song')
 const stage = ref<'start' | 'play' | 'done'>('start')
@@ -35,7 +35,7 @@ const reduce = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-r
 
 const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]] } return b }
 const cur = computed(() => rounds.value[idx.value])
-const MEMBER_OPTS: Opt[] = members.map((m) => ({ key: m.id, label: m.ko.split(' ')[1], color: m.color, kanji: m.ja.slice(2, 3) }))
+const MEMBER_OPTS: Opt[] = members.map((m) => ({ key: m.id, label: m.ko.split(' ')[1], color: m.color, kanji: m.ja.slice(2, 3), on: onColor(m.color) }))
 
 async function start(m: Mode = mode.value) {
   mode.value = m
@@ -170,7 +170,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <div class="opts" :class="{ mems: mode === 'member' }" role="group" :aria-label="mode === 'song' ? '곡 선택' : '멤버 선택'">
         <button v-for="o in cur.options" :key="o.key" type="button" class="opt" :lang="mode === 'song' ? 'ja' : undefined" :disabled="!!picked" :style="o.color ? { '--mc': o.color } : undefined"
           :class="{ correct: picked && o.key === cur.key, wrong: picked === o.key && o.key !== cur.key, dim: picked && o.key !== cur.key && picked !== o.key }" @click="answer(o.key)">
-          <kbd class="hk" aria-hidden="true">{{ cur.options.indexOf(o) + 1 }}</kbd><span v-if="o.kanji" class="kj" aria-hidden="true">{{ o.kanji }}</span>{{ o.label }}
+          <kbd class="hk" aria-hidden="true">{{ cur.options.indexOf(o) + 1 }}</kbd><span v-if="o.kanji" class="kj" aria-hidden="true" :style="{ color: o.on }">{{ o.kanji }}</span>{{ o.label }}
         </button>
       </div>
       <div class="fb" aria-live="polite">

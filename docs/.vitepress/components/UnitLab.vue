@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { withBase } from 'vitepress'
-import { members, memberById } from '../data/members'
+import { members, memberById, onColor } from '../data/members'
 import { units } from '../data/units'
 import videosRaw from '../data/videos.json'
 
@@ -56,7 +56,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
     <div class="cards">
       <article v-for="u in units" :key="u.id" class="card" :class="{ hit: matches(u), dim: picked.length && !matches(u) }" :style="{ backgroundImage: mesh(u.members) }">
         <div class="stack" :style="{ '--n': u.members.length }">
-          <a v-for="(id, i) in u.members" :key="id" :href="withBase(`/members/${id}`)" class="av" :style="{ '--mc': memberById[id].color, '--i': i }" :title="memberById[id].ko">
+          <a v-for="(id, i) in u.members" :key="id" :href="withBase(`/members/${id}`)" class="av" :style="{ '--mc': memberById[id].color, '--on': onColor(memberById[id].color), '--i': i }" :title="memberById[id].ko">
             {{ memberById[id].ja.slice(-2, -1) }}
           </a>
         </div>
@@ -86,7 +86,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .picks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .pick { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; padding: 0; }
 .pick-face { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px;
-  background: #fff; color: color-mix(in srgb, var(--mc) 70%, #3a2340); border: 3px solid color-mix(in srgb, var(--mc) 45%, white); transition: transform 0.5s var(--spring), background 0.2s, color 0.2s; }
+  background: #fff; color: color-mix(in srgb, var(--mc) 42%, #2a1030); border: 3px solid color-mix(in srgb, var(--mc) 45%, white); transition: transform 0.5s var(--spring), background 0.2s, color 0.2s; }
 .pick small { font-size: 12px; font-weight: 700; }
 .pick:hover .pick-face { transform: translateY(-3px) rotate(-8deg); }
 .pick[aria-pressed='true'] .pick-face { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; border-color: #fff; box-shadow: 0 0 0 3px var(--mc), 0 10px 20px -8px var(--mc); transform: scale(1.08); }
@@ -105,7 +105,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .card.hit { box-shadow: 0 0 0 3px #3a2340, 0 24px 40px -24px rgba(58, 35, 64, 0.7); transform: translateY(-5px) scale(1.02); }
 .card.dim { opacity: 0.45; filter: saturate(0.4); }
 .stack { display: flex; height: 58px; }
-.av { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; margin-left: -16px; background: var(--mc); color: #fff !important; text-decoration: none !important;
+.av { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; margin-left: -16px; background: var(--mc); color: var(--on, #fff) !important; text-decoration: none !important;
   font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px; border: 3px solid #fff; box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.3);
   transition: margin 0.6s var(--spring), transform 0.6s var(--spring); transition-delay: calc(var(--i) * 30ms); }
 .av:first-child { margin-left: 0; }

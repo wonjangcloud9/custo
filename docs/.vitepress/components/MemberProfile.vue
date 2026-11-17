@@ -351,7 +351,7 @@ function onKey(e: KeyboardEvent) {
 .bar.me .bar-fill { background: var(--bc); box-shadow: 0 10px 20px -8px var(--bc); }
 .bar-cm { position: absolute; font-size: 11px; font-weight: 700; color: #735779; bottom: calc(18% + var(--h) * 0.7 + 22px); }
 .bar.me .bar-cm { color: var(--mc-deep); font-size: 13px; }
-.bar-nm { font-size: 13px; font-weight: 700; margin-top: 4px; color: color-mix(in srgb, var(--bc) 70%, #3a2340); }
+.bar-nm { font-size: 13px; font-weight: 700; margin-top: 4px; color: color-mix(in srgb, var(--bc) 42%, #2a1030); }
 
 /* PREV/NEXT */
 .hero { transition: transform 0.16s ease-in, opacity 0.16s ease-in; }

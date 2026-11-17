@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { withBase, useRouter } from 'vitepress'
-import { members, daysToBirthday, ageOn } from '../data/members'
+import { members, daysToBirthday, ageOn, onColor } from '../data/members'
 
 const SIZE = 360, C = SIZE / 2, R = 132
 const now = ref<Date | null>(null)
@@ -87,7 +87,7 @@ onMounted(() => { now.value = new Date() })
       <li v-for="d in upcoming" :key="d.m.id" :style="{ '--mc': d.m.color }" :class="{ on: hover === d.m.id }"
         @mouseenter="hover = d.m.id" @mouseleave="hover = null">
         <a :href="withBase(`/members/${d.m.id}`)">
-          <span class="li-dot">{{ d.m.ja.slice(-2, -1) }}</span>
+          <span class="li-dot" :style="{ '--on': onColor(d.m.color) }">{{ d.m.ja.slice(-2, -1) }}</span>
           <span class="li-name"><b>{{ d.m.ko }}</b><small>{{ d.mo }}/{{ d.d }}<template v-if="d.turning"> · {{ d.turning }}번째 생일</template></small></span>
           <span class="li-dd">{{ d.dd === null ? '' : d.dd === 0 ? '🎂 TODAY' : 'D-' + d.dd }}</span>
         </a>
@@ -120,7 +120,7 @@ onMounted(() => { now.value = new Date() })
 .list a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 18px; background: #fff; text-decoration: none !important; color: #3a2340 !important;
   border: 1.5px solid color-mix(in srgb, var(--mc) 25%, white); transition: transform 0.5s var(--spring), box-shadow 0.3s; }
 .list li.on a, .list a:hover { transform: translateX(6px); box-shadow: 0 12px 24px -16px color-mix(in srgb, var(--mc) 90%, #000); }
-.li-dot { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; flex: none; }
+.li-dot { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: var(--on, #fff); font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; flex: none; }
 .li-name { display: flex; flex-direction: column; line-height: 1.3; }
 .li-name b { font-size: 14px; }
 .li-name small { font-size: 12px; color: #735779; }

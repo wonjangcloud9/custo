@@ -57,3 +57,12 @@ export function daysToBirthday(birthday: string, now = new Date()): number {
   if (next < today) next = new Date(now.getFullYear() + 1, m - 1, d)
   return Math.round((next.getTime() - today.getTime()) / 86400000)
 }
+
+/** Text colour for a label sitting ON a member-colour fill: whichever of white / deep plum
+ *  contrasts more (for the 8 member colours that is always the deep plum, 4.5–11:1). */
+export function onColor(hex: string): string {
+  const lin = (v: number) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+  const L = (h: string) => { const c = [1, 3, 5].map((i) => lin(parseInt(h.slice(i, i + 2), 16) / 255)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2] }
+  const bg = L(hex), dark = '#2a1030'
+  return (bg + 0.05) / (L(dark) + 0.05) >= 1.05 / (bg + 0.05) ? dark : '#fff'
+}
