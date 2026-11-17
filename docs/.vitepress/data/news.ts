@@ -8,6 +8,7 @@ export interface News { date: string; ja: string; ko: string; tag: NewsTag; url:
 
 const O = 'https://cutiestreet.asobisystem.com'
 export const news: News[] = [
+  { date: '2026-11-17', tag: 'event', ja: '11/23（月・祝）CUTIE STREET 大特典会 物販情報', ko: '11/23 삿포로 대특전회 물판(굿즈 판매) 정보', url: `${O}/news/detail/96574`, internal: '/schedule/' },
   { date: '2026-11-15', tag: 'ticket', ja: '11/15(日) JAPAN ARENA TOUR 2026 -AUTUMN-『CUTIE LAND』広島公演 Day2 当日券販売のお知らせ', ko: '아레나 투어 히로시마 DAY2 당일권 판매 안내', url: `${O}/news/detail/96456`, internal: '/schedule/' },
   { date: '2026-11-14', tag: 'ticket', ja: '11/14(土) JAPAN ARENA TOUR 2026 -AUTUMN-『CUTIE LAND』広島公演 Day1 当日券販売のお知らせ', ko: '아레나 투어 히로시마 DAY1 당일권 판매 안내', url: `${O}/news/detail/96381`, internal: '/schedule/' },
   { date: '2026-11-14', tag: 'event', ja: '11/23(月・祝) CUTIE STREET大特典会＠アクセスサッポロのファンクラブ限定部 2次応募の抽選受付が決定！', ko: '11/23 삿포로 대특전회 FC 한정부 2차 추첨 접수 결정', url: `${O}/news/detail/96375`, internal: '/schedule/' },
