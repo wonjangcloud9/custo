@@ -124,7 +124,7 @@ onMounted(() => { now.value = new Date() })
 .li-name { display: flex; flex-direction: column; line-height: 1.3; }
 .li-name b { font-size: 14px; }
 .li-name small { font-size: 12px; color: #735779; }
-.li-dd { margin-left: auto; font-weight: 800; font-size: 15px; color: color-mix(in srgb, var(--mc) 70%, #3a2340); font-variant-numeric: tabular-nums; }
+.li-dd { margin-left: auto; font-weight: 800; font-size: 15px; color: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); font-variant-numeric: tabular-nums; }
 @media (max-width: 760px) { .br { grid-template-columns: 1fr; padding: 16px; } }
 @media (prefers-reduced-motion: reduce) { .needle, .dot.next circle { animation: none; } .list a, .dot circle { transition: none; } }
 </style>

@@ -92,13 +92,13 @@ tbody tr:hover { background: color-mix(in srgb, var(--mc) 8%, white) !important;
 .row-move { transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1); }
 .n { font-size: 12px; font-weight: 800; color: #735779; font-variant-numeric: tabular-nums; }
 .who a { display: flex; align-items: center; gap: 10px; text-decoration: none !important; color: #3a2340 !important; }
-.face { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
+.face { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .who b { display: block; font-size: 14px; }
 .who small { font-size: 12px; color: #735779; }
 .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .ht { display: flex; align-items: center; gap: 8px; min-width: 150px; }
 .hbar { flex: 1; height: 8px; border-radius: 999px; background: #f6edf2; overflow: hidden; }
-.hbar i { display: block; height: 100%; border-radius: 999px; background: color-mix(in srgb, var(--mc) 70%, #2a1030); }
+.hbar i { display: block; height: 100%; border-radius: 999px; background: color-mix(in srgb, var(--mc) min(70%, var(--ink-mix, 100%)), #2a1030); }
 td small { font-size: 11.5px; color: #735779; }
 small.soon { color: #fff; background: #c92f69; padding: 1px 7px; border-radius: 999px; font-weight: 800; }
 .sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--mc); margin-right: 6px; vertical-align: -1px; box-shadow: 0 0 0 1.5px #fff, 0 0 0 2.5px color-mix(in srgb, var(--mc) 40%, white); }

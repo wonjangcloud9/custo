@@ -404,7 +404,7 @@ function cleanTitle(t: string) {
 .kr-txt span { font-size: 12.5px; color: #5a4060; }
 .kr-dd { margin-left: auto; flex: none; font-family: 'Zen Maru Gothic', sans-serif; font-size: 24px; font-weight: 700; color: #2b5ea8; }
 @media (prefers-reduced-motion: reduce) { .kr::after { animation: none; display: none; } .kr { transition: none; } }
-.soon { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; border-radius: 999px; font-size: 14px; text-decoration: none !important; color: color-mix(in srgb, var(--mc) 60%, #2a1030) !important; background: color-mix(in srgb, var(--mc) 14%, white); border: 1.5px solid color-mix(in srgb, var(--mc) 35%, white); transition: transform 0.45s var(--spring); }
+.soon { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; border-radius: 999px; font-size: 14px; text-decoration: none !important; color: color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030) !important; background: color-mix(in srgb, var(--mc) 14%, white); border: 1.5px solid color-mix(in srgb, var(--mc) 35%, white); transition: transform 0.45s var(--spring); }
 .soon:hover { transform: translateY(-2px); }
 .otd-sub { font-size: 13px; color: #735779; font-weight: 600; }
 .otd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
@@ -421,7 +421,7 @@ function cleanTitle(t: string) {
 .acc { display: flex; gap: 8px; height: 320px; }
 .acc-item {
   position: relative; flex: 1; min-width: 0; border-radius: 28px; overflow: hidden; text-decoration: none !important; color: #fff !important;
-  background: linear-gradient(170deg, color-mix(in srgb, var(--mc) 70%, white), var(--mc) 45%, color-mix(in srgb, var(--mc) 60%, #2a1030));
+  background: linear-gradient(170deg, color-mix(in srgb, var(--mc) 70%, white), var(--mc) 45%, color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030));
   transition: flex-grow 0.7s var(--spring), transform 0.5s var(--spring);
   display: flex; align-items: flex-end;
 }

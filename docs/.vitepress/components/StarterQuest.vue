@@ -161,7 +161,7 @@ onMounted(() => {
 .mem { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
 .mem a { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border-radius: 16px; background: color-mix(in srgb, var(--mc) 10%, white); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.45s var(--spring); }
 .mem a:hover { transform: translateY(-3px) rotate(-2deg); }
-.face { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
+.face { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .mem b { font-size: 12.5px; }
 .mem small { font-size: 11px; color: #5a4060; }
 .acc { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-top: 12px; }

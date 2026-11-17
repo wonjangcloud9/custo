@@ -107,7 +107,7 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
   @keyframes nIn { from { opacity: 0; transform: translateY(14px); } }
 }
 .top { display: flex; align-items: center; gap: 6px; }
-.tag { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--tc) 12%, white); color: var(--tc); }
+.tag { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--tc) 12%, white); color: color-mix(in srgb, var(--tc) 82%, #2a1030); }
 .new { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; padding: 3px 7px; border-radius: 6px; color: #fff; background: #c42235; }
 .item h3 { margin: 8px 0 0 !important; padding: 0 !important; border: 0 !important; font-size: 16px !important; line-height: 1.45 !important; }
 .ja { margin: 6px 0 0 !important; font-size: 13px; color: #735779; font-family: 'Noto Sans JP', sans-serif; line-height: 1.6 !important; }

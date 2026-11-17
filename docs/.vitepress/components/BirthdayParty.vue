@@ -24,12 +24,12 @@ const balloons = Array.from({ length: 7 }, (_, i) => ({ x: 6 + i * 14, d: (i % 4
 
 <style scoped>
 .ribbon { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 12px 18px; border-radius: 999px; text-decoration: none !important; color: #fff !important; font-weight: 700;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--mc) 62%, #2a1030), color-mix(in srgb, var(--mc) 80%, #2a1030)); box-shadow: 0 14px 30px -16px var(--mc); }
+  background: linear-gradient(90deg, color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030), color-mix(in srgb, var(--mc) 80%, #2a1030)); box-shadow: 0 14px 30px -16px var(--mc); }
 .rb-emoji { font-size: 22px; animation: wob 1.6s ease-in-out infinite; }
 @keyframes wob { 50% { transform: rotate(-12deg) scale(1.15); } }
 .rb-go { margin-left: auto; }
 .party { position: relative; overflow: hidden; margin: 0 0 14px; padding: 26px 20px 22px; border-radius: 28px; text-align: center; color: #fff;
-  background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--mc) 70%, white), color-mix(in srgb, var(--mc) 62%, #2a1030)); }
+  background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--mc) 70%, white), color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030)); }
 .balloons { position: absolute; inset: 0; pointer-events: none; }
 .bl { position: absolute; bottom: -90px; width: 44px; height: 56px; border-radius: 50% 50% 46% 46%; background: radial-gradient(circle at 35% 30%, #fff8, transparent 30%), #fff; opacity: 0.85;
   animation: rise 6s ease-in infinite; }

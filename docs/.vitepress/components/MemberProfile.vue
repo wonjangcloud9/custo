@@ -206,7 +206,7 @@ function onKey(e: KeyboardEvent) {
   --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077 20.4%, 1.121, 1.149 24.3%, 1.159, 1.163 27%, 1.154, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
   --ink: #3a2340;
   --mc-soft: color-mix(in srgb, var(--mc) 16%, white);
-  --mc-deep: color-mix(in srgb, var(--mc) 65%, #2a1030);
+  --mc-deep: color-mix(in srgb, var(--mc) min(65%, var(--ink-mix, 100%)), #2a1030);
   margin: 8px 0 40px;
   color: var(--ink);
 }
@@ -314,7 +314,7 @@ function onKey(e: KeyboardEvent) {
 @keyframes bob { 0%, 70%, 100% { transform: translateY(0); } 35% { transform: translateY(-6px); } }
 .sub { font-size: 12.5px; color: #735779; }
 .t-bday { background: linear-gradient(150deg, var(--mc-soft), #fff); }
-.t-bday.today { background: color-mix(in srgb, var(--mc) 62%, #2a1030); }
+.t-bday.today { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); }
 .t-bday.today .big, .t-bday.today .sub, .t-bday.today .lbl { color: #fff; }
 .swatch { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 6px 0 0; background: none; text-align: left; cursor: copy; }
 .sw { width: 44px; height: 44px; border-radius: 14px; background: var(--mc); box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.08); flex: none; transition: transform 0.5s var(--spring), border-radius 0.5s var(--spring); }
@@ -350,7 +350,7 @@ function onKey(e: KeyboardEvent) {
 .swipe-tip { display: none; margin: 10px 0 0; text-align: center; font-size: 12px; color: #735779; }
 @media (hover: none) and (pointer: coarse) { .swipe-tip { display: block; } }
 .show { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 16px 20px; border-radius: 24px; text-decoration: none !important; color: #fff !important;
-  background: linear-gradient(120deg, color-mix(in srgb, var(--mc) 62%, #2a1030), color-mix(in srgb, var(--mc) 78%, #2a1030)); box-shadow: 0 18px 36px -22px var(--mc); transition: transform 0.5s var(--spring); }
+  background: linear-gradient(120deg, color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030), color-mix(in srgb, var(--mc) min(78%, var(--ink-mix, 100%)), #2a1030)); box-shadow: 0 18px 36px -22px var(--mc); transition: transform 0.5s var(--spring); }
 .show:hover { transform: translateY(-3px); }
 .show-ic { font-size: 30px; animation: wob 1.8s ease-in-out infinite; }
 @keyframes wob { 50% { transform: rotate(-12deg) scale(1.12); } }
@@ -362,7 +362,7 @@ function onKey(e: KeyboardEvent) {
 .app { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 12px 18px; border-radius: 18px; text-decoration: none !important; color: #3a2340 !important;
   background: color-mix(in srgb, var(--mc) 10%, white); border: 1.5px dashed color-mix(in srgb, var(--mc) 45%, white); transition: transform 0.45s var(--spring); }
 .app:hover { transform: translateY(-2px); }
-.app small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; color: color-mix(in srgb, var(--mc) 60%, #2a1030); }
+.app small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; color: color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030); }
 .app b { font-size: 14.5px; }
 .app-meta { font-size: 12.5px; color: #5a4060; }
 .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }

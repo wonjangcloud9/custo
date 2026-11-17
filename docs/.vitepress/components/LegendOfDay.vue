@@ -116,11 +116,11 @@ onMounted(async () => {
 .play { position: absolute; right: 12px; bottom: 12px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.9); color: var(--mc); font-size: 16px; padding-left: 3px; transition: transform 0.5s var(--spring); }
 .pola-img:hover .play { transform: scale(1.15); }
 figcaption { display: flex; flex-direction: column; gap: 2px; padding: 14px 4px 0; }
-figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; color: color-mix(in srgb, var(--mc) 65%, #3a2340); }
+figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; color: color-mix(in srgb, var(--mc) min(65%, var(--ink-mix, 100%)), #2a1030); }
 figcaption small { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #735779; }
 .pola-act { display: flex; gap: 8px; margin-top: 12px; padding: 0 4px; flex-wrap: wrap; }
 .pola-act a, .pola-act button { font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; text-decoration: none !important; transition: transform 0.45s var(--spring); }
-.pola-act a { background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff !important; }
+.pola-act a { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff !important; }
 .pola-act button { background: #f8eef4; color: var(--ink); }
 .pola-act a:hover, .pola-act button:hover { transform: translateY(-2px) rotate(-2deg); }
 .pola-act button:active { transform: scale(0.9) rotate(8deg); }
@@ -139,7 +139,7 @@ figcaption small { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; col
 .pola.mini:hover, .pola.mini:focus-visible { z-index: 10; transform: translate(-50%, -62%) translateX(var(--x)) rotate(calc(var(--rot) * 0.4)) scale(1.12); box-shadow: 0 30px 50px -20px color-mix(in srgb, var(--mc) 80%, #000); }
 .mini-img { display: block; aspect-ratio: 1; overflow: hidden; background: color-mix(in srgb, var(--mc) 20%, white); }
 .mini-img img { width: 100%; height: 100%; object-fit: cover; }
-.mini-name { display: block; margin-top: 6px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; color: color-mix(in srgb, var(--mc) 65%, #3a2340); text-align: center; }
+.mini-name { display: block; margin-top: 6px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 14px; color: color-mix(in srgb, var(--mc) min(65%, var(--ink-mix, 100%)), #2a1030); text-align: center; }
 
 @media (max-width: 860px) {
   .lod-body { grid-template-columns: 1fr; gap: 12px; }

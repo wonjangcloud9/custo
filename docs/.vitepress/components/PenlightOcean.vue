@@ -129,7 +129,7 @@ onBeforeUnmount(() => clearInterval(timer))
 .txt { display: flex; flex-direction: column; min-width: 0; }
 .txt b { font-size: 14px; }
 .txt small { font-size: 12px; color: #735779; }
-.go { margin-left: auto; font-size: 12px; font-weight: 700; color: #c2457a !important; white-space: nowrap; }
+.go { margin-left: auto; font-size: 12px; font-weight: 700; color: #a33366 !important; white-space: nowrap; }
 .ready { margin: 14px 0 0 !important; font-weight: 800; color: #3ccfa8; text-align: center; }
 @media (max-width: 640px) { .pick { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; } .pick::-webkit-scrollbar { display: none; } .chip { flex: none; } .wave-toggle { flex: none; margin-left: 4px; } .stage { height: 280px; } .stick { width: 7px; height: 70px; } .tube { height: 50px; } .grip { height: 20px; } .caption b { font-size: 18px; } .go { display: none; } }
 @media (prefers-reduced-motion: reduce) { .lights, .waving .stick { animation: none; } }

@@ -346,7 +346,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 .mchip:hover .mchip-ring { transform: rotate(-12deg) scale(1.08); }
 .mchip:active .mchip-ring { transform: scale(0.88); }
 .mchip[aria-pressed='true'] .mchip-ring { box-shadow: 0 6px 18px color-mix(in srgb, var(--mc) 55%, transparent); transform: scale(1.1); }
-.mchip[aria-pressed='true'] .mchip-face { background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; }
+.mchip[aria-pressed='true'] .mchip-face { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; }
 .va-sort { margin-left: auto; flex: none; padding-left: 12px; }
 .va-sort select { appearance: none; padding: 7px 30px 7px 12px; border-radius: 999px; border: 1.5px solid #f1d4e1; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23735779'/%3E%3C/svg%3E") no-repeat right 12px center; font-size: 13px; font-weight: 700; color: #3a2340; cursor: pointer; }
 .va-toggle { margin-left: 4px; flex: none; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #7a5a80; cursor: pointer; padding-left: 12px; }
@@ -417,7 +417,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 }
 .meta { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; font-size: 12px; color: #735779; }
 .dots { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; padding-top: 4px; }
-.dot { font-size: 11px; font-weight: 700; padding: 2px 8px 2px 18px; border-radius: 999px; position: relative; background: color-mix(in srgb, var(--mc) 14%, white); color: color-mix(in srgb, var(--mc) 60%, #3a2340); }
+.dot { font-size: 11px; font-weight: 700; padding: 2px 8px 2px 18px; border-radius: 999px; position: relative; background: color-mix(in srgb, var(--mc) 14%, white); color: color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030); }
 .dot::before { content: ''; position: absolute; left: 7px; top: 50%; width: 7px; height: 7px; border-radius: 50%; background: var(--mc); translate: 0 -50%; }
 
 .va-empty { text-align: center; padding: 80px 0; color: #735779; }

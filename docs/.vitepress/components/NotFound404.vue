@@ -33,7 +33,7 @@ const openSearch = () => window.dispatchEvent(new KeyboardEvent('keydown', { key
 @keyframes hop { 0%, 60%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-0.12em) rotate(-6deg); } }
 .msg { margin: 12px 0 0; font-size: 18px; font-weight: 700; }
 .guide { display: inline-flex; align-items: center; gap: 8px; margin: 14px 0 0; padding: 8px 16px; border-radius: 999px; background: color-mix(in srgb, var(--mc) 14%, white); font-size: 14px; }
-.face { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
+.face { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 26px; max-width: 620px; }
 .links a, .links button { padding: 10px 16px; border-radius: 999px; background: #fff; border: 1.5px solid #f1d4e1; color: #3a2340 !important; font-weight: 700; font-size: 14px; text-decoration: none !important;
   transition: transform 0.45s cubic-bezier(.34, 1.56, .64, 1); }

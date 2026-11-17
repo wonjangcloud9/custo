@@ -136,7 +136,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .tag.unit { background: color-mix(in srgb, var(--tc) 14%, white); color: color-mix(in srgb, var(--tc) 55%, #2a1030); }
 .tag.soft { color: #735779; }
 .unit-av { display: flex; margin-top: 10px; }
-.unit-av a { width: 34px; height: 34px; margin-right: -8px; border-radius: 50%; display: grid; place-items: center; border: 2.5px solid #fff; background: color-mix(in srgb, var(--mc) 62%, #2a1030);
+.unit-av a { width: 34px; height: 34px; margin-right: -8px; border-radius: 50%; display: grid; place-items: center; border: 2.5px solid #fff; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030);
   color: #fff !important; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; text-decoration: none !important; font-size: 14px; transition: transform 0.4s var(--spring); }
 .unit-av a:hover { transform: translateY(-4px); }
 .thumbs { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 6px; margin-top: 12px; }
