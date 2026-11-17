@@ -7,6 +7,22 @@ const now = ref<number | null>(null)
 let timer: number | undefined
 const cat = ref<'all' | EventCat>('all')
 const showPast = ref(false)
+// past events link to that day's official footage: own-channel videos of that performance date and
+// other channels' uploads from that day or the next (loaded only when past events are shown)
+interface DayVid { id: string; t: string; other: boolean }
+const dayVids = ref<Record<string, DayVid[]>>({})
+watch(showPast, async (on) => {
+  if (!on || Object.keys(dayVids.value).length) return
+  const [v, a] = await Promise.all([import('../data/videos.json'), import('../data/appearances.json')])
+  const map: Record<string, DayVid[]> = {}
+  const push = (d: string, x: DayVid) => { if (d) (map[d] ||= []).push(x) }
+  for (const x of v.default as { id: string; title: string; date: string; category: string }[]) if (x.category !== 'digest') push(x.date, { id: x.id, t: x.title, other: false })
+  for (const x of a.default as { id: string; title: string; date: string }[]) push(x.date, { id: x.id, t: x.title, other: true })
+  dayVids.value = map
+})
+const nextDay = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') + 86400000).toISOString().slice(0, 10)
+const vidsFor = (e: CsEvent) => [...(dayVids.value[e.date] || []), ...(dayVids.value[nextDay(e.date)] || []).filter((x) => x.other)]
+const shortT = (t: string) => t.replace(/【[^】]*】|\[[^\]]*\]/g, '').replace(/📍.*$/, '').replace(/CUTIE STREET/g, '').trim().slice(0, 22) || '영상'
 const view = ref<'list' | 'cal'>('list')
 // Month grid (Sun-start), months that contain events
 const calMonth = ref('')
@@ -204,6 +220,10 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
               </p>
               <div class="ev-act">
                 <a :href="e.url" target="_blank" rel="noopener">공식 상세 ↗</a>
+                <template v-if="isPast(e)">
+                  <a v-for="v in vidsFor(e).slice(0, 2)" :key="v.id" class="vid" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" :title="v.t">{{ v.other ? '📺' : '▶' }} {{ shortT(v.t) }}</a>
+                  <small v-if="vidsFor(e).length > 2" class="vid-more">+{{ vidsFor(e).length - 2 }}</small>
+                </template>
                 <template v-if="!isPast(e)">
                   <button type="button" @click="downloadIcs(e)">📅 .ics</button>
                   <a :href="googleCalUrl(e)" target="_blank" rel="noopener">Google 캘린더</a>
@@ -335,6 +355,8 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
 .ev-act a, .ev-act button { font-size: 12px; font-weight: 700; padding: 6px 11px; border-radius: 999px; background: #faf3f7; color: var(--ink) !important; text-decoration: none !important; transition: transform 0.4s var(--spring), background 0.2s; }
 .ev-act a:hover, .ev-act button:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--cc) 18%, white); }
 .empty { text-align: center; padding: 40px 0; color: #735779; }
+.ev-act a.vid { background: #2f1a35; color: #fff !important; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vid-more { align-self: center; font-size: 12px; font-weight: 700; color: #735779; }
 .src { margin-top: 28px !important; font-size: 12px; color: #735779; }
 
 @media (max-width: 640px) {
