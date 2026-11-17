@@ -1,4 +1,24 @@
 import { defineConfig } from 'vitepress'
+import { members } from './data/members'
+
+// Structured data (schema.org JSON-LD) — only facts already verified in data/members.ts and the official links.
+const SITE = 'https://wonjangcloud9.github.io/custo/'
+const OFFICIAL = 'https://cutiestreet.asobisystem.com/'
+const SAME_AS = ['https://x.com/CUTIE_STREET_', 'https://www.instagram.com/cutie_street_/', 'https://www.youtube.com/@CUTIE_STREET']
+const group = {
+  '@type': 'MusicGroup', name: 'CUTIE STREET', alternateName: ['きゅーすと', '큐티스트리트'], url: OFFICIAL, sameAs: SAME_AS, genre: 'J-pop',
+  member: members.map((m) => ({ '@type': 'Person', name: m.ja, alternateName: [m.ko, m.en] })),
+}
+function jsonLd(path: string, title: string): object | null {
+  if (path === '') return { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Custo · CUTIE STREET Fan Hub', alternateName: 'Custo', url: SITE, inLanguage: 'ko', about: { '@type': 'MusicGroup', name: 'CUTIE STREET', url: OFFICIAL } }
+  if (path === 'about') return { '@context': 'https://schema.org', ...group }
+  const m = members.find((x) => path === `members/${x.id}`)
+  if (m) return {
+    '@context': 'https://schema.org', '@type': 'ProfilePage', name: title, url: SITE + path,
+    mainEntity: { '@type': 'Person', name: m.ja, alternateName: [m.ko, m.en, m.nickname], birthDate: m.birthday, birthPlace: { '@type': 'Place', name: m.birthplace }, height: { '@type': 'QuantitativeValue', value: m.height, unitCode: 'CMT' }, memberOf: { '@type': 'MusicGroup', name: 'CUTIE STREET', url: OFFICIAL } },
+  }
+  return null
+}
 
 export default defineConfig({
   title: 'Custo',
@@ -39,7 +59,9 @@ export default defineConfig({
     const sec = path.match(/^(appearances|cutie-land|kohaku|world|korea|schedule|videos|discography|stages)\/$/)?.[1]
     const img = `https://wonjangcloud9.github.io/custo/${mem ? `og/${mem}.png` : sec ? `og/sec-${sec}.png` : 'og.png'}`
     const alt = mem ? `${pageData.title} — CUTIE STREET 멤버 카드` : sec ? `${pageData.title} — CUTIE STREET 팬허브` : 'CUTIE STREET 팬허브 — 귀여움으로 세계까지'
+    const ld = jsonLd(path, title)
     return [
+      ...(ld ? [['script', { type: 'application/ld+json' }, JSON.stringify(ld)] as [string, Record<string, string>, string]] : []),
       ['meta', { property: 'og:image', content: img }],
       ['meta', { property: 'og:image:alt', content: alt }],
       ['meta', { name: 'twitter:image', content: img }],
