@@ -31,6 +31,7 @@ const lazy = {
   KoreaHub: () => import('../components/KoreaHub.vue'),
   TourStamps: () => import('../components/TourStamps.vue'),
   AboutHub: () => import('../components/AboutHub.vue'),
+  StagesHub: () => import('../components/StagesHub.vue'),
 }
 
 export default {

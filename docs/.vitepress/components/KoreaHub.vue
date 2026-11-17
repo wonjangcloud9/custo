@@ -21,8 +21,10 @@ const TIMELINE = [
   { d: '2025.11.15', t: '『WONDERLIVET 2025』 출연', p: 'KINTEX HALL 7·8·10', v: 'ooHpGc-pTSs' },
   { d: '2026.03.26', t: 'Mnet 「M COUNTDOWN」 출연', p: '한국어 버전 「귀엽기만 하면 안 되나요?」', v: 'aanKhmeCl-s' },
   { d: '2026.03.28–29', t: 'CUTIE STREET in KOREA', p: 'YES24 WANDERLOCH HALL', v: 'zlj9Ec3h6qI' },
+  { d: '2026.06.05', t: 'KBS 「뮤직뱅크」 출연', p: '「프리큐큐」 한국어 버전', v: 'H7eA_BhHssM' },
   { d: '2026.07.25–26', t: '한국 단독 공연', p: '세종대학교 대양홀', v: 'Jyd_CyxbDeA' },
   { d: '2026.10.21', t: '「동글동글 동글이」 — 포켓몬 첫 한일 W 엔딩', p: 'JEI 재능TV 11/3~', v: 'J7osyzGsxZs' },
+  { d: '2026.10.22–24', t: '엠카운트다운 · 쇼! 음악중심 출연', p: '「동글동글 동글이」 음악방송 무대', v: 'K8Ve15WbM_0' },
   { d: '2027.01.23', t: 'CUTIE STREET Live in Korea 2027 WINTER', p: 'KINTEX Hall 9A · 시간·티켓 추후 공지', v: '' },
 ]
 const krVideos = koreaVideos as { id: string; title: string }[] // pre-filtered by loop/build_videos.py
