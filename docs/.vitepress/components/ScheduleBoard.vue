@@ -75,11 +75,12 @@ function dLabel(e: CsEvent) {
   return `D-${days}`
 }
 
-function downloadIcs(e: CsEvent) {
+const upcomingFiltered = computed(() => sorted.filter((e) => (cat.value === 'all' || e.cat === cat.value) && !isPast(e)))
+function downloadIcs(e: CsEvent | CsEvent[]) {
   const blob = new Blob([toIcs(e)], { type: 'text/calendar;charset=utf-8' })
   const a = document.createElement('a')
   a.href = URL.createObjectURL(blob)
-  a.download = `cutiestreet-${e.date}.ics`
+  a.download = Array.isArray(e) ? `cutiestreet-schedule-${cat.value}.ics` : `cutiestreet-${e.date}.ics`
   a.click()
   setTimeout(() => URL.revokeObjectURL(a.href), 1000)
 }
@@ -171,6 +172,11 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
         </a>
       </div>
       <p v-else class="cal-hint">점이 있는 날짜를 눌러 일정을 확인하세요</p>
+    </div>
+
+    <div v-if="view === 'list' && upcomingFiltered.length > 1" class="ics-all-row">
+      <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)">📅 다가오는 일정 {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
+      <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요{{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
     </div>
 
     <!-- TIMELINE -->
@@ -281,6 +287,11 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
 .past { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #735779; white-space: nowrap; cursor: pointer; }
 .past input { accent-color: #ff6b9d; }
 
+.ics-all-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px 0 0; }
+.ics-all { padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #fff; background: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
+.ics-all:hover { transform: translateY(-2px); }
+.ics-all-row small { font-size: 12px; color: #735779; }
+@media (prefers-reduced-motion: reduce) { .ics-all { transition: none; } }
 .mjump { flex-basis: 100%; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 0; }
 .mjump::-webkit-scrollbar { display: none; }
 .mjump button { flex: none; display: inline-flex; align-items: baseline; gap: 4px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #5a4060; background: #fff; border: 1.5px solid #f1d4e1; transition: background 0.2s, color 0.2s, transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }

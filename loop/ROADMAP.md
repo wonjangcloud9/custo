@@ -94,6 +94,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 105 | 2027년 3~4월 공식 일정 5건: 🌺 3/8 ASOBIEXPO HAWAII 2027 (첫 하와이, 세부 추후·FC 투어 예정), KL 5주년 투어 GLION ARENA KOBE 3/20 17:00(나기사 학업으로 불참·7명)·3/21 16:00, マリンメッセ福岡A館 4/3 17:00·4/4 16:00. 5월 목록 없음 | 9 | 1 | 1 | 0.5 | 18 | ✅ Done #56 |
 | 106 | WATCH: ASOBIEXPO HAWAII 출연일·시간·FC 투어 공지 | 6 | 1 | 0.8 | 0.3 | 16 | 👀 Watch |
 | 107 | 스케줄 목록 월 바로가기 칩 (고정 필터 바 안, 연도 표시, 월별 건수, scroll-spy 활성 표시, 카테고리 필터 연동, 실측 바 높이만큼 오프셋 — 모바일 제목 가림 수정) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #57 |
+| 108 | 다가오는 일정 전체 .ics 한 번에 받기 (카테고리 필터 연동, X-WR-CALNAME) + ICS 시간을 UTC(Z)로 명시(VTIMEZONE 없는 TZID 의존 제거) + 공식 종료 시각 `end` 지원(紅白 23:45, ICS·구글 캘린더 모두) | 9 | 1 | 1 | 0.5 | 18 | ✅ Done #58 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -236,3 +237,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #55 2026-11-17 17:55 — refresh (0 new) + news (none new); Feb 2027 official month page → 4 KL 5th anniversary tour dates added (times from detail pages); new `with` field → '✨ 개인 출연' card on member pages (kana/nagisa TGC 1/9; risa none) — verified 1440/390 — next: #95 Korea tickets watch, Mar 2027 page, research round
 - #56 2026-11-17 18:15 — refresh (0 new) + news (none new); Mar/Apr 2027 official month pages → 5 events (first Hawaii appearance, Kobe ×2 incl. Nagisa's absence on 3/20, Fukuoka ×2); calendar now spans to Apr 2027; verified 1440/390 — next: #95 Korea tickets / #106 Hawaii details watch, research round
 - #57 2026-11-17 18:35 — refresh (0 new) + news (none new); schedule list month-jump chips (6 months, counts, year marks, scroll-spy, follows category filter); first pass hid month heading under the taller mobile sticky bar → measured offset; verified gap 12px on 1440/390 for 3 months — next: #95/#106 watches, research round
+- #58 2026-11-17 18:55 — refresh (0 new) + news (none new); schedule 'all upcoming → one .ics' (34 events; TV filter → 5); ICS now UTC times (verified 11/19 19:00 JST → 10:00Z, 紅白 10:20Z–14:45Z), new `end` field used by ICS + Google link; single .ics unchanged; verified 1440/390 — next: #95/#106 watches, research round

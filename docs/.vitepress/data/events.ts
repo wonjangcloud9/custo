@@ -11,6 +11,7 @@ export type EventCat = 'live' | 'tv' | 'event' | 'release' | 'other'
 export interface CsEvent {
   date: string // YYYY-MM-DD (JST)
   time?: string // HH:MM JST start
+  end?: string // HH:MM JST end when officially published (calendar export)
   cat: EventCat
   ja: string
   ko: string
@@ -70,7 +71,7 @@ export const events: CsEvent[] = [
   { date: '2026-12-13', time: '16:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY2', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
   { date: '2026-12-19', cat: 'other', ja: '〜KAWAII LAB. 衣装展〜 KAWAII CLOSET 2026（〜1/31）', ko: '의상 전시 · 시부야/사카에/난바 hmv museum', venue: 'hmv museum 渋谷・栄・なんば', url: `${O}/news/detail/96078` },
   { date: '2026-12-27', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 출연', venue: '幕張メッセ', url: `${O}/live_information/detail/46324` },
-  { date: '2026-12-31', time: '19:20', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true },
+  { date: '2026-12-31', time: '19:20', end: '23:45', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true },
   // January 2027 — official schedule month page (year=2027&month=1), each detail page checked 2026-11-17
   { date: '2027-01-09', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },
   { date: '2027-01-10', time: '14:00', cat: 'event', ja: 'KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC', ko: '카와이랩 컬렉션 시즈오카 (합동)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47607` },
@@ -111,29 +112,37 @@ function hash(s: string): string {
 }
 
 /** Minimal RFC5545 .ics for one event. */
-export function toIcs(e: CsEvent): string {
+const icsUtc = (ms: number) => new Date(ms).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+function vevent(e: CsEvent, stamp: string): string[] {
   const d = e.date.replace(/-/g, '')
   const esc = (s: string) => s.replace(/[\\;,]/g, (c) => '\\' + c)
-  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'BEGIN:VEVENT',
-    `UID:${d}-${hash(e.ja + (e.time ?? ''))}@custo`, `DTSTAMP:${d}T000000Z`]
+  const lines = ['BEGIN:VEVENT', `UID:${d}-${hash(e.ja + (e.time ?? ''))}@custo`, `DTSTAMP:${stamp}`]
   if (e.time) {
-    const t = e.time.replace(':', '') + '00'
-    lines.push(`DTSTART;TZID=Asia/Tokyo:${d}T${t}`, `DURATION:PT3H`)
+    // explicit UTC so every calendar app places it correctly (no VTIMEZONE needed)
+    const endMs = e.end ? new Date(`${e.date}T${e.end}:00+09:00`).getTime() : startMs(e) + 3 * 3600e3
+    lines.push(`DTSTART:${icsUtc(startMs(e))}`, `DTEND:${icsUtc(endMs)}`)
   } else {
     const next = new Date(`${e.date}T00:00:00Z`); next.setUTCDate(next.getUTCDate() + 1)
     lines.push(`DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${next.toISOString().slice(0, 10).replace(/-/g, '')}`)
   }
   lines.push(`SUMMARY:${esc('CUTIE STREET · ' + e.ja)}`, `DESCRIPTION:${esc(e.ko + ' — ' + e.url)}`)
   if (e.venue) lines.push(`LOCATION:${esc(e.venue)}`)
-  lines.push(`URL:${e.url}`, 'END:VEVENT', 'END:VCALENDAR')
-  return lines.join('\r\n')
+  lines.push(`URL:${e.url}`, 'END:VEVENT')
+  return lines
+}
+/** One calendar file for one or many events. */
+export function toIcs(e: CsEvent | CsEvent[]): string {
+  const list = Array.isArray(e) ? e : [e]
+  const stamp = icsUtc(Date.now())
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:CUTIE STREET (Custo)',
+    ...list.flatMap((x) => vevent(x, stamp)), 'END:VCALENDAR'].join('\r\n')
 }
 
 export function googleCalUrl(e: CsEvent): string {
   const d = e.date.replace(/-/g, '')
   let dates: string
   if (e.time) {
-    const s = new Date(startMs(e)), en = new Date(startMs(e) + 3 * 3600e3)
+    const s = new Date(startMs(e)), en = new Date(e.end ? new Date(`${e.date}T${e.end}:00+09:00`).getTime() : startMs(e) + 3 * 3600e3)
     const f = (x: Date) => x.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
     dates = `${f(s)}/${f(en)}`
   } else {
