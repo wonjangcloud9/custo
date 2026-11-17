@@ -4,6 +4,7 @@ import { members, memberById } from './members'
 import { releases } from './discography'
 import { events, catMeta } from './events'
 import videosRaw from './videos.json'
+import appearancesRaw from './appearances.json'
 
 interface Video { id: string; title: string; duration: string; category: string; date: string; members?: string[] }
 export type Kind = 'page' | 'member' | 'release' | 'event' | 'video'
@@ -14,7 +15,7 @@ export const norm = (s: string) => s.toLowerCase().normalize('NFKC').replace(/[\
 const PAGES: [string, string, string][] = [
   ['홈', '/', '🏠'], ['정상까지의 여정 (3D)', '/journey/', '🗻'], ['큐스트 월드맵 (활동한 나라·도시)', '/world/', '🌏'], ['멤버 전체', '/members/', '💖'], ['유닛 & 케미', '/units/', '💞'],
   ['영상 아카이브', '/videos/', '🎬'], ['디스코그래피', '/discography/', '💿'], ['스케줄', '/schedule/', '🗓️'], ['나의 ♡ 앨범', '/likes/', '♡'], ['라이브 가이드 · 펜라이트', '/live-guide/', '🔦'], ['나와 닮은 멤버 테스트', '/which-member/', '🔮'], ['공식 소식', '/news/', '📰'], ['CUTIE LAND 앨범 특집', '/cutie-land/', '💿'], ['입문 가이드 (처음이에요)', '/start/', '🎓'], ['紅白 특집', '/kohaku/', '🎍'], ['큐스트 in KOREA (한국 공연·한국어 버전)', '/korea/', '🇰🇷'], ['영상 통계', '/videos/stats/', '📊'],
-  ['레전드 무대', '/stages/', '🎤'],
+  ['레전드 무대', '/stages/', '🎤'], ['출연 아카이브 (다른 채널 출연 영상)', '/appearances/', '📺'],
 ]
 
 
@@ -28,5 +29,8 @@ export function buildIndex(withBase: (p: string) => string): Hit[] {
   ...(videosRaw as Video[]).map((v) => ({ kind: 'video' as const, title: v.title.replace(/【CUTIE STREET[^】]*】/g, '').trim(), sub: `${v.duration || 'MV'}${v.date ? ' · ' + v.date.replace(/-/g, '.') : ''}`,
     href: `https://www.youtube.com/watch?v=${v.id}`, ext: true, icon: '▶',
     hay: norm(v.title + ' ' + (v.members ?? []).map((id) => `${memberById[id].ko} ${memberById[id].nicknameKo}`).join(' ')) })),
+  ...(appearancesRaw as { id: string; title: string; ch: string; date: string; members: string[] }[]).map((v) => ({ kind: 'video' as const, title: v.title, sub: `📺 ${v.ch} · ${v.date.replace(/-/g, '.')}`,
+    href: `https://www.youtube.com/watch?v=${v.id}`, ext: true, icon: '📺',
+    hay: norm(v.title + ' ' + v.ch + ' ' + v.members.map((id) => `${memberById[id].ko} ${memberById[id].nicknameKo}`).join(' ')) })),
   ]
 }

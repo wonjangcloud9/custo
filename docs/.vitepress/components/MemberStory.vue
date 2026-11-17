@@ -2,11 +2,15 @@
 import { computed } from 'vue'
 import { memberById } from '../data/members'
 import { stories } from '../data/memberStories'
+import { withBase } from 'vitepress'
+import apRaw from '../data/appearances.json'
 
 // Member page body: charm points, career path and fan quiz in the member's colour.
 const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
 const st = computed(() => stories[props.id])
+// latest off-channel appearances featuring this member (by name in the title)
+const aps = computed(() => (apRaw as { id: string; title: string; ch: string; date: string; members: string[] }[]).filter((a) => a.members.includes(props.id)))
 // tiny **bold** renderer (content is ours)
 const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) => (x.startsWith('**') ? { b: true, t: x.slice(2, -2) } : { b: false, t: x }))
 </script>
@@ -37,9 +41,21 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
       <p class="src">📚 출처: <a href="https://www.ticket.co.jp/entx/?p=5758" target="_blank" rel="noopener">ticket.co.jp 멤버 프로필</a> · <a href="https://ja.wikipedia.org/wiki/CUTIE_STREET" target="_blank" rel="noopener">Wikipedia(일본어)</a> · <a href="https://ciatr.jp/topics/336201" target="_blank" rel="noopener">ciatr</a></p>
     </section>
 
+    <!-- APPEARANCES -->
+    <section v-if="aps.length" class="aps" aria-labelledby="ap-h">
+      <header class="sh"><span class="no">03</span><h2 id="ap-h">다른 채널 출연</h2><span class="em" aria-hidden="true">📺</span></header>
+      <div class="ap-row">
+        <a v-for="a in aps.slice(0, 4)" :key="a.id" class="ap" :href="`https://www.youtube.com/watch?v=${a.id}`" target="_blank" rel="noopener">
+          <img :src="`https://i.ytimg.com/vi/${a.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" />
+          <b>{{ a.title }}</b><small>{{ a.ch }} · {{ a.date.replace(/-/g, '.') }}</small>
+        </a>
+      </div>
+      <a class="ap-more" :href="withBase(`/appearances/?m=${m.id}`)">{{ m.ko.split(' ')[1] }} 출연 영상 {{ aps.length }}개 모두 보기 →</a>
+    </section>
+
     <!-- QUIZ -->
     <section class="quiz" aria-labelledby="qz-h">
-      <header class="sh"><span class="no">03</span><h2 id="qz-h">{{ m.ko.split(' ')[1] }} 팬 퀴즈</h2><span class="em" aria-hidden="true">💖</span></header>
+      <header class="sh"><span class="no">{{ aps.length ? '04' : '03' }}</span><h2 id="qz-h">{{ m.ko.split(' ')[1] }} 팬 퀴즈</h2><span class="em" aria-hidden="true">💖</span></header>
       <Quiz :quiz-id="`member-${m.id}`" :questions="st.quiz" />
     </section>
   </div>
@@ -72,6 +88,13 @@ mark { background: linear-gradient(transparent 58%, color-mix(in srgb, var(--mc)
 .now .what { padding: 8px 12px; border-radius: 14px; background: var(--deep); color: #fff; align-self: flex-start; }
 .src { margin: 16px 0 0 !important; font-size: 12.5px; color: #735779; }
 .src a { color: var(--deep) !important; }
+.ap-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ap { display: flex; flex-direction: column; gap: 6px; border-radius: 18px; overflow: hidden; padding-bottom: 12px; background: #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mc) 24%, white); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.45s var(--spring); }
+.ap:hover { transform: translateY(-3px) rotate(-0.5deg); }
+.ap img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.ap b { padding: 0 12px; font-size: 13.5px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.ap small { padding: 0 12px; font-size: 12px; color: #6a4f70; }
+.ap-more { display: inline-block; margin-top: 12px; padding: 9px 16px; border-radius: 999px; font-size: 13.5px; font-weight: 800; background: var(--deep); color: #fff !important; text-decoration: none !important; }
 .quiz :deep(.quiz-container) { margin: 0 !important; max-width: 680px; }
 @media (max-width: 760px) {
   .path { grid-auto-flow: row; gap: 14px; padding-left: 28px !important; }
@@ -80,6 +103,7 @@ mark { background: linear-gradient(transparent 58%, color-mix(in srgb, var(--mc)
   .path li::before { left: -28px; top: 2px; }
   .lead { padding: 22px 18px 20px 46px !important; font-size: 16px; }
   .q { left: 10px; font-size: 56px; }
+  .ap-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (prefers-reduced-motion: reduce) { .paras p, .path li { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .paras p, .path li { animation: none; } .ap { transition: none; } }
 </style>

@@ -38,6 +38,7 @@ const lazy = {
   MemberStory: () => import('../components/MemberStory.vue'),
   NextCards: () => import('../components/NextCards.vue'),
   PageHero: () => import('../components/PageHero.vue'),
+  AppearanceArchive: () => import('../components/AppearanceArchive.vue'),
 }
 
 export default {
