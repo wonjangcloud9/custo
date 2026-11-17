@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { MV } from '../data/discography'
 import { members, memberById } from '../data/members'
 
@@ -48,9 +48,11 @@ async function start(m: Mode = mode.value) {
   } else {
     loading.value = true
     const all = (await import('../data/feeds.json')).default as Record<string, { id: string; hq?: boolean; kind: string; title: string }[]>
-    // solo MV-teaser stills only — variety/vlog thumbnails show several members and caption names,
-    // and the かわいいだけじゃだめですか？ teasers print the member's name across the frame
-    const feeds = Object.fromEntries(Object.entries(all).map(([k, v]) => [k, v.filter((c) => c.kind === 'teaser' && !c.title.includes('かわいいだけじゃだめですか'))]))
+    // solo MV-teaser stills only (checked by eye 2026-11-18): variety/vlog thumbnails show several
+    // members with name captions; the かわいいだけじゃだめですか？ teasers print the name; the
+    // キューにストップできません！ and ぷりきゅきゅ teasers are pair shots; audition teasers aren't MV stills
+    const SKIP = /かわいいだけじゃ(だめ|ダメ)|キューにストップ|ぷりきゅきゅ/
+    const feeds = Object.fromEntries(Object.entries(all).map(([k, v]) => [k, v.filter((c) => c.kind === 'teaser' && c.title.includes('MV Teaser') && !SKIP.test(c.title))]))
     loading.value = false
     // spread the 10 rounds over the members (no member more than twice), one random cut each
     const ids = shuffle([...members.map((x) => x.id), ...members.map((x) => x.id)]).slice(0, ROUNDS)
@@ -93,7 +95,17 @@ function next() {
   stage.value = 'done'
   try { if (best.value === null || score.value > best.value) { localStorage.setItem(KEY[mode.value], String(score.value)); best.value = score.value } } catch { /* ignore */ }
 }
-onBeforeUnmount(() => clearInterval(timer))
+// keyboard: 1–4 (song) / 1–8 (member) answer, Enter/→ next; ignored while typing or with modifiers
+function onKey(e: KeyboardEvent) {
+  if (stage.value !== 'play' || !cur.value || e.metaKey || e.ctrlKey || e.altKey) return
+  const t = e.target as HTMLElement | null
+  if (t && (t.isContentEditable || /INPUT|TEXTAREA|SELECT/.test(t.tagName))) return
+  const n = Number(e.key)
+  if (!picked.value && n >= 1 && n <= cur.value.options.length) { e.preventDefault(); answer(cur.value.options[n - 1].key); return }
+  if (picked.value && (e.key === 'Enter' || e.key === 'ArrowRight') && document.activeElement !== nextBtn.value) { e.preventDefault(); next() }
+}
+onMounted(() => window.addEventListener('keydown', onKey))
+onBeforeUnmount(() => { clearInterval(timer); window.removeEventListener('keydown', onKey) })
 
 const rank = computed(() => {
   const s = score.value, mv = mode.value === 'song'
@@ -135,6 +147,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <ul class="rules">
         <li>🔍 확대되고 흐릿한 장면이 점점 선명해져요</li>
         <li>⚡ 빨리 맞힐수록 높은 점수 (최대 100점 × {{ ROUNDS }}문제)</li>
+        <li class="kb-tip">⌨️ 키보드: 숫자 키로 답하고 Enter로 다음 문제</li>
       </ul>
       <div class="modes">
         <button type="button" class="mode" @click="start('song')"><span aria-hidden="true">🎬</span><b>무슨 곡?</b><small>공식 MV {{ SONGS.length }}곡의 한 장면</small></button>
@@ -157,7 +170,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <div class="opts" :class="{ mems: mode === 'member' }" role="group" :aria-label="mode === 'song' ? '곡 선택' : '멤버 선택'">
         <button v-for="o in cur.options" :key="o.key" type="button" class="opt" :lang="mode === 'song' ? 'ja' : undefined" :disabled="!!picked" :style="o.color ? { '--mc': o.color } : undefined"
           :class="{ correct: picked && o.key === cur.key, wrong: picked === o.key && o.key !== cur.key, dim: picked && o.key !== cur.key && picked !== o.key }" @click="answer(o.key)">
-          <span v-if="o.kanji" class="kj" aria-hidden="true">{{ o.kanji }}</span>{{ o.label }}
+          <kbd class="hk" aria-hidden="true">{{ cur.options.indexOf(o) + 1 }}</kbd><span v-if="o.kanji" class="kj" aria-hidden="true">{{ o.kanji }}</span>{{ o.label }}
         </button>
       </div>
       <div class="fb" aria-live="polite">
@@ -216,6 +229,10 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
 .opts.mems { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
 .opts.mems .opt { min-height: 0; }
 .opts.mems .opt { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; padding: 10px 6px; font-size: 13.5px; }
+.opt { position: relative; }
+.hk { position: absolute; right: 8px; top: 6px; font-family: inherit; font-size: 10.5px; font-weight: 800; color: #9a7f9f; padding: 0 5px; border-radius: 5px; box-shadow: inset 0 0 0 1px #ecdbe4; background: #fff; }
+.opts:not(.mems) .opt { padding-right: 30px; }
+@media (pointer: coarse) { .hk, .kb-tip { display: none; } }
 .kj { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--mc); color: #fff; font-family: 'Zen Maru Gothic', sans-serif; font-size: 17px; font-weight: 900; }
 .opts.mems .opt:hover:not(:disabled) { box-shadow: inset 0 0 0 2px var(--mc); }
 .hud { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; font-weight: 800; }
