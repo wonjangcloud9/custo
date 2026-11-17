@@ -89,6 +89,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 100 | KAWAII LAB. 채널 CS 【MV】 전수 대조 (채널 검색 스크레이프 17편): 아카이브 누락 0 — TEAM KAWAII LAB. 합동 MV(Over Drive, CHU CHU CHU研究中！)는 CS 단독이 아니라 제외 | 7 | 1 | 1 | 0.3 | 23 | ✅ Checked #52 |
 | 101 | 🇰🇷 /korea/ '큐스트 in KOREA' 허브: Live in Korea 카운트다운, 한국어 버전 4곡(MV 3 YtLite), 한국 활동 타임라인 6개(공식 영상 제목 근거, 스크롤 연동 등장), 한국 관련 영상 26편(더 보기), 내비·검색 등록 | 10 | 2 | 1 | 1 | 20 | ✅ Done #52 |
 | 102 | 홈 → /korea/ 연결: 한국 배너·카운트다운 카드(INTERNAL)·EXPLORE 칸('현장 일본어' 자리, 12칸 유지) + 새 소식 11/17 라쿠텐북스 예약 추첨회(~11/25 23:59) | 9 | 1 | 1 | 0.3 | 30 | ✅ Done #53 |
+| 103 | 정기 회귀 점검 #54: 정적 링크 54p 0 · sitemap 53 URL(/korea/ 포함)·OG/canonical OK · 런타임 106로드 에러0/오버플로0 · reduced-motion 12p 무한 애니 0 (/korea/ 일반 모드 4개로 검출 유효) · 히트테스트(홈·korea·news ×2) 0 | 9 | 1 | 1 | 0.5 | 18 | ✅ Done #54 (all green) |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -224,3 +225,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #51 2026-11-17 16:35 — refresh (0 new) + news (none new); verified 3rd-single chart claims (Oricon ×2, Billboard sales) and tightened wording; found missing Korean-version MV 「동글동글 동글이」 (KR Pokémon ED) → archive + about; refresh now prepends new MVs so '최신순' is right; verified 1440/390 — next: #95 Korea tickets watch, research round
 - #52 2026-11-17 16:55 — refresh (0 new) + news (none new); KL channel MV audit (17/17 present); new 🇰🇷 /korea/ hub (Korea show D-67, 4 Korean-version songs, 6-step Korea timeline from official titles, 26 Korea videos) in nav + search; verified 1440/390 — next: #95 Korea tickets watch, research round
 - #53 2026-11-17 17:15 — refresh (0 new) + news: NEW 楽天ブックス予約抽選会 (11/17 17:00–11/25 23:59) → news.ts; Korea page unchanged (tickets TBA); home Korea banner/card/bento → /korea/ (bento kept at 12 cells, last row full on 1440/390) — next: #95 Korea tickets watch, research round
+- #54 2026-11-17 17:35 — refresh (0 new) + news (none new); scheduled regression per checklist incl. new /korea/ (static 54 / sitemap+OG / 106 runtime / 12 reduced-motion / hit-test) — all green, no code changes — next: #95 Korea tickets watch, research round
