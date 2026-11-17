@@ -147,7 +147,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 4 | 멤버 전용 페이지 리디자인: 멤버 컬러 히어로(키네틱 이름, 홀로 포일 프로필 카드 pointer-tilt), 프로필 bento(나이·키·출신 지도 핀·생일 D-day·유닛), 해당 멤버 영상 레일(videos.json 필터), SNS 버튼 | 10 | 3 | 0.8 | 2 | 12 | ✅ Done #2 (hero·holo card·bento·height ruler·video rail·prev/next; members index grid) |
 | 5 | 홈 리뉴얼: "귀여움으로 세계까지" 키네틱 히어로, 다음 일정 카운트다운(紅白 12/31, CUTIE LAND 12/2), 최신 영상 레일, 8색 멤버 스트립, 학습 섹션은 하단으로 | 10 | 3 | 0.8 | 2 | 12 | ✅ Done #3 |
 | 6 | 스케줄 페이지 갱신: ARENA TOUR 2026 AUTUMN 13공연(IG아레나 11/28-29 피날레), 11/19 모니터링, 11/20 사인회·さんまのまんま, 11/23 삿포로 팬이벤트, 12/2 앨범, 12/31 紅白 — 타임라인 UI + .ics 내보내기 | 9 | 2 | 1 | 1.5 | 12 | ✅ Done #7 |
-| 7 | 디스코그래피 확장: 3 CD싱글 + 디지털 싱글 전곡 + 1st album CUTIE LAND, 곡별 관련 영상(안무/FOCUS/라이브) 자동 연결 | 8 | 2 | 0.8 | 1.5 | 8.5 | Todo |
+| 7 | ✅ 디스코그래피 곡별 관련 영상 자동 연결 #82 — 릴리즈 상세 다이얼로그: 공식 채널 + 출연 아카이브 통합, 한국어/영문 별칭(귀엽기만 하면 안 되나요·동글동글 동글이/CUTIE SPHERE·프리큐큐/Puri Cu Cu·큐스토의 노래), 탭(MV/안무·FOCUS/라이브/다른 채널/기타)+개수, 8개 제한 → 더 보기(+12), 모바일 2열 (예: かわいいだけ 78, キュートなキューたい 28) | 8 | 2 | 0.8 | 1.5 | 8.5 | ✅ Done #82 |
 | 8 | (→ #19 /journey/로 대체 완료) 타임라인/연혁 페이지 `/history/` (2024 결성→TIF 데뷔→레코드대상 신인상→武道館→아레나→紅白), 수상 목록, scroll-driven 진행 라인 | 7 | 2 | 1 | 1.5 | 9.3 | ✅ Covered by #19 |
 | 9 | 영상 길이 정확도: 스크랩한 "22분" 반올림 → 썸네일 오버레이(22:21)로 재수집, 오래된 영상(데뷔 MV 등) 추가 수집 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #4 (523 uploads, exact durations, +13 official MVs from KAWAII LAB.) |
 | 10 | 유닛 페이지: 2026 신유닛(どんどんどん！ 리사·아이카·미유 / 君なんだ 에미루·아야노·카나 / おやすみサイレンナイト 하루카·나기사), Cotton Candy 등 | 7 | 1 | 0.8 | 1 | 5.6 | ✅ Done #12 (/units/ + chemistry finder) |
@@ -309,3 +309,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - 応援店共通特典: 初回限定盤 = 集合A写 A4クリアファイル; 通常盤 = 集合A写 生写真2枚 (5種からランダム2種). Stores TBA.
 - Serial lottery 12/1 12:00 – 12/13 23:59, winners 12/15; 発売記念スペシャル抽選イベント 12/17 via 「すきトーク」 app (70 per member, 560 total).
 - 楽天ブックス online lottery: order 11/17 17:00 – 11/25 23:59; A賞 signed acrylic panel (3/member), B賞 signed random solo cheki (15/member), C賞 acrylic charm, D賞 hologram trading card.
+- #82 2026-11-18 — refresh/news/appearances: nothing new (no 応援店 list yet). Discography release dialog: related videos now merge own channel + appearance archive with Korean/English title aliases, category tabs with counts and 'more'; 1440/390 fresh contexts, 0 errors. Backlog now: watches (#95 #106 #46) + #13 i18n — refill with research next iteration.

@@ -4,6 +4,7 @@ import { withBase } from 'vitepress'
 import { releases, cutieLand, MV, officialUrl, type Release, type RelType } from '../data/discography'
 import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
+import apRaw from '../data/appearances.json'
 
 interface Video { id: string; title: string; duration: string; category: string; channel?: string }
 const videos = videosRaw as Video[]
@@ -38,13 +39,36 @@ const dialog = ref<HTMLDialogElement | null>(null)
 const cur = ref<Release | null>(null)
 const playing = ref(false)
 const norm = (s: string) => s.replace(/[！!？?、。・\s『』「」（）()-]/g, '').toLowerCase()
-const related = computed(() => {
+// other titles the same song goes by (Korean versions / English titles used by Korean broadcasters)
+const ALIAS: Record<string, string[]> = {
+  'かわいいだけじゃだめですか？': ['귀엽기만 하면 안 되나요', "Isn't Being Cute Enough"],
+  'キュートなキューたい': ['동글동글 동글이', 'CUTIE SPHERE'],
+  'ぷりきゅきゅ': ['프리큐큐', 'Puri Cu Cu'],
+  'きゅーすとのうた': ['큐스토의 노래'],
+}
+interface Rel { id: string; title: string; tab: string; sub: string }
+const TABS = [
+  { id: 'all', label: '전체' }, { id: 'mv', label: '🎬 MV' }, { id: 'dance', label: '💃 안무·FOCUS' }, { id: 'live', label: '🎤 라이브' },
+  { id: 'tv', label: '📺 다른 채널' }, { id: 'etc', label: '✨ 기타' },
+]
+const tab = ref('all')
+const shown = ref(8)
+const related = computed<Rel[]>(() => {
   if (!cur.value) return []
-  const key = norm(cur.value.song)
-  if (key.length < 2) return []
-  return videos.filter((v) => v.id !== cur.value!.mv && norm(v.title).includes(key)).slice(0, 8)
+  const keys = [cur.value.song, ...(ALIAS[cur.value.song] || [])].map(norm).filter((k) => k.length >= 2)
+  if (!keys.length) return []
+  const hit = (t: string) => { const n = norm(t); return keys.some((k) => n.includes(k)) }
+  const own: Rel[] = videos.filter((v) => v.id !== cur.value!.mv && hit(v.title)).map((v) => ({
+    id: v.id, title: clean(v.title), sub: v.duration || '',
+    tab: v.category === 'mv' ? 'mv' : v.category === 'dance' ? 'dance' : v.category === 'live' ? 'live' : 'etc',
+  }))
+  const other: Rel[] = (apRaw as { id: string; title: string; ch: string }[]).filter((a) => a.id !== cur.value!.mv && hit(a.title))
+    .map((a) => ({ id: a.id, title: a.title, sub: a.ch, tab: 'tv' }))
+  return [...own, ...other]
 })
-function open(r: Release) { cur.value = r; playing.value = false; nextTick(() => dialog.value?.showModal()) }
+const tabCount = (t: string) => (t === 'all' ? related.value.length : related.value.filter((r) => r.tab === t).length)
+const relList = computed(() => (tab.value === 'all' ? related.value : related.value.filter((r) => r.tab === tab.value)))
+function open(r: Release) { cur.value = r; playing.value = false; tab.value = 'all'; shown.value = 8; nextTick(() => dialog.value?.showModal()) }
 function close() { dialog.value?.close() }
 
 // album countdown
@@ -125,12 +149,19 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
           <p class="dlg-meta">{{ fmt(cur.date) }} 릴리즈<template v-if="cur.note"> · {{ cur.note }}</template> · <a :href="officialUrl(cur.id)" target="_blank" rel="noopener">공식 상세 ↗</a></p>
           <template v-if="related.length">
             <h4>관련 영상 {{ related.length }}</h4>
+            <div class="rtabs" role="tablist" aria-label="관련 영상 종류">
+              <template v-for="t in TABS" :key="t.id">
+                <button v-if="tabCount(t.id)" type="button" role="tab" class="rtab" :aria-selected="tab === t.id" @click="tab = t.id; shown = 8">{{ t.label }} <small>{{ tabCount(t.id) }}</small></button>
+              </template>
+            </div>
             <div class="rel">
-              <a v-for="v in related" :key="v.id" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" class="rv">
+              <a v-for="v in relList.slice(0, shown)" :key="v.id" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" class="rv">
                 <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" />
-                <span>{{ clean(v.title) }}</span>
+                <span>{{ v.title }}</span>
+                <small v-if="v.sub" class="rv-sub">{{ v.tab === 'tv' ? '📺 ' : '' }}{{ v.sub }}</small>
               </a>
             </div>
+            <button v-if="relList.length > shown" type="button" class="more" @click="shown += 12">더 보기 ({{ relList.length - shown }}) ↓</button>
           </template>
         </div>
       </div>
@@ -219,7 +250,15 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .dlg-body { padding: 14px 16px 18px; max-height: 40dvh; overflow: auto; }
 .dlg-meta { margin: 0 !important; font-size: 13px; color: #735779; }
 .dlg-body h4 { margin: 14px 0 8px !important; font-size: 14px; }
-.rel { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.rtabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.rtab { padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 700; background: #faf1f6; color: #2f1a35; transition: background 0.2s, transform 0.35s cubic-bezier(.34, 1.56, .64, 1); }
+.rtab small { color: #735779; }
+.rtab:hover { transform: translateY(-1px); }
+.rtab[aria-selected='true'] { background: #2f1a35; color: #fff; }
+.rtab[aria-selected='true'] small { color: #f3dbe7; }
+.rv-sub { display: block; font-size: 11.5px; color: #6a4f70; }
+.more { display: block; margin: 12px auto 0; padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 800; background: #fff; color: #a33366; box-shadow: inset 0 0 0 1.5px #f1d4e1; }
+.rel { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)); gap: 10px; }
 .rv { text-decoration: none !important; color: var(--ink) !important; font-size: 12px; line-height: 1.4; }
 .rv img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; display: block; margin-bottom: 4px; }
 .rv span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; }
