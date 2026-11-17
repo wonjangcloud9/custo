@@ -5,6 +5,7 @@ import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../dat
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
 import ShareButton from './ShareButton.vue'
+import { events, startMs } from '../data/events'
 
 const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
@@ -49,6 +50,8 @@ async function copyColor() {
   setTimeout(() => (copied.value = false), 1400)
 }
 
+const bdayShow = computed(() => (now.value ? events.find((e) => e.member === props.id && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) ?? null : null))
+const showDays = computed(() => (bdayShow.value && now.value ? Math.max(0, Math.ceil((new Date(`${bdayShow.value.date}T00:00:00+09:00`).getTime() - now.value.getTime()) / 86400000)) : 0))
 const forceBday = ref(false)
 const isBday = computed(() => forceBday.value || dday.value === 0)
 onMounted(() => {
@@ -126,6 +129,14 @@ function onKey(e: KeyboardEvent) {
     </div>
 
     <p class="swipe-tip">👈 좌우로 밀면 다른 멤버로 👉</p>
+    <!-- UPCOMING BIRTHDAY SHOW (from the official schedule) -->
+    <a v-if="bdayShow" class="show" :href="bdayShow.url" target="_blank" rel="noopener">
+      <span class="show-ic" aria-hidden="true">🎂</span>
+      <span class="show-txt"><small>다가오는 생탄제</small><b lang="ja">{{ bdayShow.ja }}</b>
+        <span>{{ bdayShow.date.replace(/-/g, '.') + (bdayShow.time ? ` ${bdayShow.time} 開演` : '') + (bdayShow.venue ? ` · 📍 ${bdayShow.venue}` : '') }}</span></span>
+      <span class="show-dd">{{ showDays === 0 ? 'TODAY' : 'D-' + showDays }}</span>
+    </a>
+
     <!-- BENTO -->
     <div class="bento">
       <div class="tile t-age">
@@ -331,6 +342,16 @@ function onKey(e: KeyboardEvent) {
 .hero.swipe-prev { transform: translateX(28px); opacity: 0.6; }
 .swipe-tip { display: none; margin: 10px 0 0; text-align: center; font-size: 12px; color: #735779; }
 @media (hover: none) and (pointer: coarse) { .swipe-tip { display: block; } }
+.show { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 16px 20px; border-radius: 24px; text-decoration: none !important; color: #fff !important;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--mc) 62%, #2a1030), color-mix(in srgb, var(--mc) 78%, #2a1030)); box-shadow: 0 18px 36px -22px var(--mc); transition: transform 0.5s var(--spring); }
+.show:hover { transform: translateY(-3px); }
+.show-ic { font-size: 30px; animation: wob 1.8s ease-in-out infinite; }
+@keyframes wob { 50% { transform: rotate(-12deg) scale(1.12); } }
+.show-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.show-txt small { font-size: 11.5px; letter-spacing: 0.08em; opacity: 0.9; font-weight: 700; }
+.show-txt b { font-size: 17px; font-family: 'Noto Sans JP', sans-serif; }
+.show-txt span { font-size: 13px; opacity: 0.95; }
+.show-dd { margin-left: auto; flex: none; font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; font-weight: 700; padding: 6px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.18); }
 .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .pn a {
   display: flex; flex-direction: column; gap: 2px; padding: 16px 20px; border-radius: 20px; text-decoration: none !important;
@@ -355,7 +376,7 @@ function onKey(e: KeyboardEvent) {
   .mid { font-size: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .blob, .marquee, .ja span, .holo-inner, .pin, .tile, .bar-fill { animation: none !important; }
+  .blob, .marquee, .ja span, .holo-inner, .pin, .tile, .bar-fill, .show-ic { animation: none !important; }
   .holo-inner { transform: none; }
   .hero { transition: none; }
 }
