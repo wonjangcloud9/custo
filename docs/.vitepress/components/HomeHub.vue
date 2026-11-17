@@ -6,6 +6,7 @@ import BirthdayParty from './BirthdayParty.vue'
 import homeVideos from '../data/home-videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
+import TodayDigest from './TodayDigest.vue'
 import { useOshi } from '../theme/oshi'
 import NewsFeed from './NewsFeed.vue'
 
@@ -114,7 +115,7 @@ onMounted(() => {
 })
 // Section dot navigator (scroll spy)
 const SECTIONS = [
-  { id: 'top', label: '홈', c: '#ff6b9d' }, { id: 'next', label: '다가오는 일정', c: '#ffc93c' }, { id: 'legend', label: '오늘의 레전드 컷', c: '#ff4757' },
+  { id: 'today', label: '오늘의 큐스트', c: '#ff4d8d' }, { id: 'top', label: '홈', c: '#ff6b9d' }, { id: 'next', label: '다가오는 일정', c: '#ffc93c' }, { id: 'legend', label: '오늘의 레전드 컷', c: '#ff4757' },
   { id: 'otd', label: 'ON THIS DAY', c: '#3ccfa8' }, { id: 'colors', label: '8 COLORS', c: '#4a90d9' }, { id: 'new', label: 'NEW ON YOUTUBE', c: '#ff9f43' }, { id: 'explore', label: 'EXPLORE', c: '#a06cd5' },
 ]
 const activeSec = ref('top')
@@ -143,6 +144,8 @@ function cleanTitle(t: string) {
         <span class="dot-label">{{ sct.label }}</span><i />
       </button>
     </nav>
+    <!-- TODAY (top of home) -->
+    <TodayDigest />
     <!-- HERO -->
     <section id="top" ref="hero" class="hero" @pointermove="sparkle">
       <div class="hero-copy">
@@ -395,7 +398,7 @@ function cleanTitle(t: string) {
 .dot-label { position: absolute; right: 22px; white-space: nowrap; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #3a2340; color: #fff;
   opacity: 0; translate: 6px 0; pointer-events: none; transition: opacity 0.2s, translate 0.35s var(--spring); }
 .dot-btn:hover .dot-label, .dot-btn:focus-visible .dot-label { opacity: 1; translate: 0 0; }
-[id='top'], [id='next'], [id='legend'], [id='otd'], [id='colors'], [id='new'], [id='explore'] { scroll-margin-top: calc(var(--vp-nav-height, 64px) + 16px); }
+[id='today'], [id='top'], [id='next'], [id='legend'], [id='otd'], [id='colors'], [id='new'], [id='explore'] { scroll-margin-top: calc(var(--vp-nav-height, 64px) + 16px); }
 @media (max-width: 1100px) { .dots { display: none; } }
 
 /* BIRTHDAY SOON + ON THIS DAY */

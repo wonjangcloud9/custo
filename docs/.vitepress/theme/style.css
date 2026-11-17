@@ -518,3 +518,11 @@ html[data-oshi] {
   --vp-c-brand-soft: color-mix(in srgb, var(--oshi) 16%, transparent);
   --custo-accent: color-mix(in srgb, var(--oshi) min(62%, var(--oshi-ink)), #2a1030);
 }
+
+/* Tablet (768–1023px): the full menu doesn't fit and pushed the nav bar past the viewport.
+   Use the phone-style hamburger + full-screen menu until there's room (#121). */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .VPNavBarMenu, .VPNavBarExtra, .VPNavBarSocialLinks { display: none !important; }
+  .VPNavBarHamburger { display: flex !important; }
+  .VPNavScreen { display: block !important; }
+}

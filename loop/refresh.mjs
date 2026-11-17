@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 
 const CS = 'UCEz-AFAg3EUKsxraad1puQA' // @CUTIE_STREET
-const KL = 'UCQG8tNnV4hKetLhMb4MopHQ' // @KAWAII_LAB_OFFICIAL
+const KL = 'UCW8Q9LBGGBgK6a-u0C0h95A' // @KAWAII_LAB_OFFICIAL (fixed #121 — the old id was FRUITS ZIPPER's channel)
 const NAMES = { risa: '古澤里紗', aika: '佐野愛花', kana: '板倉可奈', ayano: '増田彩乃', emiru: '川本笑瑠', miyu: '梅田みゆ', nagisa: '真鍋凪咲', haruka: '桜庭遥花' }
 const PUB = 'loop/published.json'
 
