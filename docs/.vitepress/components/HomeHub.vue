@@ -68,6 +68,10 @@ function sparkle(e: PointerEvent) {
 const today = ref<Date | null>(null)
 const forceBday = ref('')
 const bdayToday = computed(() => (today.value ? members.find((m) => m.id === forceBday.value || daysToBirthday(m.birthday, today.value!) === 0) ?? null : null))
+// Korea show banner (Korean fans' headline) — from the official schedule, hidden once it has passed
+const korea = events.find((e) => e.ja.includes('Live in Korea'))
+const koreaDays = computed(() => (korea && today.value ? Math.ceil((new Date(`${korea.date}T00:00:00+09:00`).getTime() - today.value.getTime()) / 86400000) : null))
+const koreaInCountdown = computed(() => !!korea && upcoming.value.some((e) => e.id === korea.date + korea.cat)) // card already shows it
 const bdaySoon = computed(() => (today.value && !bdayToday.value ? members.map((m) => ({ m, d: daysToBirthday(m.birthday, today.value!) })).filter((x) => x.d > 0 && x.d <= 14).sort((a, b) => a.d - b.d)[0] ?? null : null))
 // N years ago around today (JST month-day, ±3 days) from dated official videos
 const onThisDay = computed(() => {
@@ -175,6 +179,11 @@ function cleanTitle(t: string) {
       </a>
     </section>
 
+    <a v-if="korea && koreaDays !== null && koreaDays >= 0 && !koreaInCountdown" class="kr" :href="korea.url" target="_blank" rel="noopener">
+      <span class="kr-flag" aria-hidden="true">🇰🇷</span>
+      <span class="kr-txt"><small>한국 공연 확정</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · 시간·티켓 추후 공지' }}</span></span>
+      <span class="kr-dd">{{ koreaDays === 0 ? 'TODAY' : 'D-' + koreaDays }}</span>
+    </a>
     <BirthdayParty v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" compact />
     <a v-else-if="bdaySoon" class="soon" :href="withBase(`/members/${bdaySoon.m.id}`)" :style="{ '--mc': bdaySoon.m.color }">🎂 <b>{{ bdaySoon.m.ko }}</b> 생일까지 <b>D-{{ bdaySoon.d }}</b> · {{ bdaySoon.m.birthday.slice(5).replace('-', '/') }} {{ bdaySoon.m.emoji }}</a>
     <NewsFeed mode="ticker" />
@@ -378,6 +387,18 @@ function cleanTitle(t: string) {
 @media (max-width: 1100px) { .dots { display: none; } }
 
 /* BIRTHDAY SOON + ON THIS DAY */
+.kr { position: relative; display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 14px 20px; border-radius: 22px; overflow: hidden; text-decoration: none !important; color: #3a2340 !important;
+  background: linear-gradient(110deg, #fff 0%, #fff4f8 45%, #eef4ff 100%); border: 1.5px solid #f1d4e1; transition: transform 0.5s var(--spring); }
+.kr::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.85) 50%, transparent 70%); translate: -100% 0; animation: kr-shine 4.5s ease-in-out infinite; pointer-events: none; }
+@keyframes kr-shine { 0%, 55% { translate: -100% 0; } 100% { translate: 100% 0; } }
+.kr:hover { transform: translateY(-2px); }
+.kr-flag { font-size: 30px; line-height: 1; }
+.kr-txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.kr-txt small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #c92f69; }
+.kr-txt b { font-size: 16px; }
+.kr-txt span { font-size: 12.5px; color: #5a4060; }
+.kr-dd { margin-left: auto; flex: none; font-family: 'Zen Maru Gothic', sans-serif; font-size: 24px; font-weight: 700; color: #2b5ea8; }
+@media (prefers-reduced-motion: reduce) { .kr::after { animation: none; display: none; } .kr { transition: none; } }
 .soon { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; border-radius: 999px; font-size: 14px; text-decoration: none !important; color: color-mix(in srgb, var(--mc) 60%, #2a1030) !important; background: color-mix(in srgb, var(--mc) 14%, white); border: 1.5px solid color-mix(in srgb, var(--mc) 35%, white); transition: transform 0.45s var(--spring); }
 .soon:hover { transform: translateY(-2px); }
 .otd-sub { font-size: 13px; color: #735779; font-weight: 600; }
