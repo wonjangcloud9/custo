@@ -7,6 +7,7 @@ import { members, ageOn } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
 import apRaw from '../data/appearances.json'
+import status from '../data/status.json'
 
 // "오늘의 큐스트" — everything that happened on one JST day, gathered from the official data
 // (news.ts, events.ts, YouTube publish dates) plus verified highlights.ts. Client-only (needs today's date).
@@ -36,6 +37,11 @@ function itemsFor(d: string) {
 }
 const count = (x: ReturnType<typeof itemsFor>) => x.feats.length + x.videos.length + x.aps.length + x.news.length + x.events.length + x.bdays.length
 const data = computed(() => (day.value ? itemsFor(day.value) : null))
+// when the site last re-checked the official sources (updated every ~6 h by the loop)
+const checked = (() => {
+  const d = new Date(Date.parse(status.checkedAt) + 9 * 3600e3)
+  return `${d.getUTCMonth() + 1}.${String(d.getUTCDate()).padStart(2, '0')} ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`
+})()
 const label = computed(() => {
   if (!day.value) return ''
   const d = new Date(`${day.value}T00:00:00Z`)
@@ -103,6 +109,7 @@ onMounted(() => {
           <li v-if="!data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 ✨</li>
         </ul>
       </div>
+      <p class="td-checked" :title="`확인한 곳: ${status.checked.join(' · ')}`"><span aria-hidden="true">🔄</span> 마지막 확인 {{ checked }} (KST) · 6시간마다 공식 소식·스케줄·영상을 다시 확인해요</p>
       <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a><a :href="withBase('/appearances/')">출연 아카이브 →</a></p>
     </template>
   </section>
@@ -150,6 +157,8 @@ onMounted(() => {
 .pill { flex: none; font-style: normal; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; color: #8a2350; background: #fde3ee; }
 .bd a { background: color-mix(in srgb, var(--mc) 16%, white); }
 .empty { padding: 14px; border-radius: 18px; background: #fdf6fa; font-size: 13.5px; color: #5a4060; }
+.td-checked { margin: 12px 0 0 !important; font-size: 12px; color: #6a4f70; }
+.td-checked + .td-foot { margin-top: 6px !important; }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .td-foot a { color: #a33366 !important; }
 .feat.vid .feat-body strong { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
