@@ -124,6 +124,7 @@ export default defineConfig({
             { text: 'Happy Sekai!', link: '/discography/happy-sekai' },
             { text: 'Cute na Kyuutai', link: '/discography/kyuutai' },
             { text: 'Purikyukyu', link: '/discography/purikyukyu' },
+            { text: 'Gohoubi Shiyo!', link: '/discography/gohoubi' },
           ],
         },
       ],

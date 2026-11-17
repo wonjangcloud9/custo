@@ -143,5 +143,33 @@ export const songs: Song[] = [
       { q: '이 곡으로 무대에 오른 한국 음악방송은?', options: ['뮤직뱅크', '쇼챔피언', '더쇼', '인기가요'], answer: 0 },
     ],
   },
+  {
+    id: 'gohoubi', title: 'ご褒美しよっ！', read: '고호-비 시욧', meaning: '나에게 상 주자!',
+    tagline: '첫 아레나 투어 개막날에 나온 곡', grad: ['#FF4757', '#FFC93C', '#FF6B9D'],
+    facts: [
+      { k: '발매', v: '2026.09.23 디지털' },
+      { k: '작사', v: '敬也-amazuti- · 安部大希-amazuti-' },
+      { k: '작곡', v: '敬也-amazuti- · 安部大希-amazuti- · 宮崎諒-amazuti-' },
+      { k: '편곡', v: '宮崎諒-amazuti-' },
+      { k: '아트워크', v: '鵜飼まなみ (yenter)' },
+      { k: '수록', v: '1st ALBUM 「CUTIE LAND」 6번 트랙' },
+    ],
+    badges: ['아레나 투어 개막일 발매', 'KAWAII FOCUS 공개', '안무 영상 MV edition'],
+    story: [
+      '첫 아레나 투어 「CUTIE LAND」가 요코하마 아레나에서 막을 올린 2026년 9월 23일 0시에 공개된 디지털 싱글이에요. 그날 밤 투어 첫 공연에서도 무대를 선보였어요.',
+      'amazuti의 敬也·安部大希·宮崎諒이 곡을 만들었고, 아트워크는 鵜飼まなみ(yenter)가 맡았어요. 1st 앨범 「CUTIE LAND」의 6번 트랙으로도 실려요.',
+    ],
+    videos: [
+      { id: '4P1atWgZfAg', label: '공식 MV' },
+      { id: 'wnyI9_sELF0', label: '안무 영상 (MV edition)' },
+      { id: '8ANTz7OrAJI', label: 'KAWAII FOCUS' },
+      { id: 'W9FWnBUw-9U', label: '요코하마 아레나 (09.23)' },
+    ],
+    quiz: [
+      { q: '이 곡이 공개된 날 시작한 것은?', options: ['첫 아레나 투어', '첫 해외 공연', '紅白 출장', '첫 팬미팅'], answer: 0 },
+      { q: '이 곡의 편곡을 맡은 사람은?', options: ['YUPPA', '宮崎諒-amazuti-', 'Yuki.KT', '早川博隆'], answer: 1 },
+      { q: '1st 앨범 「CUTIE LAND」에서 이 곡은 몇 번 트랙?', options: ['2번', '4번', '6번', '9번'], answer: 2 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
