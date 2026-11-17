@@ -3,6 +3,7 @@
 //          https://cutiestreet.asobisystem.com/feature/autumntour (tour dates + OPEN/START)
 //          album https://cutiestreet.asobisystem.com/discography/detail/8458/ · Kohaku news 2026-11-13
 //          Dec: news/detail/96353 (Osaka 12/6), 96002 (Christmas SESSION 12/12-13), 96078 (KAWAII CLOSET)
+//          Times verified 2026-11-17 from each official detail page (TV: news/detail/96460, 96005, 95695, 95696; stream 96086; online sign 47537). GIFT (43800) & Sapporo (47104) list no start time.
 //          Kohaku broadcast 19:20–23:45 JST: https://natalie.mu/music/news/697917
 // time: JST start time when officially published (HH:MM), else omitted (all-day).
 
@@ -50,17 +51,17 @@ export const events: CsEvent[] = [
   { date: '2026-11-11', cat: 'other', ja: '小学館『週刊少年サンデー』', ko: '잡지 게재', url: `${O}/news/detail/95939` },
   tour('2026-11-14', '18:00', '広島グリーンアリーナ', '아레나 투어 · 히로시마 DAY1', 40366),
   tour('2026-11-15', '16:30', '広島グリーンアリーナ', '아레나 투어 · 히로시마 DAY2', 40367),
-  { date: '2026-11-19', cat: 'tv', ja: 'TBS『ニンゲン観察バラエティ モニタリング』', ko: 'TV 출연', url: `${O}/news/detail/96460` },
-  { date: '2026-11-20', cat: 'event', ja: '1st アルバム オンラインサイン会', ko: '1st 앨범 온라인 사인회', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47537` },
-  { date: '2026-11-20', cat: 'tv', ja: '関西テレビ『さんまのまんま』', ko: 'TV 출연', url: `${O}/news/detail/96005` },
-  { date: '2026-11-21', cat: 'other', ja: '配信『ROCK IN JAPAN FESTIVAL 2026』', ko: '록 인 재팬 송출', url: `${O}/news/detail/96086` },
-  { date: '2026-11-22', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연', url: `${O}/news/detail/95695` },
+  { date: '2026-11-19', time: '19:00', cat: 'tv', ja: 'TBS『ニンゲン観察バラエティ モニタリング』', ko: 'TV 출연', url: `${O}/news/detail/96460` },
+  { date: '2026-11-20', time: '12:00', cat: 'event', ja: '1st アルバム オンラインサイン会', ko: '1st 앨범 온라인 사인회', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47537` },
+  { date: '2026-11-20', time: '21:00', cat: 'tv', ja: '関西テレビ『さんまのまんま』', ko: 'TV 출연', url: `${O}/news/detail/96005` },
+  { date: '2026-11-21', time: '17:00', cat: 'other', ja: '配信『ROCK IN JAPAN FESTIVAL 2026』', ko: '록 인 재팬 송출', url: `${O}/news/detail/96086` },
+  { date: '2026-11-22', time: '19:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연', url: `${O}/news/detail/95695` },
   { date: '2026-11-23', cat: 'event', ja: '大特典会 in 北海道', ko: '대특전회 · 홋카이도', venue: 'アクセスサッポロ', url: `${O}/live_information/detail/47104`, featured: true },
   { date: '2026-11-26', time: '19:00', cat: 'live', ja: '佐野愛花 生誕祭 2026', ko: '사노 아이카 생탄제', venue: 'SGCホール有明', url: `${O}/live_information/detail/46341`, member: 'aika' },
   { date: '2026-11-27', cat: 'live', ja: 'GIFT〜Girls Idol Festival Tokyo〜', ko: '아이돌 페스티벌 출연', venue: 'SGCホール有明', url: `${O}/live_information/detail/43800` },
   { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL' },
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
-  { date: '2026-11-29', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연', url: `${O}/news/detail/95696` },
+  { date: '2026-11-29', time: '19:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연', url: `${O}/news/detail/95696` },
   { date: '2026-12-02', cat: 'release', ja: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', url: `${O}/discography/detail/8458/`, featured: true },
   { date: '2026-12-06', time: '10:00', cat: 'event', ja: '大特典会 in 大阪（1stアルバム発売記念）', ko: '대특전회 · 오사카', venue: 'インテックス大阪 3号館', url: `${O}/news/detail/96353` },
   { date: '2026-12-12', time: '17:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY1', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
