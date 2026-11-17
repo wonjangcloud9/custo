@@ -39,6 +39,7 @@ const lazy = {
   NextCards: () => import('../components/NextCards.vue'),
   PageHero: () => import('../components/PageHero.vue'),
   AppearanceArchive: () => import('../components/AppearanceArchive.vue'),
+  AlbumGuide: () => import('../components/AlbumGuide.vue'),
 }
 
 export default {
