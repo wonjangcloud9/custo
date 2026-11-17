@@ -36,6 +36,7 @@ const lazy = {
   SongStory: () => import('../components/SongStory.vue'),
   SongList: () => import('../components/SongList.vue'),
   MemberStory: () => import('../components/MemberStory.vue'),
+  NextCards: () => import('../components/NextCards.vue'),
 }
 
 export default {

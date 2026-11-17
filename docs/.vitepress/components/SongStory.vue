@@ -97,7 +97,7 @@ h2 { margin: 26px 0 12px !important; padding: 0 !important; border: 0 !important
 .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
 .story p { margin: 0 0 10px !important; font-size: 15.5px; line-height: 1.8; }
 .story .src { font-size: 12px; color: #735779; }
-.quiz :deep(.quiz-container) { margin: 0 !important; }
+.quiz :deep(.quiz-container) { margin: 0 !important; --mc: var(--g1); --ink-mix: 44%; }
 .back { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .back a { color: #a33366 !important; }
 @media (max-width: 860px) {
