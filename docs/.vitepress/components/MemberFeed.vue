@@ -70,8 +70,22 @@ function caption(t: string) {
   return t.replace(/【CUTIE STREET[^】]*】/g, '').replace(/\s*CUTIE STREET\s*/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
+// Watch progress over this member's legend feed (shares 'custo-watched' with the archive)
+const watched = ref<Set<string>>(new Set())
+const seen = computed(() => all.value.filter((p) => watched.value.has(p.id)).length)
+const seenPct = computed(() => (all.value.length ? Math.round((seen.value / all.value.length) * 100) : 0))
+function markWatched(id: string) {
+  if (watched.value.has(id)) return
+  const s = new Set(watched.value); s.add(id); watched.value = s
+  try { localStorage.setItem('custo-watched', JSON.stringify([...s])) } catch { /* ignore */ }
+}
+function playCur() {
+  playing.value = true
+  if (post.value) markWatched(post.value.id)
+}
 onMounted(() => {
   try { likes.value = new Set(JSON.parse(localStorage.getItem('custo-likes') || '[]')) } catch { /* private mode */ }
+  try { watched.value = new Set(JSON.parse(localStorage.getItem('custo-watched') || '[]')) } catch { /* private mode */ }
 })
 </script>
 
@@ -116,6 +130,10 @@ onMounted(() => {
     </div>
     <div class="feed-foot">
       <button v-if="shown < posts.length" type="button" class="more" @click="shown += PAGE">더 보기 ({{ posts.length - shown }})</button>
+      <div v-if="seen" class="mprog" role="progressbar" :aria-valuenow="seen" aria-valuemin="0" :aria-valuemax="all.length" :aria-label="`${m.ko} 레전드 피드 ${all.length}편 중 ${seen}편 봤어요`">
+        <span class="mprog-track"><i :style="{ width: seenPct + '%' }" /></span>
+        <span>{{ seen === all.length ? '🎉 피드 전부 봤어요!' : `피드 ${seen}/${all.length}편 봤어요` }}</span>
+      </div>
       <a class="arch" :href="withBase(`/videos/?m=${m.id}`)">영상 아카이브에서 보기 →</a>
     </div>
 
@@ -134,7 +152,7 @@ onMounted(() => {
             allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen />
           <template v-else>
             <img :key="post.id" :src="img(post)" alt="" />
-            <button type="button" class="lb-play" @click="playing = true">▶ 영상 재생</button>
+            <button type="button" class="lb-play" @click="playCur">▶ 영상 재생</button>
             <span v-if="burst === post.id" class="burst big" aria-hidden="true">♥</span>
           </template>
           <button type="button" class="nav prev" aria-label="이전" @click="step(-1)">‹</button>
@@ -210,6 +228,11 @@ onMounted(() => {
 .feed-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px 10px; flex-wrap: wrap; }
 .more { padding: 10px 20px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 700; font-size: 13px; transition: transform 0.4s var(--spring); }
 .more:hover { transform: translateY(-2px); }
+.mprog { display: flex; align-items: center; gap: 8px; margin-left: auto; font-size: 12.5px; font-weight: 700; color: color-mix(in srgb, var(--mc) 55%, #2a1730); }
+.mprog-track { width: 90px; height: 7px; border-radius: 999px; background: color-mix(in srgb, var(--mc) 16%, white); overflow: hidden; }
+.mprog-track i { display: block; height: 100%; border-radius: 999px; background: color-mix(in srgb, var(--mc) 70%, #2a1030); transition: width 0.6s cubic-bezier(.34, 1.56, .64, 1); }
+.mprog + .arch { margin-left: 12px !important; }
+@media (prefers-reduced-motion: reduce) { .mprog-track i { transition: none; } }
 .arch { font-size: 13px; font-weight: 700; color: color-mix(in srgb, var(--mc) 65%, #2a1730) !important; margin-left: auto; }
 
 /* lightbox */
