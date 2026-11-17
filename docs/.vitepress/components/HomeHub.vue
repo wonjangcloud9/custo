@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
-import { members, daysToBirthday, ageOn } from '../data/members'
+import { members, daysToBirthday, ageOn, onColor } from '../data/members'
 import BirthdayParty from './BirthdayParty.vue'
 import homeVideos from '../data/home-videos.json'
 import { events, startMs } from '../data/events'
@@ -170,7 +170,7 @@ function cleanTitle(t: string) {
         <div class="core" aria-hidden="true"><b>CUTIE</b><b>STREET</b><small>KAWAII LAB.</small></div>
         <nav class="orbit" aria-label="멤버 바로가기">
           <a v-for="(m, i) in members" :key="m.id" class="sat" :href="withBase(`/members/${m.id}`)" :aria-label="`${m.ko} (${m.ja}) 페이지`"
-            :style="{ '--a': i * 45 + 'deg', '--mc': m.color }"><i>{{ m.ja.slice(-2, -1) }}<span class="sat-tip">{{ m.ko.split(' ')[1] }} {{ m.emoji }}</span></i></a>
+            :style="{ '--a': i * 45 + 'deg', '--mc': m.color, '--on': onColor(m.color) }"><i>{{ m.ja.slice(-2, -1) }}<span class="sat-tip">{{ m.ko.split(' ')[1] }} {{ m.emoji }}</span></i></a>
         </nav>
         <div class="ring r1" aria-hidden="true" /><div class="ring r2" aria-hidden="true" />
       </div>
@@ -340,7 +340,7 @@ function cleanTitle(t: string) {
 }
 .sat i {
   position: relative; display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; font-style: normal;
-  background: var(--mc); color: #fff; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: clamp(14px, 2vw, 22px);
+  background: var(--mc); color: var(--on, #fff); font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: clamp(14px, 2vw, 22px);
   box-shadow: 0 10px 22px -8px var(--mc), inset 0 -4px 0 rgba(0, 0, 0, 0.08);
   animation: spin 24s linear infinite reverse;
   transition: scale 0.45s var(--spring), box-shadow 0.3s;

@@ -22,7 +22,7 @@ const list = computed(() => songs.filter((s) => s.id !== props.exclude))
   transition: transform 0.45s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.3s; }
 .sc:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 22px 36px -26px rgba(90, 30, 70, 0.55); }
 .art { aspect-ratio: 16 / 10; border-radius: 18px; padding: 16px; display: flex; align-items: flex-end;
-  background: radial-gradient(120% 120% at 0% 0%, var(--g1), transparent 60%), radial-gradient(120% 120% at 100% 100%, var(--g3), transparent 60%), var(--g2); }
+  background: linear-gradient(to top, rgba(42, 16, 48, 0.55), rgba(42, 16, 48, 0) 62%), radial-gradient(120% 120% at 0% 0%, var(--g1), transparent 60%), radial-gradient(120% 120% at 100% 100%, var(--g3), transparent 60%), var(--g2); }
 .art span { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-weight: 900; font-size: 20px; line-height: 1.2; color: #fff; text-shadow: 0 3px 16px rgba(42, 16, 48, 0.3); overflow-wrap: anywhere; }
 .txt { display: flex; flex-direction: column; gap: 2px; padding: 0 4px; }
 .txt small { font-size: 12px; color: #6a4f70; }

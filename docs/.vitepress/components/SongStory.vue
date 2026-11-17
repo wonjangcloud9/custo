@@ -66,7 +66,7 @@ const vid = computed(() => s.value.videos[vi.value])
 .ss { --ink: #2f1a35; --spring: cubic-bezier(.34, 1.56, .64, 1); color: var(--ink); }
 .hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 36px; align-items: center; padding: 26px 0 34px; }
 .cover { position: relative; aspect-ratio: 1; border-radius: 30px; overflow: hidden; padding: 26px; display: flex; flex-direction: column; justify-content: space-between;
-  background: radial-gradient(120% 120% at 0% 0%, var(--g1), transparent 60%), radial-gradient(120% 120% at 100% 100%, var(--g3), transparent 60%), var(--g2);
+  background: linear-gradient(to top, rgba(42, 16, 48, 0.5), rgba(42, 16, 48, 0) 55%), radial-gradient(120% 120% at 0% 0%, var(--g1), transparent 60%), radial-gradient(120% 120% at 100% 100%, var(--g3), transparent 60%), var(--g2);
   box-shadow: 0 40px 70px -40px color-mix(in srgb, var(--g1) 70%, #2a1030); animation: pop 0.9s var(--spring) both; }
 @keyframes pop { from { opacity: 0; transform: scale(0.92) rotate(-2deg); } }
 .cv-brand { position: relative; z-index: 1; font-size: 13px; font-weight: 900; letter-spacing: 0.24em; color: rgba(255, 255, 255, 0.92); }

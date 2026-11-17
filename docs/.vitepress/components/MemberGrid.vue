@@ -2,12 +2,12 @@
 import { useOshi } from '../theme/oshi'
 const oshi = useOshi()
 import { withBase } from 'vitepress'
-import { members } from '../data/members'
+import { members, onColor } from '../data/members'
 </script>
 
 <template>
   <div class="mg">
-    <a v-for="(m, i) in members" :key="m.id" class="mg-card" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--i': i }">
+    <a v-for="(m, i) in members" :key="m.id" class="mg-card" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--on': onColor(m.color), '--i': i }">
       <span class="mg-no">{{ String(i + 1).padStart(2, '0') }}</span>
       <span class="mg-emoji" aria-hidden="true">{{ m.emoji }}</span>
       <span v-if="oshi === m.id" class="mg-oshi">💖 내 최애</span>
@@ -56,7 +56,7 @@ import { members } from '../data/members'
 .mg-meta { font-size: 11.5px; color: #735779; margin-top: 2px; }
 .mg-go {
   position: absolute; right: 14px; bottom: 14px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--mc); color: #fff; font-weight: 700; transform: scale(0.6); opacity: 0; transition: transform 0.5s var(--spring), opacity 0.2s;
+  background: var(--mc); color: var(--on, #fff); font-weight: 700; transform: scale(0.6); opacity: 0; transition: transform 0.5s var(--spring), opacity 0.2s;
 }
 .mg-card:hover .mg-go, .mg-card:focus-visible .mg-go { transform: none; opacity: 1; }
 @media (max-width: 520px) {
