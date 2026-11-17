@@ -70,6 +70,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 81 | 버그: /members/ 인덱스는 member-page인데 멤버 id 없음 → --page-mc 미정의로 h2 하이라이트·표 헤더·인용·강조 밑줄이 투명 → `.member-page { --page-mc: #FF6B9D }` 기본값(멤버별 규칙이 뒤에서 덮어씀) | 7 | 1 | 1 | 0.1 | 70 | ✅ Fixed #38 |
 | 82 | 투명 텍스트/clip 배경 누락 전수 점검 (26페이지): 실제 버그 0 — 홈 통계 단위(<small>)는 부모 b의 background-clip:text로 그려지는 오탐 | 7 | 1 | 1 | 0.3 | 23 | ✅ Checked #39 |
 | 83 | 홈 카운트다운: 앨범·紅白 카드가 외부 기사 대신 사이트 특집(/cutie-land/, /kohaku/)으로 이동 (같은 탭) | 9 | 0.5 | 1 | 0.1 | 45 | ✅ Done #39 |
+| 84 | 홈 궤도 멤버 버블 → 멤버 페이지 링크 (호버/포커스 시 궤도 정지, 확대+수평 라벨, 장식 링이 클릭 가로채던 문제 수정) | 8 | 0.5 | 1 | 0.3 | 13 | ✅ Done #40 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -110,6 +111,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
 
 ## Regression checklist (run every ~5 iterations)
+- Lesson (#40): decorative layers stacked above interactive ones (rings over orbit links) silently eat clicks — give decoration pointer-events:none and hit-test with elementFromPoint.
 - Lesson (#37): on member-page pageClass pages without a member id, `.member-page .vp-doc table th` resolves an undefined --page-mc → transparent; component tables need higher-specificity backgrounds.
 - Lesson (#36): never put a position:absolute 'sr-only' element inside an overflow-x:auto row — its containing block is outside the scroller, so it widens the page. Use aria-label instead.
 - Static: build, then scan dist/*.html internal hrefs → 0 broken.
@@ -180,3 +182,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #37 2026-11-17 11:55 — refresh (0 new) + news (none); MemberTable on /members/ (sortable by order/name/age/height/birthday D-day/hometown, aria-sort, TransitionGroup spring reorder, height bars, D-14 highlight); mobile: sticky name column + header (fixed a global-rule specificity clash) — verified sort results against data — next: research round
 - #38 2026-11-17 12:15 — refresh (0 new) + news (none); followed up #37 lesson → found & fixed /members/ index losing all member-page accents (undefined --page-mc); verified index pink default + kana/risa keep their colors — next: research round
 - #39 2026-11-17 12:35 — refresh (0 new) + news (none); site-wide invisible-text sweep (26 pages, no real issues); home countdown album/紅白 cards → in-site specials; owed mobile /members/ check done (OK) — next: research round
+- #40 2026-11-17 12:55 — refresh (0 new) + news (none); home orbit satellites are now member links (pause on hover/focus, enlarge + upright label inside the counter-rotating bubble); fixed decorative rings intercepting clicks; hit-test verified 8/8 clickable on desktop & mobile — next: research round

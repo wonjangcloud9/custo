@@ -148,12 +148,13 @@ function cleanTitle(t: string) {
         </div>
       </div>
 
-      <div class="orbit-wrap" aria-hidden="true">
-        <div class="core"><b>CUTIE</b><b>STREET</b><small>KAWAII LAB.</small></div>
-        <div class="orbit">
-          <span v-for="(m, i) in members" :key="m.id" class="sat" :style="{ '--a': i * 45 + 'deg', '--mc': m.color }"><i>{{ m.ja.slice(-2, -1) }}</i></span>
-        </div>
-        <div class="ring r1" /><div class="ring r2" />
+      <div class="orbit-wrap">
+        <div class="core" aria-hidden="true"><b>CUTIE</b><b>STREET</b><small>KAWAII LAB.</small></div>
+        <nav class="orbit" aria-label="멤버 바로가기">
+          <a v-for="(m, i) in members" :key="m.id" class="sat" :href="withBase(`/members/${m.id}`)" :aria-label="`${m.ko} (${m.ja}) 페이지`"
+            :style="{ '--a': i * 45 + 'deg', '--mc': m.color }"><i>{{ m.ja.slice(-2, -1) }}<span class="sat-tip">{{ m.ko.split(' ')[1] }} {{ m.emoji }}</span></i></a>
+        </nav>
+        <div class="ring r1" aria-hidden="true" /><div class="ring r2" aria-hidden="true" />
       </div>
     </section>
 
@@ -303,17 +304,26 @@ function cleanTitle(t: string) {
 .ring { position: absolute; border-radius: 50%; border: 1.5px dashed rgba(196, 156, 255, 0.45); }
 .r1 { inset: 6%; animation: spin 40s linear infinite; }
 .r2 { inset: 18%; border-color: rgba(255, 107, 157, 0.35); animation: spin 28s linear infinite reverse; }
-.orbit { position: absolute; inset: 0; animation: spin 24s linear infinite; }
+.orbit { position: absolute; inset: 0; z-index: 2; pointer-events: none; animation: spin 24s linear infinite; }
+.orbit .sat { pointer-events: auto; }
+.ring, .core { pointer-events: none; }
+.orbit-wrap:hover .orbit, .orbit-wrap:hover .sat i, .orbit:focus-within, .orbit:focus-within .sat i { animation-play-state: paused; }
 .sat {
   position: absolute; left: 50%; top: 50%; width: 15%; aspect-ratio: 1; margin: -7.5% 0 0 -7.5%;
   transform: rotate(var(--a)) translateX(205%) rotate(calc(-1 * var(--a)));
 }
 .sat i {
-  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; font-style: normal;
+  position: relative; display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; font-style: normal;
   background: var(--mc); color: #fff; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: clamp(14px, 2vw, 22px);
   box-shadow: 0 10px 22px -8px var(--mc), inset 0 -4px 0 rgba(0, 0, 0, 0.08);
   animation: spin 24s linear infinite reverse;
+  transition: scale 0.45s var(--spring), box-shadow 0.3s;
 }
+.sat { text-decoration: none !important; border-radius: 50%; }
+.sat:hover i, .sat:focus-visible i { scale: 1.22; box-shadow: 0 14px 28px -8px var(--mc), 0 0 0 4px #fff, inset 0 -4px 0 rgba(0, 0, 0, 0.08); }
+.sat-tip { position: absolute; left: 50%; top: calc(100% + 6px); translate: -50% 4px; white-space: nowrap; font-size: 10px; font-family: 'Noto Sans KR', sans-serif; font-weight: 800; padding: 3px 9px; border-radius: 999px;
+  background: #3a2340; color: #fff; opacity: 0; pointer-events: none; transition: opacity 0.2s, translate 0.35s var(--spring); }
+.sat:hover .sat-tip, .sat:focus-visible .sat-tip { opacity: 1; translate: -50% 0; }
 
 /* COUNTDOWN */
 .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
