@@ -63,11 +63,13 @@ export const events: CsEvent[] = [
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
   { date: '2026-11-29', time: '19:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연', url: `${O}/news/detail/95696` },
   { date: '2026-12-02', cat: 'release', ja: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', url: `${O}/discography/detail/8458/`, featured: true },
+  { date: '2026-12-05', cat: 'live', ja: 'HIROSHIMA CONTI-NeW FeS 2026', ko: '히로시마 페스티벌 출연', venue: '広島グリーンアリーナ', url: `${O}/live_information/detail/42404` },
   { date: '2026-12-06', time: '10:00', cat: 'event', ja: '大特典会 in 大阪（1stアルバム発売記念）', ko: '대특전회 · 오사카', venue: 'インテックス大阪 3号館', url: `${O}/news/detail/96353` },
   { date: '2026-12-12', time: '17:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY1', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
   { date: '2026-12-13', time: '16:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY2', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
   { date: '2026-12-19', cat: 'other', ja: '〜KAWAII LAB. 衣装展〜 KAWAII CLOSET 2026（〜1/31）', ko: '의상 전시 · 시부야/사카에/난바 hmv museum', venue: 'hmv museum 渋谷・栄・なんば', url: `${O}/news/detail/96078` },
-  { date: '2026-12-31', time: '19:20', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: 'https://mdpr.jp/music/detail/4875525', featured: true },
+  { date: '2026-12-27', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 출연', venue: '幕張メッセ', url: `${O}/live_information/detail/46324` },
+  { date: '2026-12-31', time: '19:20', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true },
 ]
 
 export const catMeta: Record<EventCat, { ko: string; emoji: string; color: string }> = {
