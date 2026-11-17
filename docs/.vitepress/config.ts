@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { members } from './data/members'
+import { songs } from './data/songs'
 
 // Structured data (schema.org JSON-LD) — only facts already verified in data/members.ts and the official links.
 const SITE = 'https://wonjangcloud9.github.io/custo/'
@@ -56,7 +57,7 @@ export default defineConfig({
     // member pages share a card in that member's colour (rendered from loop/og-member.html)
     const mem = path.match(/^members\/(risa|aika|kana|ayano|emiru|miyu|nagisa|haruka)$/)?.[1]
     // section hubs share their own card too (loop/og-section.html)
-    const sec = path.match(/^(appearances|cutie-land|kohaku|world|korea|schedule|videos|discography|stages)\/$/)?.[1]
+    const sec = path.match(/^(appearances|cutie-land|kohaku|world|korea|schedule|videos|discography|stages)\/$/)?.[1] ?? (path.startsWith('discography/') ? 'discography' : undefined)
     const img = `https://wonjangcloud9.github.io/custo/${mem ? `og/${mem}.png` : sec ? `og/sec-${sec}.png` : 'og.png'}`
     const alt = mem ? `${pageData.title} — CUTIE STREET 멤버 카드` : sec ? `${pageData.title} — CUTIE STREET 팬허브` : 'CUTIE STREET 팬허브 — 귀여움으로 세계까지'
     const ld = jsonLd(path, title)
@@ -119,15 +120,12 @@ export default defineConfig({
           items: [
             { text: '전체 목록', link: '/discography/' },
             { text: '💿 CUTIE LAND 특집', link: '/cutie-land/' },
-            { text: 'かわいいだけじゃだめですか？', link: '/discography/kawaii-dake' },
-            { text: 'Hello Hello Mirai', link: '/discography/hello-hello-mirai' },
-            { text: 'Happy Sekai!', link: '/discography/happy-sekai' },
-            { text: 'Cute na Kyuutai', link: '/discography/kyuutai' },
-            { text: 'Purikyukyu', link: '/discography/purikyukyu' },
-            { text: 'Gohoubi Shiyo!', link: '/discography/gohoubi' },
-            { text: 'Kawaii Sagashite Kuremasuka?', link: '/discography/kawaii-sagashite' },
-            { text: 'Nice Dane', link: '/discography/nice-dane' },
           ],
+        },
+        {
+          // song spotlight pages, oldest release first — generated from data/songs.ts
+          text: '📖 곡 이야기',
+          items: [...songs].sort((a, b) => a.facts[0].v.localeCompare(b.facts[0].v)).map((x) => ({ text: x.title, link: `/discography/${x.id}` })),
         },
       ],
     },

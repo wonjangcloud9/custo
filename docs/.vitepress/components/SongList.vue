@@ -4,7 +4,8 @@ import { withBase } from 'vitepress'
 import { songs } from '../data/songs'
 
 const props = defineProps<{ exclude?: string }>()
-const list = computed(() => songs.filter((s) => s.id !== props.exclude))
+// oldest release first (facts[0] is the release line, starting YYYY.MM.DD)
+const list = computed(() => songs.filter((s) => s.id !== props.exclude).sort((a, b) => a.facts[0].v.localeCompare(b.facts[0].v)))
 </script>
 
 <template>
