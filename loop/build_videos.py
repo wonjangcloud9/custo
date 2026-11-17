@@ -80,5 +80,10 @@ home = {
     'dated': [slim(v) for v in videos if v.get('date')],
 }
 (out.parent / 'home-videos.json').write_text(json.dumps(home, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+# Korea-related uploads (non-MV) for the /korea/ hub — keeps that page from loading the whole archive
+import re as _re
+KR = _re.compile(r'韓国|KOREA|Korea|한국|KINTEX|世宗|WANDERLOCH|M COUNTDOWN|[가-힣]{2,}')
+korea = [{'id': v['id'], 'title': v['title']} for v in videos if v.get('category') != 'mv' and KR.search(v['title'])]
+(out.parent / 'korea-videos.json').write_text(json.dumps(korea, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 from collections import Counter
 print(len(videos), Counter(v['category'] for v in videos), Counter(m for v in videos for m in v['members']))

@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { withBase } from 'vitepress'
-import videosRaw from '../data/videos.json'
+import koreaVideos from '../data/korea-videos.json'
 import { events } from '../data/events'
 
 // Everything here is sourced from official uploads/pages (see loop/ROADMAP.md research notes, #101).
-interface Video { id: string; title: string; category: string; date: string }
-const videos = videosRaw as Video[]
 
 const korea = events.find((e) => e.ja.includes('Live in Korea'))!
 const now = ref<number | null>(null)
@@ -27,8 +25,7 @@ const TIMELINE = [
   { d: '2026.10.21', t: '「동글동글 동글이」 — 포켓몬 첫 한일 W 엔딩', p: 'JEI 재능TV 11/3~', v: 'J7osyzGsxZs' },
   { d: '2027.01.23', t: 'CUTIE STREET Live in Korea 2027 WINTER', p: 'KINTEX Hall 9A · 시간·티켓 추후 공지', v: '' },
 ]
-const KR = /韓国|KOREA|Korea|한국|KINTEX|世宗|WANDERLOCH|M COUNTDOWN|[가-힣]{2,}/
-const krVideos = videos.filter((v) => KR.test(v.title) && v.category !== 'mv')
+const krVideos = koreaVideos as { id: string; title: string }[] // pre-filtered by loop/build_videos.py
 const shown = ref(8)
 const clean = (t: string) => t.replace(/【CUTIE STREET】/g, '').trim()
 const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`

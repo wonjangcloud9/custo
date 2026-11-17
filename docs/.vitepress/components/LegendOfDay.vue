@@ -2,10 +2,9 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
-import feedsRaw from '../data/feeds.json'
-
 interface Post { id: string; title: string; kind: string; hq: boolean }
-const feeds = feedsRaw as Record<string, Post[]>
+// loaded after mount (the pick depends on today's date anyway) so the home bundle stays small
+const feeds = ref<Record<string, Post[]>>({})
 
 const seed = ref<number | null>(null) // days since epoch in JST
 const dateLabel = ref('')
@@ -22,7 +21,7 @@ function hash(n: number, salt: number) {
 const picks = computed(() => {
   if (seed.value === null) return []
   return members.map((m, i) => {
-    const list = feeds[m.id] || []
+    const list = feeds.value[m.id] || []
     const idx = (hash(seed.value!, i) + (pickOffset.value[m.id] || 0)) % Math.max(1, list.length)
     return { m, post: list[idx] }
   }).filter((p) => p.post)
@@ -46,7 +45,8 @@ function reroll() {
 
 const caption = (t: string) => t.replace(/【[^】]*】/g, '').replace(/\s*CUTIE STREET\s*/g, ' ').replace(/📍.*/, '').trim()
 
-onMounted(() => {
+onMounted(async () => {
+  feeds.value = (await import('../data/feeds.json')).default as Record<string, Post[]>
   const now = new Date()
   const jst = new Date(now.getTime() + 9 * 3600e3)
   seed.value = Math.floor(jst.getTime() / 86400000)
