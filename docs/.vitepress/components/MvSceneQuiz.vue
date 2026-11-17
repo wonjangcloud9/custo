@@ -76,8 +76,12 @@ const rank = computed(() => {
   return { t: 'MV 정주행 추천!', e: '🎬' }
 })
 async function share() {
-  const text = `🎯 큐스트 MV 장면 퀴즈 ${score.value}점 (${right.value}/${ROUNDS}) — ${rank.value.e} ${rank.value.t}\n${location.href}`
-  try { await navigator.clipboard.writeText(text); copied.value = true } catch { copied.value = false }
+  const text = `🎯 큐스트 MV 장면 퀴즈 ${score.value}점 (${right.value}/${ROUNDS}) — ${rank.value.e} ${rank.value.t}`
+  // phones: the system share sheet; elsewhere (or if it is dismissed/unsupported): copy to clipboard
+  if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+    try { await navigator.share({ title: '큐스트 MV 장면 퀴즈', text, url: location.href }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
+  }
+  try { await navigator.clipboard.writeText(`${text}\n${location.href}`); copied.value = true } catch { copied.value = false }
 }
 const imgStyle = computed(() => (cur.value ? {
   transformOrigin: `${cur.value.fx}% ${cur.value.fy}%`,
@@ -139,7 +143,7 @@ const imgStyle = computed(() => (cur.value ? {
       <p v-if="best !== null" class="best">내 최고 기록 {{ best }}점{{ best === score ? ' — 새 기록! ✨' : '' }}</p>
       <div class="done-act">
         <button type="button" class="go" @click="start">다시 도전 🔄</button>
-        <button type="button" class="ghost" @click="share">{{ copied ? '복사됨 ✓' : '결과 복사해서 자랑하기' }}</button>
+        <button type="button" class="ghost" @click="share">{{ copied ? '복사됨 ✓' : '결과 자랑하기 📣' }}</button>
       </div>
     </div>
     <p class="src">장면 이미지: 공식 MV(KAWAII LAB. / CUTIE STREET 채널)에서 YouTube가 생성한 썸네일</p>
