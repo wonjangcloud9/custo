@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
 import { events, catMeta } from '../data/events'
-import { members } from '../data/members'
+import { members, ageOn } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
 import apRaw from '../data/appearances.json'
@@ -62,9 +62,19 @@ onMounted(() => {
 
     <div v-if="!data" class="td-skel" aria-hidden="true"><i /><i /><i /></div>
     <template v-else>
-      <div class="td-grid" :class="{ solo: !data.feats.length && !data.videos.length && !data.aps.length }">
+      <div class="td-grid" :class="{ solo: !data.bdays.length && !data.feats.length && !data.videos.length && !data.aps.length }">
         <!-- big cards: highlights and today's uploads -->
-        <div v-if="data.feats.length || data.videos.length || data.aps.length" class="td-feats">
+        <div v-if="data.bdays.length || data.feats.length || data.videos.length || data.aps.length" class="td-feats">
+          <a v-for="m in data.bdays" :key="m.id" class="bcard" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color }">
+            <span class="b-hearts" aria-hidden="true"><i v-for="k in 9" :key="k" :style="{ '--k': k }">{{ k % 3 ? '♥' : '✦' }}</i></span>
+            <span class="b-kanji" aria-hidden="true">{{ m.ja.slice(2, 3) }}</span>
+            <span class="b-body">
+              <small>HAPPY BIRTHDAY {{ m.emoji }}</small>
+              <strong>오늘은 {{ m.ko }}의 {{ ageOn(m.birthday, new Date(`${day}T12:00:00+09:00`)) }}번째 생일!</strong>
+              <em lang="ja">{{ m.ja }}さん、お誕生日おめでとう！</em>
+              <span class="b-go">멤버 페이지에서 축하하기 →</span>
+            </span>
+          </a>
           <a v-for="h in data.feats" :key="h.url" class="feat" :href="h.url" target="_blank" rel="noopener">
             <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">{{ kindMeta[h.kind].emoji }} {{ kindMeta[h.kind].ko }}</b></span>
             <span class="feat-body"><strong>{{ h.ko }}</strong><small>{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
@@ -82,9 +92,6 @@ onMounted(() => {
 
         <!-- list: news, schedule, birthdays -->
         <ul class="td-list">
-          <li v-for="m in data.bdays" :key="m.id" class="bd" :style="{ '--mc': m.color }">
-            <a :href="withBase(`/members/${m.id}`)"><span class="ic" aria-hidden="true">🎂</span><span><b>{{ m.ko }} 생일</b><small>HAPPY BIRTHDAY {{ m.emoji }}</small></span></a>
-          </li>
           <li v-for="e in data.events" :key="e.ja + e.date">
             <a :href="e.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">{{ catMeta[e.cat].emoji }}</span>
               <span><b lang="ja">{{ e.ja }}</b><small>{{ e.ko }}{{ e.time ? ` · ${e.time}` : '' }}{{ e.venue ? ` · ${e.venue}` : '' }}</small></span><i class="pill">일정</i></a>
@@ -93,7 +100,7 @@ onMounted(() => {
             <a :href="n.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">{{ tagMeta[n.tag].emoji }}</span>
               <span><b>{{ n.ko }}</b><small lang="ja">{{ n.ja }}</small></span><i class="pill">공식 소식</i></a>
           </li>
-          <li v-if="!data.bdays.length && !data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 ✨</li>
+          <li v-if="!data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 ✨</li>
         </ul>
       </div>
       <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a><a :href="withBase('/appearances/')">출연 아카이브 →</a></p>
@@ -146,6 +153,22 @@ onMounted(() => {
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .td-foot a { color: #a33366 !important; }
 .feat.vid .feat-body strong { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.bcard { position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 20px 22px; border-radius: 24px; color: #fff !important; text-decoration: none !important;
+  background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--mc) 70%, white), transparent 60%), linear-gradient(135deg, color-mix(in srgb, var(--mc) 62%, #2a1030), color-mix(in srgb, var(--mc) 40%, #2a1030));
+  box-shadow: 0 24px 40px -26px color-mix(in srgb, var(--mc) 80%, #2a1030); animation: bpop 0.8s cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes bpop { from { opacity: 0; transform: scale(0.94) rotate(-1.5deg); } }
+.b-kanji { flex: none; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 22px; background: #fff; color: color-mix(in srgb, var(--mc) 55%, #2a1030); font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px; font-weight: 900; transform: rotate(-6deg); animation: wob 2.8s ease-in-out infinite; }
+@keyframes wob { 50% { transform: rotate(6deg) translateY(-3px); } }
+.b-body { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.b-body small { font-size: 11.5px; font-weight: 900; letter-spacing: 0.18em; opacity: 0.92; }
+.b-body strong { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; line-height: 1.3; }
+.b-body em { font-style: normal; font-size: 13px; opacity: 0.92; }
+.b-go { margin-top: 6px; align-self: flex-start; padding: 5px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.95); color: color-mix(in srgb, var(--mc) 50%, #2a1030); font-size: 12.5px; font-weight: 800; }
+.b-hearts { position: absolute; inset: 0; pointer-events: none; }
+.b-hearts i { position: absolute; bottom: -20px; left: calc(var(--k) * 10% + 2%); font-style: normal; font-size: calc(12px + var(--k) * 1.5px); color: rgba(255, 255, 255, 0.55); animation: float calc(3.2s + var(--k) * 0.35s) ease-in infinite; animation-delay: calc(var(--k) * -0.7s); }
+@keyframes float { to { transform: translateY(-190px) rotate(25deg); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .bcard, .b-kanji, .b-hearts i { animation: none; } .b-hearts { display: none; } }
+@media (max-width: 520px) { .bcard { padding: 16px; gap: 12px; align-items: flex-start; } .b-kanji { width: 44px; height: 44px; font-size: 24px; border-radius: 14px; } .b-body strong { font-size: 17px; } .b-go { white-space: nowrap; } }
 .td-more { align-self: start; display: block; padding: 10px 14px; border-radius: 16px; background: #fdf6fa; font-size: 13px; font-weight: 800; color: #a33366 !important; text-decoration: none !important; }
 @media (max-width: 860px) {
   .td-grid { grid-template-columns: minmax(0, 1fr); }
