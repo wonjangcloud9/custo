@@ -20,43 +20,16 @@ CUTIE STREET의 데뷔곡이자 시그니처 송!
 <YtLite id="jZqTz1G8G04" title="【MV】かわいいだけじゃだめですか？" />
 <YtLite id="H4ZRCW5HamI" title="THE FIRST TAKE" />
 
-## 타이틀 읽기
-
-| 단어 | 읽기 | 뜻 |
-|------|------|-----|
-| かわいい | 카와이이 | 귀여운 |
-| だけ | 다케 | ~만, ~뿐 |
-| じゃ | 쟈 | ~에서는 (では의 구어체) |
-| だめ | 다메 | 안 돼 |
-| ですか | 데스카 | ~인가요? |
-
-"귀엽기만 하면 안 되나요?" — 자신감 넘치는 큐티스트리트의 선언!
-
 ## 곡의 배경
 
 Billboard JAPAN Hot 100 2위, 1st CD 싱글 오리콘 주간 3위를 기록하며 큐티스트리트를 단숨에 주목받게 만든 곡입니다. RIAJ 스트리밍 골드 인증도 받았어요. (출처: Wikipedia 일본어판)
 
 한국어 버전도 2026년에 발매되어 한국 팬들에게도 큰 사랑을 받고 있습니다.
 
-## 가사로 배우기
-
-이 곡의 단어와 문법을 자세히 배워보세요! → [가사 학습 페이지](/japanese/lyrics/kawaii-dake)
-
-## 곡 정보 퀴즈
-
-## 타이틀 SRS 학습
-
-<SrsFlashcard deckId="srs-disco-kawaii" :cards="[
-  { front: 'かわいい', back: '카와이이 — 귀여운' },
-  { front: 'だけ', back: '다케 — ~만, ~뿐' },
-  { front: 'だめ', back: '다메 — 안 돼, 소용없어' },
-  { front: '早川博隆', back: '작사·작곡 (공식 크레딧)' },
-  { front: '渡邉俊彦', back: '작곡·편곡 (공식 크레딧)' }
-]" />
+## 팬 퀴즈 💖
 
 <Quiz quizId="disco-kawaii-dake" :questions="[
   { q: '이 곡의 Billboard HOT100 최고 순위는?', options: ['1위', '2위', '3위', '5위'], answer: 1 },
-  { q: '「だけ」의 뜻은?', options: ['많이', '조금', '~만/~뿐', '전부'], answer: 2 },
   { q: '이 곡의 발매 형식은?', options: ['디지털만', 'CD만', '디지털 + CD', 'LP'], answer: 2 },
   { q: '작사가는?', options: ['Yuki.KT', '早川博隆', '渡邉俊彦', '秋元康'], answer: 1 }
 ]" />

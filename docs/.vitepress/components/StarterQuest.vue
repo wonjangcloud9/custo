@@ -111,7 +111,7 @@ onMounted(() => {
           <a :href="withBase('/cutie-land/')">💿 CUTIE LAND</a>
           <a :href="withBase('/units/')">💞 유닛 & 케미</a>
           <a :href="withBase('/live-guide/')">🔦 펜라이트 가이드</a>
-          <a :href="withBase('/japanese/beginner/hiragana')">🔤 멤버 이름으로 일본어</a>
+          <a :href="withBase('/korea/')">🇰🇷 큐스트 in KOREA</a>
           <a :href="withBase('/news/')">📰 공식 소식</a>
         </div>
       </li>

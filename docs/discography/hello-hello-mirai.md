@@ -18,36 +18,13 @@
 <YtLite id="YFb3f7f5nQs" title="【LIVE映像】ハロハロミライ · 恵比寿The Garden Hall" />
 <YtLite id="NCo7KGszkzg" title="【LIVE映像】ハロハロミライ · ぴあアリーナMM" />
 
-## 타이틀 읽기
-
-| 단어 | 읽기 | 뜻 |
-|------|------|-----|
-| ハロハロ | 하로하로 | Hello Hello (인사) |
-| ミライ / 未来 | 미라이 | 미래 |
-
-8명이 함께 미래를 그려나가는 메시지가 담긴 곡입니다. 멤버들의 우정(仲間)과 팬을 향한 감사가 담겨 있어 라이브에서 특히 감동적인 곡!
-
 ## 곡의 배경
 
 데뷔곡에 이어 빠르게 발매된 두 번째 디지털 싱글로, 큐티스트리트의 밝고 긍정적인 에너지를 보여주는 곡입니다. "전력(全力)으로 미래를 그리자"는 메시지가 팬들의 공감을 얻으며 라이브 필수곡이 되었습니다.
 
-## 가사로 배우기
-
-이 곡의 단어와 문법을 자세히 배워보세요! → [가사 학습 페이지](/japanese/lyrics/hello-hello-mirai)
-
-## 곡 정보 퀴즈
-
-## 타이틀 SRS 학습
-
-<SrsFlashcard deckId="srs-disco-mirai" :cards="[
-  { front: 'ハロハロ', back: '하로하로 — Hello Hello' },
-  { front: '未来 (ミライ)', back: '미라이 — 미래' },
-  { front: '仲間', back: '나카마 — 동료' },
-  { front: '全力', back: '젠료쿠 — 전력, 최선' }
-]" />
+## 팬 퀴즈 💖
 
 <Quiz quizId="disco-hello-hello-mirai" :questions="[
-  { q: '「未来」(미라이)의 뜻은?', options: ['과거', '현재', '미래', '영원'], answer: 2 },
   { q: '이 곡의 작사/작곡가는?', options: ['早川博隆', 'Yuki.KT', '渡邉俊彦', '秋元康'], answer: 1 },
   { q: '이 곡의 주요 테마는?', options: ['사랑', '이별', '우정과 미래', '여름'], answer: 2 },
   { q: '「ハロハロ」는 어떤 뜻?', options: ['안녕 안녕', '반짝 반짝', '두근 두근', '빙글 빙글'], answer: 0 }

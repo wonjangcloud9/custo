@@ -17,38 +17,15 @@
 <YtLite id="4j2aQHAmvJs" title="【LIVE映像】ハッピー世界！ · ヒューリックホール東京" />
 <YtLite id="WsumMB5dGEc" title="【LIVE映像】ハッピー世界！ · 東京ガーデンシアター" />
 
-## 타이틀 읽기
-
-| 단어 | 읽기 | 뜻 |
-|------|------|-----|
-| ハッピー | 핫피 | Happy (행복한) |
-| 世界 | 세카이 | 세계 |
-
-"귀여움에는 무한한 정의가 있다" — 큐티스트리트의 KAWAII MAKER 컨셉을 가장 잘 보여주는 곡!
-
 ## 곡의 배경
 
 큐티스트리트의 "하라주쿠에서 세계로 카와이이를 발신한다"는 그룹 컨셉을 음악으로 구현한 곡입니다. 다양한 헤어스타일, 다양한 성격, 모든 것이 귀엽다는 메시지로 개성을 축하합니다.
 
 "나에게서 너에게, 너에게서 세계로" 기쁨을 전하자는 테마는 시행착오(試行錯誤)를 두려워하지 않고 도전하는 큐스트의 정신을 담고 있습니다.
 
-## 가사로 배우기
-
-이 곡의 단어와 문법을 자세히 배워보세요! → [가사 학습 페이지](/japanese/lyrics/happy-sekai)
-
-## 곡 정보 퀴즈
-
-## 타이틀 SRS 학습
-
-<SrsFlashcard deckId="srs-disco-sekai" :cards="[
-  { front: 'ハッピー', back: '핫피 — Happy (행복한)' },
-  { front: '世界 (セカイ)', back: '세카이 — 세계' },
-  { front: '個性', back: '코세이 — 개성' },
-  { front: 'KAWAII MAKER', back: '카와이이 메이커 — 큐스트 컨셉명' }
-]" />
+## 팬 퀴즈 💖
 
 <Quiz quizId="disco-happy-sekai" :questions="[
-  { q: '「世界」(세카이)의 뜻은?', options: ['나라', '도시', '세계', '우주'], answer: 2 },
   { q: '이 곡의 핵심 메시지는?', options: ['이별의 슬픔', '개성과 다양한 귀여움', '여름 바다', '학교 생활'], answer: 1 },
   { q: '큐티스트리트의 컨셉명은?', options: ['COOL MAKER', 'KAWAII MAKER', 'HAPPY MAKER', 'DREAM MAKER'], answer: 1 },
   { q: '「ハッピー」는 어디서 온 말?', options: ['일본어', '한국어', '영어', '중국어'], answer: 2 }

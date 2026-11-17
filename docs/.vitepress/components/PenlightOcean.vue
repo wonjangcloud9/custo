@@ -21,7 +21,6 @@ const ITEMS = [
   { id: 'rules', t: '공연장 규칙 공지 읽기', s: '촬영·응원 도구 관련 규칙은 공연마다 다를 수 있어요' },
   { id: 'penlight', t: '펜라이트 + 예비 건전지', s: '최애 멤버 컬러를 미리 세팅!' },
   { id: 'color', t: '최애 멤버 컬러 외우기', s: '위 펜라이트 시뮬레이터로 연습 ✨' },
-  { id: 'jp', t: '현장 일본어 복습', s: '물판·특전회 회화 페이지에서 5분 복습', link: '/japanese/idol-japanese/conversations' },
   { id: 'setlist', t: '최근 라이브 영상으로 예습', s: '영상 아카이브의 LIVE 필터', link: '/videos/?cat=live' },
   { id: 'schedule', t: '공연 일정 캘린더에 추가', s: '스케줄 페이지에서 .ics / Google 캘린더', link: '/schedule/' },
 ]

@@ -157,7 +157,7 @@ function cleanTitle(t: string) {
           <a class="btn primary" :href="withBase('/members/')">멤버 만나기 <span aria-hidden="true">→</span></a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
           <a class="btn ghost" :href="withBase('/start/')">🎓 처음이에요</a>
-          <a class="btn ghost" :href="withBase('/japanese/beginner/hiragana')">일본어 배우기</a>
+          <a class="btn ghost" :href="withBase('/journey/')">🗻 정상까지의 여정</a>
         </div>
       </div>
 
@@ -247,8 +247,8 @@ function cleanTitle(t: string) {
     <section id="explore" class="sec">
       <div class="sec-head"><h2>EXPLORE</h2></div>
       <div class="bento">
-        <a class="b b-lg" :href="withBase('/japanese/beginner/hiragana')"><span class="b-emoji">🎤</span><b>멤버 이름으로 히라가나</b><span>덕질하면서 일본어 첫걸음</span></a>
-        <a class="b" :href="withBase('/japanese/lyrics/kawaii-dake')"><span class="b-emoji">🎵</span><b>가사로 배우기</b><span>かわいいだけじゃだめですか？</span></a>
+        <a class="b b-lg" :href="withBase('/journey/')"><span class="b-emoji">🗻</span><b>정상까지의 여정</b><span>데뷔부터 紅白까지, 3D로 오르는 큐스트의 길</span></a>
+        <a class="b" :href="withBase('/units/')"><span class="b-emoji">💞</span><b>유닛 & 케미</b><span>멤버 조합 케미 파인더</span></a>
         <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji">🇰🇷</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
         <a class="b" :href="withBase('/discography/')"><span class="b-emoji">💿</span><b>디스코그래피</b><span>싱글 & 앨범</span></a>
         <a class="b" :href="withBase('/stages/')"><span class="b-emoji">🎬</span><b>레전드 무대</b><span>엠카·THE FIRST TAKE</span></a>

@@ -1,12 +1,6 @@
 import { h, defineAsyncComponent } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import Flashcard from '../components/Flashcard.vue'
 import Quiz from '../components/Quiz.vue'
-import RomajiToggle from '../components/RomajiToggle.vue'
-import StudyDashboard from '../components/StudyDashboard.vue'
-import SrsFlashcard from '../components/SrsFlashcard.vue'
-import WordBookmark from '../components/WordBookmark.vue'
-import BookmarkList from '../components/BookmarkList.vue'
 import GlobalFx from '../components/GlobalFx.vue'
 import SearchPalette from '../components/SearchPalette.vue'
 import YtLite from '../components/YtLite.vue'
@@ -46,13 +40,7 @@ export default {
     'not-found': () => h(NotFound404),
   }),
   enhanceApp({ app }) {
-    app.component('Flashcard', Flashcard)
     app.component('Quiz', Quiz)
-    app.component('RomajiToggle', RomajiToggle)
-    app.component('StudyDashboard', StudyDashboard)
-    app.component('SrsFlashcard', SrsFlashcard)
-    app.component('WordBookmark', WordBookmark)
-    app.component('BookmarkList', BookmarkList)
     app.component('YtLite', YtLite)
     for (const [name, loader] of Object.entries(lazy)) app.component(name, defineAsyncComponent(loader))
   },

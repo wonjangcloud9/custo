@@ -274,12 +274,6 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 16px rgba(255, 107, 157, 0.3);
 }
 
-/* ── Flashcard — 부드러운 등장 ── */
-.flashcard-wrapper,
-.card-scene {
-  animation: fadeInUp 0.5s ease-out;
-}
-
 /* ── Quiz — 부드러운 등장 ── */
 .quiz-container {
   animation: fadeInUp 0.5s ease-out;
@@ -396,63 +390,6 @@ html {
     padding: 0.65rem 1.75rem;
   }
 
-  .srs-controls .srs-btn {
-    min-height: 44px;
-    padding: 0.6rem 1rem;
-    font-size: 0.82rem;
-  }
-
-  .nav-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1rem;
-  }
-
-  .toggle-btn {
-    min-height: 44px;
-    padding: 0.6rem 1.2rem;
-  }
-}
-
-/* ── Mobile Card Scene — 높이 조정 ── */
-@media (max-width: 480px) {
-  .card-scene {
-    height: 180px;
-  }
-
-  .card-text {
-    font-size: 1.15rem;
-  }
-
-  .srs-wrapper .card-scene {
-    height: 180px;
-  }
-}
-
-/* ── Better tap targets for WordBookmark ── */
-@media (max-width: 768px) {
-  .word-bookmark {
-    width: 32px;
-    height: 32px;
-    margin: 0 4px;
-  }
-
-  .word-bookmark .bm-icon {
-    width: 22px;
-    height: 22px;
-  }
-}
-
-/* ── Mobile-friendly dashboard ── */
-@media (max-width: 480px) {
-  .dashboard {
-    padding: 1.25rem 1rem;
-  }
-
-  .info-row {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
 }
 
 /* ── Prevent horizontal overflow ── */
@@ -530,8 +467,6 @@ html {
 @media (prefers-reduced-motion: reduce) { .member-page .vp-doc > div > h2::after { animation: none; } }
 
 /* ── Home: learning roadmap below the hub ── */
-.home-learn { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
-.VPHome .vp-doc .home-learn h2 { font-family: 'Zen Maru Gothic', sans-serif; }
 
 /* ── Accessibility: visible keyboard focus everywhere ── */
 :where(a, button, [role='link'], [role='option'], input, select, textarea, summary, [tabindex]):focus-visible {
