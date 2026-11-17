@@ -45,6 +45,25 @@ for (const v of (await feed(CS)).reverse()) {
   tsv.splice(tsv[0] && /^\d+$/.test(tsv[0]) ? 1 : 0, 0, `${v.id}\t${v.title}\t${d}`)
   known.add(v.id); added.cs.push(v.title)
 }
+// Live-stream archives don't appear in the RSS feed — read the channel's /streams tab too (#112)
+async function streams() {
+  try {
+    const html = await (await fetch('https://www.youtube.com/@CUTIE_STREET/streams', { headers: { 'Accept-Language': 'ja', 'User-Agent': 'Mozilla/5.0' } })).text()
+    return [...new Set([...html.matchAll(/"videoId":"([\w-]{11})"/g)].map((m) => m[1]))] // page uses lockupViewModel; ids appear newest-first
+  } catch { return [] }
+}
+added.stream = []
+for (const id of (await streams()).reverse()) {
+  if (known.has(id)) continue
+  const watch = await (await fetch(`https://www.youtube.com/watch?v=${id}&hl=ja`, { headers: { 'Accept-Language': 'ja' } })).text().catch(() => '')
+  if (!/"lengthSeconds":"[1-9]\d*"/.test(watch)) continue // still live / upcoming / 24h station
+  const o = await (await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`)).json().catch(() => null)
+  if (!o || o.author_name !== 'CUTIE STREET') continue
+  const d = await duration(id)
+  tsv.splice(tsv[0] && /^\d+$/.test(tsv[0]) ? 1 : 0, 0, `${id}\t${o.title}\t${d}`)
+  published[id] ??= watch.match(/"publishDate":"([^"]+)"/)?.[1] ?? ''
+  known.add(id); added.stream.push(o.title)
+}
 let mvOut = mvs, tOut = teasers
 for (const v of await feed(KL)) {
   if (v.short || !/CUTIE STREET/.test(v.title)) continue
@@ -60,4 +79,4 @@ writeFileSync('loop/teasers-raw.tsv', tOut)
 writeFileSync(PUB, JSON.stringify(published, null, 1))
 execFileSync('python3', ['-I', 'loop/build_videos.py'], { stdio: 'inherit' })
 execFileSync('python3', ['-I', 'loop/build_feeds.py'], { stdio: 'inherit' })
-console.log(JSON.stringify({ newUploads: added.cs.length, newMVs: added.mv.length, newMemberCuts: added.teaser.length, added }, null, 1))
+console.log(JSON.stringify({ newUploads: added.cs.length, newStreams: added.stream.length, newMVs: added.mv.length, newMemberCuts: added.teaser.length, added }, null, 1))

@@ -98,6 +98,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 109 | 성능 점검: 페이지별 JS 실측 — /korea/가 videos 전체(109KB) 로드 → build_videos.py가 korea-videos.json(26편) 생성, 317→214KB; 홈 LegendOfDay feeds(38KB)는 마운트 후 동적 import(총량 동일, 첫 렌더 비차단); three.js 668KB는 /journey/ 전용 확인 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #59 |
 | 110 | 홈 번들 분리: ON THIS DAY용 dated 목록(54KB)을 home-videos.json에서 빼 otd-videos.json으로 생성·마운트 후 import → HomeHub 청크 67KB→<30KB (총 JS 317→312KB, 첫 렌더 경로 단축), 늦게 생기는 #otd를 점 내비 spy에 재등록 | 6 | 1 | 1 | 0.3 | 20 | ✅ Done #60 |
 | 111 | /cutie-land/ 아레나 투어 스탬프 랠리 (events.ts 13공연→7도시 자동 그룹, 완료 도장 CLEAR+스크롤 '쾅' 애니, 다음 공연 박동+D-day, FINAL 배지, 공식 LIVE 영상 자동 매칭(날짜·LIVE 제목) 5곳, 진행률 11/13; 모바일 4열·날짜 원 밖·잉크 겹침 0 검증) | 8 | 1 | 1 | 1 | 8 | ✅ Done #61 |
+| 112 | 아카이브 완전성 감사: 미야기 투어 영상은 채널에 원래 없음 확인 → 채널 검색 361편 대조 중 누락 4 → 원인은 생방송 아카이브(라이브 탭) 전체 누락 13편: 공식 제목(oEmbed)·길이·공개일로 날짜순 삽입(540→553), refresh.mjs가 /streams 탭도 스캔(lockupViewModel→videoId 파싱, 진행 중·24h 방송 제외, CS 채널 oEmbed 확인) — 누락 시뮬레이션으로 감지 검증 | 9 | 1 | 1 | 1 | 9 | ✅ Done #62 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -138,6 +139,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
 
 ## Regression checklist (run every ~5 iterations)
+- Lesson (#62): YouTube RSS omits live-stream archives — the /streams tab must be scraped separately (HTML uses lockupViewModel, so match "videoId" rather than videoRenderer).
 - Lesson (#57): scroll-margin can't know a sticky bar whose height changes per viewport/wrap — measure the bar at click time and scroll with an explicit offset.
 - Lesson (#50): Playwright page.clock.install persists for the page — close the page (browser_close) after time-travel tests or later screenshots show fake dates.
 - Lesson (#42): Vue drops a leading space before a mustache inside `<template v-if>` ("> {{ x }}") — build the string in an expression instead.
@@ -245,3 +247,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #59 2026-11-17 19:15 — refresh (0 new) + news (none new); per-page JS audit; /korea/ now uses build-generated korea-videos.json (−103KB); legend feed lazy-loaded after mount (same total, off the critical path; polaroid still develops); verified 1440/390 — next: #95/#106 watches, research round
 - #60 2026-11-17 19:35 — refresh (0 new) + news (none new); split OTD data out of the home bundle (HomeHub chunk 67→<30KB), lazy-loaded with dot-nav re-observe; verified OTD content on 11/17 and emulated 2027-08-04, spy activates on OTD; 1440/390 clean — next: #95/#106 watches, research round
 - #61 2026-11-17 19:55 — refresh (0 new) + news (none new); tour stamp rally on /cutie-land/ (11/13 shows, FINAL 아이치 D-11; 5 stops auto-linked to official LIVE clips — titles verified by venue/date); fixed cross-month label (10/31–11/01), ink-over-date and lone 7th stamp on mobile; verified 1440/390 — next: #95/#106 watches, research round
+- #62 2026-11-17 20:15 — refresh (0 new) + news (none new); archive completeness audit vs channel search (361 ids): found 13 missing live-stream archives (birthday-show previews, 05 STREET DAY2 preview, online fan event, THE FIRST TAKE pre-stream…) → added by date (553); refresh now scans /streams (tested by removing one and re-detecting); member feeds gained the birthday previews — next: #95/#106 watches, research round
