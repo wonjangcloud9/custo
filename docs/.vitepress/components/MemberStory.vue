@@ -10,6 +10,7 @@ const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
 const st = computed(() => stories[props.id])
 // latest off-channel appearances featuring this member (by name in the title)
+const groupN = (apRaw as { members: string[] }[]).filter((a) => !a.members.length).length
 const aps = computed(() => (apRaw as { id: string; title: string; ch: string; date: string; members: string[] }[]).filter((a) => a.members.includes(props.id)))
 // tiny **bold** renderer (content is ours)
 const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) => (x.startsWith('**') ? { b: true, t: x.slice(2, -2) } : { b: false, t: x }))
@@ -50,7 +51,7 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
           <b>{{ a.title }}</b><small>{{ a.ch }} · {{ a.date.replace(/-/g, '.') }}</small>
         </a>
       </div>
-      <a class="ap-more" :href="withBase(`/appearances/?m=${m.id}`)">{{ m.ko.split(' ')[1] }} 출연 영상 {{ aps.length }}개 모두 보기 →</a>
+      <a class="ap-more" :href="withBase(`/appearances/?m=${m.id}`)">{{ m.ko.split(' ')[1] }} 출연 {{ aps.length }}편 + 그룹 출연 {{ groupN }}편 모두 보기 →</a>
     </section>
 
     <!-- QUIZ -->

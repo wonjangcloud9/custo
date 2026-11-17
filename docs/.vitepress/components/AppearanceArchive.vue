@@ -22,6 +22,7 @@ const kindById = Object.fromEntries(KINDS.map((k) => [k.id, k]))
 
 const kind = ref('')
 const who = ref('')
+const withGroup = ref(true) // with a member picked, also show whole-group appearances (no member named in the title)
 const ch = ref('')
 const q = ref('')
 const cur = ref<Ap>(all[0])
@@ -30,6 +31,7 @@ const playing = ref(false)
 
 const count = (k: string) => all.filter((a) => a.kind === k).length
 const memberCount = (id: string) => all.filter((a) => a.members.includes(id)).length
+const groupCount = all.filter((a) => !a.members.length).length
 const channels = computed(() => {
   const m = new Map<string, number>()
   all.forEach((a) => m.set(a.ch, (m.get(a.ch) || 0) + 1))
@@ -39,7 +41,7 @@ const list = computed(() => {
   const s = q.value.trim().toLowerCase()
   return all.filter((a) =>
     (!kind.value || a.kind === kind.value) &&
-    (!who.value || a.members.includes(who.value)) &&
+    (!who.value || a.members.includes(who.value) || (withGroup.value && !a.members.length)) &&
     (!ch.value || a.ch === ch.value) &&
     (!s || (a.title + ' ' + a.ch).toLowerCase().includes(s)))
 })
@@ -69,7 +71,7 @@ function play(a: Ap) {
     if (Math.abs(top - scrollY) > 120) scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' })
   })
 }
-function reset() { kind.value = ''; who.value = ''; ch.value = ''; q.value = '' }
+function reset() { kind.value = ''; who.value = ''; ch.value = ''; q.value = ''; withGroup.value = true }
 
 onMounted(() => {
   const p = new URLSearchParams(location.search)
@@ -119,7 +121,7 @@ onMounted(() => {
       <div class="row2">
         <div class="who" role="toolbar" aria-label="멤버">
           <button v-for="m in members" :key="m.id" type="button" class="mb" :style="{ '--mc': m.color }" :aria-pressed="who === m.id"
-            :aria-label="`${m.ko} 출연 ${memberCount(m.id)}개`" :title="m.ko" @click="who = who === m.id ? '' : m.id">
+            :aria-label="`${m.ko} — 이름이 나온 출연 ${memberCount(m.id)}개`" :title="m.ko" @click="who = who === m.id ? '' : m.id">
             <span aria-hidden="true">{{ m.ja.slice(2, 3) }}</span><small aria-hidden="true">{{ memberCount(m.id) }}</small>
           </button>
         </div>
@@ -129,6 +131,7 @@ onMounted(() => {
         <span class="chs-h">자주 만난 채널</span>
         <button v-for="[c, n] in channels.slice(0, 8)" :key="c" type="button" class="chp" :aria-pressed="ch === c" @click="ch = ch === c ? '' : c">{{ c }} <small>{{ n }}</small></button>
       </div>
+      <label v-if="who" class="grp"><input v-model="withGroup" type="checkbox" /> 그룹 전체 출연도 함께 보기 <small>+{{ groupCount }}</small></label>
       <p class="result" aria-live="polite">
         <b>{{ list.length }}</b>개의 출연 영상
         <button v-if="anyFilter" type="button" class="clear" @click="reset">필터 초기화 ✕</button>
@@ -206,6 +209,9 @@ onMounted(() => {
 .chp small { color: #735779; }
 .chp[aria-pressed='true'] { background: #a33366; color: #fff; }
 .chp[aria-pressed='true'] small { color: #ffe0ee; }
+.grp { display: inline-flex; align-items: center; gap: 8px; justify-self: start; padding: 7px 14px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px #f1d4e1; font-size: 13px; font-weight: 700; cursor: pointer; }
+.grp input { accent-color: #c92f69; width: 16px; height: 16px; }
+.grp small { color: #735779; }
 .result { margin: 0 !important; font-size: 14px; color: #5a4060; display: flex; gap: 10px; align-items: center; }
 .clear { font-size: 13px; font-weight: 700; color: #a33366; text-decoration: underline; }
 
@@ -248,7 +254,8 @@ onMounted(() => {
   .tx { padding: 10px 10px 12px; }
   .tt { font-size: 13px; }
   .kb { font-size: 10.5px; padding: 2px 7px; }
-  .mb { width: 38px; height: 38px; font-size: 15px; }
+  .mb { width: 36px; height: 36px; font-size: 14.5px; }
+  .who { gap: 5px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .card, .chip, .mb, .th img, .onair { transition: none; animation: none; }

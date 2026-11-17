@@ -6,11 +6,15 @@ import { events, catMeta } from '../data/events'
 import { members } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
+import apRaw from '../data/appearances.json'
 
 // "오늘의 큐스트" — everything that happened on one JST day, gathered from the official data
 // (news.ts, events.ts, YouTube publish dates) plus verified highlights.ts. Client-only (needs today's date).
 interface V { id: string; title: string; published?: string; duration?: string }
 const latest = (homeVideos as { latest: V[] }).latest
+interface Ap { id: string; title: string; ch: string; date: string; secs: number }
+const aps = apRaw as Ap[]
+const fmtLen = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 const WD = ['日', '月', '火', '水', '木', '金', '土']
 const jstDay = (ms: number) => new Date(ms + 9 * 3600e3).toISOString().slice(0, 10)
 
@@ -23,12 +27,14 @@ function itemsFor(d: string) {
   return {
     feats: highlights.filter((h) => h.date === d),
     videos: latest.filter((v) => v.published === d),
+    // other official channels' uploads that day (minus ones already shown as a highlight)
+    aps: aps.filter((x) => x.date === d && !highlights.some((h) => h.date === d && h.video === x.id)),
     news: news.filter((n) => n.date === d),
     events: events.filter((e) => e.date === d),
     bdays: members.filter((m) => m.birthday.slice(5) === md),
   }
 }
-const count = (x: ReturnType<typeof itemsFor>) => x.feats.length + x.videos.length + x.news.length + x.events.length + x.bdays.length
+const count = (x: ReturnType<typeof itemsFor>) => x.feats.length + x.videos.length + x.aps.length + x.news.length + x.events.length + x.bdays.length
 const data = computed(() => (day.value ? itemsFor(day.value) : null))
 const label = computed(() => {
   if (!day.value) return ''
@@ -56,9 +62,9 @@ onMounted(() => {
 
     <div v-if="!data" class="td-skel" aria-hidden="true"><i /><i /><i /></div>
     <template v-else>
-      <div class="td-grid" :class="{ solo: !data.feats.length && !data.videos.length }">
+      <div class="td-grid" :class="{ solo: !data.feats.length && !data.videos.length && !data.aps.length }">
         <!-- big cards: highlights and today's uploads -->
-        <div v-if="data.feats.length || data.videos.length" class="td-feats">
+        <div v-if="data.feats.length || data.videos.length || data.aps.length" class="td-feats">
           <a v-for="h in data.feats" :key="h.url" class="feat" :href="h.url" target="_blank" rel="noopener">
             <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">{{ kindMeta[h.kind].emoji }} {{ kindMeta[h.kind].ko }}</b></span>
             <span class="feat-body"><strong>{{ h.ko }}</strong><small>{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
@@ -67,6 +73,11 @@ onMounted(() => {
             <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">🎬 새 영상</b><i v-if="v.duration" class="dur">{{ v.duration }}</i></span>
             <span class="feat-body"><strong>{{ clean(v.title) }}</strong><small>CUTIE STREET 공식 YouTube</small></span>
           </a>
+          <a v-for="x in data.aps.slice(0, 3)" :key="x.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${x.id}`" target="_blank" rel="noopener">
+            <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">📺 다른 채널 출연</b><i v-if="x.secs" class="dur">{{ fmtLen(x.secs) }}</i></span>
+            <span class="feat-body"><strong>{{ x.title }}</strong><small>{{ x.ch }}</small></span>
+          </a>
+          <a v-if="data.aps.length > 3" class="td-more" :href="withBase('/appearances/')">📺 이날 다른 채널 출연 {{ data.aps.length - 3 }}편 더 보기 →</a>
         </div>
 
         <!-- list: news, schedule, birthdays -->
@@ -85,7 +96,7 @@ onMounted(() => {
           <li v-if="!data.bdays.length && !data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 ✨</li>
         </ul>
       </div>
-      <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a></p>
+      <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a><a :href="withBase('/appearances/')">출연 아카이브 →</a></p>
     </template>
   </section>
 </template>
@@ -134,6 +145,8 @@ onMounted(() => {
 .empty { padding: 14px; border-radius: 18px; background: #fdf6fa; font-size: 13.5px; color: #5a4060; }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .td-foot a { color: #a33366 !important; }
+.feat.vid .feat-body strong { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.td-more { align-self: start; display: block; padding: 10px 14px; border-radius: 16px; background: #fdf6fa; font-size: 13px; font-weight: 800; color: #a33366 !important; text-decoration: none !important; }
 @media (max-width: 860px) {
   .td-grid { grid-template-columns: minmax(0, 1fr); }
   .td { padding: 18px 14px 14px; border-radius: 24px; }
