@@ -59,7 +59,7 @@ export default defineConfig({
       { text: '紅白 🎍', link: '/kohaku/' },
       { text: '멤버', link: '/members/' },
       { text: '디스코그래피', link: '/discography/' },
-      { text: '영상', items: [ { text: '📼 영상 아카이브 (공식 채널)', link: '/videos/' }, { text: '📺 출연 아카이브 (다른 채널)', link: '/appearances/' } ] },
+      { text: '영상', items: [ { text: '📼 영상 아카이브 (공식 채널)', link: '/videos/' }, { text: '📺 출연 아카이브 (다른 채널)', link: '/appearances/' }, { text: '🎯 MV 장면 퀴즈', link: '/mv-quiz/' } ] },
       { text: '레전드 무대', link: '/stages/' },
       {
         text: '스케줄',

@@ -15,7 +15,7 @@ export const norm = (s: string) => s.toLowerCase().normalize('NFKC').replace(/[\
 const PAGES: [string, string, string][] = [
   ['홈', '/', '🏠'], ['정상까지의 여정 (3D)', '/journey/', '🗻'], ['큐스트 월드맵 (활동한 나라·도시)', '/world/', '🌏'], ['멤버 전체', '/members/', '💖'], ['유닛 & 케미', '/units/', '💞'],
   ['영상 아카이브', '/videos/', '🎬'], ['디스코그래피', '/discography/', '💿'], ['스케줄', '/schedule/', '🗓️'], ['나의 ♡ 앨범', '/likes/', '♡'], ['라이브 가이드 · 펜라이트', '/live-guide/', '🔦'], ['나와 닮은 멤버 테스트', '/which-member/', '🔮'], ['공식 소식', '/news/', '📰'], ['CUTIE LAND 앨범 특집', '/cutie-land/', '💿'], ['입문 가이드 (처음이에요)', '/start/', '🎓'], ['紅白 특집', '/kohaku/', '🎍'], ['큐스트 in KOREA (한국 공연·한국어 버전)', '/korea/', '🇰🇷'], ['영상 통계', '/videos/stats/', '📊'],
-  ['레전드 무대', '/stages/', '🎤'], ['출연 아카이브 (다른 채널 출연 영상)', '/appearances/', '📺'],
+  ['레전드 무대', '/stages/', '🎤'], ['출연 아카이브 (다른 채널 출연 영상)', '/appearances/', '📺'], ['MV 장면 퀴즈 (곡 맞히기 게임)', '/mv-quiz/', '🎯'],
 ]
 
 

@@ -40,6 +40,7 @@ const lazy = {
   PageHero: () => import('../components/PageHero.vue'),
   AppearanceArchive: () => import('../components/AppearanceArchive.vue'),
   AlbumGuide: () => import('../components/AlbumGuide.vue'),
+  MvSceneQuiz: () => import('../components/MvSceneQuiz.vue'),
 }
 
 export default {
