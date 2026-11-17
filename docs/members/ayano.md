@@ -7,29 +7,4 @@ aside: false
 
 <MemberProfile id="ayano" />
 
-## 매력 포인트
-
-마스다 아야노는 **「女子高生ミスコン2020」 SNOW상** 수상으로 이름을 알린 뒤 아이돌 그룹 **A♡Z**, **Lapilaz**를 거친 경험파 멤버입니다. 연애 리얼리티 **「今日、好きになりました。」** 에 세 번 출연했고, SNS 매거진 **「思春期録」** 전속 모델로도 활동했어요.
-
-인터뷰에서 “이제는 큐스트·아이돌·파란색으로 나아가고 싶다”고 말했을 만큼 블루 멤버로서의 자부심이 큰 멤버. 댄스와 운동을 좋아하는 활동파입니다.
-
-## 활동 이력
-
-| 시기 | 활동 |
-|------|------|
-| 2020 | 「女子高生ミスコン2020」 SNOW상 |
-| 데뷔 전 | 아이돌 그룹 「A♡Z」, 「Lapilaz」 |
-| 데뷔 전 | 「思春期録」 전속 모델, 「今日、好きになりました。」 3회 출연 |
-| 2024~ | CUTIE STREET 멤버 |
-
-> 📚 출처: [ticket.co.jp 멤버 프로필](https://www.ticket.co.jp/entx/?p=5758) · [Wikipedia(일본어)](https://ja.wikipedia.org/wiki/CUTIE_STREET) · [ciatr](https://ciatr.jp/topics/336201)
-
-## 팬 퀴즈 💖
-
-<Quiz :questions="[
-  { q: '마스다 아야노의 생일은 언제인가요?', options: ['2003년 3월 26일', '2003년 5월 6일', '2003년 5월 26일', '2002년 5월 26일'], answer: 2 },
-  { q: '마스다 아야노의 출신지는 어디인가요?', options: ['오사카부', '효고현', '아이치현', '시즈오카현'], answer: 2 },
-  { q: '마스다 아야노가 SNOW상을 받은 대회는?', options: ['女子高生ミスコン2020', 'TOKYO IDOL FESTIVAL 2024', 'LARME FES', 'PRODUCE 101 JAPAN'], answer: 0 },
-  { q: '마스다 아야노가 수상한 미스콘은?', options: ['여자고생 미스콘 2019', '여자고생 미스콘 2020', '여자고생 미스콘 2021', '미스 일본 2020'], answer: 1 },
-  { q: '마스다 아야노의 멤버 컬러는?', options: ['Sky Blue', 'Navy', 'Blue', 'Mint'], answer: 2 }
-]" />
+<MemberStory id="ayano" />

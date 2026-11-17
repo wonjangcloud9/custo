@@ -7,30 +7,4 @@ aside: false
 
 <MemberProfile id="miyu" />
 
-## 매력 포인트
-
-우메다 미유의 트레이드마크는 **해파리 헤어(クラゲヘア)**. 헤어 어레인지와 카페 탐방을 좋아하는 감각파 멤버입니다.
-
-**「女子高生ミスコン2020」 파이널리스트**로 이름을 알렸고, 마스다 아야노와 같은 그룹 **A♡Z**, **Lapilaz**에서 활동했어요. **「思春期録」** 전속 모델, **「今日、好きになりました。」** 출연을 거쳐 **KAWAII LAB. MATES** 연수생으로 CUTIE STREET에 합류했습니다.
-
-## 활동 이력
-
-| 시기 | 활동 |
-|------|------|
-| 2020 | 「女子高生ミスコン2020」 파이널리스트 |
-| 데뷔 전 | 아이돌 그룹 「A♡Z」, 「Lapilaz」 |
-| 데뷔 전 | 「思春期録」 전속 모델, 「今日、好きになりました。」 출연 |
-| 데뷔 전 | KAWAII LAB. MATES 연수생 |
-| 2024~ | CUTIE STREET 멤버 |
-
-> 📚 출처: [ticket.co.jp 멤버 프로필](https://www.ticket.co.jp/entx/?p=5758) · [Wikipedia(일본어)](https://ja.wikipedia.org/wiki/CUTIE_STREET) · [ciatr](https://ciatr.jp/topics/336201)
-
-## 팬 퀴즈 💖
-
-<Quiz :questions="[
-  { q: '우메다 미유의 생일은 언제인가요?', options: ['2004년 9월 3일', '2003년 9월 13일', '2004년 9월 13일', '2004년 3월 13일'], answer: 2 },
-  { q: '우메다 미유의 트레이드마크 헤어스타일은?', options: ['문어 헤어', '해파리 헤어', '새우 헤어', '산호 헤어'], answer: 1 },
-  { q: '우메다 미유의 출신지는 어디인가요?', options: ['후쿠오카현', '나가사키현', '사가현', '쿠마모토현'], answer: 3 },
-  { q: '우메다 미유가 마스다 아야노와 함께 활동했던 그룹은?', options: ['A♡Z', 'HO6LA', '東京CuteCute', 'TEENAGERS'], answer: 0 },
-  { q: '우메다 미유의 취미로 알려진 것은?', options: ['등산', '카페 탐방', '낚시', '골프'], answer: 1 }
-]" />
+<MemberStory id="miyu" />

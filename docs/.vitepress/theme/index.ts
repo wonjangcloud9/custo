@@ -35,6 +35,7 @@ const lazy = {
   WorldMap: () => import('../components/WorldMap.vue'),
   SongStory: () => import('../components/SongStory.vue'),
   SongList: () => import('../components/SongList.vue'),
+  MemberStory: () => import('../components/MemberStory.vue'),
 }
 
 export default {

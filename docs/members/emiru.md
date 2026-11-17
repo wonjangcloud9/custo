@@ -7,30 +7,4 @@ aside: false
 
 <MemberProfile id="emiru" />
 
-## 매력 포인트
-
-카와모토 에미루는 149cm로 그룹에서 가장 작지만, 어린 시절부터 여러 아이돌 그룹을 거친 **베테랑**입니다. **アモレカリーナ東京(2015–2016)**, **東京CuteCute(2016–2019)**, **HO6LA(2021–2022)**, 그리고 **KAWAII LAB. MATES** 연수생을 거쳐 CUTIE STREET에 합류했어요.
-
-취미는 **수상바이크 타기**와 **댄스 스태킹**. **소형선박 면허**까지 가지고 있다는 반전 매력의 소유자입니다.
-
-## 활동 이력
-
-| 시기 | 활동 |
-|------|------|
-| 2015–2016 | アモレカリーナ東京 |
-| 2016–2019 | 東京CuteCute |
-| 2021–2022 | HO6LA |
-| 데뷔 전 | KAWAII LAB. MATES 연수생 |
-| 2024~ | CUTIE STREET 멤버 |
-
-> 📚 출처: [ticket.co.jp 멤버 프로필](https://www.ticket.co.jp/entx/?p=5758) · [Wikipedia(일본어)](https://ja.wikipedia.org/wiki/CUTIE_STREET) · [ciatr](https://ciatr.jp/topics/336201)
-
-## 팬 퀴즈 💖
-
-<Quiz :questions="[
-  { q: '카와모토 에미루의 생일은 언제인가요?', options: ['2002년 2월 22일', '2002년 4월 22일', '2003년 4월 22일', '2002년 4월 2일'], answer: 1 },
-  { q: '카와모토 에미루의 키는?', options: ['145cm', '147cm', '149cm', '151cm'], answer: 2 },
-  { q: '카와모토 에미루가 보유한 특이한 자격증은?', options: ['잠수 라이선스', '소형특수선박면허', '수상스키 자격증', '스쿠버다이빙 자격증'], answer: 1 },
-  { q: '카와모토 에미루의 소속 이력이 아닌 것은?', options: ['아모레카리나 도쿄', '도쿄CuteCute', 'HO6LA', 'A♡Z'], answer: 3 },
-  { q: '카와모토 에미루의 멤버 컬러는?', options: ['Yellow', 'Red', 'Orange', 'Pink'], answer: 2 }
-]" />
+<MemberStory id="emiru" />
