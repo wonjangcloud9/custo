@@ -24,6 +24,11 @@ const catLabel = Object.fromEntries(CATS.map((c) => [c.id, c]))
 const cat = ref('all')
 const member = ref('')
 const q = ref('')
+type Sort = 'new' | 'old' | 'long' | 'short'
+const sort = ref<Sort>('new')
+const SORTS: { id: Sort; label: string }[] = [{ id: 'new', label: '최신 업로드순' }, { id: 'old', label: '오래된 순' }, { id: 'long', label: '긴 영상순' }, { id: 'short', label: '짧은 영상순' }]
+const order = new Map(videos.map((v, i) => [v.id, i]))
+const secs = (d: string) => (d ? d.split(':').map(Number).reduce((a, n) => a * 60 + n, 0) : -1)
 const unwatchedOnly = ref(false)
 const PAGE = 24
 const shown = ref(PAGE)
@@ -49,7 +54,16 @@ const filtered = computed(() => {
     (!member.value || v.members.includes(member.value)) &&
     (!needle || v.title.toLowerCase().includes(needle) || v.venue.toLowerCase().includes(needle)) &&
     (!unwatchedOnly.value || !watched.value.has(v.id)),
-  ).sort((a, b) => (cat.value === 'mv' ? Number(!!b.channel) - Number(!!a.channel) : 0))
+  ).sort((a, b) => {
+    const ia = order.get(a.id)!, ib = order.get(b.id)!
+    if (sort.value === 'long' || sort.value === 'short') {
+      const sa = secs(a.duration), sb = secs(b.duration)
+      if (sa < 0 || sb < 0) return sa < 0 && sb < 0 ? ia - ib : sa < 0 ? 1 : -1 // unknown length last
+      return sort.value === 'long' ? sb - sa : sa - sb
+    }
+    if (sort.value === 'old') return Number(!!a.channel) - Number(!!b.channel) || ib - ia
+    return (cat.value === 'mv' ? Number(!!b.channel) - Number(!!a.channel) : 0) || ia - ib
+  })
 })
 const visible = computed(() => filtered.value.slice(0, shown.value))
 
@@ -67,6 +81,7 @@ function syncUrl() {
   if (cat.value !== 'all') p.set('cat', cat.value)
   if (member.value) p.set('m', member.value)
   if (q.value) p.set('q', q.value)
+  if (sort.value !== 'new') p.set('sort', sort.value)
   const s = p.toString()
   history.replaceState(history.state, '', location.pathname + (s ? '?' + s : '') + location.hash)
 }
@@ -128,9 +143,10 @@ onMounted(() => {
   if (p.get('cat') && catLabel[p.get('cat')!]) cat.value = p.get('cat')!
   if (p.get('m') && memberById[p.get('m')!]) member.value = p.get('m')!
   if (p.get('q')) q.value = p.get('q')!
+  const so = p.get('sort'); if (so && SORTS.some((x) => x.id === so)) sort.value = so as Sort
   loadWatched()
   nowMs.value = Date.now()
-  watch([cat, member, q], syncUrl)
+  watch([cat, member, q, sort], syncUrl)
   window.addEventListener('message', onYtMessage)
 })
 onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
@@ -167,6 +183,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
         <span class="mchip-name">{{ m.ko.split(' ')[1] }}</span>
         <small>{{ memberCounts[m.id] || 0 }}</small>
       </button>
+      <label class="va-sort"><select v-model="sort" aria-label="정렬" @change="shown = PAGE"><option v-for="o in SORTS" :key="o.id" :value="o.id">{{ o.label }}</option></select></label>
       <label class="va-toggle"><input v-model="unwatchedOnly" type="checkbox" /> 안 본 영상만</label>
     </div>
 
@@ -313,7 +330,9 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 .mchip:active .mchip-ring { transform: scale(0.88); }
 .mchip[aria-pressed='true'] .mchip-ring { box-shadow: 0 6px 18px color-mix(in srgb, var(--mc) 55%, transparent); transform: scale(1.1); }
 .mchip[aria-pressed='true'] .mchip-face { background: color-mix(in srgb, var(--mc) 62%, #2a1030); color: #fff; }
-.va-toggle { margin-left: auto; flex: none; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #7a5a80; cursor: pointer; padding-left: 12px; }
+.va-sort { margin-left: auto; flex: none; padding-left: 12px; }
+.va-sort select { appearance: none; padding: 7px 30px 7px 12px; border-radius: 999px; border: 1.5px solid #f1d4e1; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23735779'/%3E%3C/svg%3E") no-repeat right 12px center; font-size: 13px; font-weight: 700; color: #3a2340; cursor: pointer; }
+.va-toggle { margin-left: 4px; flex: none; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #7a5a80; cursor: pointer; padding-left: 12px; }
 .va-toggle input { accent-color: #ff6b9d; width: 16px; height: 16px; }
 
 .va-count { font-size: 13px; color: #735779; margin: 6px 0 16px; font-weight: 600; }
@@ -417,6 +436,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
   .va-dice { height: 44px; }
   .va-grid { grid-template-columns: 1fr; gap: 16px; }
   .va-toggle { margin-left: 0; }
+  .va-sort { margin-left: 0; padding-left: 4px; }
   .va-player-bar a { display: none; }
   .va-queue { flex-wrap: wrap; }
   .next { flex-basis: 100%; order: 3; }
