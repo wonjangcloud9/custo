@@ -115,5 +115,33 @@ export const songs: Song[] = [
       { q: '3rd 싱글에서 이 곡과 더블 A면인 곡은?', options: ['ナイスだね', 'ラブトレ', 'Error404♡', 'ご褒美しよっ！'], answer: 0 },
     ],
   },
+  {
+    id: 'purikyukyu', title: 'ぷりきゅきゅ', read: '푸리큐큐', meaning: '한국어 버전 「프리큐큐」',
+    tagline: '한국 지상파 뮤직뱅크 무대에 오른 곡', grad: ['#FF6B9D', '#A06CD5', '#5DC8F5'],
+    facts: [
+      { k: '발매', v: '2026.01.10 디지털 · 한국어 ver. 2026.06.06' },
+      { k: '작사·작곡·편곡', v: 'YUPPA' },
+      { k: '안무', v: 'えりなっち' },
+      { k: '수록', v: '3rd SINGLE 초회한정반 · 1st ALBUM 「CUTIE LAND」 10번 트랙' },
+    ],
+    badges: ['한국어 ver. 「프리큐큐」', 'KBS 뮤직뱅크 2026.06.05', 'Dance Practice 공개'],
+    story: [
+      '2026년 1월에 나온 디지털 싱글이에요. 작사·작곡·편곡은 YUPPA, 안무는 えりなっち가 맡았어요.',
+      '6월에는 한국어 버전 「프리큐큐」를 발매하고 한국판 MV를 공개했어요. 그 직전인 6월 5일 KBS 뮤직뱅크에서 무대를 선보였어요.',
+      '3rd 싱글 초회한정반에 커플링으로 실렸고, 1st 앨범 「CUTIE LAND」에도 들어가요. 7월 서울 단독 공연에서도 불렀어요.',
+    ],
+    videos: [
+      { id: '65u0ucGOkiI', label: '공식 MV' },
+      { id: 'xF8hmrm6DaA', label: '한국판 MV' },
+      { id: 'IFi5hMA7ec0', label: 'Dance Practice' },
+      { id: 'H7eA_BhHssM', label: '뮤직뱅크 (06.05)' },
+      { id: 'RTdR7dlS9BA', label: '서울 단독 (07.25)' },
+    ],
+    quiz: [
+      { q: '이 곡의 작사·작곡·편곡을 맡은 사람은?', options: ['早川博隆', 'YUPPA', 'Yuki.KT', '宇田川翔'], answer: 1 },
+      { q: '한국어 버전 「프리큐큐」 발매일은?', options: ['2026.01.10', '2026.03.26', '2026.06.06', '2026.10.21'], answer: 2 },
+      { q: '이 곡으로 무대에 오른 한국 음악방송은?', options: ['뮤직뱅크', '쇼챔피언', '더쇼', '인기가요'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))

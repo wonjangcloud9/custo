@@ -123,6 +123,7 @@ export default defineConfig({
             { text: 'Hello Hello Mirai', link: '/discography/hello-hello-mirai' },
             { text: 'Happy Sekai!', link: '/discography/happy-sekai' },
             { text: 'Cute na Kyuutai', link: '/discography/kyuutai' },
+            { text: 'Purikyukyu', link: '/discography/purikyukyu' },
           ],
         },
       ],
