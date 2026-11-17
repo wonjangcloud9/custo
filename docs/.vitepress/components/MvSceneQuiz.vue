@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount, nextTick } from 'vue'
 import { MV } from '../data/discography'
+import { members, memberById } from '../data/members'
 
-// "Which MV is this scene from?" — frames are YouTube's own auto-generated stills of the official MVs
-// (i.ytimg.com/vi/<id>/maxres{1,2,3}.jpg). Starts zoomed + blurred and clears up; faster = more points.
+// Two modes on blurred, zoomed official YouTube stills that clear up over 8s (faster answer = more points):
+//  - song:   YouTube's auto-generated frames of the 15 official MVs (i.ytimg.com/vi/<id>/maxres{1,2,3}.jpg)
+//  - member: the member "legend cut" thumbnails (solo MV teasers / fancams / birthday lives, feeds.json)
 const SONGS = Object.entries(MV).map(([title, id]) => ({ title, id }))
 const ROUNDS = 10
 const REVEAL_MS = 8000
-const KEY = 'custo-mvquiz-best'
+type Mode = 'song' | 'member'
+const KEY: Record<Mode, string> = { song: 'custo-mvquiz-best', member: 'custo-mvquiz-best-member' }
 
-interface Round { id: string; title: string; frame: number; fx: number; fy: number; options: string[] }
+interface Opt { key: string; label: string; color?: string; kanji?: string }
+interface Round { id: string; img: string; key: string; label: string; fx: number; fy: number; options: Opt[] }
+const mode = ref<Mode>('song')
 const stage = ref<'start' | 'play' | 'done'>('start')
 const rounds = ref<Round[]>([])
 const idx = ref(0)
@@ -22,6 +27,7 @@ const gained = ref(0)
 const r = ref(0) // reveal 0..1
 const best = ref<number | null>(null)
 const copied = ref(false)
+const loading = ref(false)
 const nextBtn = ref<HTMLButtonElement | null>(null)
 let t0 = 0
 let timer: number | undefined
@@ -29,14 +35,35 @@ const reduce = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-r
 
 const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]] } return b }
 const cur = computed(() => rounds.value[idx.value])
+const MEMBER_OPTS: Opt[] = members.map((m) => ({ key: m.id, label: m.ko.split(' ')[1], color: m.color, kanji: m.ja.slice(2, 3) }))
 
-function start() {
-  rounds.value = shuffle(SONGS).slice(0, ROUNDS).map((s) => ({
-    ...s, frame: 1 + Math.floor(Math.random() * 3), fx: 25 + Math.random() * 50, fy: 25 + Math.random() * 50,
-    options: shuffle([s.title, ...shuffle(SONGS.filter((o) => o.id !== s.id)).slice(0, 3).map((o) => o.title)]),
-  }))
+async function start(m: Mode = mode.value) {
+  mode.value = m
+  const focus = () => ({ fx: 25 + Math.random() * 50, fy: 20 + Math.random() * 45 })
+  if (m === 'song') {
+    rounds.value = shuffle(SONGS).slice(0, ROUNDS).map((s) => ({
+      id: s.id, img: `https://i.ytimg.com/vi/${s.id}/maxres${1 + Math.floor(Math.random() * 3)}.jpg`, key: s.title, label: s.title, ...focus(),
+      options: shuffle([s.title, ...shuffle(SONGS.filter((o) => o.id !== s.id)).slice(0, 3).map((o) => o.title)]).map((t) => ({ key: t, label: t })),
+    }))
+  } else {
+    loading.value = true
+    const all = (await import('../data/feeds.json')).default as Record<string, { id: string; hq?: boolean; kind: string; title: string }[]>
+    // solo MV-teaser stills only — variety/vlog thumbnails show several members and caption names,
+    // and the かわいいだけじゃだめですか？ teasers print the member's name across the frame
+    const feeds = Object.fromEntries(Object.entries(all).map(([k, v]) => [k, v.filter((c) => c.kind === 'teaser' && !c.title.includes('かわいいだけじゃだめですか'))]))
+    loading.value = false
+    // spread the 10 rounds over the members (no member more than twice), one random cut each
+    const ids = shuffle([...members.map((x) => x.id), ...members.map((x) => x.id)]).slice(0, ROUNDS)
+    const used = new Set<string>()
+    rounds.value = ids.map((mid) => {
+      const cut = shuffle(feeds[mid].filter((c) => !used.has(c.id)))[0]
+      used.add(cut.id)
+      // start the zoom near the face (upper middle of a teaser frame)
+      return { id: cut.id, img: `https://i.ytimg.com/vi/${cut.id}/${cut.hq ? 'maxresdefault' : 'hqdefault'}.jpg`, key: mid, label: memberById[mid].ko, fx: 35 + Math.random() * 30, fy: 22 + Math.random() * 22, options: MEMBER_OPTS }
+    })
+  }
   idx.value = 0; score.value = 0; right.value = 0; streak.value = 0; bestStreak.value = 0; copied.value = false
-  try { const b = localStorage.getItem(KEY); best.value = b ? Number(b) : null } catch { /* ignore */ }
+  try { const b = localStorage.getItem(KEY[m]); best.value = b ? Number(b) : null } catch { /* ignore */ }
   stage.value = 'play'
   begin()
 }
@@ -49,12 +76,12 @@ function begin() {
     if (p >= 1) clearInterval(timer)
   }, 80)
 }
-function answer(opt: string) {
+function answer(key: string) {
   if (picked.value) return
   clearInterval(timer)
-  picked.value = opt
+  picked.value = key
   const elapsed = performance.now() - t0
-  if (opt === cur.value.title) {
+  if (key === cur.value.key) {
     gained.value = Math.max(20, Math.round(100 - (Math.min(elapsed, REVEAL_MS) / REVEAL_MS) * 80))
     score.value += gained.value; right.value++; streak.value++; bestStreak.value = Math.max(bestStreak.value, streak.value)
   } else { streak.value = 0 }
@@ -64,30 +91,36 @@ function answer(opt: string) {
 function next() {
   if (idx.value < ROUNDS - 1) { idx.value++; begin(); return }
   stage.value = 'done'
-  try { if (best.value === null || score.value > best.value) { localStorage.setItem(KEY, String(score.value)); best.value = score.value } } catch { /* ignore */ }
+  try { if (best.value === null || score.value > best.value) { localStorage.setItem(KEY[mode.value], String(score.value)); best.value = score.value } } catch { /* ignore */ }
 }
 onBeforeUnmount(() => clearInterval(timer))
 
 const rank = computed(() => {
-  const s = score.value
-  if (s >= 800) return { t: '큐스트 MV 마스터', e: '👑' }
+  const s = score.value, mv = mode.value === 'song'
+  if (s >= 800) return { t: mv ? '큐스트 MV 마스터' : '찐 큐티스트 인증', e: '👑' }
   if (s >= 600) return { t: '프로 큐티스트', e: '💖' }
   if (s >= 400) return { t: '성장 중인 큐티스트', e: '🌱' }
-  return { t: 'MV 정주행 추천!', e: '🎬' }
+  return { t: mv ? 'MV 정주행 추천!' : '멤버 페이지 정주행 추천!', e: mv ? '🎬' : '👀' }
 })
+const modeName = computed(() => (mode.value === 'song' ? 'MV 장면 퀴즈' : '멤버 맞히기 퀴즈'))
 async function share() {
-  const text = `🎯 큐스트 MV 장면 퀴즈 ${score.value}점 (${right.value}/${ROUNDS}) — ${rank.value.e} ${rank.value.t}`
+  const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${ROUNDS}) — ${rank.value.e} ${rank.value.t}`
   // phones: the system share sheet; elsewhere (or if it is dismissed/unsupported): copy to clipboard
   if (navigator.share && matchMedia('(pointer: coarse)').matches) {
-    try { await navigator.share({ title: '큐스트 MV 장면 퀴즈', text, url: location.href }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
+    try { await navigator.share({ title: `큐스트 ${modeName.value}`, text, url: location.href }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
   }
   try { await navigator.clipboard.writeText(`${text}\n${location.href}`); copied.value = true } catch { copied.value = false }
 }
-const imgStyle = computed(() => (cur.value ? {
-  transformOrigin: `${cur.value.fx}% ${cur.value.fy}%`,
-  transform: `scale(${(2.6 - 1.6 * r.value).toFixed(3)})`,
-  filter: `blur(${((1 - r.value) * 9).toFixed(2)}px) saturate(${(0.6 + 0.4 * r.value).toFixed(2)})`,
-} : {}))
+const imgStyle = computed(() => {
+  if (!cur.value) return {}
+  const z = mode.value === 'song' ? 2.6 : 2.2
+  return {
+    transformOrigin: `${cur.value.fx}% ${cur.value.fy}%`,
+    transform: `scale(${(z - (z - 1) * r.value).toFixed(3)})`,
+    filter: `blur(${((1 - r.value) * 9).toFixed(2)}px) saturate(${(0.6 + 0.4 * r.value).toFixed(2)})`,
+  }
+})
+const curMember = computed(() => (mode.value === 'member' && cur.value ? memberById[cur.value.key] : null))
 </script>
 
 <template>
@@ -100,35 +133,40 @@ const imgStyle = computed(() => (cur.value ? {
         <span v-for="(s, i) in SONGS.slice(0, 5)" :key="s.id" class="ph" :style="{ '--i': i }"><img :src="`https://i.ytimg.com/vi/${s.id}/hq${(i % 3) + 1}.jpg`" alt="" loading="lazy" /></span>
       </div>
       <ul class="rules">
-        <li>🔍 확대되고 흐릿한 MV 장면이 점점 선명해져요</li>
+        <li>🔍 확대되고 흐릿한 장면이 점점 선명해져요</li>
         <li>⚡ 빨리 맞힐수록 높은 점수 (최대 100점 × {{ ROUNDS }}문제)</li>
-        <li>🎬 공식 MV {{ SONGS.length }}곡에서 랜덤 출제</li>
       </ul>
-      <button type="button" class="go" @click="start">퀴즈 시작 ▶</button>
+      <div class="modes">
+        <button type="button" class="mode" @click="start('song')"><span aria-hidden="true">🎬</span><b>무슨 곡?</b><small>공식 MV {{ SONGS.length }}곡의 한 장면</small></button>
+        <button type="button" class="mode mem" :disabled="loading" @click="start('member')"><span aria-hidden="true">💖</span><b>누구일까?</b><small>멤버 솔로 MV 티저 · 8명 중 한 명</small></button>
+      </div>
     </div>
 
     <!-- PLAY -->
     <div v-else-if="stage === 'play' && cur" class="play">
       <div class="hud">
-        <span class="q">Q{{ idx + 1 }} / {{ ROUNDS }}</span>
+        <span class="q">{{ mode === 'song' ? '무슨 곡?' : '누구일까?' }} · Q{{ idx + 1 }} / {{ ROUNDS }}</span>
         <span class="pts">{{ score }}점</span>
         <span v-if="streak >= 2" class="streak">🔥 {{ streak }}연속</span>
       </div>
-      <div class="frame" :class="{ ok: picked && picked === cur.title, no: picked && picked !== cur.title }">
-        <img :key="cur.id + cur.frame" :src="`https://i.ytimg.com/vi/${cur.id}/maxres${cur.frame}.jpg`" alt="MV의 한 장면 (어떤 곡인지 맞혀 보세요)" :style="imgStyle" />
+      <div class="frame" :class="{ ok: picked && picked === cur.key, no: picked && picked !== cur.key }">
+        <img :key="cur.img" :src="cur.img" :alt="mode === 'song' ? 'MV의 한 장면 (어떤 곡인지 맞혀 보세요)' : '멤버 컷 (누구인지 맞혀 보세요)'" :style="imgStyle" />
         <span class="bar" aria-hidden="true"><i :style="{ transform: `scaleX(${1 - r})` }" /></span>
         <span v-if="picked && gained" class="plus" aria-hidden="true">+{{ gained }}</span>
       </div>
-      <div class="opts" role="group" aria-label="곡 선택">
-        <button v-for="o in cur.options" :key="o" type="button" class="opt" lang="ja" :disabled="!!picked"
-          :class="{ correct: picked && o === cur.title, wrong: picked === o && o !== cur.title, dim: picked && o !== cur.title && picked !== o }" @click="answer(o)">{{ o }}</button>
+      <div class="opts" :class="{ mems: mode === 'member' }" role="group" :aria-label="mode === 'song' ? '곡 선택' : '멤버 선택'">
+        <button v-for="o in cur.options" :key="o.key" type="button" class="opt" :lang="mode === 'song' ? 'ja' : undefined" :disabled="!!picked" :style="o.color ? { '--mc': o.color } : undefined"
+          :class="{ correct: picked && o.key === cur.key, wrong: picked === o.key && o.key !== cur.key, dim: picked && o.key !== cur.key && picked !== o.key }" @click="answer(o.key)">
+          <span v-if="o.kanji" class="kj" aria-hidden="true">{{ o.kanji }}</span>{{ o.label }}
+        </button>
       </div>
       <div class="fb" aria-live="polite">
         <template v-if="picked">
-          <p v-if="picked === cur.title" class="good">정답! +{{ gained }}점 🎉</p>
-          <p v-else class="bad">아쉬워요 — 정답은 <b lang="ja">{{ cur.title }}</b></p>
+          <p v-if="picked === cur.key" class="good">정답! +{{ gained }}점 🎉</p>
+          <p v-else class="bad">아쉬워요 — 정답은 <b :lang="mode === 'song' ? 'ja' : undefined">{{ cur.label }}</b></p>
           <div class="fb-act">
-            <a :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">MV 보기 ↗</a>
+            <a :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">{{ mode === 'song' ? 'MV 보기 ↗' : '영상 보기 ↗' }}</a>
+            <a v-if="curMember" :href="`../members/${curMember.id}`">{{ curMember.ko.split(' ')[1] }} 페이지 →</a>
             <button ref="nextBtn" type="button" class="go sm" @click="next">{{ idx < ROUNDS - 1 ? '다음 장면 →' : '결과 보기 🏆' }}</button>
           </div>
         </template>
@@ -142,11 +180,12 @@ const imgStyle = computed(() => (cur.value ? {
       <p class="sc"><b>{{ score }}</b>점 · {{ right }}/{{ ROUNDS }} 정답 · 최고 연속 {{ bestStreak }}</p>
       <p v-if="best !== null" class="best">내 최고 기록 {{ best }}점{{ best === score ? ' — 새 기록! ✨' : '' }}</p>
       <div class="done-act">
-        <button type="button" class="go" @click="start">다시 도전 🔄</button>
+        <button type="button" class="go" @click="start()">다시 도전 🔄</button>
+        <button type="button" class="ghost" @click="stage = 'start'">모드 바꾸기</button>
         <button type="button" class="ghost" @click="share">{{ copied ? '복사됨 ✓' : '결과 자랑하기 📣' }}</button>
       </div>
     </div>
-    <p class="src">장면 이미지: 공식 MV(KAWAII LAB. / CUTIE STREET 채널)에서 YouTube가 생성한 썸네일</p>
+    <p class="src">이미지: 공식 YouTube 채널(KAWAII LAB. / CUTIE STREET) 영상의 썸네일·YouTube 자동 장면</p>
   </section>
 </template>
 
@@ -165,6 +204,20 @@ const imgStyle = computed(() => (cur.value ? {
 .go:hover { transform: translateY(-2px) scale(1.03); }
 .go.sm { padding: 10px 20px; font-size: 15px; }
 .go:focus-visible, .ghost:focus-visible, .opt:focus-visible { outline: 3px solid #ffb3cf; outline-offset: 3px; }
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: min(100%, 520px); }
+.mode { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 14px; border-radius: 22px; color: #fff; background: linear-gradient(130deg, #ff4f8b, #c0397a);
+  box-shadow: 0 18px 30px -18px #c92f69; transition: transform 0.45s var(--spring); }
+.mode.mem { background: linear-gradient(130deg, #a06cd5, #6b3fa0); box-shadow: 0 18px 30px -18px #6b3fa0; }
+.mode span { font-size: 30px; }
+.mode b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
+.mode small { font-size: 12.5px; opacity: 0.92; }
+.mode:hover { transform: translateY(-3px) rotate(-1deg); }
+.mode:focus-visible { outline: 3px solid #ffb3cf; outline-offset: 3px; }
+.opts.mems { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+.opts.mems .opt { min-height: 0; }
+.opts.mems .opt { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; padding: 10px 6px; font-size: 13.5px; }
+.kj { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--mc); color: #fff; font-family: 'Zen Maru Gothic', sans-serif; font-size: 17px; font-weight: 900; }
+.opts.mems .opt:hover:not(:disabled) { box-shadow: inset 0 0 0 2px var(--mc); }
 .hud { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; font-weight: 800; }
 .q { font-size: 14px; color: #a33366; letter-spacing: 0.08em; }
 .pts { margin-left: auto; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
@@ -205,8 +258,9 @@ const imgStyle = computed(() => (cur.value ? {
 .src { margin: 22px 0 0 !important; text-align: center; font-size: 12px; color: #735779; }
 @media (max-width: 560px) {
   .opts { grid-template-columns: minmax(0, 1fr); }
+  .opts.mems { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
   .ph { width: 220px; transform: translateX(-50%) rotate(calc((var(--i) - 2) * 7deg)) translateX(calc((var(--i) - 2) * 26px)); }
   .deck { height: 180px; }
 }
-@media (prefers-reduced-motion: reduce) { .ph, .streak, .plus, .rk-e, .opt.wrong { animation: none; } .go, .opt { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .mode { transition: none; } .ph, .streak, .plus, .rk-e, .opt.wrong { animation: none; } .go, .opt { transition: none; } }
 </style>
