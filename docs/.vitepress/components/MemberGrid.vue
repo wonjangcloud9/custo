@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useOshi } from '../theme/oshi'
+const oshi = useOshi()
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
 </script>
@@ -8,6 +10,7 @@ import { members } from '../data/members'
     <a v-for="(m, i) in members" :key="m.id" class="mg-card" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--i': i }">
       <span class="mg-no">{{ String(i + 1).padStart(2, '0') }}</span>
       <span class="mg-emoji" aria-hidden="true">{{ m.emoji }}</span>
+      <span v-if="oshi === m.id" class="mg-oshi">💖 내 최애</span>
       <span class="mg-face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span>
       <span class="mg-info">
         <b class="mg-ja">{{ m.ja }}</b>
@@ -67,4 +70,5 @@ import { members } from '../data/members'
   .mg-card { animation: none; transition: none; }
   .mg-face, .mg-emoji, .mg-go { transition: none; }
 }
+.mg-oshi { position: absolute; top: 10px; right: 10px; z-index: 2; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; color: #fff; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); }
 </style>

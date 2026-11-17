@@ -5,6 +5,7 @@ import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../dat
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
 import ShareButton from './ShareButton.vue'
+import { useOshi, setOshi } from '../theme/oshi'
 import { events, startMs } from '../data/events'
 
 const props = defineProps<{ id: string }>()
@@ -50,6 +51,7 @@ async function copyColor() {
   setTimeout(() => (copied.value = false), 1400)
 }
 
+const oshi = useOshi()
 const bdayShow = computed(() => (now.value ? events.find((e) => e.member === props.id && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) ?? null : null))
 // Other upcoming appearances where only some members take part (official schedule 'with')
 const soloApps = computed(() => (now.value ? events.filter((e) => e.with?.includes(props.id) && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) : []))
@@ -111,6 +113,9 @@ function onKey(e: KeyboardEvent) {
         <div class="sns">
           <a :href="`https://x.com/${m.x}`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.2 2.25h3.4l-7.4 8.47L23 21.75h-6.8l-5.3-6.95-6.1 6.95H1.4l7.9-9.06L.9 2.25h7l4.8 6.35 5.5-6.35Zm-1.2 17.5h1.9L7 4.13H5z" /></svg>@{{ m.x }}</a>
           <a :href="`https://www.instagram.com/${m.instagram}/`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2c-2.7 0-3 0-4.1.1C4.3 2.3 2.3 4.3 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.2 3.6 2.2 5.6 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c-.2-3.6-2.2-5.6-5.8-5.8C15 2 14.7 2 12 2Z" /></svg>Instagram</a>
+          <button type="button" class="sns-btn oshi-btn" :class="{ on: oshi === m.id }" :aria-pressed="oshi === m.id" @click="setOshi(m.id)">
+            <span class="oshi-heart" aria-hidden="true">{{ oshi === m.id ? '💖' : '♡' }}</span>{{ oshi === m.id ? '내 최애' : '최애로 설정' }}
+          </button>
           <ShareButton :title="`${m.ja} (${m.ko}) — CUTIE STREET 팬허브`" :text="`${m.ko} ${m.emoji} 프로필·레전드 컷 모음`" label="공유" />
           <a :href="`https://www.tiktok.com/@${m.tiktok}`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 1 1-2-2.7V9.3a6.2 6.2 0 1 0 5.3 6.1V8.6a7.9 7.9 0 0 0 4.6 1.5V6.8a4.6 4.6 0 0 1-4.6-4.8Z" /></svg>TikTok</a>
         </div>
@@ -256,6 +261,11 @@ function onKey(e: KeyboardEvent) {
   border: 1.5px solid color-mix(in srgb, var(--mc) 35%, white);
   transition: transform 0.45s var(--spring), background 0.2s, color 0.2s;
 }
+.oshi-btn { cursor: pointer; }
+.oshi-btn.on { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff !important; border-color: transparent; }
+.oshi-btn.on .oshi-heart { display: inline-block; animation: oshi-pop 0.6s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes oshi-pop { 0% { scale: 0.3; rotate: -30deg; } 100% { scale: 1; rotate: 0deg; } }
+@media (prefers-reduced-motion: reduce) { .oshi-btn.on .oshi-heart { animation: none; } }
 .sns-btn svg { width: 15px; height: 15px; fill: currentColor; }
 .sns-btn:hover { background: var(--mc); color: #fff !important; transform: translateY(-3px) rotate(-2deg); border-color: var(--mc); }
 

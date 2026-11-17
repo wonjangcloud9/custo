@@ -2,6 +2,7 @@
 import { onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import { members } from '../data/members'
+import { loadOshi } from '../theme/oshi'
 
 const route = useRoute()
 let reduce = false
@@ -42,6 +43,7 @@ function enter() {
 }
 
 onMounted(() => {
+  loadOshi()
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   window.addEventListener('pointerdown', burst, { passive: true })
 })

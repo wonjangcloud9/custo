@@ -567,3 +567,19 @@ input[type='checkbox']:focus-visible, input[type='radio']:focus-visible, input[t
 
 /* inline code: brand pink on the grey code chip was 4.3:1 — one step darker for AA (#116) */
 :root { --vp-code-color: #a33366; }
+
+/* 최애 (oshi): visitor-picked member retints the site accent (member pages keep their own colour) — #117 */
+html[data-oshi="risa"] { --oshi: #FFC93C; --oshi-ink: 45%; }
+html[data-oshi="aika"] { --oshi: #FF4757; --oshi-ink: 100%; }
+html[data-oshi="kana"] { --oshi: #3CCFA8; --oshi-ink: 50%; }
+html[data-oshi="ayano"] { --oshi: #4A90D9; --oshi-ink: 100%; }
+html[data-oshi="emiru"] { --oshi: #FF9F43; --oshi-ink: 50%; }
+html[data-oshi="miyu"] { --oshi: #5DC8F5; --oshi-ink: 50%; }
+html[data-oshi="nagisa"] { --oshi: #A06CD5; --oshi-ink: 100%; }
+html[data-oshi="haruka"] { --oshi: #FF6B9D; --oshi-ink: 56%; }
+html[data-oshi] {
+  --vp-c-brand-1: color-mix(in srgb, var(--oshi) min(62%, var(--oshi-ink)), #2a1030);
+  --vp-c-brand-2: color-mix(in srgb, var(--oshi) min(72%, var(--oshi-ink)), #2a1030);
+  --vp-c-brand-soft: color-mix(in srgb, var(--oshi) 16%, transparent);
+  --custo-accent: color-mix(in srgb, var(--oshi) min(62%, var(--oshi-ink)), #2a1030);
+}

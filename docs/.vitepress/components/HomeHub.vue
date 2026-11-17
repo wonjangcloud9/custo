@@ -6,6 +6,7 @@ import BirthdayParty from './BirthdayParty.vue'
 import homeVideos from '../data/home-videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
+import { useOshi } from '../theme/oshi'
 import NewsFeed from './NewsFeed.vue'
 
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
@@ -71,6 +72,8 @@ const bdayToday = computed(() => (today.value ? members.find((m) => m.id === for
 // Korea show banner (Korean fans' headline) — from the official schedule, hidden once it has passed
 const korea = events.find((e) => e.ja.includes('Live in Korea'))
 const koreaDays = computed(() => (korea && today.value ? Math.ceil((new Date(`${korea.date}T00:00:00+09:00`).getTime() - today.value.getTime()) / 86400000) : null))
+const oshi = useOshi()
+const oshiM = computed(() => (oshi.value ? members.find((m) => m.id === oshi.value) ?? null : null))
 const koreaInCountdown = computed(() => !!korea && upcoming.value.some((e) => e.id === korea.date + korea.cat)) // card already shows it
 const bdaySoon = computed(() => (today.value && !bdayToday.value ? members.map((m) => ({ m, d: daysToBirthday(m.birthday, today.value!) })).filter((x) => x.d > 0 && x.d <= 14).sort((a, b) => a.d - b.d)[0] ?? null : null))
 // N years ago around today (JST month-day, ±3 days) from dated official videos
@@ -144,6 +147,7 @@ function cleanTitle(t: string) {
     <section id="top" ref="hero" class="hero" @pointermove="sparkle">
       <div class="hero-copy">
         <p class="eyebrow"><span class="live-dot" />CUTIE STREET 팬허브 · KR ⇄ JP</p>
+        <a v-if="oshiM" class="oshi-chip" :href="withBase(`/members/${oshiM.id}`)" :style="{ '--mc': oshiM.color }">💖 나의 최애 · <b>{{ oshiM.ko.split(' ')[1] }}</b> {{ oshiM.emoji }} →</a>
         <h1 class="head">
           <span class="line"><span v-for="(c, i) in HEAD1" :key="'a' + i" class="ch" :style="{ '--i': i, '--c': members[i % 8].color }">{{ c }}</span></span>
           <span class="line"><span v-for="(c, i) in HEAD2" :key="'b' + i" class="ch" :style="{ '--i': i + 6, '--c': members[(i + 5) % 8].color }">{{ c }}</span><span class="globe" aria-hidden="true">🌏</span></span>
@@ -339,6 +343,9 @@ function cleanTitle(t: string) {
   background: #3a2340; color: #fff; opacity: 0; pointer-events: none; transition: opacity 0.2s, translate 0.35s var(--spring); }
 .sat:hover .sat-tip, .sat:focus-visible .sat-tip { opacity: 1; translate: -50% 0; }
 
+.oshi-chip { display: inline-flex; align-items: center; gap: 4px; margin: 10px 0 14px 8px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; text-decoration: none !important;
+  color: #fff !important; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); transition: transform 0.45s var(--spring); }
+.oshi-chip:hover { transform: translateY(-2px) rotate(-1deg); }
 /* COUNTDOWN */
 .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
 .cd-card {
