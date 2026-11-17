@@ -77,8 +77,10 @@ slim = lambda v: {k: v[k] for k in ('id', 'title', 'duration', 'date') if v.get(
 home = {
     'total': len(videos),
     'latest': [slim(v) for v in videos if not v.get('channel')][:8],
-    'dated': [slim(v) for v in videos if v.get('date')],
 }
+# 'on this day' list is date-dependent → loaded by the home page after mount
+otd = [{k: v[k] for k in ('id', 'title', 'date')} for v in videos if v.get('date')]
+(out.parent / 'otd-videos.json').write_text(json.dumps(otd, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 (out.parent / 'home-videos.json').write_text(json.dumps(home, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 # Korea-related uploads (non-MV) for the /korea/ hub — keeps that page from loading the whole archive
 import re as _re

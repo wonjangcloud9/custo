@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { members, daysToBirthday, ageOn } from '../data/members'
 import BirthdayParty from './BirthdayParty.vue'
@@ -11,7 +11,7 @@ import NewsFeed from './NewsFeed.vue'
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
 const TOTAL = (homeVideos as { total: number }).total
 const latest = (homeVideos as { latest: Video[] }).latest
-const dated = (homeVideos as { dated: Video[] }).dated
+const dated = ref<{ id: string; title: string; date: string }[]>([]) // otd-videos.json, loaded after mount
 
 // Featured milestones come from the shared, source-verified schedule data
 const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: '💿', tv: '🎍' }
@@ -78,12 +78,17 @@ const onThisDay = computed(() => {
   if (!today.value) return []
   const jst = new Date(today.value.getTime() + 9 * 3600e3)
   const y = jst.getUTCFullYear(), md = Date.UTC(2000, jst.getUTCMonth(), jst.getUTCDate())
-  return dated.filter((v) => Number(v.date.slice(0, 4)) < y).map((v) => {
+  return dated.value.filter((v) => Number(v.date.slice(0, 4)) < y).map((v) => {
     const [vy, vm, vd] = v.date.split('-').map(Number)
     return { v, ago: y - vy, diff: Math.round((Date.UTC(2000, vm - 1, vd) - md) / 86400000) }
   }).filter((x) => Math.abs(x.diff) <= 3).sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff) || b.ago - a.ago).slice(0, 4)
 })
 onMounted(() => {
+  import('../data/otd-videos.json').then(async (m) => {
+    dated.value = m.default
+    await nextTick()
+    const el = document.getElementById('otd'); if (el && spy) spy.observe(el) // section appears after load
+  })
   today.value = new Date()
   forceBday.value = new URLSearchParams(location.search).get('bday') ?? '' // preview: ?bday=<id>
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
