@@ -55,6 +55,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 62 | 홈 ON THIS DAY: 공식 영상 제목 날짜 기준 ±3일 'N년 전 오늘/이맘때' 4장 | 8 | 1 | 0.8 | 0.5 | 12.8 | ✅ Done #27 |
 | 67 | 성능: 홈이 videos.json 전체(111KB) 로드 → build_videos가 home-videos.json(최신 8 + 날짜 있는 영상만, 54KB) 생성, 홈 전송량 123KB→66KB | 10 | 0.5 | 1 | 0.5 | 10 | ✅ Done #28 |
 | 63 | ⌘K 검색에 일본어 학습 페이지 21개 (config 사이드바에서 추출) | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #28 |
+| 65 | 영상 통계 /videos/stats/ (dataviz 스킬 준수: 단일 색 #C92F69 검증 PASS, 24px 이하 막대·4px 라운드·2px 간격·헤어라인 그리드·극값만 라벨·툴팁·표 보기) — 총 재생 시간, 월별(제목 날짜), 카테고리, 멤버 | 7 | 1 | 1 | 1 | 7 | ✅ Done #29 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -146,3 +147,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #26 2026-11-17 08:15 — refresh (0 new) + news (none, no 紅白 song); research round → #59 ShareButton (native share sheet / copy fallback, heart burst) on member hero, journey outro, 紅白 info, video player; #52 archive continuous play (YouTube iframe postMessage end detection with strict youtube origin check, next-up card, toggle) — next: new research round
 - #27 2026-11-17 08:35 — refresh (0 new) + news (none); #64 birthday mode (BirthdayParty: member-page banner w/ floating balloons, home ribbon on the day, 'D-n' chip within 14 days — now shows 사노 아이카 D-9; turning-age computed; ?bday preview) + #62 ON THIS DAY home section (±3 days, sepia→color hover) — next: research round
 - #28 2026-11-17 08:55 — refresh (0 new) + news (none); perf: home now uses build-generated home-videos.json (videos chunk no longer loaded on home; ~123KB→66KB); search palette indexes 21 Japanese-learning pages from the sidebar — next: research round (ideas: video stats dashboard w/ dataviz skill, JP UI toggle)
+- #29 2026-11-17 09:15 — refresh (0 new) + news (none); /videos/stats/ dashboard built per dataviz skill (validated single hue, hover tooltips, table view, member color chips + names instead of an unvalidated 8-hue palette): 539 videos, 55h55m runtime, 27-month column chart, category & member bars; linked from archive header + search — next: research round

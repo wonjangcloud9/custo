@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import ShareButton from './ShareButton.vue'
+import { withBase } from 'vitepress'
 import videosRaw from '../data/videos.json'
 import { members, memberById } from '../data/members'
 
@@ -142,7 +143,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
       <h1 class="va-title">
         <span v-for="(ch, i) in 'VIDEO ARCHIVE'.split('')" :key="i" class="va-ch" :style="{ '--i': i }">{{ ch === ' ' ? ' ' : ch }}</span>
       </h1>
-      <p class="va-sub">공식 채널 + KAWAII LAB. MV 영상 <b>{{ videos.length }}</b>개를 무대·안무·메이킹·생탄제별로. 본 영상은 <b>{{ watched.size }}</b>개예요.</p>
+      <p class="va-sub">공식 채널 + KAWAII LAB. MV 영상 <b>{{ videos.length }}</b>개를 무대·안무·메이킹·생탄제별로. 본 영상은 <b>{{ watched.size }}</b>개예요. <a class="va-stats" :href="withBase('/videos/stats/')">📊 통계 보기</a></p>
     </header>
 
     <div class="va-toolbar">
@@ -257,6 +258,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 }
 .va-sub { margin: 14px 0 0; color: #7a5a80; }
 .va-sub b { color: #c92f69; }
+.va-stats { margin-left: 6px; font-weight: 700; color: #a33366 !important; }
 
 .va-toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
 .va-search {
