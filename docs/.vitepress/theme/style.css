@@ -494,6 +494,7 @@ html {
 .member-page .VPDoc .content, .wide-page .VPDoc .content { max-width: none !important; }
 
 /* ── Member page theming: whole page follows the member color ── */
+.member-page { --page-mc: #FF6B9D; } /* default for member-page pages without a member id (e.g. /members/); per-member rules below override */
 .member-risa { --page-mc: #FFC93C; }
 .member-aika { --page-mc: #FF4757; }
 .member-kana { --page-mc: #3CCFA8; }
