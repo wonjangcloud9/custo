@@ -53,6 +53,7 @@ const fmtM = (k: string) => `${k.slice(2, 4)}.${k.slice(5)}`
 
 <template>
   <section class="vs" @mouseleave="tip = null">
+    <h2 class="sr-only">영상 통계</h2>
     <div class="tiles">
       <div v-for="t in tiles" :key="t.l" class="tile"><b>{{ t.v }}<small>{{ t.u }}</small></b><span>{{ t.l }}</span></div>
     </div>

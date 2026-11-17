@@ -44,6 +44,7 @@ onBeforeUnmount(() => clearInterval(timer))
 
 <template>
   <section class="po">
+    <h2 class="sr-only">펜라이트 시뮬레이터와 라이브 준비</h2>
     <div class="stage" :class="{ waving: wave }" :style="{ '--glow': current?.color ?? '#ff6b9d' }">
       <div class="lights" aria-hidden="true" />
       <div class="crowd" role="img" :aria-label="current ? `${current.ko} 컬러 펜라이트 바다` : '8색 펜라이트 바다'">

@@ -81,7 +81,7 @@ onMounted(() => {
       <figure v-for="it in shown" :key="it.post.id" class="snap" :class="{ out: removing === it.post.id }"
         :style="{ '--mc': memberById[it.mid].color, '--t': tilt(it.post.id) + 'deg' }">
         <span class="tape" aria-hidden="true" />
-        <a :href="`https://www.youtube.com/watch?v=${it.post.id}`" target="_blank" rel="noopener" class="ph">
+        <a :href="`https://www.youtube.com/watch?v=${it.post.id}`" target="_blank" rel="noopener" class="ph" :aria-label="`${memberById[it.mid].ja} — ${caption(it.post.title)} (YouTube)`">
           <img :src="`https://i.ytimg.com/vi/${it.post.id}/${it.post.hq ? 'maxresdefault' : 'hqdefault'}.jpg`" alt="" loading="lazy" />
         </a>
         <figcaption>

@@ -41,6 +41,7 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
 
   <!-- FULL PAGE -->
   <section v-else class="nf">
+    <h2 class="sr-only">공식 소식 목록</h2>
     <div class="bar">
       <div class="chips" role="toolbar" aria-label="소식 분류">
         <button type="button" class="chip" :aria-pressed="tag === 'all'" @click="tag = 'all'">전체 <small>{{ news.length }}</small></button>

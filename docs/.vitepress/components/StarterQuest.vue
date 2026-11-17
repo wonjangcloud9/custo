@@ -46,6 +46,7 @@ onMounted(() => {
 
 <template>
   <section class="sq">
+    <h2 class="sr-only">입문 퀘스트 단계</h2>
     <div class="prog" :style="{ '--p': pct }">
       <svg viewBox="0 0 120 120" aria-hidden="true">
         <circle cx="60" cy="60" r="52" class="track" />

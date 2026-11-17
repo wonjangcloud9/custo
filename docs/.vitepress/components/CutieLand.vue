@@ -43,6 +43,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 
 <template>
   <section class="cl">
+    <h2 class="sr-only">수록곡 가이드</h2>
     <aside class="cl-side">
       <div class="cl-stage" aria-hidden="true">
         <div class="cl-disc" :style="{ '--tc': cur.color }">

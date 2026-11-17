@@ -100,6 +100,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 111 | /cutie-land/ 아레나 투어 스탬프 랠리 (events.ts 13공연→7도시 자동 그룹, 완료 도장 CLEAR+스크롤 '쾅' 애니, 다음 공연 박동+D-day, FINAL 배지, 공식 LIVE 영상 자동 매칭(날짜·LIVE 제목) 5곳, 진행률 11/13; 모바일 4열·날짜 원 밖·잉크 겹침 0 검증) | 8 | 1 | 1 | 1 | 8 | ✅ Done #61 |
 | 112 | 아카이브 완전성 감사: 미야기 투어 영상은 채널에 원래 없음 확인 → 채널 검색 361편 대조 중 누락 4 → 원인은 생방송 아카이브(라이브 탭) 전체 누락 13편: 공식 제목(oEmbed)·길이·공개일로 날짜순 삽입(540→553), refresh.mjs가 /streams 탭도 스캔(lockupViewModel→videoId 파싱, 진행 중·24h 방송 제외, CS 채널 oEmbed 확인) — 누락 시뮬레이션으로 감지 검증 | 9 | 1 | 1 | 1 | 9 | ✅ Done #62 |
 | 113 | 키보드 접근성 점검(6페이지×2뷰포트, Tab 70회): ① 모바일 닫힌 사이드바 링크가 투명 상태로 Tab 순서에 포함(VitePress 기본이 opacity만 0) → ≤959px 닫힘 시 visibility:hidden(전환 후) ② 체크박스·선택상자 포커스 링이 VitePress `input:focus{outline:none}`에 덮임 → 비텍스트 컨트롤에 링 복구. 그 외 숨김/화면밖 판정은 스크롤 진입 애니·부드러운 스크롤 오탐 | 9 | 1 | 1 | 0.5 | 18 | ✅ Fixed #63 |
+| 114 | 화면 낭독기 구조 점검(21페이지): h1 1개 ✓, 제목 단계 건너뜀 6페이지(영상·통계·소식·CUTIE LAND·라이브 가이드·입문) → 화면에 안 보이는 h2(id 없음 → 목차 미노출) 삽입, 나의 앨범 사진 링크 이름 없음 → aria-label; 이미지 alt·입력 라벨 문제 0 | 8 | 1 | 1 | 0.3 | 27 | ✅ Fixed #64 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -149,6 +150,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 - Lesson (#36): never put a position:absolute 'sr-only' element inside an overflow-x:auto row — its containing block is outside the scroller, so it widens the page. Use aria-label instead.
 - Static: build, then scan dist/*.html internal hrefs → 0 broken.
 - Runtime: Playwright loop over every sitemap page at 1440 & 390 → 0 console errors, 0 horizontal overflow.
+- Structure: one visible h1, no heading-level skips, every link/button has a name, every img has alt (21-page script in #64).
 - Keyboard: Tab ×70 on home/member/schedule/korea/cutie-land/videos at 1440 & 390 — focus must never land inside .VPSidebar while closed on mobile; non-text controls show a ring.
 - Perf: per-page JS (Playwright response bodies) — current: home 317KB, member 262, schedule 215, korea 214, videos 313, journey 877 (three, lazy).
 - Hit-test: for every a/button in .VPContent, scrollIntoView + elementFromPoint(center) must be the element or a descendant (ignore sticky nav/dots, horizontally-scrolled carousel edges).
@@ -251,3 +253,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #61 2026-11-17 19:55 — refresh (0 new) + news (none new); tour stamp rally on /cutie-land/ (11/13 shows, FINAL 아이치 D-11; 5 stops auto-linked to official LIVE clips — titles verified by venue/date); fixed cross-month label (10/31–11/01), ink-over-date and lone 7th stamp on mobile; verified 1440/390 — next: #95/#106 watches, research round
 - #62 2026-11-17 20:15 — refresh (0 new) + news (none new); archive completeness audit vs channel search (361 ids): found 13 missing live-stream archives (birthday-show previews, 05 STREET DAY2 preview, online fan event, THE FIRST TAKE pre-stream…) → added by date (553); refresh now scans /streams (tested by removing one and re-detecting); member feeds gained the birthday previews — next: #95/#106 watches, research round
 - #63 2026-11-17 20:35 — refresh (0 new incl. streams) + news (none new); keyboard audit: fixed focus entering the closed mobile sidebar (0 now; open/close + desktop unaffected) and missing rings on checkbox/select (VitePress outline:none); 8 pages × 2 viewports clean — next: #95/#106 watches, research round
+- #64 2026-11-17 20:55 — refresh (0 new) + news (none new); screen-reader structure sweep over 21 pages: fixed heading skips on 6 pages with sr-only h2s (kept out of the outline, archive one placed after its own h1), named the likes-album photo links; re-checked 10 pages × 2 viewports: 0 skips, 0 unnamed, 0 overflow — next: #95/#106 watches, research round

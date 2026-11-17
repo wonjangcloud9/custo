@@ -205,6 +205,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
       </div>
     </div>
 
+    <h2 class="sr-only">영상 목록</h2>
     <div v-if="filtered.length" class="va-grid">
       <article v-for="v in visible" :key="v.id" class="card" :style="{ viewTransitionName: 'v-' + v.id.replace(/[^\w]/g, '_') }"
         :data-cat="v.category">
