@@ -62,6 +62,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 73 | 멤버 본문 사실 점검: 매력 포인트·활동 이력을 검증 사실(ticket.co.jp·위키·ciatr)로 재작성 + 출처 표기, 미검증 주장·퀴즈 교체 | 8 | 2 | 1 | 1.5 | 10.7 | ✅ Done #31 |
 | 74 | 학습 페이지 그룹 관련 사실 점검: 가사 페이지 곡 소개의 잘못된 릴리즈 표기('3rd/2nd 싱글'→디지털 싱글, 정확한 날짜·공식 크레딧) | 6 | 1 | 1 | 0.3 | 20 | ✅ Done #32 |
 | 75 | 홈 섹션 도트 내비 (scroll-spy, 활성 도트가 바로 늘어남, 호버 라벨, ≤1100px 숨김) | 8 | 0.5 | 1 | 0.5 | 8 | ✅ Done #32 |
+| 76 | 회귀 점검 #33: 정적 링크 53페이지 0 깨짐 · 런타임 52페이지×2뷰포트=104 로드 콘솔 에러 0/오버플로 0 · reduced-motion 시 무한 애니메이션 0 (일반 모드 홈 26개로 검출 유효성 확인) | 9 | 1 | 1 | 0.5 | 18 | ✅ Done #33 (no fixes needed) |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -100,6 +101,11 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 17 | 버그: 전역 표 테두리가 내용보다 넓게 늘어남 → `width: fit-content` | 8 | 0.5 | 1 | 0.1 | 40 | ✅ Done #3 |
 | 18 | 홈 카운트다운 이벤트를 `data/events.ts`로 분리 → 스케줄 페이지와 공유 (#6과 함께) | 7 | 0.5 | 1 | 0.3 | 11.7 | ✅ Done #7 |
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
+
+## Regression checklist (run every ~5 iterations)
+- Static: build, then scan dist/*.html internal hrefs → 0 broken.
+- Runtime: Playwright loop over every sitemap page at 1440 & 390 → 0 console errors, 0 horizontal overflow.
+- Motion: emulateMedia({reducedMotion:'reduce'}) → document.getAnimations() infinite+running = 0 on home/journey/member/live-guide/kohaku/cutie-land/videos/units/404.
 
 ## Research notes (verified facts + sources)
 - Official profile + SNS handles: https://cutiestreet.asobisystem.com/news/2 → stored in `docs/.vitepress/data/members.ts`.
@@ -158,3 +164,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #30 2026-11-17 09:35 — refresh (0 new) + news (none); verified #29 stats label fix (no overlap); custom 404 via not-found slot (bouncing 404, random member guide, links, opens ⌘K); README rewritten for the fan hub; FIXED palette filter row squashing when results are long — next: research round
 - #31 2026-11-17 09:55 — refresh (0 new) + news (none); member body fact sweep: all 8 '매력 포인트'/'활동 이력' rewritten from verified sources with source line; unverified claims removed (incl. sensitive heritage claim) and dependent quizzes/vocab replaced; verified 8 pages × 2 viewports clean — next: research round
 - #32 2026-11-17 10:15 — refresh (0 new) + news (none); learning-page fact sweep: only lyrics intros had group claims → fixed release labels/dates/credits (happy-sekai, hello-hello-mirai); home section dot navigator (7 sections, IntersectionObserver spy, smooth jump w/ scroll-margin, hover labels, hidden ≤1100px) — next: research round
+- #33 2026-11-17 10:35 — refresh (0 new) + news (none); full regression audit (static links 0 broken / 104 runtime loads clean / reduced-motion leaves 0 looping animations) — all green; added regression checklist to roadmap — next: research round for new features
