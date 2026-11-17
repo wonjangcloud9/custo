@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
-import { withBase } from 'vitepress'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { withBase, useRouter } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
@@ -55,7 +55,36 @@ onMounted(() => {
   now.value = new Date()
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   forceBday.value = new URLSearchParams(location.search).get('bday') === props.id // preview: ?bday=<id>
+  window.addEventListener('keydown', onKey)
 })
+onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+
+// Swipe (touch) on the hero and ← → keys move between members
+const router = useRouter()
+const swipeHint = ref<'prev' | 'next' | null>(null)
+let sx = 0, sy = 0, tracking = false
+function goMember(dir: 'prev' | 'next') {
+  const target = dir === 'next' ? next.value : prev.value
+  swipeHint.value = dir
+  setTimeout(() => { swipeHint.value = null; router.go(withBase(`/members/${target.id}`)) }, reduce ? 0 : 160)
+}
+function onTouchStart(e: TouchEvent) {
+  if (e.touches.length !== 1) return
+  sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true
+}
+function onTouchEnd(e: TouchEvent) {
+  if (!tracking) return
+  tracking = false
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6) goMember(dx < 0 ? 'next' : 'prev')
+}
+function onKey(e: KeyboardEvent) {
+  const t = e.target as HTMLElement
+  if (e.altKey || e.metaKey || e.ctrlKey || (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable))) return
+  if (document.querySelector('dialog[open], .sp-backdrop')) return
+  if (e.key === 'ArrowRight') goMember('next')
+  else if (e.key === 'ArrowLeft') goMember('prev')
+}
 
 </script>
 
@@ -63,7 +92,7 @@ onMounted(() => {
   <section v-if="m" class="mp" :style="{ '--mc': m.color }">
     <BirthdayParty v-if="isBday" :m="m" :age="age === null ? null : age + (dday === 0 ? 0 : 1)" />
     <!-- HERO -->
-    <div class="hero">
+    <div class="hero" :class="swipeHint ? `swipe-${swipeHint}` : ''" @touchstart.passive="onTouchStart" @touchend.passive="onTouchEnd">
       <div class="hero-bg" aria-hidden="true">
         <span class="blob b1" /><span class="blob b2" /><span class="blob b3" />
         <span class="marquee"><span v-for="n in 2" :key="n">{{ (m.en.toUpperCase() + ' ✦ ' + m.ja + ' ✦ ').repeat(3) }}</span></span>
@@ -96,6 +125,7 @@ onMounted(() => {
       </div>
     </div>
 
+    <p class="swipe-tip">👈 좌우로 밀면 다른 멤버로 👉</p>
     <!-- BENTO -->
     <div class="bento">
       <div class="tile t-age">
@@ -146,7 +176,7 @@ onMounted(() => {
     <MemberFeed :id="m.id" />
 
     <!-- PREV / NEXT -->
-    <nav class="pn" aria-label="다른 멤버">
+    <nav class="pn" aria-label="다른 멤버 (← → 키로도 이동)" aria-keyshortcuts="ArrowLeft ArrowRight">
       <a :href="withBase(`/members/${prev.id}`)" :style="{ '--pc': prev.color }"><small>← 이전 멤버</small><b>{{ prev.emoji }} {{ prev.ko }}</b></a>
       <a :href="withBase(`/members/${next.id}`)" :style="{ '--pc': next.color }" class="nx"><small>다음 멤버 →</small><b>{{ next.ko }} {{ next.emoji }}</b></a>
     </nav>
@@ -296,6 +326,11 @@ onMounted(() => {
 .bar-nm { font-size: 13px; font-weight: 700; margin-top: 4px; color: color-mix(in srgb, var(--bc) 70%, #3a2340); }
 
 /* PREV/NEXT */
+.hero { transition: transform 0.16s ease-in, opacity 0.16s ease-in; }
+.hero.swipe-next { transform: translateX(-28px); opacity: 0.6; }
+.hero.swipe-prev { transform: translateX(28px); opacity: 0.6; }
+.swipe-tip { display: none; margin: 10px 0 0; text-align: center; font-size: 12px; color: #735779; }
+@media (hover: none) and (pointer: coarse) { .swipe-tip { display: block; } }
 .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .pn a {
   display: flex; flex-direction: column; gap: 2px; padding: 16px 20px; border-radius: 20px; text-decoration: none !important;
@@ -322,5 +357,6 @@ onMounted(() => {
 @media (prefers-reduced-motion: reduce) {
   .blob, .marquee, .ja span, .holo-inner, .pin, .tile, .bar-fill { animation: none !important; }
   .holo-inner { transform: none; }
+  .hero { transition: none; }
 }
 </style>

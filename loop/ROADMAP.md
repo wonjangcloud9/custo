@@ -64,6 +64,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 75 | 홈 섹션 도트 내비 (scroll-spy, 활성 도트가 바로 늘어남, 호버 라벨, ≤1100px 숨김) | 8 | 0.5 | 1 | 0.5 | 8 | ✅ Done #32 |
 | 76 | 회귀 점검 #33: 정적 링크 53페이지 0 깨짐 · 런타임 52페이지×2뷰포트=104 로드 콘솔 에러 0/오버플로 0 · reduced-motion 시 무한 애니메이션 0 (일반 모드 홈 26개로 검출 유효성 확인) | 9 | 1 | 1 | 0.5 | 18 | ✅ Done #33 (no fixes needed) |
 | 77 | 스케줄 월간 캘린더 뷰 (목록/달력 토글, 일요일 시작, 카테고리·멤버 컬러 점, 오늘 링, 날짜 탭 → 상세, 이벤트 있는 달만 이동, 카테고리 필터 연동) | 7 | 1 | 1 | 1 | 7 | ✅ Done #34 |
+| 78 | 멤버 페이지 스와이프(터치, 수평 70px+·수평 우세일 때만) / ← → 키 이동, 짧은 슬라이드 힌트, 입력·다이얼로그·팔레트 중엔 무시, 터치 기기 안내문 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #35 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -167,3 +168,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #32 2026-11-17 10:15 — refresh (0 new) + news (none); learning-page fact sweep: only lyrics intros had group claims → fixed release labels/dates/credits (happy-sekai, hello-hello-mirai); home section dot navigator (7 sections, IntersectionObserver spy, smooth jump w/ scroll-margin, hover labels, hidden ≤1100px) — next: research round
 - #33 2026-11-17 10:35 — refresh (0 new) + news (none); full regression audit (static links 0 broken / 104 runtime loads clean / reduced-motion leaves 0 looping animations) — all green; added regression checklist to roadmap — next: research round for new features
 - #34 2026-11-17 10:55 — refresh (0 new) + news (none); /schedule/ month calendar view (list ⇄ calendar segmented toggle, Sun-start grid, colored pips by category / member color for 生誕祭, today ring, tap a day → detail cards, month nav limited to months with events, respects category chips) — next: research round
+- #35 2026-11-17 11:15 — refresh (0 new) + news (none); member pages: touch swipe on hero + ←/→ keys → prev/next member (slide hint, ignores typing/open dialogs/⌘K, vertical drags ignored, listener removed on leave — verified), touch-only hint — next: research round
