@@ -324,5 +324,58 @@ export const songs: Song[] = [
       { q: '「ラブトレ」의 Billboard JAPAN Hot 100 최고 순위는?', options: ['2위', '36위', '67위', '100위'], answer: 3 },
     ],
   },
+  {
+    id: 'prima-donna', title: 'ゆめみるプリマドンナ', read: '유메미루 프리마돈나', meaning: '꿈꾸는 프리마돈나',
+    tagline: 'FC 투어 개막 공연에서 첫 공개', grad: ['#A06CD5', '#FF6B9D', '#FFC93C'],
+    facts: [
+      { k: '발매', v: '2026.02.04 디지털' },
+      { k: '작사', v: 'Orca' },
+      { k: '작곡·편곡', v: '塩原大貴' },
+      { k: '안무', v: 'SACO MAKITA' },
+      { k: '아트워크', v: 'meeco' },
+      { k: '수록', v: '3rd SINGLE (아니포케반 제외 4형태)' },
+    ],
+    badges: ['3rd 싱글 커플링', 'Choreography Video 공개'],
+    story: [
+      '첫 팬클럽 투어 「きゅーてすとのつどい」 오사카 공연에서 처음 선보였고(koubo 보도), 2월 4일 0시에 배포가 시작됐어요. 3rd 싱글 「キュートなキューたい / ナイスだね」의 초회한정반·CUTIE盤·STREET盤·통상반에 실렸어요.',
+      '작사는 Orca, 작곡·편곡은 塩原大貴, 안무는 SACO MAKITA, 아트워크는 meeco가 맡았어요.',
+    ],
+    videos: [
+      { id: 'xwAQL_BSfxo', label: '공식 MV' },
+      { id: 'lqKglr_iN4M', label: '안무 영상' },
+      { id: 'cq6tPSg0930', label: 'Dance Practice' },
+      { id: 'g3-C6JfgryM', label: 'K아레나 요코하마 (2026.02.14)' },
+    ],
+    quiz: [
+      { q: '이 곡을 처음 선보인 투어는?', options: ['FC 투어 「きゅーてすとのつどい」', '첫 아레나 투어', '첫 전국 투어', 'KAWAII LAB. 5주년 투어'], answer: 0 },
+      { q: '이 곡의 안무가는?', options: ['えりなっち', 'SACO MAKITA', 'UGA', 'カンナ'], answer: 1 },
+    ],
+  },
+  {
+    id: 'error404', title: 'Error404♡', read: '에러 404', meaning: '~君とあたし永久不滅♡~ (너와 나 영원불멸)',
+    tagline: 'SILENT SIREN すぅ 작사', grad: ['#FF4757', '#A06CD5', '#4A90D9'],
+    facts: [
+      { k: '발매', v: '2026.07.10 디지털' },
+      { k: '부제', v: '~君とあたし永久不滅♡~' },
+      { k: '작사', v: 'すぅ (SILENT SIREN)' },
+      { k: '작곡·편곡', v: 'クボナオキ (M-AG)' },
+      { k: '아트워크', v: 'Miki Taguchi' },
+    ],
+    badges: ['すぅ (SILENT SIREN) 작사', 'KAWAII FOCUS 공개'],
+    story: [
+      '2026년 7월 10일에 나온 디지털 싱글로, 부제는 「~君とあたし永久不滅♡~」예요. 밴드 SILENT SIREN의 すぅ가 작사하고, クボナオキ(M-AG)가 작곡·편곡했어요.',
+      '발매 다음 날인 7월 11일 요요기 제1체육관 무대에서 불렀고, 7월 19일 이와미자와 공원 공연에서도 선보였어요.',
+    ],
+    videos: [
+      { id: 'eAFzQwArpFM', label: '공식 MV' },
+      { id: 'FBuBwOYfadY', label: '안무 영상 (MV edition)' },
+      { id: 'w8xfJYASmvE', label: 'KAWAII FOCUS' },
+      { id: 'RkYdZaQU3n8', label: '代々木第一体育館 (2026.07.11)' },
+    ],
+    quiz: [
+      { q: '이 곡의 작사가 すぅ가 속한 밴드는?', options: ['SILENT SIREN', 'SCANDAL', 'ヤバイTシャツ屋さん', 'Mrs. GREEN APPLE'], answer: 0 },
+      { q: '이 곡의 부제는?', options: ['~君とあたし永久不滅♡~', '~かわいいだけじゃ~', '~Welcome to CUTIE LAND~', '~ナイスだね~'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
