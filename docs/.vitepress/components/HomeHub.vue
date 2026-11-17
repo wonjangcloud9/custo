@@ -76,6 +76,8 @@ const koreaDays = computed(() => (korea && today.value ? Math.ceil((new Date(`${
 const oshi = useOshi()
 const oshiM = computed(() => (oshi.value ? members.find((m) => m.id === oshi.value) ?? null : null))
 const koreaInCountdown = computed(() => !!korea && upcoming.value.some((e) => e.id === korea.date + korea.cat)) // card already shows it
+// 1st album countdown for the EXPLORE tile (JST midnight of release day)
+const albumD = computed(() => (today.value ? Math.ceil((Date.parse('2026-12-02T00:00:00+09:00') - today.value.getTime()) / 86400000) : null))
 const bdaySoon = computed(() => (today.value && !bdayToday.value ? members.map((m) => ({ m, d: daysToBirthday(m.birthday, today.value!) })).filter((x) => x.d > 0 && x.d <= 14).sort((a, b) => a.d - b.d)[0] ?? null : null))
 // N years ago around today (JST month-day, ±3 days) from dated official videos
 const onThisDay = computed(() => {
@@ -259,6 +261,9 @@ function cleanTitle(t: string) {
         <a class="b" :href="withBase('/which-member/')"><span class="b-emoji">🔮</span><b>나와 닮은 멤버</b><span>6문항 테스트</span></a>
         <a class="b" :href="withBase('/live-guide/')"><span class="b-emoji">🔦</span><b>펜라이트 가이드</b><span>라이브 준비</span></a>
         <a class="b" :href="withBase('/kohaku/')"><span class="b-emoji">🎍</span><b>紅白 특집</b><span>12/31 첫 출장 카운트다운</span></a>
+        <a class="b b-quiz" :href="withBase('/mv-quiz/')"><i class="b-new">NEW</i><span class="b-emoji">🎯</span><b>MV 장면 퀴즈</b><span>흐릿한 한 장면, 무슨 곡일까?</span></a>
+        <a class="b" :href="withBase('/appearances/')"><i class="b-new">NEW</i><span class="b-emoji">📺</span><b>출연 아카이브</b><span>다른 채널에 나온 큐스트</span></a>
+        <a class="b b-cl" :href="withBase('/cutie-land/')"><span class="b-emoji">💿</span><b>CUTIE LAND</b><span>{{ albumD === null ? '1st ALBUM 12.02' : albumD > 0 ? `1st ALBUM 발매 D-${albumD}` : albumD === 0 ? '오늘 발매! 🎉' : '1st ALBUM 발매 중' }}</span></a>
       </div>
     </section>
   </div>
@@ -471,6 +476,17 @@ function cleanTitle(t: string) {
 }
 .b:hover { transform: translateY(-4px) rotate(-0.8deg); background: #fff5fa; }
 .b-kr { background: linear-gradient(150deg, #fff 30%, #eaf1ff); }
+.b { position: relative; }
+.b-new { position: absolute; right: 12px; top: 12px; z-index: 1; padding: 2px 8px; border-radius: 999px; font-style: normal; font-size: 10.5px; font-weight: 900; letter-spacing: 0.12em; background: #ff4f8b; color: #fff; }
+.b-quiz { grid-column: span 2; overflow: hidden; color: #fff !important; background: #2a1030; isolation: isolate; }
+.b-quiz::before { content: ''; position: absolute; inset: -12px; z-index: -1; background: linear-gradient(100deg, rgba(42, 16, 48, 0.85) 30%, rgba(42, 16, 48, 0.25)), url('https://i.ytimg.com/vi/VQmdUnlNnds/maxres2.jpg') center / cover;
+  filter: blur(7px) saturate(0.85); transform: scale(1.15); transition: filter 0.8s ease, transform 0.8s ease; }
+.b-quiz:hover { background: #2a1030; }
+.b-quiz:hover::before { filter: blur(0) saturate(1); transform: scale(1); }
+.b-quiz b { color: #fff; }
+.b-quiz span:not(.b-emoji) { color: #f3dbe7 !important; }
+.b-cl { background: linear-gradient(150deg, #fff 35%, #fff1d6); }
+@media (prefers-reduced-motion: reduce) { .b-quiz::before { transition: none; } }
 .b-lg { grid-column: span 2; grid-row: span 2; background: linear-gradient(150deg, #ffe3ef, #efe4ff); }
 .b-emoji { font-size: 28px; margin-bottom: auto; transition: transform 0.6s var(--spring); }
 .b:hover .b-emoji { transform: scale(1.25) rotate(-12deg); }
@@ -491,7 +507,7 @@ function cleanTitle(t: string) {
   .acc:not(:hover):not(:focus-within) .acc-item:first-child .acc-kanji { font-size: 34px; left: 18px; }
   .acc-body { opacity: 1; transform: none; padding: 12px 18px 12px 72px; }
   .acc-body b { font-size: 18px; }
-  .bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 130px; }
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(130px, auto); }
   .otd-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 520px) {
