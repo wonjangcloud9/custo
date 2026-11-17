@@ -8,6 +8,7 @@ export interface News { date: string; ja: string; ko: string; tag: NewsTag; url:
 
 const O = 'https://cutiestreet.asobisystem.com'
 export const news: News[] = [
+  { date: '2026-11-17', tag: 'release', ja: 'CUTIE STREET 1st アルバム『CUTIE LAND』リリース記念 楽天ブックスオンライン予約抽選会の開催が決定！', ko: '1st 앨범 발매 기념 라쿠텐북스 온라인 예약 추첨회 (11/25 23:59까지)', url: `${O}/news/detail/96630`, internal: '/cutie-land/' },
   { date: '2026-11-17', tag: 'event', ja: '11/23（月・祝）CUTIE STREET 大特典会 物販情報', ko: '11/23 삿포로 대특전회 물판(굿즈 판매) 정보', url: `${O}/news/detail/96574`, internal: '/schedule/' },
   { date: '2026-11-15', tag: 'ticket', ja: '11/15(日) JAPAN ARENA TOUR 2026 -AUTUMN-『CUTIE LAND』広島公演 Day2 当日券販売のお知らせ', ko: '아레나 투어 히로시마 DAY2 당일권 판매 안내', url: `${O}/news/detail/96456`, internal: '/schedule/' },
   { date: '2026-11-14', tag: 'ticket', ja: '11/14(土) JAPAN ARENA TOUR 2026 -AUTUMN-『CUTIE LAND』広島公演 Day1 当日券販売のお知らせ', ko: '아레나 투어 히로시마 DAY1 당일권 판매 안내', url: `${O}/news/detail/96381`, internal: '/schedule/' },

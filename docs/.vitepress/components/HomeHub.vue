@@ -16,7 +16,7 @@ const dated = (homeVideos as { dated: Video[] }).dated
 // Featured milestones come from the shared, source-verified schedule data
 const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: '💿', tv: '🎍' }
 // featured events that have an in-site special page
-const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-12-31': '/kohaku/' }
+const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-12-31': '/kohaku/', '2027-01-23': '/korea/' }
 const EVENTS = events.filter((e) => e.featured).map((e) => ({
   id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
 }))
@@ -179,7 +179,7 @@ function cleanTitle(t: string) {
       </a>
     </section>
 
-    <a v-if="korea && koreaDays !== null && koreaDays >= 0 && !koreaInCountdown" class="kr" :href="korea.url" target="_blank" rel="noopener">
+    <a v-if="korea && koreaDays !== null && koreaDays >= 0 && !koreaInCountdown" class="kr" :href="withBase('/korea/')">
       <span class="kr-flag" aria-hidden="true">🇰🇷</span>
       <span class="kr-txt"><small>한국 공연 확정</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · 시간·티켓 추후 공지' }}</span></span>
       <span class="kr-dd">{{ koreaDays === 0 ? 'TODAY' : 'D-' + koreaDays }}</span>
@@ -240,7 +240,7 @@ function cleanTitle(t: string) {
       <div class="bento">
         <a class="b b-lg" :href="withBase('/japanese/beginner/hiragana')"><span class="b-emoji">🎤</span><b>멤버 이름으로 히라가나</b><span>덕질하면서 일본어 첫걸음</span></a>
         <a class="b" :href="withBase('/japanese/lyrics/kawaii-dake')"><span class="b-emoji">🎵</span><b>가사로 배우기</b><span>かわいいだけじゃだめですか？</span></a>
-        <a class="b" :href="withBase('/japanese/idol-japanese/live-terms')"><span class="b-emoji">📣</span><b>현장 일본어</b><span>특전회·물판·콜</span></a>
+        <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji">🇰🇷</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
         <a class="b" :href="withBase('/discography/')"><span class="b-emoji">💿</span><b>디스코그래피</b><span>싱글 & 앨범</span></a>
         <a class="b" :href="withBase('/stages/')"><span class="b-emoji">🎬</span><b>레전드 무대</b><span>엠카·THE FIRST TAKE</span></a>
         <a class="b" :href="withBase('/schedule/')"><span class="b-emoji">📅</span><b>스케줄</b><span>투어·방송·이벤트</span></a>
@@ -455,6 +455,7 @@ function cleanTitle(t: string) {
   transition: transform 0.5s var(--spring), background 0.3s;
 }
 .b:hover { transform: translateY(-4px) rotate(-0.8deg); background: #fff5fa; }
+.b-kr { background: linear-gradient(150deg, #fff 30%, #eaf1ff); }
 .b-lg { grid-column: span 2; grid-row: span 2; background: linear-gradient(150deg, #ffe3ef, #efe4ff); }
 .b-emoji { font-size: 28px; margin-bottom: auto; transition: transform 0.6s var(--spring); }
 .b:hover .b-emoji { transform: scale(1.25) rotate(-12deg); }
