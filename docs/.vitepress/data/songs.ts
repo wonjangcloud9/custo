@@ -278,5 +278,51 @@ export const songs: Song[] = [
       { q: '이 곡의 안무가는?', options: ['えりなっち', 'SACO MAKITA', 'YUPPA', '大久保薫'], answer: 1 },
     ],
   },
+  {
+    id: 'shooting-star', title: 'Shooting Star', read: '슈팅 스타', meaning: '별똥별',
+    tagline: '데뷔 1주년 기념곡 · 멤버들의 마음을 노래로', grad: ['#A06CD5', '#4A90D9', '#FFC93C'],
+    facts: [
+      { k: '발매', v: '2025.10.14 디지털' },
+      { k: '작사·작곡·편곡', v: '早川博隆' },
+      { k: '안무', v: 'UGA · カンナ' },
+      { k: '수록', v: '1st ALBUM 「CUTIE LAND」 16번 트랙 (마지막 곡)' },
+    ],
+    badges: ['데뷔 1주년 기념곡', '앨범 마지막 트랙', '武道館 라이브 영상'],
+    story: [
+      '공식 디스코그래피가 \'1주년 기념곡\'으로 소개하는 곡으로, 멤버들의 마음을 노래로 만들었어요. 데뷔 무렵의 자신과 지금의 자신, CUTIE STREET에 대한 고마움, 앞으로의 각오를 담았어요.',
+      '데뷔곡과 같은 早川博隆이 작사·작곡·편곡을 맡았고, 1년간의 발자취를 담은 리릭 비디오가 공개됐어요. 1st 앨범 「CUTIE LAND」의 마지막 16번 트랙이에요.',
+    ],
+    videos: [
+      { id: 'o2D-8CDM_0o', label: '리릭 비디오 (1년간의 발자취)' },
+      { id: 'UeZGVygmcrk', label: '日本武道館 라이브' },
+    ],
+    quiz: [
+      { q: '이 곡은 무엇을 기념하는 곡일까요?', options: ['데뷔 1주년', '紅白 출장', '첫 아레나 투어', '한국 데뷔'], answer: 0 },
+      { q: '1st 앨범 「CUTIE LAND」에서 이 곡의 위치는?', options: ['첫 곡', '4번 트랙', '10번 트랙', '마지막 16번 트랙'], answer: 3 },
+    ],
+  },
+  {
+    id: 'lovetore', title: 'ラブトレ', read: '라부토레', meaning: '러브 트레인',
+    tagline: '4th 디지털 싱글 · 빌보드 재팬 Hot 100 진입', grad: ['#FF6B9D', '#FF4757', '#FFC93C'],
+    facts: [
+      { k: '발매', v: '2025.02.26 디지털 (4th Single)' },
+      { k: '수록', v: '2nd SINGLE CUTIE STREET盤 (2025.07.23)' },
+    ],
+    badges: ['Billboard JAPAN Hot 100 100위', '2nd 싱글 CUTIE STREET盤 수록'],
+    story: [
+      '2025년 2월 26일에 나온 4th 디지털 싱글이에요. Billboard JAPAN Hot 100에 100위로 진입했어요.',
+      '7월에 나온 2nd CD 싱글의 CUTIE STREET盤에 커플링으로 실렸고, 발매 전인 2024년 12월 恵比寿 공연에서도 불렀어요. (공식 상세 페이지엔 크레딧이 없어 생략했어요)',
+    ],
+    videos: [
+      { id: '0DkagMiDNf0', label: '공식 MV' },
+      { id: 'MRBEPtFNgPo', label: '안무 영상 (MV edition)' },
+      { id: 'RTRTTDRFZmc', label: 'Dance Practice' },
+      { id: 'SWt_St__0yo', label: 'Zepp Namba (2025.03.22)' },
+    ],
+    quiz: [
+      { q: '「ラブトレ」가 실린 2nd CD 싱글의 반은?', options: ['초회한정반', 'CUTIE STREET盤', '통상반', '아니포케반'], answer: 1 },
+      { q: '「ラブトレ」의 Billboard JAPAN Hot 100 최고 순위는?', options: ['2위', '36위', '67위', '100위'], answer: 3 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
