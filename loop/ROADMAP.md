@@ -75,6 +75,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 86 | 멤버 페이지 '다가오는 생탄제' 카드 (events.ts member 필드, 당일까지 노출, D-day, 공식 상세 링크) + 아이카 생탄제 START 19:00 공식 확인 반영 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #42 |
 | 87 | 다가오는 일정 시작 시각 공식 검증 보강: 11/19 19:00 · 11/20 12:00(사인회)/21:00 · 11/21 17:00(배신) · 11/22·29 19:00 → NEXT UP 카운트다운이 실제 시각 기준. GIFT·삿포로는 공식 미기재라 공란 | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #43 |
 | 88 | 정기 회귀 점검 #44: 정적 링크 53p 0 · 런타임 104로드 에러0/오버플로0 · reduced-motion 10p 무한 애니 0 · 히트테스트(변경 페이지 4×2) 0 | 9 | 1 | 1 | 0.5 | 18 | ✅ Done #44 (all green) |
+| 89 | 영상 아카이브 시청 진도 바 (현재 카테고리·멤버·검색 범위 기준 N/M편·%, '안 본 영상만'과 무관, 완주 시 🎉, 기록 없으면 숨김, role=progressbar) | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #45 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -194,3 +195,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #42 2026-11-17 13:35 — refresh (0 new) + news (none); member page upcoming 生誕祭 card from events.ts (shows only when scheduled & not past — now 사노 아이카 11/26 19:00 SGCホール有明 D-9); verified start time on official page; fixed collapsed space before mustache; checked other v-if spans OK — next: research round
 - #43 2026-11-17 13:55 — refresh (0 new) + news (none); verified & added 6 start times from official detail pages (TV ×4, stream, online sign event); GIFT/Sapporo left time-less (not published); NEXT UP now counts to 11/19 19:00 — next: research round
 - #44 2026-11-17 14:15 — refresh (0 new) + news (none); scheduled regression run per checklist — all green (53 static / 104 runtime / 10 reduced-motion / 8 hit-test page-views); no code changes — next: research round
+- #45 2026-11-17 14:35 — refresh (0 new) + news (none); archive watch-progress bar per current scope (verified: 10 seen → all 10/539 · 2%, MV 10/28 · 36%, unaffected by 'unwatched only'; all 28 MVs → 🎉 완주; hidden with no history); mobile OK — next: research round

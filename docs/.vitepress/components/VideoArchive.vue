@@ -66,6 +66,15 @@ const filtered = computed(() => {
   })
 })
 const visible = computed(() => filtered.value.slice(0, shown.value))
+// Watch progress for the current scope (category/member/search), independent of 'unwatched only'
+const scope = computed(() => {
+  const needle = q.value.trim().toLowerCase()
+  return videos.filter((v) => (cat.value === 'all' || v.category === cat.value) && (!member.value || v.members.includes(member.value)) &&
+    (!needle || v.title.toLowerCase().includes(needle) || v.venue.toLowerCase().includes(needle)))
+})
+const seenInScope = computed(() => scope.value.filter((v) => watched.value.has(v.id)).length)
+const pct = computed(() => (scope.value.length ? Math.round((seenInScope.value / scope.value.length) * 100) : 0))
+const complete = computed(() => scope.value.length > 0 && seenInScope.value === scope.value.length)
 
 function withTransition(fn: () => void) {
   const d = document as any
@@ -187,7 +196,14 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
       <label class="va-toggle"><input v-model="unwatchedOnly" type="checkbox" /> 안 본 영상만</label>
     </div>
 
-    <p class="va-count" aria-live="polite">{{ filtered.length }}개의 영상</p>
+    <div class="va-meta">
+      <p class="va-count" aria-live="polite">{{ filtered.length }}개의 영상</p>
+      <div v-if="watched.size" class="va-prog" :class="{ done: complete }" role="progressbar" :aria-valuenow="seenInScope" aria-valuemin="0" :aria-valuemax="scope.length"
+        :aria-label="`이 목록에서 ${scope.length}편 중 ${seenInScope}편 봤어요`">
+        <span class="va-prog-track"><i :style="{ width: pct + '%' }" /></span>
+        <span class="va-prog-txt">{{ complete ? '🎉 이 목록 완주!' : `${seenInScope}/${scope.length}편 봤어요 · ${pct}%` }}</span>
+      </div>
+    </div>
 
     <div v-if="filtered.length" class="va-grid">
       <article v-for="v in visible" :key="v.id" class="card" :style="{ viewTransitionName: 'v-' + v.id.replace(/[^\w]/g, '_') }"
@@ -335,7 +351,14 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 .va-toggle { margin-left: 4px; flex: none; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #7a5a80; cursor: pointer; padding-left: 12px; }
 .va-toggle input { accent-color: #ff6b9d; width: 16px; height: 16px; }
 
-.va-count { font-size: 13px; color: #735779; margin: 6px 0 16px; font-weight: 600; }
+.va-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 6px 0 16px; }
+.va-count { font-size: 13px; color: #735779; margin: 0 !important; font-weight: 600; }
+.va-prog { display: flex; align-items: center; gap: 10px; font-size: 12.5px; font-weight: 700; color: #5a4060; }
+.va-prog-track { width: 140px; height: 8px; border-radius: 999px; background: #f6e7ef; overflow: hidden; }
+.va-prog-track i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff6b9d, #c92f69); transition: width 0.6s cubic-bezier(.34, 1.56, .64, 1); }
+.va-prog.done .va-prog-txt { color: #c92f69; animation: va-pop 0.6s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes va-pop { 0% { transform: scale(0.6); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .va-prog-track i { transition: none; } .va-prog.done .va-prog-txt { animation: none; } }
 
 .va-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px 18px; }
 .card {
