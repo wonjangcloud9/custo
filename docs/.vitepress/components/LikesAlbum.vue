@@ -61,9 +61,9 @@ onMounted(() => {
 <template>
   <section class="la">
     <header class="la-head">
-      <p class="eyebrow">{{ shared ? 'SHARED ALBUM' : 'MY ♡ ALBUM' }}</p>
+      <p v-if="shared" class="eyebrow">SHARED ALBUM</p>
       <h2>{{ shared ? '친구가 공유한 레전드 컷' : '나만의 레전드 앨범' }} <small>{{ items.length }}컷</small></h2>
-      <p v-if="topMember && !shared" class="sub">최애 지수 1위: <b :style="{ color: topMember.color }">{{ topMember.emoji }} {{ topMember.ko }}</b> ({{ byMember[topMember.id] }}컷)</p>
+      <p v-if="topMember && !shared" class="sub">최애 지수 1위: <b class="top" :style="{ '--mc': topMember.color }">{{ topMember.emoji }} {{ topMember.ko }}</b> ({{ byMember[topMember.id] }}컷)</p>
       <div class="acts">
         <button v-if="shared" type="button" class="btn primary" @click="importShared">내 앨범에 모두 담기 ♡</button>
         <button v-else-if="likes.length" type="button" class="btn primary" @click="share">{{ copied ? '링크 복사됨 ✓' : '앨범 공유 링크 복사' }}</button>
@@ -142,4 +142,5 @@ figcaption small { font-size: 11.5px; color: #735779; font-family: 'Noto Sans JP
 .empty p { font-size: 15px; line-height: 1.8; margin-bottom: 18px !important; }
 @media (max-width: 640px) { .board { columns: 2; column-gap: 12px; } .la-head { padding: 20px; } }
 @media (prefers-reduced-motion: reduce) { .snap, .empty-art span { animation: none; } .snap, .rm, .btn, .chip { transition: none; } }
+.la-head .top { color: color-mix(in srgb, var(--mc) 50%, #2a1030); }
 </style>

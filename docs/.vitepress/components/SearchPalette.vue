@@ -109,7 +109,7 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 </template>
 
 <style scoped>
-.sp-trigger { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px 0 12px; margin-right: 8px; border-radius: 999px; font-size: 13px; font-weight: 600;
+.sp-trigger { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px 0 12px; margin: 0 8px 0 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
   background: #fff; border: 1.5px solid #f3d6e4; color: #6a4a70; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), border-color 0.2s; }
 .sp-trigger:hover { transform: translateY(-1px); border-color: #ff9ec0; }
 .sp-trigger kbd, .sp kbd { font-family: inherit; font-size: 11px; padding: 1px 6px; border-radius: 6px; background: #f8eef4; border: 1px solid #efdbe6; color: #735779; }
