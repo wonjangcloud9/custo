@@ -56,6 +56,9 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 67 | 성능: 홈이 videos.json 전체(111KB) 로드 → build_videos가 home-videos.json(최신 8 + 날짜 있는 영상만, 54KB) 생성, 홈 전송량 123KB→66KB | 10 | 0.5 | 1 | 0.5 | 10 | ✅ Done #28 |
 | 63 | ⌘K 검색에 일본어 학습 페이지 21개 (config 사이드바에서 추출) | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #28 |
 | 65 | 영상 통계 /videos/stats/ (dataviz 스킬 준수: 단일 색 #C92F69 검증 PASS, 24px 이하 막대·4px 라운드·2px 간격·헤어라인 그리드·극값만 라벨·툴팁·표 보기) — 총 재생 시간, 월별(제목 날짜), 카테고리, 멤버 | 7 | 1 | 1 | 1 | 7 | ✅ Done #29 |
+| 71 | 커스텀 404 (튀는 404 숫자, 랜덤 멤버 안내, 주요 링크, ⌘K 검색 열기) | 6 | 1 | 1 | 0.5 | 12 | ✅ Done #30 |
+| 70 | README를 팬허브 기준으로 갱신 (기능 표, 콘텐츠 원칙, 데이터 갱신 방법) | 3 | 1 | 1 | 0.2 | 15 | ✅ Done #30 |
+| 72 | 버그: ⌘K 팔레트에서 결과가 많을 때 필터 줄이 flex 축소로 20px로 찌그러짐 → header/footer flex:none, list min-height:0 | 9 | 0.5 | 1 | 0.1 | 45 | ✅ Fixed #30 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -148,3 +151,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #27 2026-11-17 08:35 — refresh (0 new) + news (none); #64 birthday mode (BirthdayParty: member-page banner w/ floating balloons, home ribbon on the day, 'D-n' chip within 14 days — now shows 사노 아이카 D-9; turning-age computed; ?bday preview) + #62 ON THIS DAY home section (±3 days, sepia→color hover) — next: research round
 - #28 2026-11-17 08:55 — refresh (0 new) + news (none); perf: home now uses build-generated home-videos.json (videos chunk no longer loaded on home; ~123KB→66KB); search palette indexes 21 Japanese-learning pages from the sidebar — next: research round (ideas: video stats dashboard w/ dataviz skill, JP UI toggle)
 - #29 2026-11-17 09:15 — refresh (0 new) + news (none); /videos/stats/ dashboard built per dataviz skill (validated single hue, hover tooltips, table view, member color chips + names instead of an unvalidated 8-hue palette): 539 videos, 55h55m runtime, 27-month column chart, category & member bars; linked from archive header + search — next: research round
+- #30 2026-11-17 09:35 — refresh (0 new) + news (none); verified #29 stats label fix (no overlap); custom 404 via not-found slot (bouncing 404, random member guide, links, opens ⌘K); README rewritten for the fan hub; FIXED palette filter row squashing when results are long — next: research round

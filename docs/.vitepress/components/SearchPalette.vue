@@ -122,7 +122,8 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 .sp-filters { display: flex; gap: 6px; padding: 10px 14px 4px; overflow-x: auto; scrollbar-width: none; }
 .sp-filters button { flex: none; font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; background: #faf2f6; color: #6a4a70; }
 .sp-filters button[aria-pressed='true'] { background: #3a2340; color: #fff; }
-.sp-list { overflow-y: auto; padding: 6px 8px 10px; }
+.sp-input, .sp-filters, .sp-foot { flex: none; }
+.sp-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 6px 8px 10px; }
 .sp-group { margin: 10px 8px 4px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: #7d6083; }
 .sp-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 10px; border-radius: 12px; text-align: left; background: none; color: inherit; }
 .sp-item.on { background: #fff0f6; }

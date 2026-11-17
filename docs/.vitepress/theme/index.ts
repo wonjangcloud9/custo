@@ -10,6 +10,7 @@ import BookmarkList from '../components/BookmarkList.vue'
 import GlobalFx from '../components/GlobalFx.vue'
 import SearchPalette from '../components/SearchPalette.vue'
 import YtLite from '../components/YtLite.vue'
+import NotFound404 from '../components/NotFound404.vue'
 import './style.css'
 
 // Page-specific (and data-heavy) components are split into their own chunks so each page only
@@ -39,6 +40,7 @@ export default {
   Layout: () => h(DefaultTheme.Layout, null, {
     'layout-top': () => h(GlobalFx),
     'nav-bar-content-before': () => h(SearchPalette),
+    'not-found': () => h(NotFound404),
   }),
   enhanceApp({ app }) {
     app.component('Flashcard', Flashcard)
