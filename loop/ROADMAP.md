@@ -121,7 +121,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 130 | ✅ 출연 아카이브 자동 후보 스캔 #83 — `python3 loop/appearances.py scan [days]`: 그룹명·별칭·멤버 8명 이름을 업로드순 검색, 자사·기존·클립/팬 패턴 채널 제외 후 후보 출력(추가는 사람 검토 후 add). 첫 실행 4건 모두 팬 채널 → 추가 0 | 9 | 2 | 1 | 0.5 | 36 | ✅ Done #83 |
 | 131 | ✅ 스케줄 지난 일정 ↔ 그날 영상 연결 #83 — '지난 일정 보기' 켤 때만 videos/appearances 동적 로드, 공연일=영상 date(다이제스트 제외) + 다른 채널은 당일/익일 업로드, 최대 2칩 +N (23개 중 11개 연결) | 7 | 2 | 0.8 | 1 | 11 | ✅ Done #83 |
 | 132 | NEW: 11/26 아이카 생탄제 당일 — 홈 BirthdayParty·TodayDigest·멤버 페이지 생일 연출 실제 날짜로 점검(시계 이동, 새 컨텍스트), 생탄제 공식 영상 올라오면 연결 | 7 | 1 | 1 | 0.3 | 23 | Todo (11/26) |
-| 133 | NEW: CUTIE LAND 트랙 가이드에 '첫 수록/신곡' 표시 — PARTY TIME·おやすみサイレンナイト·君なんだ·TREASURES 등 기존 릴리즈 여부를 공식 디스코그래피로 검증 후 배지 | 8 | 2 | 0.6 | 1 | 9.6 | Todo |
+| 133 | ✅ CUTIE LAND 트랙 출처 배지 #84 — 공식 디스코그래피 31릴리즈 첫 발매일 배지(📀, 한국어 ver. 표기) 9곡, 공식 릴리즈·UtaTen 28곡 목록 어디에도 없는 6곡 '✨ 앨범 첫 공개'(Overture·PARTY TIME·おやすみサイレンナイト·どんどんどん！·君なんだ·TREASURES), ひたむきシンデレラ！는 2nd 싱글 CUTIE STREET盤 라이브 음원 수록만 표기(단독 발매 없음, MV 있음 → 스튜디오 첫 공개 단정 안 함); 상단 요약 | 8 | 2 | 0.8 | 1 | 12.8 | ✅ Done #84 |
 | 134 | NEW: 紅白 페이지 — 歌唱曲·曲順 발표 시 반영, 당일 타임라인(19:20 시작) 실시간 상태 재점검 | 9 | 1 | 1 | 0.3 | 30 | Watch (#46) |
 | 122 | ⭐ USER REQUEST: 기존(초기) 페이지 전면 개편 — 새 컴포넌트 페이지 수준으로: ~~① about(소개)~~ ✅#72 ~~② stages~~ ✅#73(레전드 무대) ~~③ discography 곡 해설 3곳 + 디스코 하단~~ ✅#75 ~~④ 멤버 페이지 본문~~ ✅#76 ~~⑤ members index 하단~~ ✅#77 ~~⑥ schedule 하단~~ ✅#77 ~~⑦ Quiz 컴포넌트 디자인~~ ✅#77. 1차 목록 완료 — 다음: units/which-member/likes/videos 등 남은 옛 페이지 재점검 | 10 | 3 | 1 | 3 | 10 | ✅ 1차 Done #77 |
 | 123 | 매 회차 '오늘의 화제' 수집: YouTube 검색(최근·CUTIE STREET/큐티스트리트/きゅーすと) + 공식 X/뉴스 → 외부 채널 출연·방송·기사를 검증 후 highlights.ts에 추가 | 9 | 2 | 0.8 | 0.3 | 48 | 🔁 Every iteration |
@@ -316,3 +316,9 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - 楽天ブックス online lottery: order 11/17 17:00 – 11/25 23:59; A賞 signed acrylic panel (3/member), B賞 signed random solo cheki (15/member), C賞 acrylic charm, D賞 hologram trading card.
 - #82 2026-11-18 — refresh/news/appearances: nothing new (no 応援店 list yet). Discography release dialog: related videos now merge own channel + appearance archive with Korean/English title aliases, category tabs with counts and 'more'; 1440/390 fresh contexts, 0 errors. Backlog now: watches (#95 #106 #46) + #13 i18n — refill with research next iteration.
 - #83 2026-11-18 — backlog refill: official Nov/Dec schedule re-checked (new: 11/24 15:30 オンライン特典会 @YouTube, detail 47626 → events.ts), internal link audit over dist (32 pages, 0 broken), bundle check (appearances 27K own chunk). Shipped #130 appearances scan mode and #131 past-event ↔ footage links; new Todo #132–#134. 1440/390 0 errors.
+- #84 2026-11-18 — refresh/news: nothing new; appearance scan: 1 fan-subtitle upload (skipped). CUTIE LAND track-origin badges + summary (6 album premieres / 9 released / 1 live-only on a single); 1440/390 0 errors.
+
+### Research notes #84
+- Official discography detail pages for the 1st (4308) and 2nd (5360) CD singles show no tracklists (1st single news 32526 says 「収録楽曲に関しては追って発表」). 3rd single 7526 tracklists: アニポケ盤 = キュートなキューたい / ナイスだね / -TV size-; 初回限定盤 adds ゆめみるプリマドンナ + ぷりきゅきゅ; CUTIE盤 adds ゆめみるプリマドンナ + I Amai Me Mind; STREET盤 adds ゆめみるプリマドンナ + Crush on you; 通常盤 = 3 tracks with ゆめみるプリマドンナ.
+- 2nd single (UtaTen news 66729 / retailer): 初回限定盤 + チョットヒトサジ + ハロハロミライ (Live); CUTIE STREET盤 + ラブトレ + ひたむきシンデレラ! (Live).
+- UtaTen CUTIE STREET lyric list (28 songs, 2026-11-16) has no PARTY TIME / おやすみサイレンナイト / どんどんどん！ / 君なんだ / TREASURES / Overture → treated as album premieres.

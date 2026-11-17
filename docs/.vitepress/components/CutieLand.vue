@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
-import { cutieLand, MV } from '../data/discography'
+import { cutieLand, MV, releases } from '../data/discography'
 import { members, memberById } from '../data/members'
 import { units } from '../data/units'
 import videosRaw from '../data/videos.json'
@@ -11,6 +11,12 @@ const videos = videosRaw as Video[]
 const norm = (s: string) => s.toLowerCase().normalize('NFKC').replace(/[\s・·、。！!？?「」『』【】()（）\-_/♡]/g, '')
 const ORDER: Record<string, number> = { mv: 0, dance: 1, live: 2, making: 3 }
 
+// where each album track was heard first (checked 2026-11-18): the official discography's releases;
+// ひたむきシンデレラ！: no standalone release; a live recording is on the 2nd single's CUTIE STREET盤 (UtaTen / retailer listing);
+// tracks in neither the 31 official releases nor the lyric sites' song lists are marked as album premieres.
+const firstRel = (t: string) => releases.filter((r) => r.type !== 'ALBUM' && norm(r.song) === norm(t)).sort((a, b) => a.date.localeCompare(b.date))[0]
+const ORIGIN_NOTE: Record<string, string> = { 'ひたむきシンデレラ！': '2nd SINGLE CUTIE STREET盤(2025.07.23)에 라이브 음원으로 수록된 곡 · 공식 디스코그래피에 단독 발매는 없음' }
+const KNOWN = new Set(['ひたむきシンデレラ！'])
 const tracks = cutieLand.tracks.map((t, i) => {
   const key = norm(t)
   const rel = key.length < 3 || i === 0 ? [] : videos
@@ -19,6 +25,7 @@ const tracks = cutieLand.tracks.map((t, i) => {
   const unit = units.find((u) => u.song === t)
   return {
     n: i + 1, title: t, mv: MV[t], unit,
+    first: firstRel(t), note: ORIGIN_NOTE[t] || '', premiere: !firstRel(t) && !KNOWN.has(t),
     color: members[i % 8].color,
     thumbs: rel.filter((v) => v.id !== MV[t]).slice(0, 3),
     lives: rel.filter((v) => v.category === 'live').length,
@@ -26,6 +33,9 @@ const tracks = cutieLand.tracks.map((t, i) => {
   }
 })
 
+const premieres = tracks.filter((t) => t.premiere).length
+const released = tracks.filter((t) => t.first).length
+const fmtD = (d: string) => d.replace(/-/g, '.')
 const current = ref(0)
 const days = ref<number | null>(null)
 let io: IntersectionObserver | undefined
@@ -62,6 +72,8 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
       </div>
     </aside>
 
+    <div class="cl-listwrap">
+    <p class="cl-sum"><b>16곡</b> 중 <span class="s-new">✨ 앨범 첫 공개 {{ premieres }}곡</span> · <span class="s-rel">📀 이미 발매된 곡 {{ released }}곡</span> · 싱글 라이브 음원 수록 1곡<small>공식 디스코그래피·가사 사이트 곡 목록 기준 (2026.11.18 확인)</small></p>
     <ol class="cl-list">
       <li v-for="(t, i) in tracks" :key="t.title" class="cl-track" :class="{ on: current === i }" :data-i="i" :style="{ '--tc': t.color }">
         <span class="no">{{ String(t.n).padStart(2, '0') }}</span>
@@ -71,8 +83,10 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
             <span v-if="t.mv" class="tag mv">🎬 MV</span>
             <span v-if="t.unit" class="tag unit">💞 {{ t.unit.ja }}</span>
             <span v-if="t.lives" class="tag">🎤 라이브 영상 {{ t.lives }}</span>
-            <span v-if="!t.total && !t.mv && i > 0" class="tag soft">✨ 앨범에서 만나는 곡</span>
+            <span v-if="t.premiere" class="tag new">✨ 앨범 첫 공개</span>
+            <span v-else-if="t.first" class="tag rel">📀 {{ fmtD(t.first.date) }} {{ t.first.type === 'SINGLE' ? 'CD 싱글' : '디지털' }}{{ /Korean/i.test(t.first.title) ? ' (한국어 ver.)' : '' }}</span>
           </div>
+          <p v-if="t.note" class="origin">{{ t.note }}</p>
           <div v-if="t.unit" class="unit-av">
             <a v-for="id in t.unit.members" :key="id" :href="withBase(`/members/${id}`)" :style="{ '--mc': memberById[id].color }" :title="memberById[id].ko">{{ memberById[id].ja.slice(-2, -1) }}</a>
           </div>
@@ -88,12 +102,22 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         </div>
       </li>
     </ol>
+    </div>
   </section>
 </template>
 
 <style scoped>
 .cl { --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077 20.4%, 1.121, 1.149 24.3%, 1.159, 1.163 27%, 1.154, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
   --ink: #3a2340; color: var(--ink); display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 40px; margin: 8px 0 60px; align-items: start; }
+.cl-sum { margin: 0 0 14px !important; padding: 12px 16px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1.5px #f6e0ea; font-size: 14px; line-height: 1.7; }
+.cl-sum small { display: block; font-size: 11.5px; color: #735779; }
+.s-new { font-weight: 800; color: #a33366; }
+.s-rel { font-weight: 700; }
+.tag.new { background: linear-gradient(100deg, #ffe1ee, #efe2ff); color: #8a1f55; font-weight: 800; animation: shimmer 2.4s ease-in-out infinite; background-size: 200% 100%; }
+@keyframes shimmer { 50% { background-position: 100% 0; } }
+.tag.rel { background: #f3eef6; color: #4a3550; }
+.origin { margin: 4px 0 0 !important; font-size: 12.5px; color: #6a4f70; }
+@media (prefers-reduced-motion: reduce) { .tag.new { animation: none; } }
 .cl-side { position: sticky; top: calc(var(--vp-nav-height, 64px) + 20px); }
 .cl-stage { position: relative; aspect-ratio: 1.15; }
 .cl-sleeve { position: absolute; left: 0; top: 4%; width: 62%; aspect-ratio: 1; border-radius: 14px; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; overflow: hidden;
