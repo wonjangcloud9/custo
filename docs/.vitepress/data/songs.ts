@@ -171,5 +171,61 @@ export const songs: Song[] = [
       { q: '1st 앨범 「CUTIE LAND」에서 이 곡은 몇 번 트랙?', options: ['2번', '4번', '6번', '9번'], answer: 2 },
     ],
   },
+  {
+    id: 'kawaii-sagashite', title: 'かわいいさがしてくれますか？', read: '카와이이 사가시테 쿠레마스카', meaning: '귀여움을 찾아 줄래요?',
+    tagline: '데뷔곡 「かわいいだけじゃだめですか？」의 속편', grad: ['#4A90D9', '#5DC8F5', '#FF6B9D'],
+    facts: [
+      { k: '발매', v: '2025.08.27 디지털' },
+      { k: '작사·작곡·편곡', v: '早川博隆' },
+      { k: '안무', v: 'SACO MAKITA' },
+      { k: '스트링 편곡', v: '早川博隆 · 川村祐寧' },
+      { k: '수록', v: '1st ALBUM 「CUTIE LAND」 5번 트랙' },
+    ],
+    badges: ['데뷔곡의 속편', '첫 전국 투어 개막일 초공개', 'CDTV 출연'],
+    story: [
+      '첫 전국 투어 「1st ANNIVERSARY JAPAN TOUR 2025 『CAN\'T STOP CUTIE』」가 사이타마 와코 시민문화센터에서 막을 올린 2025년 8월 27일, 같은 날 배포와 함께 처음 무대에서 선보인 곡이에요.',
+      '데뷔곡 「かわいいだけじゃだめですか？」의 속편으로, 눈에 띄지 않는 장점이나 단점이라 여겨지는 부분에도 \'귀여움\'이 있다는 마음을 담았다고 나기사가 소개했어요. 데뷔곡과 같은 早川博隆이 작사·작곡·편곡을 맡았어요.',
+    ],
+    videos: [
+      { id: '4mPtFbzszCk', label: '공식 MV' },
+      { id: 'jP1q8TUmNV0', label: '안무 영상 (MV edition)' },
+      { id: '8SOiZrfloV0', label: 'Dance Practice' },
+      { id: '1sr_FN9T3V0', label: 'CDTV' },
+      { id: '5OAoDd4ZbKA', label: 'ぴあアリーナMM (2025.10.13)' },
+    ],
+    quiz: [
+      { q: '이 곡은 어떤 곡의 속편일까요?', options: ['ハロハロミライ', 'かわいいだけじゃだめですか？', 'ラブトレ', 'ハッピー世界！'], answer: 1 },
+      { q: '이 곡이 처음 공개된 날 시작한 것은?', options: ['첫 전국 투어', '첫 아레나 투어', '한국 공연', 'FC 투어'], answer: 0 },
+      { q: '안무를 맡은 사람은?', options: ['えりなっち', 'SACO MAKITA', 'YUPPA', '川谷絵音'], answer: 1 },
+    ],
+  },
+  {
+    id: 'nice-dane', title: 'ナイスだね', read: '나이스다네', meaning: '나이스야!',
+    tagline: '롯데 「アジアに恋して」 CM 송 · 川谷絵音 제공', grad: ['#FF9F43', '#FFC93C', '#3CCFA8'],
+    facts: [
+      { k: '발매', v: '2026.03.25 디지털 · 2026.05.27 3rd SINGLE (더블 A면)' },
+      { k: '작사·작곡·편곡', v: '川谷絵音' },
+      { k: '안무', v: 'えりなっち' },
+      { k: '아트워크', v: 'kogiso rio' },
+      { k: '타이업', v: '롯데 아이스 「アジアに恋して」 CM' },
+    ],
+    badges: ['川谷絵音 제공곡', '롯데 CM 타이업', '앨범 Blu-ray/DVD에 영상 수록'],
+    story: [
+      '川谷絵音이 작사·작곡·편곡을 맡은 곡으로, 롯데의 새 아이스크림 「アジアに恋して」 CM 송이에요. 2026년 3월 25일 디지털로 먼저 나왔고, 3rd 싱글에는 「キュートなキューたい」와 함께 더블 A면으로 실렸어요.',
+      'CM 속 \'스푼 댄스\'가 화제가 됐고, 신상품·신 CM 발표회에서도 직접 선보였어요. 1st 앨범 「CUTIE LAND」의 CD 트랙에는 없지만, 초회한정반 Blu-ray/DVD 영상에 들어가요.',
+    ],
+    videos: [
+      { id: 'gf6ycMwbBSs', label: '공식 MV' },
+      { id: 'tsC2xV-2Be0', label: '롯데 TVCM 30초' },
+      { id: 'hl-Xz04hr5Q', label: '안무 영상 (MV edition)' },
+      { id: 'KMr_GpOTKrU', label: 'KAWAII FOCUS' },
+      { id: 'hdBdL6iWq_0', label: 'GLION ARENA KOBE (2026.05.30)' },
+    ],
+    quiz: [
+      { q: '이 곡을 작사·작곡·편곡한 사람은?', options: ['早川博隆', '川谷絵音', 'YUPPA', 'Yuki.KT'], answer: 1 },
+      { q: '이 곡이 쓰인 CM의 상품은?', options: ['초콜릿', '아이스크림', '음료수', '과자'], answer: 1 },
+      { q: '3rd 싱글에서 이 곡과 더블 A면인 곡은?', options: ['キュートなキューたい', 'ぷりきゅきゅ', 'ゆめみるプリマドンナ', 'Crush on you'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))

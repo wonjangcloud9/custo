@@ -125,6 +125,8 @@ export default defineConfig({
             { text: 'Cute na Kyuutai', link: '/discography/kyuutai' },
             { text: 'Purikyukyu', link: '/discography/purikyukyu' },
             { text: 'Gohoubi Shiyo!', link: '/discography/gohoubi' },
+            { text: 'Kawaii Sagashite Kuremasuka?', link: '/discography/kawaii-sagashite' },
+            { text: 'Nice Dane', link: '/discography/nice-dane' },
           ],
         },
       ],
