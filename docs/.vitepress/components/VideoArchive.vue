@@ -275,7 +275,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 }
 .va-sub { margin: 14px 0 0; color: #7a5a80; }
 .va-sub b { color: #c92f69; }
-.va-stats { margin-left: 6px; font-weight: 700; color: #a33366 !important; }
+.va-stats { display: inline-block; margin-left: 6px; font-weight: 700; color: #a33366 !important; white-space: nowrap; }
 
 .va-toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
 .va-search {

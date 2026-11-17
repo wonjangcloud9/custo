@@ -71,6 +71,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 82 | 투명 텍스트/clip 배경 누락 전수 점검 (26페이지): 실제 버그 0 — 홈 통계 단위(<small>)는 부모 b의 background-clip:text로 그려지는 오탐 | 7 | 1 | 1 | 0.3 | 23 | ✅ Checked #39 |
 | 83 | 홈 카운트다운: 앨범·紅白 카드가 외부 기사 대신 사이트 특집(/cutie-land/, /kohaku/)으로 이동 (같은 탭) | 9 | 0.5 | 1 | 0.1 | 45 | ✅ Done #39 |
 | 84 | 홈 궤도 멤버 버블 → 멤버 페이지 링크 (호버/포커스 시 궤도 정지, 확대+수평 라벨, 장식 링이 클릭 가로채던 문제 수정) | 8 | 0.5 | 1 | 0.3 | 13 | ✅ Done #40 |
+| 85 | 클릭 요소 전수 히트 테스트 (17페이지 × 1440/390, elementFromPoint): 실제 가림 버그 0 — 디스코 선반 끝 카드(스냅으로 일부 잘림, 정상), 모바일 '통계 보기' 인라인 링크 2줄 분리 → nowrap | 8 | 0.5 | 1 | 0.5 | 8 | ✅ Done #41 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -116,6 +117,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 - Lesson (#36): never put a position:absolute 'sr-only' element inside an overflow-x:auto row — its containing block is outside the scroller, so it widens the page. Use aria-label instead.
 - Static: build, then scan dist/*.html internal hrefs → 0 broken.
 - Runtime: Playwright loop over every sitemap page at 1440 & 390 → 0 console errors, 0 horizontal overflow.
+- Hit-test: for every a/button in .VPContent, scrollIntoView + elementFromPoint(center) must be the element or a descendant (ignore sticky nav/dots, horizontally-scrolled carousel edges).
 - Motion: emulateMedia({reducedMotion:'reduce'}) → document.getAnimations() infinite+running = 0 on home/journey/member/live-guide/kohaku/cutie-land/videos/units/404.
 
 ## Research notes (verified facts + sources)
@@ -183,3 +185,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #38 2026-11-17 12:15 — refresh (0 new) + news (none); followed up #37 lesson → found & fixed /members/ index losing all member-page accents (undefined --page-mc); verified index pink default + kana/risa keep their colors — next: research round
 - #39 2026-11-17 12:35 — refresh (0 new) + news (none); site-wide invisible-text sweep (26 pages, no real issues); home countdown album/紅白 cards → in-site specials; owed mobile /members/ check done (OK) — next: research round
 - #40 2026-11-17 12:55 — refresh (0 new) + news (none); home orbit satellites are now member links (pause on hover/focus, enlarge + upright label inside the counter-rotating bubble); fixed decorative rings intercepting clicks; hit-test verified 8/8 clickable on desktop & mobile — next: research round
+- #41 2026-11-17 13:15 — refresh (0 new) + news (none); site-wide click hit-test (17 pages × 2 viewports): no overlay bugs (only carousel-edge false positives); mobile '📊 통계 보기' no longer wraps; hit-test added to regression checklist — next: research round
