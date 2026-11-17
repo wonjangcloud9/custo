@@ -20,13 +20,10 @@ export default defineConfig({
     ['meta', { name: 'author', content: 'Custo' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Custo · CUTIE STREET Fan Hub' }],
-    ['meta', { property: 'og:image', content: 'https://wonjangcloud9.github.io/custo/og.png' }],
     ['meta', { property: 'og:image:width', content: '1200' }],
     ['meta', { property: 'og:image:height', content: '630' }],
-    ['meta', { property: 'og:image:alt', content: 'CUTIE STREET 팬허브 — 귀여움으로 세계까지' }],
     ['meta', { property: 'og:locale', content: 'ko_KR' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:image', content: 'https://wonjangcloud9.github.io/custo/og.png' }],
   ],
   sitemap: { hostname: 'https://wonjangcloud9.github.io/custo/' },
   transformHead({ pageData, siteData }) {
@@ -36,7 +33,14 @@ export default defineConfig({
     const desc = pageData.frontmatter.description || pageData.description || siteData.description
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
     const url = `https://wonjangcloud9.github.io/custo/${path}`
+    // member pages share a card in that member's colour (rendered from loop/og-member.html)
+    const mem = path.match(/^members\/(risa|aika|kana|ayano|emiru|miyu|nagisa|haruka)$/)?.[1]
+    const img = `https://wonjangcloud9.github.io/custo/${mem ? `og/${mem}.png` : 'og.png'}`
+    const alt = mem ? `${pageData.title} — CUTIE STREET 멤버 카드` : 'CUTIE STREET 팬허브 — 귀여움으로 세계까지'
     return [
+      ['meta', { property: 'og:image', content: img }],
+      ['meta', { property: 'og:image:alt', content: alt }],
+      ['meta', { name: 'twitter:image', content: img }],
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: desc }],
       ['meta', { property: 'og:url', content: url }],
