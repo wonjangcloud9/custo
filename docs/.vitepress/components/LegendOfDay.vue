@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
+import { oshi as oshiState, loadOshi } from '../theme/oshi'
 interface Post { id: string; title: string; kind: string; hq: boolean }
 // loaded after mount (the pick depends on today's date anyway) so the home bundle stays small
 const feeds = ref<Record<string, Post[]>>({})
@@ -52,7 +53,8 @@ onMounted(async () => {
   seed.value = Math.floor(jst.getTime() / 86400000)
   const WD = ['日', '月', '火', '水', '木', '金', '土']
   dateLabel.value = `${jst.getUTCMonth() + 1}.${jst.getUTCDate()} (${WD[jst.getUTCDay()]})`
-  mainId.value = members[seed.value % members.length].id
+  loadOshi()
+  mainId.value = oshiState.value && members.some((m) => m.id === oshiState.value) ? oshiState.value : members[seed.value % members.length].id // 최애 first
   const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { developed.value = true; io.disconnect() } }, { threshold: 0.35 })
   nextTick(() => root.value && io.observe(root.value))
 })

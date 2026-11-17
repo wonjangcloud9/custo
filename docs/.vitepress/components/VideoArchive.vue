@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useOshi } from '../theme/oshi'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import ShareButton from './ShareButton.vue'
 import { withBase } from 'vitepress'
@@ -66,6 +67,9 @@ const filtered = computed(() => {
   })
 })
 const visible = computed(() => filtered.value.slice(0, shown.value))
+// 최애 first in the member row (mount-gated to keep hydration stable)
+const oshi = useOshi()
+const memberOrder = computed(() => (oshi.value ? [...members].sort((a, b) => Number(b.id === oshi.value) - Number(a.id === oshi.value)) : members))
 // Watch progress for the current scope (category/member/search), independent of 'unwatched only'
 const scope = computed(() => {
   const needle = q.value.trim().toLowerCase()
@@ -186,10 +190,10 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
     </div>
 
     <div class="va-members" role="toolbar" aria-label="멤버별">
-      <button v-for="m in members" :key="m.id" type="button" class="mchip" :aria-pressed="member === m.id"
+      <button v-for="m in memberOrder" :key="m.id" type="button" class="mchip" :class="{ oshi: oshi === m.id }" :aria-pressed="member === m.id"
         :style="{ '--mc': m.color }" :title="`${m.ko} (${m.ja})`" @click="setMember(m.id)">
         <span class="mchip-ring"><span class="mchip-face">{{ m.ja.slice(-2, -1) }}</span></span>
-        <span class="mchip-name">{{ m.ko.split(' ')[1] }}</span>
+        <span class="mchip-name"><span v-if="oshi === m.id" aria-label="최애">💖</span>{{ m.ko.split(' ')[1] }}</span>
         <small>{{ memberCounts[m.id] || 0 }}</small>
       </button>
       <label class="va-sort"><select v-model="sort" aria-label="정렬" @change="shown = PAGE"><option v-for="o in SORTS" :key="o.id" :value="o.id">{{ o.label }}</option></select></label>
