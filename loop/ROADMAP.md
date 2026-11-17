@@ -60,6 +60,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 70 | README를 팬허브 기준으로 갱신 (기능 표, 콘텐츠 원칙, 데이터 갱신 방법) | 3 | 1 | 1 | 0.2 | 15 | ✅ Done #30 |
 | 72 | 버그: ⌘K 팔레트에서 결과가 많을 때 필터 줄이 flex 축소로 20px로 찌그러짐 → header/footer flex:none, list min-height:0 | 9 | 0.5 | 1 | 0.1 | 45 | ✅ Fixed #30 |
 | 73 | 멤버 본문 사실 점검: 매력 포인트·활동 이력을 검증 사실(ticket.co.jp·위키·ciatr)로 재작성 + 출처 표기, 미검증 주장·퀴즈 교체 | 8 | 2 | 1 | 1.5 | 10.7 | ✅ Done #31 |
+| 74 | 학습 페이지 그룹 관련 사실 점검: 가사 페이지 곡 소개의 잘못된 릴리즈 표기('3rd/2nd 싱글'→디지털 싱글, 정확한 날짜·공식 크레딧) | 6 | 1 | 1 | 0.3 | 20 | ✅ Done #32 |
+| 75 | 홈 섹션 도트 내비 (scroll-spy, 활성 도트가 바로 늘어남, 호버 라벨, ≤1100px 숨김) | 8 | 0.5 | 1 | 0.5 | 8 | ✅ Done #32 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -155,3 +157,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #29 2026-11-17 09:15 — refresh (0 new) + news (none); /videos/stats/ dashboard built per dataviz skill (validated single hue, hover tooltips, table view, member color chips + names instead of an unvalidated 8-hue palette): 539 videos, 55h55m runtime, 27-month column chart, category & member bars; linked from archive header + search — next: research round
 - #30 2026-11-17 09:35 — refresh (0 new) + news (none); verified #29 stats label fix (no overlap); custom 404 via not-found slot (bouncing 404, random member guide, links, opens ⌘K); README rewritten for the fan hub; FIXED palette filter row squashing when results are long — next: research round
 - #31 2026-11-17 09:55 — refresh (0 new) + news (none); member body fact sweep: all 8 '매력 포인트'/'활동 이력' rewritten from verified sources with source line; unverified claims removed (incl. sensitive heritage claim) and dependent quizzes/vocab replaced; verified 8 pages × 2 viewports clean — next: research round
+- #32 2026-11-17 10:15 — refresh (0 new) + news (none); learning-page fact sweep: only lyrics intros had group claims → fixed release labels/dates/credits (happy-sekai, hello-hello-mirai); home section dot navigator (7 sections, IntersectionObserver spy, smooth jump w/ scroll-margin, hover labels, hidden ≤1100px) — next: research round

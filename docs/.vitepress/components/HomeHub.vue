@@ -98,7 +98,21 @@ onMounted(() => {
   }, { threshold: 0.4 })
   if (statsEl.value) io.observe(statsEl.value)
 })
-onBeforeUnmount(() => { clearInterval(timer); io?.disconnect() })
+// Section dot navigator (scroll spy)
+const SECTIONS = [
+  { id: 'top', label: '홈', c: '#ff6b9d' }, { id: 'next', label: '다가오는 일정', c: '#ffc93c' }, { id: 'legend', label: '오늘의 레전드 컷', c: '#ff4757' },
+  { id: 'otd', label: 'ON THIS DAY', c: '#3ccfa8' }, { id: 'colors', label: '8 COLORS', c: '#4a90d9' }, { id: 'new', label: 'NEW ON YOUTUBE', c: '#ff9f43' }, { id: 'explore', label: 'EXPLORE', c: '#a06cd5' },
+]
+const activeSec = ref('top')
+let spy: IntersectionObserver | undefined
+function goSec(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+}
+onMounted(() => {
+  spy = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) activeSec.value = e.target.id }, { rootMargin: '-45% 0px -50% 0px' })
+  for (const s of SECTIONS) { const el = document.getElementById(s.id); if (el) spy.observe(el) }
+})
+onBeforeUnmount(() => { clearInterval(timer); io?.disconnect(); spy?.disconnect() })
 
 const HEAD1 = '귀여움으로'.split('')
 const HEAD2 = '세계까지'.split('')
@@ -109,8 +123,14 @@ function cleanTitle(t: string) {
 
 <template>
   <div class="hh">
+    <nav class="dots" aria-label="홈 섹션 이동">
+      <button v-for="sct in SECTIONS" :key="sct.id" type="button" class="dot-btn" :class="{ on: activeSec === sct.id }" :style="{ '--dc': sct.c }"
+        :aria-label="sct.label" :aria-current="activeSec === sct.id ? 'true' : undefined" @click="goSec(sct.id)">
+        <span class="dot-label">{{ sct.label }}</span><i />
+      </button>
+    </nav>
     <!-- HERO -->
-    <section ref="hero" class="hero" @pointermove="sparkle">
+    <section id="top" ref="hero" class="hero" @pointermove="sparkle">
       <div class="hero-copy">
         <p class="eyebrow"><span class="live-dot" />CUTIE STREET 팬허브 · KR ⇄ JP</p>
         <h1 class="head">
@@ -136,7 +156,7 @@ function cleanTitle(t: string) {
     </section>
 
     <!-- COUNTDOWN -->
-    <section class="cd" aria-label="다가오는 일정">
+    <section id="next" class="cd" aria-label="다가오는 일정">
       <a v-for="(e, i) in upcoming" :key="e.id" class="cd-card" :class="{ next: i === 0 }" :href="e.link" target="_blank" rel="noopener">
         <span class="cd-emoji" aria-hidden="true">{{ e.emoji }}</span>
         <span class="cd-label">{{ e.label }}</span>
@@ -164,9 +184,9 @@ function cleanTitle(t: string) {
       </div>
     </section>
 
-    <LegendOfDay />
+    <LegendOfDay id="legend" />
 
-    <section v-if="onThisDay.length" class="sec otd">
+    <section v-if="onThisDay.length" id="otd" class="sec otd">
       <div class="sec-head"><h2>ON THIS DAY</h2><span class="otd-sub">몇 년 전 이맘때의 큐티스트리트</span></div>
       <div class="otd-grid">
         <a v-for="x in onThisDay" :key="x.v.id" class="otd-card" :href="`https://www.youtube.com/watch?v=${x.v.id}`" target="_blank" rel="noopener">
@@ -177,7 +197,7 @@ function cleanTitle(t: string) {
     </section>
 
     <!-- MEMBERS ACCORDION -->
-    <section class="sec">
+    <section id="colors" class="sec">
       <div class="sec-head"><h2>8 COLORS, 1 STREET</h2><a :href="withBase('/members/')">전체 멤버 →</a></div>
       <div class="acc">
         <a v-for="(m, i) in members" :key="m.id" class="acc-item" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--i': i }">
@@ -191,7 +211,7 @@ function cleanTitle(t: string) {
     </section>
 
     <!-- LATEST VIDEOS -->
-    <section class="sec">
+    <section id="new" class="sec">
       <div class="sec-head"><h2>NEW ON YOUTUBE</h2><a :href="withBase('/videos/')">아카이브 {{ TOTAL }}편 →</a></div>
       <div class="rail">
         <a v-for="v in latest" :key="v.id" class="rv" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
@@ -203,7 +223,7 @@ function cleanTitle(t: string) {
     </section>
 
     <!-- EXPLORE -->
-    <section class="sec">
+    <section id="explore" class="sec">
       <div class="sec-head"><h2>EXPLORE</h2></div>
       <div class="bento">
         <a class="b b-lg" :href="withBase('/japanese/beginner/hiragana')"><span class="b-emoji">🎤</span><b>멤버 이름으로 히라가나</b><span>덕질하면서 일본어 첫걸음</span></a>
@@ -333,6 +353,17 @@ function cleanTitle(t: string) {
   .sec-head h2 { animation: slideIn linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
   @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); letter-spacing: 0.3em; } }
 }
+
+/* SECTION DOTS */
+.dots { position: fixed; right: 18px; top: 50%; translate: 0 -50%; z-index: 20; display: flex; flex-direction: column; gap: 10px; }
+.dot-btn { position: relative; display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 2px; background: none; }
+.dot-btn i { width: 10px; height: 10px; border-radius: 999px; background: color-mix(in srgb, var(--dc) 35%, white); box-shadow: 0 0 0 2px #fff; transition: height 0.45s var(--spring), background 0.2s; }
+.dot-btn.on i { height: 26px; background: var(--dc); }
+.dot-label { position: absolute; right: 22px; white-space: nowrap; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #3a2340; color: #fff;
+  opacity: 0; translate: 6px 0; pointer-events: none; transition: opacity 0.2s, translate 0.35s var(--spring); }
+.dot-btn:hover .dot-label, .dot-btn:focus-visible .dot-label { opacity: 1; translate: 0 0; }
+[id='top'], [id='next'], [id='legend'], [id='otd'], [id='colors'], [id='new'], [id='explore'] { scroll-margin-top: calc(var(--vp-nav-height, 64px) + 16px); }
+@media (max-width: 1100px) { .dots { display: none; } }
 
 /* BIRTHDAY SOON + ON THIS DAY */
 .soon { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 8px 16px; border-radius: 999px; font-size: 14px; text-decoration: none !important; color: color-mix(in srgb, var(--mc) 60%, #2a1030) !important; background: color-mix(in srgb, var(--mc) 14%, white); border: 1.5px solid color-mix(in srgb, var(--mc) 35%, white); transition: transform 0.45s var(--spring); }
