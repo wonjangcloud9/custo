@@ -51,6 +51,8 @@ async function copyColor() {
 }
 
 const bdayShow = computed(() => (now.value ? events.find((e) => e.member === props.id && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) ?? null : null))
+// Other upcoming appearances where only some members take part (official schedule 'with')
+const soloApps = computed(() => (now.value ? events.filter((e) => e.with?.includes(props.id) && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) : []))
 const showDays = computed(() => (bdayShow.value && now.value ? Math.max(0, Math.ceil((new Date(`${bdayShow.value.date}T00:00:00+09:00`).getTime() - now.value.getTime()) / 86400000)) : 0))
 const forceBday = ref(false)
 const isBday = computed(() => forceBday.value || dday.value === 0)
@@ -135,6 +137,11 @@ function onKey(e: KeyboardEvent) {
       <span class="show-txt"><small>다가오는 생탄제</small><b lang="ja">{{ bdayShow.ja }}</b>
         <span>{{ bdayShow.date.replace(/-/g, '.') + (bdayShow.time ? ` ${bdayShow.time} 開演` : '') + (bdayShow.venue ? ` · 📍 ${bdayShow.venue}` : '') }}</span></span>
       <span class="show-dd">{{ showDays === 0 ? 'TODAY' : 'D-' + showDays }}</span>
+    </a>
+
+    <a v-for="e in soloApps" :key="e.date + e.ja" class="app" :href="e.url" target="_blank" rel="noopener">
+      <span aria-hidden="true">✨</span><small>개인 출연</small><b lang="ja">{{ e.ja }}</b>
+      <span class="app-meta">{{ e.date.replace(/-/g, '.') + (e.venue ? ` · 📍 ${e.venue}` : '') }}</span>
     </a>
 
     <!-- BENTO -->
@@ -352,6 +359,12 @@ function onKey(e: KeyboardEvent) {
 .show-txt b { font-size: 17px; font-family: 'Noto Sans JP', sans-serif; }
 .show-txt span { font-size: 13px; opacity: 0.95; }
 .show-dd { margin-left: auto; flex: none; font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; font-weight: 700; padding: 6px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.18); }
+.app { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 12px 18px; border-radius: 18px; text-decoration: none !important; color: #3a2340 !important;
+  background: color-mix(in srgb, var(--mc) 10%, white); border: 1.5px dashed color-mix(in srgb, var(--mc) 45%, white); transition: transform 0.45s var(--spring); }
+.app:hover { transform: translateY(-2px); }
+.app small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; color: color-mix(in srgb, var(--mc) 60%, #2a1030); }
+.app b { font-size: 14.5px; }
+.app-meta { font-size: 12.5px; color: #5a4060; }
 .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .pn a {
   display: flex; flex-direction: column; gap: 2px; padding: 16px 20px; border-radius: 20px; text-decoration: none !important;
