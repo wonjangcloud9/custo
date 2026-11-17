@@ -35,6 +35,7 @@ const lazy = {
   VideoStats: () => import('../components/VideoStats.vue'),
   MemberTable: () => import('../components/MemberTable.vue'),
   KoreaHub: () => import('../components/KoreaHub.vue'),
+  TourStamps: () => import('../components/TourStamps.vue'),
 }
 
 export default {

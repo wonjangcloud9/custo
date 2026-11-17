@@ -10,3 +10,9 @@ description: CUTIE STREET 1st ALBUM「CUTIE LAND」(2026.12.02) 16트랙 가이�
 1st ALBUM 「CUTIE LAND」의 16곡을 한 곡씩 따라가 보세요. 스크롤하면 레코드가 돌아가요. (트랙리스트·에디션: 공식 발표 기준)
 
 <CutieLand />
+
+## 아레나 투어 「CUTIE LAND」 🎟️
+
+앨범과 같은 이름의 첫 아레나 투어! 7개 도시 13공연을 스탬프 랠리로 따라가 보세요. 끝난 공연엔 도장이 찍히고, 공식 라이브 영상이 있으면 바로 볼 수 있어요.
+
+<TourStamps />
