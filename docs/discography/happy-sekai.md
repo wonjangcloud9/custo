@@ -27,6 +27,5 @@
 
 <Quiz quizId="disco-happy-sekai" :questions="[
   { q: '이 곡의 핵심 메시지는?', options: ['이별의 슬픔', '개성과 다양한 귀여움', '여름 바다', '학교 생활'], answer: 1 },
-  { q: '큐티스트리트의 컨셉명은?', options: ['COOL MAKER', 'KAWAII MAKER', 'HAPPY MAKER', 'DREAM MAKER'], answer: 1 },
-  { q: '「ハッピー」는 어디서 온 말?', options: ['일본어', '한국어', '영어', '중국어'], answer: 2 }
+  { q: '큐티스트리트의 컨셉명은?', options: ['COOL MAKER', 'KAWAII MAKER', 'HAPPY MAKER', 'DREAM MAKER'], answer: 1 }
 ]" />

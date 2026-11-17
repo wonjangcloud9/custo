@@ -19,14 +19,6 @@ const parts = computed(() => {
   return [{ v: String(Math.floor(s / 86400)), l: 'DAYS' }, { v: p(Math.floor((s % 86400) / 3600)), l: 'HRS' }, { v: p(Math.floor((s % 3600) / 60)), l: 'MIN' }, { v: p(s % 60), l: 'SEC' }]
 })
 
-const WORDS = [
-  { ja: '紅白歌合戦', yomi: 'こうはくうたがっせん', ko: '홍백가합전 — NHK 연말 음악 특집' },
-  { ja: '大晦日', yomi: 'おおみそか', ko: '섣달그믐날, 12월 31일' },
-  { ja: '初出場', yomi: 'はつしゅつじょう', ko: '첫 출장' },
-  { ja: '出場歌手', yomi: 'しゅつじょうかしゅ', ko: '출장 가수' },
-  { ja: '歌唱曲', yomi: 'かしょうきょく', ko: '부를 곡' },
-  { ja: '生放送', yomi: 'なまほうそう', ko: '생방송' },
-]
 const road = milestones.slice(-5)
 
 // cheer notes (local only)
@@ -91,13 +83,6 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
       <a class="more" :href="withBase('/journey/')">3D 여정 전체 보기 →</a>
     </div>
 
-    <div class="box words">
-      <h3>🔤 홍백 일본어</h3>
-      <div class="wl">
-        <div v-for="w in WORDS" :key="w.ja" class="wd"><b lang="ja">{{ w.ja }}</b><small lang="ja">{{ w.yomi }}</small><span>{{ w.ko }}</span></div>
-      </div>
-    </div>
-
     <div class="box board">
       <h3>💌 응원 포스트잇 <small>(이 브라우저에만 저장돼요)</small></h3>
       <form class="add" @submit.prevent="addNote">
@@ -146,7 +131,7 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
 
 .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; margin-top: 16px; }
 .box { padding: 20px; border-radius: 24px; background: #fff; border: 1.5px solid #f3dbe8; margin-top: 0; }
-.road, .words, .board { margin-top: 14px; }
+.road, .board { margin-top: 14px; }
 .box h3 { margin: 0 0 10px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px !important; }
 .box h3 small { font-size: 12px; color: #735779; font-family: 'Noto Sans KR', sans-serif; }
 dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 14px; }
@@ -163,11 +148,6 @@ figcaption { margin-top: 8px; font-size: 12.5px; color: #735779; }
 .road li b { font-size: 13.5px; font-family: 'Noto Sans JP', sans-serif; }
 .road li small { font-size: 12px; color: #5a4060; }
 .more { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; color: #a33366 !important; }
-.wl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.wd { display: flex; flex-direction: column; padding: 10px 12px; border-radius: 14px; background: #fdf3f6; }
-.wd b { font-family: 'Noto Sans JP', sans-serif; font-size: 18px; }
-.wd small { font-size: 12px; color: #a3122c; }
-.wd span { font-size: 12.5px; color: #5a4060; margin-top: 2px; }
 .add { display: flex; gap: 8px; flex-wrap: wrap; }
 .add input { flex: 1; min-width: 200px; padding: 11px 14px; border-radius: 999px; border: 1.5px solid #f1d4e1; font-size: 14px; background: #fff; }
 .add button, .add .x { padding: 10px 16px; border-radius: 999px; font-weight: 700; font-size: 13px; text-decoration: none !important; }
@@ -189,7 +169,6 @@ figcaption { margin-top: 8px; font-size: 12.5px; color: #735779; }
   .digit { font-size: 30px; }
   .flip { gap: 6px; }
   .road ol { grid-template-columns: 1fr 1fr; }
-  .wl { grid-template-columns: 1fr 1fr; }
   .note { width: calc(50% - 6px); }
 }
 @media (prefers-reduced-motion: reduce) { .digit, .note, .dot { animation: none; } .note { transition: none; } }

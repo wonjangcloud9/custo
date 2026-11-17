@@ -108,8 +108,8 @@ export default defineConfig({
       copyright: 'Fan-made project. CUTIE STREET is managed by ASOBISYSTEM / KAWAII LAB.',
     },
     docFooter: {
-      prev: '이전 학습',
-      next: '다음 학습',
+      prev: '이전 페이지',
+      next: '다음 페이지',
     },
   },
 })
