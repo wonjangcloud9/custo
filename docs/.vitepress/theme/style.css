@@ -534,8 +534,21 @@ html {
 .VPHome .vp-doc .home-learn h2 { font-family: 'Zen Maru Gothic', sans-serif; }
 
 /* ── Accessibility: visible keyboard focus everywhere ── */
-:where(a, button, [role='link'], [role='option'], input, summary, [tabindex]):focus-visible {
+:where(a, button, [role='link'], [role='option'], input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 3px solid #c92f69;
   outline-offset: 3px;
   border-radius: 8px;
+}
+
+/* Mobile: VitePress hides the closed sidebar only with opacity/transform, so its links stayed
+   in the Tab order while invisible. Take it out of the focus order until it is opened. */
+@media (max-width: 959px) {
+  .VPSidebar:not(.open) { visibility: hidden; transition: opacity 0.5s, transform 0.25s ease, visibility 0s linear 0.5s; }
+}
+
+/* VitePress base sets `input:focus, select:focus { outline: none }` (beats :where above).
+   Text fields show focus on their wrapper; restore a ring for the other controls. */
+input[type='checkbox']:focus-visible, input[type='radio']:focus-visible, input[type='range']:focus-visible, select:focus-visible {
+  outline: 3px solid #c92f69;
+  outline-offset: 2px;
 }
