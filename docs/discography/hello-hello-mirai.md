@@ -1,31 +1,8 @@
-# ハロハロミライ (Hello Hello Mirai)
+---
+title: ハロハロミライ — 곡 이야기
+description: CUTIE STREET 「ハロハロミライ」 — Yuki.KT 작사·작곡·편곡, 1st 앨범 수록, 공식 라이브 영상
+pageClass: wide-page
+aside: false
+---
 
-8명의 우정과 미래를 노래하는 큐티스트리트의 두 번째 곡!
-
-## 곡 정보
-
-| 항목 | 내용 |
-|------|------|
-| 타이틀 | ハロハロミライ |
-| 읽기 | 하로하로 미라이 |
-| 의미 | 안녕 안녕 미래야 |
-| 발매일 | 2024년 10월 21일 (디지털) |
-| 작사·작곡·편곡 | Yuki.KT (CK Creative Studio) |
-| 테마 | 우정, 용기, 미래를 향한 도전 |
-
-## 영상으로 보기 🎬
-
-<YtLite id="YFb3f7f5nQs" title="【LIVE映像】ハロハロミライ · 恵比寿The Garden Hall" />
-<YtLite id="NCo7KGszkzg" title="【LIVE映像】ハロハロミライ · ぴあアリーナMM" />
-
-## 곡의 배경
-
-데뷔곡에 이어 빠르게 발매된 두 번째 디지털 싱글로, 큐티스트리트의 밝고 긍정적인 에너지를 보여주는 곡입니다. "전력(全力)으로 미래를 그리자"는 메시지가 팬들의 공감을 얻으며 라이브 필수곡이 되었습니다.
-
-## 팬 퀴즈 💖
-
-<Quiz quizId="disco-hello-hello-mirai" :questions="[
-  { q: '이 곡의 작사/작곡가는?', options: ['早川博隆', 'Yuki.KT', '渡邉俊彦', '秋元康'], answer: 1 },
-  { q: '이 곡의 주요 테마는?', options: ['사랑', '이별', '우정과 미래', '여름'], answer: 2 },
-  { q: '「ハロハロ」는 어떤 뜻?', options: ['안녕 안녕', '반짝 반짝', '두근 두근', '빙글 빙글'], answer: 0 }
-]" />
+<SongStory id="hello-hello-mirai" />

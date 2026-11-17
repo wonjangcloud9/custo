@@ -9,14 +9,6 @@ description: CUTIE STREET 공식 디스코그래피 31릴리즈 — 1st ALBUM CU
 
 <DiscoShelf />
 
-## 곡 해설
+## 곡 이야기 🎵
 
-- [かわいいだけじゃだめですか？ — 곡 해설](/discography/kawaii-dake)
-- [Hello Hello Mirai (ハロハロミライ) — 곡 해설](/discography/hello-hello-mirai)
-- [Happy Sekai! (ハッピー世界！) — 곡 해설](/discography/happy-sekai)
-
-## 인증
-
-| 곡 | 인증 |
-|----|------|
-| かわいいだけじゃだめですか？ | RIAJ 골드 (스트리밍) — 출처: Wikipedia 일본어판 |
+<SongList />
