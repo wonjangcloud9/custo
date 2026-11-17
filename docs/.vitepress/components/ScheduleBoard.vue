@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat } from '../data/events'
 import { memberById } from '../data/members'
 
@@ -90,7 +90,25 @@ onMounted(() => {
   now.value = Date.now()
   timer = window.setInterval(() => (now.value = Date.now()), 1000)
 })
-onBeforeUnmount(() => clearInterval(timer))
+// Month jump chips (list view) + scroll-spy
+const activeMo = ref('')
+let moSpy: IntersectionObserver | undefined
+function jumpMo(key: string) {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const el = document.getElementById(`mo-${key}`)
+  if (!el) return
+  const bar = document.querySelector('.bar') as HTMLElement | null
+  const offset = (bar ? bar.getBoundingClientRect().height + parseFloat(getComputedStyle(bar).top || '0') : 80) + 12 // sticky bar height differs per viewport
+  window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - offset, behavior: reduce ? 'auto' : 'smooth' })
+}
+function watchMonths() {
+  moSpy?.disconnect()
+  moSpy = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) activeMo.value = e.target.id.slice(3) }, { rootMargin: '-30% 0px -60% 0px' })
+  document.querySelectorAll('.mo[id^="mo-"]').forEach((el) => moSpy!.observe(el))
+}
+onMounted(() => { requestAnimationFrame(watchMonths) })
+watch([months, view], () => nextTick(watchMonths))
+onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
 </script>
 
 <template>
@@ -122,6 +140,11 @@ onBeforeUnmount(() => clearInterval(timer))
         <button type="button" :aria-pressed="view === 'list'" @click="view = 'list'">☰ 목록</button>
         <button type="button" :aria-pressed="view === 'cal'" @click="view = 'cal'">▦ 달력</button>
       </div>
+      <nav v-if="view === 'list' && months.length > 1" class="mjump" aria-label="월 바로가기">
+        <button v-for="(mo, i) in months" :key="mo.key" type="button" :class="{ on: activeMo === mo.key }" :aria-current="activeMo === mo.key ? 'true' : undefined" @click="jumpMo(mo.key)">
+          <small v-if="i === 0 || mo.key.slice(0, 4) !== months[i - 1].key.slice(0, 4)">{{ mo.key.slice(2, 4) }}'</small>{{ mo.label }}<i>{{ mo.days.reduce((a, d) => a + d.items.length, 0) }}</i>
+        </button>
+      </nav>
     </div>
 
     <!-- CALENDAR -->
@@ -152,7 +175,7 @@ onBeforeUnmount(() => clearInterval(timer))
 
     <!-- TIMELINE -->
     <div v-show="view === 'list'" class="tl">
-      <section v-for="mo in months" :key="mo.key" class="mo">
+      <section v-for="mo in months" :id="`mo-${mo.key}`" :key="mo.key" class="mo">
         <h2 class="mo-h"><span>{{ mo.label }}</span><small>{{ mo.key.slice(0, 4) }}</small></h2>
         <div v-for="d in mo.days" :key="d.date" class="day" :class="{ past: isPast(d.items[0]), today: isToday(d.items[0]) }">
           <div class="date">
@@ -258,7 +281,16 @@ onBeforeUnmount(() => clearInterval(timer))
 .past { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #735779; white-space: nowrap; cursor: pointer; }
 .past input { accent-color: #ff6b9d; }
 
-.mo { margin-top: 26px; }
+.mjump { flex-basis: 100%; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 0; }
+.mjump::-webkit-scrollbar { display: none; }
+.mjump button { flex: none; display: inline-flex; align-items: baseline; gap: 4px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #5a4060; background: #fff; border: 1.5px solid #f1d4e1; transition: background 0.2s, color 0.2s, transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
+.mjump button small { font-size: 10.5px; color: #a07aa6; }
+.mjump button i { font-style: normal; font-size: 11px; color: #a07aa6; }
+.mjump button:hover { transform: translateY(-1px); }
+.mjump button.on { background: #c92f69; border-color: #c92f69; color: #fff; }
+.mjump button.on small, .mjump button.on i { color: #ffe0ec; }
+.mo { margin-top: 26px; scroll-margin-top: calc(var(--vp-nav-height, 64px) + 130px); }
+@media (prefers-reduced-motion: reduce) { .mjump button { transition: none; } }
 .mo-h { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 30px !important; }
 .mo-h small { font-size: 14px; color: #7d6083; }
 .day { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 10px 0; border-top: 1px dashed #f0dbe6; }
