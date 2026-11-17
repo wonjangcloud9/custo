@@ -5,6 +5,7 @@ import { releases, cutieLand, MV, officialUrl, type Release, type RelType } from
 import { members } from '../data/members'
 import videosRaw from '../data/videos.json'
 import apRaw from '../data/appearances.json'
+import { songs } from '../data/songs'
 
 interface Video { id: string; title: string; duration: string; category: string; channel?: string }
 const videos = videosRaw as Video[]
@@ -68,6 +69,7 @@ const related = computed<Rel[]>(() => {
 })
 const tabCount = (t: string) => (t === 'all' ? related.value.length : related.value.filter((r) => r.tab === t).length)
 const relList = computed(() => (tab.value === 'all' ? related.value : related.value.filter((r) => r.tab === tab.value)))
+const songPage = (title: string) => songs.find((s) => norm(s.title) === norm(title))?.id
 function open(r: Release) { cur.value = r; playing.value = false; tab.value = 'all'; shown.value = 8; nextTick(() => dialog.value?.showModal()) }
 function close() { dialog.value?.close() }
 
@@ -147,6 +149,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         </div>
         <div class="dlg-body">
           <p class="dlg-meta">{{ fmt(cur.date) }} 릴리즈<template v-if="cur.note"> · {{ cur.note }}</template> · <a :href="officialUrl(cur.id)" target="_blank" rel="noopener">공식 상세 ↗</a></p>
+          <a v-if="songPage(cur.song)" class="story-link" :href="withBase(`/discography/${songPage(cur.song)}`)">📖 「{{ cur.song }}」 곡 이야기 보기 →</a>
           <template v-if="related.length">
             <h4>관련 영상 {{ related.length }}</h4>
             <div class="rtabs" role="tablist" aria-label="관련 영상 종류">
@@ -249,6 +252,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .poster:hover span { transform: scale(1.06); }
 .dlg-body { padding: 14px 16px 18px; max-height: 40dvh; overflow: auto; }
 .dlg-meta { margin: 0 !important; font-size: 13px; color: #735779; }
+.story-link { display: inline-block; margin-top: 10px; padding: 7px 14px; border-radius: 999px; background: #2f1a35; color: #fff !important; font-size: 13px; font-weight: 800; text-decoration: none !important; }
 .dlg-body h4 { margin: 14px 0 8px !important; font-size: 14px; }
 .rtabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
 .rtab { padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 700; background: #faf1f6; color: #2f1a35; transition: background 0.2s, transform 0.35s cubic-bezier(.34, 1.56, .64, 1); }

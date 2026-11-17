@@ -4,6 +4,7 @@ import { withBase } from 'vitepress'
 import { cutieLand, MV, releases } from '../data/discography'
 import { members, memberById } from '../data/members'
 import { units } from '../data/units'
+import { songs } from '../data/songs'
 import videosRaw from '../data/videos.json'
 
 interface Video { id: string; title: string; duration: string; category: string; channel?: string }
@@ -26,6 +27,7 @@ const tracks = cutieLand.tracks.map((t, i) => {
   return {
     n: i + 1, title: t, mv: MV[t], unit,
     first: firstRel(t), note: ORIGIN_NOTE[t] || '', premiere: !firstRel(t) && !KNOWN.has(t),
+    page: songs.find((s) => norm(s.title) === key)?.id,
     color: members[i % 8].color,
     thumbs: rel.filter((v) => v.id !== MV[t]).slice(0, 3),
     lives: rel.filter((v) => v.category === 'live').length,
@@ -98,6 +100,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
               <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><span>{{ v.duration }}</span>
             </a>
           </div>
+ <a v-if="t.page" class="more story" :href="withBase(`/discography/${t.page}`)">📖 곡 이야기 →</a>
           <a v-if="t.total > 3" class="more" :href="withBase(`/videos/?q=${encodeURIComponent(t.title)}`)">관련 영상 {{ t.total }}편 모두 보기 →</a>
         </div>
       </li>
@@ -170,6 +173,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .th span { position: absolute; right: 4px; bottom: 4px; font-size: 10px; font-weight: 800; padding: 2px 5px; border-radius: 5px; background: rgba(30, 10, 30, 0.75); color: #fff; }
 .th.main span { left: 4px; right: auto; background: #c92f69; }
 .more { display: inline-block; margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #a33366 !important; }
+.more.story { margin-right: 14px; }
 @media (max-width: 860px) {
   .cl { grid-template-columns: 1fr; gap: 18px; }
   .cl-side { position: relative; top: 0; }

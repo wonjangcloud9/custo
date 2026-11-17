@@ -5,6 +5,7 @@ import { releases } from './discography'
 import { events, catMeta } from './events'
 import videosRaw from './videos.json'
 import appearancesRaw from './appearances.json'
+import { songs } from './songs'
 
 interface Video { id: string; title: string; duration: string; category: string; date: string; members?: string[] }
 export type Kind = 'page' | 'member' | 'release' | 'event' | 'video'
@@ -24,6 +25,7 @@ export function buildIndex(withBase: (p: string) => string): Hit[] {
   ...PAGES.map(([t, h, i]) => ({ kind: 'page' as const, title: t, sub: '페이지', href: withBase(h), icon: i, hay: norm(t) })),
   ...members.map((m) => ({ kind: 'member' as const, title: `${m.ja} ${m.ko}`, sub: `${m.colorName} · ${m.nickname} · ${m.birthplace}`, href: withBase(`/members/${m.id}`), color: m.color, icon: m.ja.slice(-2, -1),
     hay: norm([m.ja, m.ko, m.en, m.kana, m.nickname, m.nicknameKo, m.colorName, m.id].join(' ')) })),
+  ...songs.map((s) => ({ kind: 'release' as const, title: `${s.title} — 곡 이야기`, sub: `${s.meaning} · ${s.tagline}`, href: withBase(`/discography/${s.id}`), icon: '📖', hay: norm(s.title + s.read + s.meaning + s.tagline + ' 곡 이야기 곡해설 song story') })),
   ...releases.map((r) => ({ kind: 'release' as const, title: r.title, sub: `${r.type} · ${r.date.replace(/-/g, '.')}`, href: withBase('/discography/'), icon: '💿', hay: norm(r.title + r.song) })),
   ...events.map((e) => ({ kind: 'event' as const, title: e.ja, sub: `${e.date.replace(/-/g, '.')} · ${catMeta[e.cat].ko}${e.venue ? ' · ' + e.venue : ''}`, href: e.url, ext: true, icon: catMeta[e.cat].emoji, hay: norm(e.ja + e.ko + (e.venue ?? '')) })),
   ...(videosRaw as Video[]).map((v) => ({ kind: 'video' as const, title: v.title.replace(/【CUTIE STREET[^】]*】/g, '').trim(), sub: `${v.duration || 'MV'}${v.date ? ' · ' + v.date.replace(/-/g, '.') : ''}`,
