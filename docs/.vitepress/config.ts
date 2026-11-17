@@ -49,7 +49,7 @@ export default defineConfig({
     nav: [
       { text: '홈', link: '/' },
       { text: '소개', link: '/about' },
-      { text: '여정 🗻', link: '/journey/' },
+      { text: '여정 🗻', items: [{ text: '🗻 정상까지의 여정 (3D)', link: '/journey/' }, { text: '🌏 큐스트 월드맵', link: '/world/' }] },
       { text: '紅白 🎍', link: '/kohaku/' },
       { text: '멤버', link: '/members/' },
       { text: '디스코그래피', link: '/discography/' },

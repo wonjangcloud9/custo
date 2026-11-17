@@ -32,6 +32,7 @@ const lazy = {
   TourStamps: () => import('../components/TourStamps.vue'),
   AboutHub: () => import('../components/AboutHub.vue'),
   StagesHub: () => import('../components/StagesHub.vue'),
+  WorldMap: () => import('../components/WorldMap.vue'),
 }
 
 export default {

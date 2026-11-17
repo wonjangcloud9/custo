@@ -100,7 +100,7 @@ const QUIZ = [
 
     <!-- 02 HISTORY -->
     <section class="sec">
-      <header class="sec-l"><span class="no">02</span><h2>활동 연혁</h2><p>데뷔부터 紅白, 그리고 한국까지 · <a :href="withBase('/journey/')">3D로 보기 →</a></p></header>
+      <header class="sec-l"><span class="no">02</span><h2>활동 연혁</h2><p>데뷔부터 紅白, 그리고 한국까지 · <a :href="withBase('/journey/')">3D로 보기 →</a> · <a :href="withBase('/world/')">🌏 월드맵 →</a></p></header>
       <div class="years">
         <div v-for="y in YEARS" :key="y.y" class="year">
           <div class="y-num">{{ y.y }}</div>
