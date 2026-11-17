@@ -7,6 +7,28 @@ const now = ref<number | null>(null)
 let timer: number | undefined
 const cat = ref<'all' | EventCat>('all')
 const showPast = ref(false)
+const view = ref<'list' | 'cal'>('list')
+// Month grid (Sun-start), months that contain events
+const calMonth = ref('')
+const calMonths = [...new Set(events.map((e) => e.date.slice(0, 7)))].sort()
+const calIdx = computed(() => Math.max(0, calMonths.indexOf(calMonth.value)))
+const selDay = ref('')
+const grid = computed(() => {
+  const ym = calMonths[calIdx.value]
+  const [y, m] = ym.split('-').map(Number)
+  const first = new Date(Date.UTC(y, m - 1, 1)).getUTCDay()
+  const days = new Date(Date.UTC(y, m, 0)).getUTCDate()
+  const cells: { date: string | null; d: number; items: CsEvent[] }[] = []
+  for (let i = 0; i < first; i++) cells.push({ date: null, d: 0, items: [] })
+  for (let d = 1; d <= days; d++) {
+    const date = `${ym}-${String(d).padStart(2, '0')}`
+    cells.push({ date, d, items: sorted.filter((e) => e.date === date && (cat.value === 'all' || e.cat === cat.value)) })
+  }
+  while (cells.length % 7) cells.push({ date: null, d: 0, items: [] })
+  return cells
+})
+const selItems = computed(() => grid.value.find((c) => c.date === selDay.value)?.items ?? [])
+const todayStr = computed(() => (now.value === null ? '' : new Date(now.value + 9 * 3600e3).toISOString().slice(0, 10)))
 
 const sorted = [...events].sort((a, b) => startMs(a) - startMs(b) || a.cat.localeCompare(b.cat))
 const dayEnd = (e: CsEvent) => new Date(`${e.date}T23:59:59+09:00`).getTime()
@@ -63,6 +85,8 @@ function downloadIcs(e: CsEvent) {
 }
 
 onMounted(() => {
+  const ym = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7)
+  calMonth.value = calMonths.includes(ym) ? ym : calMonths[calMonths.length - 1]
   now.value = Date.now()
   timer = window.setInterval(() => (now.value = Date.now()), 1000)
 })
@@ -93,11 +117,41 @@ onBeforeUnmount(() => clearInterval(timer))
         <button v-for="(m, k) in catMeta" :key="k" type="button" class="chip" :aria-pressed="cat === k" :style="{ '--cc': m.color }"
           @click="cat = k as EventCat">{{ m.emoji }} {{ m.ko }} <small>{{ counts[k] || 0 }}</small></button>
       </div>
-      <label class="past"><input v-model="showPast" type="checkbox" /> 지난 일정 {{ pastCount }}개 보기</label>
+      <label v-if="view === 'list'" class="past"><input v-model="showPast" type="checkbox" /> 지난 일정 {{ pastCount }}개 보기</label>
+      <div class="seg" role="group" aria-label="보기 방식">
+        <button type="button" :aria-pressed="view === 'list'" @click="view = 'list'">☰ 목록</button>
+        <button type="button" :aria-pressed="view === 'cal'" @click="view = 'cal'">▦ 달력</button>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div v-if="view === 'cal'" class="cal">
+      <div class="cal-head">
+        <button type="button" class="nav" :disabled="calIdx === 0" aria-label="이전 달" @click="calMonth = calMonths[calIdx - 1]; selDay = ''">‹</button>
+        <b>{{ calMonths[calIdx].slice(0, 4) }}년 {{ Number(calMonths[calIdx].slice(5)) }}월</b>
+        <button type="button" class="nav" :disabled="calIdx === calMonths.length - 1" aria-label="다음 달" @click="calMonth = calMonths[calIdx + 1]; selDay = ''">›</button>
+      </div>
+      <div class="wk"><span v-for="(w, i) in ['日', '月', '火', '水', '木', '金', '土']" :key="w" :class="{ sun: i === 0, sat: i === 6 }">{{ w }}</span></div>
+      <div class="days">
+        <button v-for="(c, i) in grid" :key="i" type="button" class="day-c" :disabled="!c.date || !c.items.length"
+          :class="{ blank: !c.date, has: c.items.length, today: c.date === todayStr, sel: c.date === selDay, past: c.date && c.date < todayStr }"
+          :aria-label="c.date ? `${c.d}일 일정 ${c.items.length}개` : undefined" @click="selDay = c.date === selDay ? '' : (c.date || '')">
+          <span v-if="c.date" class="dn">{{ c.d }}</span>
+          <span class="pips"><i v-for="e in c.items.slice(0, 4)" :key="e.ja" :style="{ background: e.member ? memberById[e.member].color : catMeta[e.cat].color }" /></span>
+          <span v-if="c.items.length" class="first">{{ catMeta[c.items[0].cat].emoji }} {{ c.items[0].ko }}</span>
+        </button>
+      </div>
+      <div v-if="selItems.length" class="sel-list">
+        <a v-for="e in selItems" :key="e.ja + e.date" :href="e.url" target="_blank" rel="noopener" :style="{ '--cc': e.member ? memberById[e.member].color : catMeta[e.cat].color }">
+          <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span><b lang="ja">{{ e.ja }}</b>
+          <small>{{ e.ko }}<template v-if="e.time"> · {{ e.time }} {{ timeLabel(e) }}</template><template v-if="e.venue"> · 📍 {{ e.venue }}</template></small>
+        </a>
+      </div>
+      <p v-else class="cal-hint">점이 있는 날짜를 눌러 일정을 확인하세요</p>
     </div>
 
     <!-- TIMELINE -->
-    <div class="tl">
+    <div v-show="view === 'list'" class="tl">
       <section v-for="mo in months" :key="mo.key" class="mo">
         <h2 class="mo-h"><span>{{ mo.label }}</span><small>{{ mo.key.slice(0, 4) }}</small></h2>
         <div v-for="d in mo.days" :key="d.date" class="day" :class="{ past: isPast(d.items[0]), today: isToday(d.items[0]) }">
@@ -172,6 +226,35 @@ onBeforeUnmount(() => clearInterval(timer))
 .chip small { opacity: 0.55; margin-left: 2px; }
 .chip:active { transform: scale(0.9); }
 .chip[aria-pressed='true'] { background: color-mix(in srgb, var(--cc, #3a2340) 62%, #2a1030); border-color: transparent; color: #fff; }
+.seg { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: #f6e9f0; margin-left: auto; }
+.seg button { padding: 6px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 700; color: #5a4060; background: none; }
+.seg button[aria-pressed='true'] { background: #fff; color: #3a2340; box-shadow: 0 2px 6px rgba(90, 30, 70, 0.15); }
+.cal { margin-top: 14px; padding: 18px; border-radius: 26px; background: #fff; border: 1.5px solid #f3dbe8; }
+.cal-head { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.cal-head b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 22px; min-width: 150px; text-align: center; }
+.nav { width: 36px; height: 36px; border-radius: 50%; font-size: 22px; line-height: 1; background: #faf2f6; color: #3a2340; }
+.nav:disabled { opacity: 0.35; }
+.wk { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 12px; text-align: center; font-size: 12px; font-weight: 800; color: #735779; }
+.wk .sun { color: #c42235; } .wk .sat { color: #2b5ea8; }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; }
+.day-c { position: relative; min-height: 86px; padding: 6px; border-radius: 14px; background: #fdf8fa; text-align: left; display: flex; flex-direction: column; gap: 4px; color: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), background 0.2s; }
+.day-c.blank { background: none; }
+.day-c.has { background: #fff3f8; cursor: pointer; }
+.day-c.has:hover { transform: translateY(-2px); background: #ffe8f2; }
+.day-c.past { opacity: 0.5; }
+.day-c.today { box-shadow: inset 0 0 0 2px #c92f69; }
+.day-c.sel { background: #3a2340; color: #fff; }
+.day-c:disabled:not(.blank) { cursor: default; }
+.dn { font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pips { display: flex; gap: 3px; }
+.pips i { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 0 1.5px #fff; }
+.first { font-size: 11px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sel-list { display: grid; gap: 8px; margin-top: 14px; }
+.sel-list a { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 16px; border-left: 5px solid var(--cc); background: #fdf6fa; color: #3a2340 !important; text-decoration: none !important; }
+.sel-list b { font-family: 'Noto Sans JP', sans-serif; font-size: 15px; }
+.sel-list small { font-size: 12.5px; color: #5a4060; }
+.sel-list .pill { align-self: flex-start; }
+.cal-hint { margin: 12px 0 0 !important; text-align: center; font-size: 13px; color: #735779; }
 .past { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #735779; white-space: nowrap; cursor: pointer; }
 .past input { accent-color: #ff6b9d; }
 
@@ -212,6 +295,10 @@ onBeforeUnmount(() => clearInterval(timer))
 .src { margin-top: 28px !important; font-size: 12px; color: #735779; }
 
 @media (max-width: 640px) {
+  .day-c { min-height: 54px; padding: 4px; border-radius: 10px; }
+  .first { display: none; }
+  .cal { padding: 12px; }
+  .seg { margin-left: 0; }
   .next { padding: 20px; border-radius: 22px; }
   .clock { gap: 6px; }
   .clock > span { min-width: 0; flex: 1; padding: 8px 4px; }
