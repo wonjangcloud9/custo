@@ -34,6 +34,7 @@ const lazy = {
   KohakuSpecial: () => import('../components/KohakuSpecial.vue'),
   VideoStats: () => import('../components/VideoStats.vue'),
   MemberTable: () => import('../components/MemberTable.vue'),
+  KoreaHub: () => import('../components/KoreaHub.vue'),
 }
 
 export default {

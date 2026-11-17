@@ -72,6 +72,7 @@ export default defineConfig({
           { text: '스케줄 · 카운트다운', link: '/schedule/' },
           { text: '공식 소식 (한국어 요약)', link: '/news/' },
           { text: '라이브 가이드 · 펜라이트', link: '/live-guide/' },
+          { text: '🇰🇷 큐스트 in KOREA', link: '/korea/' },
         ],
       },
     ],
