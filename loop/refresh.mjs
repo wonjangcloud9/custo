@@ -49,7 +49,7 @@ let mvOut = mvs, tOut = teasers
 for (const v of await feed(KL)) {
   if (v.short || !/CUTIE STREET/.test(v.title)) continue
   published[v.id] ??= v.published
-  if (/【(韓国版)?MV】/.test(v.title) && !mvOut.includes(v.id)) { mvOut += `${mvOut.endsWith('\n') ? '' : '\n'}${v.id}\tKAWAII LAB.\t${v.title}\n`; added.mv.push(v.title) }
+  if (/【(韓国版)?MV】/.test(v.title) && !mvOut.includes(v.id)) { mvOut = `${v.id}\tKAWAII LAB.\t${v.title}\n` + mvOut; added.mv.push(v.title) } // newest first
   for (const [mid, name] of Object.entries(NAMES)) {
     if (v.title.includes(name) && !tOut.includes(`${mid}\t${v.id}`)) { tOut += `${tOut.endsWith('\n') ? '' : '\n'}${mid}\t${v.id}\t${v.title}\n`; added.teaser.push(`${mid}: ${v.title}`) }
   }
