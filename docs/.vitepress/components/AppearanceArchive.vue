@@ -2,12 +2,22 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import raw from '../data/appearances.json'
 import { members, memberById } from '../data/members'
+import { events, startMs } from '../data/events'
 
 // Off-channel appearances: videos uploaded by other official channels (TV, music shows,
 // brands, media, other artists). Data + verification: loop/appearances.py
 interface Ap { id: string; kind: string; title: string; ch: string; date: string; secs: number; members: string[] }
 const all = raw as Ap[]
 const DEBUT = '2024-08-04'
+// upcoming TV appearances from the official schedule (client clock; hidden once aired)
+const now = ref(0)
+const onAir = computed(() => (now.value ? events.filter((e) => e.cat === 'tv' && startMs(e) + 3 * 3600e3 > now.value).sort((a, b) => startMs(a) - startMs(b)).slice(0, 6) : []))
+const dLabel = (e: { date: string }) => {
+  const d = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(new Date(now.value + 9 * 3600e3).toISOString().slice(0, 10) + 'T00:00:00+09:00')) / 86400000)
+  return d <= 0 ? 'TODAY' : d === 1 ? '내일' : `D-${d}`
+}
+const WD = ['日', '月', '火', '水', '木', '金', '土']
+const dayJa = (d: string) => `${+d.slice(5, 7)}/${+d.slice(8, 10)} (${WD[new Date(d + 'T00:00:00Z').getUTCDay()]})`
 
 const KINDS: { id: string; label: string; emoji: string; c: string }[] = [
   { id: 'stage', label: '무대', emoji: '🎤', c: '#FF6B9D' },
@@ -74,6 +84,7 @@ function play(a: Ap) {
 function reset() { kind.value = ''; who.value = ''; ch.value = ''; q.value = ''; withGroup.value = true }
 
 onMounted(() => {
+  now.value = Date.now()
   const p = new URLSearchParams(location.search)
   const m = p.get('m'), k = p.get('k')
   if (m && memberById[m]) who.value = m
@@ -91,6 +102,18 @@ onMounted(() => {
       <div><b>{{ fmtDate(all[all.length - 1].date).slice(0, 7) }}</b><span>가장 오래된 기록</span></div>
       <div><b>{{ fmtDate(all[0].date) }}</b><span>최근 출연</span></div>
     </div>
+
+    <!-- upcoming broadcasts -->
+    <section v-if="onAir.length" class="soon" aria-labelledby="soon-h">
+      <h2 id="soon-h" class="soon-h">📡 방송 예정 <small>방송 후 공식 클립이 올라오면 아래 아카이브에 추가돼요</small></h2>
+      <div class="soon-row">
+        <a v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }" :href="e.url" target="_blank" rel="noopener">
+          <span class="sn-d"><b>{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
+          <span class="sn-t" lang="ja">{{ e.ja }}</span>
+          <span class="sn-k">{{ e.ko }}</span>
+        </a>
+      </div>
+    </section>
 
     <!-- ON AIR panel -->
     <div ref="panel" class="onair" :style="{ '--k': kindById[cur.kind].c }">
@@ -172,6 +195,18 @@ onMounted(() => {
 .stats b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 24px; line-height: 1.2; color: #a33366; }
 .stats span { font-size: 12.5px; color: #6a4f70; }
 
+.soon { margin: 0 0 18px; }
+.soon-h { margin: 0 0 10px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 18px !important; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.soon-h small { font-family: inherit; font-size: 12.5px; font-weight: 600; color: #6a4f70; }
+.soon-row { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.sn { flex: 0 0 auto; width: 220px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1.5px #f1d4e1; text-decoration: none !important; color: #2f1a35 !important; transition: transform 0.4s var(--spring); }
+.sn:hover { transform: translateY(-3px); }
+.sn.big { background: linear-gradient(120deg, #fff0f3, #fff); box-shadow: inset 0 0 0 2px #ff8fa8; }
+.sn-d { font-size: 12.5px; color: #6a4f70; display: flex; gap: 8px; align-items: center; }
+.sn-d b { padding: 2px 8px; border-radius: 999px; background: #2f1a35; color: #fff; font-size: 11.5px; }
+.sn-t { font-size: 14px; font-weight: 800; line-height: 1.45; }
+.sn-k { font-size: 12px; color: #6a4f70; }
+@media (prefers-reduced-motion: reduce) { .sn { transition: none; } }
 .onair { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; padding: 18px; border-radius: 28px; color: #fff; scroll-margin-top: 80px;
   background: radial-gradient(120% 120% at 100% 0%, color-mix(in srgb, var(--k) 45%, #1d0f24), transparent 60%), #1d0f24; transition: background 0.6s; }
 .oa-player :deep(.yt) { margin: 0; border-radius: 18px; }
