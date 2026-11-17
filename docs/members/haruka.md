@@ -9,20 +9,20 @@ aside: false
 
 ## 매력 포인트
 
-사쿠라바 하루카는 CUTIE STREET의 최연소 멤버입니다. 홋카이도라는 먼 곳에서 올라와 잡지 **LARME** 의 전속 모델로 활약하며 전국적인 인기를 쌓더니, 마침내 한국에서도 유명한 오디션 프로그램 **PRODUCE 101 JAPAN THE GIRLS** 에 도전해 최종 19위까지 오르는 저력을 보여주었습니다.
+사쿠라바 하루카는 2006년생으로 CUTIE STREET의 **최연소 멤버**입니다. 오디션 프로그램 **「PRODUCE 101 JAPAN THE GIRLS」(日プ女子)** 에 출연해 **최종 19위**를 기록했고, 잡지 **「LARME」** 의 레귤러 모델로도 활동했어요.
 
-댄스도 노래도 처음에는 경험이 없었다고 하는데, 지금의 하루카를 보면 그 말이 믿기지 않을 정도입니다. 포근하고 아늑한 목소리는 노래할 때 더욱 빛을 발하며, 무대마다 눈에 띄는 성장을 보여주고 있습니다. 최대 16-17시간까지 잘 수 있다는 수면 특기(?)는 팬들 사이에서 유명한 에피소드입니다.
-
-만화 감상을 좋아하는 취미도 파루탄의 매력입니다. **초十代 ULTRA TEENS FES 2024** 에도 출연하며 10대를 대표하는 스타로 자리매김했습니다. 어리지만 이미 어마어마한 존재감으로 CUTIE STREET를 이끌어가고 있습니다.
+만화 감상을 좋아하는 취향도 파루탄의 매력. 2025년부터는 FRUITS ZIPPER 마츠모토 카렌과의 유닛 **「PiKi」** 로도 활동하고 있습니다.
 
 ## 활동 이력
 
 | 시기 | 활동 |
 |------|------|
-| 과거 | 잡지 LARME 전속 모델 |
-| 과거 | PRODUCE 101 JAPAN THE GIRLS 출전 (최종 19위) |
-| 2024년 | 초十代 ULTRA TEENS FES 2024 출연 |
-| 현재 | CUTIE STREET 멤버로 활동 중 |
+| 데뷔 전 | 「PRODUCE 101 JAPAN THE GIRLS」 출연 (최종 19위) |
+| 데뷔 전 | 잡지 「LARME」 레귤러 모델 |
+| 2024~ | CUTIE STREET 멤버 |
+| 2025~ | 유닛 「PiKi」 (with 松本かれん / FRUITS ZIPPER) |
+
+> 📚 출처: [ticket.co.jp 멤버 프로필](https://www.ticket.co.jp/entx/?p=5758) · [Wikipedia(일본어)](https://ja.wikipedia.org/wiki/CUTIE_STREET) · [ciatr](https://ciatr.jp/topics/336201)
 
 ## 이름 읽기 연습
 
@@ -52,6 +52,6 @@ aside: false
   { q: '사쿠라바 하루카의 생일은 언제인가요?', options: ['2005년 1월 29일', '2006년 1월 29일', '2006년 9월 29일', '2006년 1월 19일'], answer: 1 },
   { q: '사쿠라바 하루카의 출신지는 어디인가요?', options: ['아오모리현', '아키타현', '홋카이도', '이와테현'], answer: 2 },
   { q: 'PRODUCE 101 JAPAN THE GIRLS에서 하루카의 최종 순위는?', options: ['11위', '15위', '19위', '22위'], answer: 2 },
-  { q: '사쿠라바 하루카가 전속 모델로 활동한 잡지는?', options: ['POPTEEN', 'LARME', 'NICOLA', 'Seventeen'], answer: 1 },
+  { q: '사쿠라바 하루카가 레귤러 모델로 활동한 잡지는?', options: ['POPTEEN', 'LARME', 'NICOLA', 'Seventeen'], answer: 1 },
   { q: '사쿠라바 하루카의 취미로 알려진 것은?', options: ['골프', '낚시', '만화 감상', '등산'], answer: 2 }
 ]" />
