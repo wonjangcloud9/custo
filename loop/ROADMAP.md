@@ -68,6 +68,8 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 79 | 영상 아카이브 정렬 (최신 업로드/오래된/긴/짧은 영상순, 길이 없는 MV는 뒤로, URL ?sort 공유) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #36 |
 | 80 | /members/ 한눈에 비교표: 정렬 가능한 표(번호·이름·나이·키·생일 D-day·출신), aria-sort, 행 재정렬 스프링 애니메이션, 키 막대, D-14 강조, 모바일 이름 열 sticky | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #37 |
 | 81 | 버그: /members/ 인덱스는 member-page인데 멤버 id 없음 → --page-mc 미정의로 h2 하이라이트·표 헤더·인용·강조 밑줄이 투명 → `.member-page { --page-mc: #FF6B9D }` 기본값(멤버별 규칙이 뒤에서 덮어씀) | 7 | 1 | 1 | 0.1 | 70 | ✅ Fixed #38 |
+| 82 | 투명 텍스트/clip 배경 누락 전수 점검 (26페이지): 실제 버그 0 — 홈 통계 단위(<small>)는 부모 b의 background-clip:text로 그려지는 오탐 | 7 | 1 | 1 | 0.3 | 23 | ✅ Checked #39 |
+| 83 | 홈 카운트다운: 앨범·紅白 카드가 외부 기사 대신 사이트 특집(/cutie-land/, /kohaku/)으로 이동 (같은 탭) | 9 | 0.5 | 1 | 0.1 | 45 | ✅ Done #39 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -177,3 +179,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #36 2026-11-17 11:35 — refresh (0 new) + news (none); archive sort select (newest/oldest upload, longest/shortest; unknown-length MVs last; ?sort in URL); caught & fixed a mobile horizontal overflow from an absolutely-positioned sr-only span escaping the scrolling member row — next: research round
 - #37 2026-11-17 11:55 — refresh (0 new) + news (none); MemberTable on /members/ (sortable by order/name/age/height/birthday D-day/hometown, aria-sort, TransitionGroup spring reorder, height bars, D-14 highlight); mobile: sticky name column + header (fixed a global-rule specificity clash) — verified sort results against data — next: research round
 - #38 2026-11-17 12:15 — refresh (0 new) + news (none); followed up #37 lesson → found & fixed /members/ index losing all member-page accents (undefined --page-mc); verified index pink default + kana/risa keep their colors — next: research round
+- #39 2026-11-17 12:35 — refresh (0 new) + news (none); site-wide invisible-text sweep (26 pages, no real issues); home countdown album/紅白 cards → in-site specials; owed mobile /members/ check done (OK) — next: research round

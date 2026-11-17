@@ -15,8 +15,10 @@ const dated = (homeVideos as { dated: Video[] }).dated
 
 // Featured milestones come from the shared, source-verified schedule data
 const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: '💿', tv: '🎍' }
+// featured events that have an in-site special page
+const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-12-31': '/kohaku/' }
 const EVENTS = events.filter((e) => e.featured).map((e) => ({
-  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: e.url,
+  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
 }))
 
 const now = ref<number | null>(null)
@@ -157,7 +159,7 @@ function cleanTitle(t: string) {
 
     <!-- COUNTDOWN -->
     <section id="next" class="cd" aria-label="다가오는 일정">
-      <a v-for="(e, i) in upcoming" :key="e.id" class="cd-card" :class="{ next: i === 0 }" :href="e.link" target="_blank" rel="noopener">
+      <a v-for="(e, i) in upcoming" :key="e.id" class="cd-card" :class="{ next: i === 0 }" :href="e.link" :target="e.ext ? '_blank' : undefined" :rel="e.ext ? 'noopener' : undefined">
         <span class="cd-emoji" aria-hidden="true">{{ e.emoji }}</span>
         <span class="cd-label">{{ e.label }}</span>
         <span class="cd-ko">{{ e.ko }}</span>
