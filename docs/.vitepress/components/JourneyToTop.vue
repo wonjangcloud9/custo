@@ -455,7 +455,7 @@ onBeforeUnmount(() => cleanup?.())
 }
 .step.now .card { transform: none; opacity: 1; filter: none; }
 .card-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.alt-chip { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: var(--mc); color: #fff; font-variant-numeric: tabular-nums; }
+.alt-chip { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; font-variant-numeric: tabular-nums; }
 .date { font-size: 13px; font-weight: 700; color: #735779; font-variant-numeric: tabular-nums; }
 .no { margin-left: auto; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: #7d6083; }
 .ja { margin: 14px 0 2px; border: 0; padding: 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: clamp(24px, 3.2vw, 32px); line-height: 1.25; color: color-mix(in srgb, var(--mc) 60%, #3a2340); }

@@ -142,7 +142,7 @@ function resetProgress() {
   font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #FF6B9D;
+  color: #c92f69;
   text-align: center;
   margin: 0 0 1.5rem;
 }

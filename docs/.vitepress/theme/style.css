@@ -564,3 +564,6 @@ input[type='checkbox']:focus-visible, input[type='radio']:focus-visible, input[t
 [style*="--mc: #FF9F43"], [style*="--mc:#FF9F43"] { --ink-mix: 50%; }
 [style*="--mc: #5DC8F5"], [style*="--mc:#5DC8F5"] { --ink-mix: 50%; }
 [style*="--mc: #FF6B9D"], [style*="--mc:#FF6B9D"] { --ink-mix: 56%; }
+
+/* inline code: brand pink on the grey code chip was 4.3:1 — one step darker for AA (#116) */
+:root { --vp-code-color: #a33366; }

@@ -130,7 +130,7 @@ onMounted(() => {
 .ph { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: color-mix(in srgb, var(--mc) 15%, white); }
 .ph img { width: 100%; height: 100%; object-fit: cover; }
 figcaption { display: flex; flex-direction: column; padding: 8px 2px 0; }
-figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 15px; color: color-mix(in srgb, var(--mc) 65%, #3a2340); }
+figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 15px; color: color-mix(in srgb, var(--mc) min(65%, var(--ink-mix, 100%)), #2a1030); }
 figcaption small { font-size: 11.5px; color: #735779; font-family: 'Noto Sans JP', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .rm { position: absolute; right: 16px; top: 16px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); color: #ff3b6f; font-size: 18px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); transition: transform 0.4s var(--spring); }
 .rm:hover { transform: scale(1.15) rotate(-12deg); }
