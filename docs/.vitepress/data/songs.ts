@@ -1,5 +1,6 @@
 // Song spotlight pages (/discography/<id>). Credits/dates from the official discography pages,
-// charts from Wikipedia JA; every video id verified via oEmbed (see loop/ROADMAP.md).
+// charts from Wikipedia JA / Oricon / Billboard JAPAN; every video id verified via oEmbed (see loop/ROADMAP.md).
+// kyuutai credits: pocketmonsters.net song DB + j-lyric (official detail page lists none) — shown with that source.
 export interface Song {
   id: string
   title: string
@@ -82,6 +83,36 @@ export const songs: Song[] = [
     quiz: [
       { q: '이 곡의 핵심 메시지는?', options: ['이별의 슬픔', '개성과 다양한 귀여움', '여름 바다', '학교 생활'], answer: 1 },
       { q: '큐티스트리트의 컨셉명은?', options: ['COOL MAKER', 'KAWAII MAKER', 'HAPPY MAKER', 'DREAM MAKER'], answer: 1 },
+    ],
+  },
+  {
+    id: 'kyuutai', title: 'キュートなキューたい', read: '큐토나 큐-타이', meaning: '큐트한 구체 (CUTIE SPHERE)',
+    tagline: '첫 오리콘 1위 · 포켓몬 엔딩 테마', grad: ['#5DC8F5', '#FFC93C', '#3CCFA8'],
+    facts: [
+      { k: '발매', v: '2026.05.15 디지털 (TV size) · 2026.05.27 3rd SINGLE' },
+      { k: '작사', v: 'ジンツチハシ · 早川博隆 · ポケモン音楽歌い隊' },
+      { k: '작곡', v: 'ジンツチハシ · 早川博隆 · 宇田川翔' },
+      { k: '편곡', v: '宇田川翔 · 早川博隆' },
+      { k: '수록', v: '1st ALBUM 「CUTIE LAND」 7번 트랙' },
+    ],
+    badges: ['오리콘 주간 합산 싱글 1위', 'Billboard JAPAN Top Singles Sales 1위', 'TV 애니메이션 「포켓몬스터」 엔딩', '한국어 ver. 2026.10.21'],
+    story: [
+      '「ナイスだね」와 함께 더블 A면으로 나온 3rd 싱글의 타이틀곡이에요. 오리콘 주간 합산 싱글·주간 싱글 랭킹에서 그룹 첫 1위를 했고, Billboard JAPAN Top Singles Sales에서도 1위에 올랐어요.',
+      '일본 TV 애니메이션 「포켓몬스터」의 엔딩 테마예요. 한국어 버전 「동글동글 동글이」는 재능TV 「포켓몬스터: 원더보야지」 엔딩으로 11월 3일부터 방송돼, 일본과 한국 양쪽에서 엔딩을 맡게 됐어요.',
+      '2026년 10월에는 엠카운트다운·뮤직뱅크·음악중심·인기가요 무대에서 한국어 버전을 선보였어요.',
+    ],
+    videos: [
+      { id: 'VQmdUnlNnds', label: '공식 MV' },
+      { id: 'J7osyzGsxZs', label: '한국어 ver. MV' },
+      { id: 'K8Ve15WbM_0', label: '엠카운트다운 (10.22)' },
+      { id: 'hyZLLImDeds', label: '뮤직뱅크 (10.23)' },
+      { id: '4-t2sNCZIX4', label: '음악중심' },
+      { id: 'ArJmURaeilo', label: '인기가요 (10.25)' },
+    ],
+    quiz: [
+      { q: '이 곡이 엔딩 테마로 쓰인 TV 애니메이션은?', options: ['포켓몬스터', '원피스', '프리큐어', '짱구는 못말려'], answer: 0 },
+      { q: '한국어 버전의 제목은?', options: ['귀엽기만 하면 안 되나요?', '동글동글 동글이', '프리큐큐', '큐스토의 노래'], answer: 1 },
+      { q: '3rd 싱글에서 이 곡과 더블 A면인 곡은?', options: ['ナイスだね', 'ラブトレ', 'Error404♡', 'ご褒美しよっ！'], answer: 0 },
     ],
   },
 ]

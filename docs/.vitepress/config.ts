@@ -122,6 +122,7 @@ export default defineConfig({
             { text: 'かわいいだけじゃだめですか？', link: '/discography/kawaii-dake' },
             { text: 'Hello Hello Mirai', link: '/discography/hello-hello-mirai' },
             { text: 'Happy Sekai!', link: '/discography/happy-sekai' },
+            { text: 'Cute na Kyuutai', link: '/discography/kyuutai' },
           ],
         },
       ],
