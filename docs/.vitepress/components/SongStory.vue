@@ -45,7 +45,7 @@ const vid = computed(() => s.value.videos[vi.value])
       <section class="story" aria-labelledby="st-h">
         <h2 id="st-h">곡 이야기</h2>
         <p v-for="(p, i) in s.story" :key="i">{{ p }}</p>
-        <p class="src">{{ s.id === 'kyuutai' ? '📚 발매일: 공식 디스코그래피 · 크레딧: pocketmonsters.net 곡 DB / j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: 오리콘 / Billboard JAPAN' : '📚 크레딧·발매일: 공식 디스코그래피 · 차트: Wikipedia(일본어)' }}</p>
+        <p class="src">{{ s.id === 'kyu-ni-stop' ? '📚 발매일: 공식 디스코그래피 · 작사·작곡: j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: Wikipedia(일본어)' : s.id === 'kyuutai' ? '📚 발매일: 공식 디스코그래피 · 크레딧: pocketmonsters.net 곡 DB / j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: 오리콘 / Billboard JAPAN' : '📚 크레딧·발매일: 공식 디스코그래피 · 차트: Wikipedia(일본어)' }}</p>
       </section>
       <section class="quiz" aria-labelledby="q-h">
         <h2 id="q-h">팬 퀴즈 💖</h2>

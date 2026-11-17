@@ -227,5 +227,56 @@ export const songs: Song[] = [
       { q: '3rd 싱글에서 이 곡과 더블 A면인 곡은?', options: ['キュートなキューたい', 'ぷりきゅきゅ', 'ゆめみるプリマドンナ', 'Crush on you'], answer: 0 },
     ],
   },
+  {
+    id: 'kyu-ni-stop', title: 'キューにストップできません！', read: '큐-니 스톱푸 데키마센', meaning: '갑자기는 멈출 수 없어요!',
+    tagline: '2nd CD 싱글 타이틀곡 · 오사카에서 첫 공개', grad: ['#FF4757', '#FF9F43', '#FFC93C'],
+    facts: [
+      { k: '발매', v: '2025.05.07 디지털 · 2025.07.23 2nd SINGLE' },
+      { k: '작사', v: '早川博隆' },
+      { k: '작곡', v: '早川博隆 · 宇田川翔' },
+    ],
+    badges: ['2nd CD 싱글 오리콘 주간 2위', '첫 공개 2025.03.22 Zepp Namba'],
+    story: [
+      '2025년 3월 22일 Zepp Namba(오사카) 공연에서 처음 선보였고, 5월 7일 디지털로 발매됐어요. 7월 23일에는 「ちきゅーめいくあっぷ計画」와 함께 2nd CD 싱글로 나와 오리콘 주간 2위를 기록했어요.',
+      '데뷔곡과 같은 早川博隆이 작사했어요. (작사·작곡은 j-lyric 기준 — 공식 상세 페이지엔 크레딧이 없어요)',
+    ],
+    videos: [
+      { id: '_gfwU-heIkA', label: '공식 MV' },
+      { id: 'XNBoWiocpVY', label: '안무 영상 (MV edition)' },
+      { id: 'ZqJldGGRXdQ', label: 'Dance Practice' },
+      { id: 'WB9EpqF08Yg', label: '첫 공개 Zepp Namba (2025.03.22)' },
+      { id: 'FBv42i82w2w', label: 'K아레나 요코하마 (2026.02.12)' },
+    ],
+    quiz: [
+      { q: '이 곡을 처음 무대에서 선보인 곳은?', options: ['Zepp Namba (오사카)', '日本武道館', '豊洲PIT', '横浜アリーナ'], answer: 0 },
+      { q: '2nd CD 싱글에서 이 곡과 함께 실린 곡은?', options: ['ラブトレ', 'ちきゅーめいくあっぷ計画', 'ハルフレーク', 'ナイスだね'], answer: 1 },
+      { q: '2nd CD 싱글의 오리콘 주간 최고 순위는?', options: ['1위', '2위', '3위', '5위'], answer: 1 },
+    ],
+  },
+  {
+    id: 'chikyu-makeup', title: 'ちきゅーめいくあっぷ計画', read: '치큐- 메이쿠앗푸 케이카쿠', meaning: '지구 메이크업 계획',
+    tagline: 'ヤバイTシャツ屋さん ありぼぼ 작사·작곡', grad: ['#3CCFA8', '#5DC8F5', '#A06CD5'],
+    facts: [
+      { k: '발매', v: '2025.04.16 디지털 · 2025.07.23 2nd SINGLE' },
+      { k: '작사·작곡', v: 'ありぼぼ (ヤバイTシャツ屋さん)' },
+      { k: '편곡', v: '大久保薫' },
+      { k: '안무', v: 'SACO MAKITA' },
+    ],
+    badges: ['ありぼぼ 제공곡', '2nd CD 싱글 더블 A면'],
+    story: [
+      '록 밴드 ヤバイTシャツ屋さん의 ありぼぼ가 작사·작곡하고 大久保薫가 편곡한 곡이에요. 안무는 SACO MAKITA가 맡았어요.',
+      '2025년 4월 16일 디지털로 나왔고, 7월에는 「キューにストップできません！」와 함께 2nd CD 싱글에 실렸어요. 발매 전부터 라이브에서 불러 온 곡이에요.',
+    ],
+    videos: [
+      { id: 'nB2qTzs2HTk', label: '공식 MV' },
+      { id: '_MRgkpeDdvU', label: '안무 영상 (MV edition)' },
+      { id: 'Gh4UJ4MSO5s', label: 'Dance Practice' },
+      { id: 'zhcLLEPhkww', label: 'K아레나 요코하마 (2025.02.22)' },
+    ],
+    quiz: [
+      { q: '이 곡을 작사·작곡한 ありぼぼ가 속한 밴드는?', options: ['ヤバイTシャツ屋さん', 'King Gnu', 'Mrs. GREEN APPLE', '緑黄色社会'], answer: 0 },
+      { q: '이 곡의 안무가는?', options: ['えりなっち', 'SACO MAKITA', 'YUPPA', '大久保薫'], answer: 1 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
