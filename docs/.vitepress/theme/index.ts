@@ -33,6 +33,7 @@ const lazy = {
   StarterQuest: () => import('../components/StarterQuest.vue'),
   KohakuSpecial: () => import('../components/KohakuSpecial.vue'),
   VideoStats: () => import('../components/VideoStats.vue'),
+  MemberTable: () => import('../components/MemberTable.vue'),
 }
 
 export default {

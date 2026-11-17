@@ -66,6 +66,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 77 | 스케줄 월간 캘린더 뷰 (목록/달력 토글, 일요일 시작, 카테고리·멤버 컬러 점, 오늘 링, 날짜 탭 → 상세, 이벤트 있는 달만 이동, 카테고리 필터 연동) | 7 | 1 | 1 | 1 | 7 | ✅ Done #34 |
 | 78 | 멤버 페이지 스와이프(터치, 수평 70px+·수평 우세일 때만) / ← → 키 이동, 짧은 슬라이드 힌트, 입력·다이얼로그·팔레트 중엔 무시, 터치 기기 안내문 | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #35 |
 | 79 | 영상 아카이브 정렬 (최신 업로드/오래된/긴/짧은 영상순, 길이 없는 MV는 뒤로, URL ?sort 공유) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #36 |
+| 80 | /members/ 한눈에 비교표: 정렬 가능한 표(번호·이름·나이·키·생일 D-day·출신), aria-sort, 행 재정렬 스프링 애니메이션, 키 막대, D-14 강조, 모바일 이름 열 sticky | 7 | 1 | 1 | 0.5 | 14 | ✅ Done #37 |
 | 46 | 紅白 歌唱曲 발표 시 /kohaku/ + events.ts 업데이트 (매 회차 뉴스 확인 시 체크) | 9 | 1 | 1 | 0.1 | 90 | Watch |
 | 40 | 공식 소식 한국어 다이제스트: 홈 뉴스 티커 + /news/ (태그 필터, 일본어 원문 토글, NEW 3일) | 8 | 2 | 1 | 1 | 16 | ✅ Done #19 |
 | 39 | 접근성 2차: 멤버 컬러 위 흰 텍스트 남은 곳(chip pressed 등) 일괄 color-mix 처리 + 그라데이션 버튼 끝색(라벤더) 대비 | 6 | 1 | 0.8 | 1 | 4.8 | ✅ Done #20 (accordion, archive/unit pressed chips, bday TODAY tile; BirthdayRing kanji left as identity color w/ aria-label) |
@@ -106,6 +107,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
 
 ## Regression checklist (run every ~5 iterations)
+- Lesson (#37): on member-page pageClass pages without a member id, `.member-page .vp-doc table th` resolves an undefined --page-mc → transparent; component tables need higher-specificity backgrounds.
 - Lesson (#36): never put a position:absolute 'sr-only' element inside an overflow-x:auto row — its containing block is outside the scroller, so it widens the page. Use aria-label instead.
 - Static: build, then scan dist/*.html internal hrefs → 0 broken.
 - Runtime: Playwright loop over every sitemap page at 1440 & 390 → 0 console errors, 0 horizontal overflow.
@@ -172,3 +174,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #34 2026-11-17 10:55 — refresh (0 new) + news (none); /schedule/ month calendar view (list ⇄ calendar segmented toggle, Sun-start grid, colored pips by category / member color for 生誕祭, today ring, tap a day → detail cards, month nav limited to months with events, respects category chips) — next: research round
 - #35 2026-11-17 11:15 — refresh (0 new) + news (none); member pages: touch swipe on hero + ←/→ keys → prev/next member (slide hint, ignores typing/open dialogs/⌘K, vertical drags ignored, listener removed on leave — verified), touch-only hint — next: research round
 - #36 2026-11-17 11:35 — refresh (0 new) + news (none); archive sort select (newest/oldest upload, longest/shortest; unknown-length MVs last; ?sort in URL); caught & fixed a mobile horizontal overflow from an absolutely-positioned sr-only span escaping the scrolling member row — next: research round
+- #37 2026-11-17 11:55 — refresh (0 new) + news (none); MemberTable on /members/ (sortable by order/name/age/height/birthday D-day/hometown, aria-sort, TransitionGroup spring reorder, height bars, D-14 highlight); mobile: sticky name column + header (fixed a global-rule specificity clash) — verified sort results against data — next: research round
