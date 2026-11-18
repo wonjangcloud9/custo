@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, nextTick } from 'vue'
 import { withBase } from 'vitepress'
-import { members, memberById, prefectureKo } from '../data/members'
+import { members, memberById, prefectureKo, onColor } from '../data/members'
 
 // Every option maps only to verified facts (member color, hobbies, hometown, birthday season, unit) — see loop/ROADMAP.md
 interface Opt { label: string; emoji: string; pts: Record<string, number>; why: string }
@@ -88,24 +88,30 @@ function reveal() {
 }
 
 // share image (original graphic only — no photos)
-function download() {
+async function download() {
   const m = result.value
   const W = 1080, H = 1350
+  const lines = ['나와 닮은 CUTIE STREET 멤버는', m.ja, `${m.ko} ${m.emoji} ${pct.value}% 일치`, ...reasons.value.slice(0, 3).map((r) => `♡ ${r}`), 'custo · CUTIE STREET 비공식 팬허브']
+  // web fonts load per unicode-range subset — ask for the ones holding this exact text before drawing (#172)
+  try {
+    const all = lines.join('') + m.ja.slice(-2, -1)
+    await Promise.all(['700 100px "Zen Maru Gothic"', '700 40px "Noto Sans KR"', '400 40px "Noto Sans KR"', '700 40px "Noto Sans JP"'].map((f) => document.fonts.load(f, all)))
+  } catch { /* system fonts */ }
   const c = document.createElement('canvas'); c.width = W; c.height = H
   const g = c.getContext('2d')!
   const grad = g.createLinearGradient(0, 0, W, H)
   grad.addColorStop(0, '#fff6fb'); grad.addColorStop(1, m.color + '55')
   g.fillStyle = grad; g.fillRect(0, 0, W, H)
   g.fillStyle = m.color; g.beginPath(); g.arc(W / 2, 560, 300, 0, Math.PI * 2); g.fill()
-  g.fillStyle = '#fff'; g.font = '700 360px "Zen Maru Gothic", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'
+  g.fillStyle = onColor(m.color); g.font = '700 360px "Zen Maru Gothic", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle' // dark kanji on bright colours
   g.fillText(m.ja.slice(-2, -1), W / 2, 580)
   g.fillStyle = '#3a2340'; g.textBaseline = 'alphabetic'
-  g.font = '800 40px "Noto Sans KR", sans-serif'; g.fillText('나와 닮은 CUTIE STREET 멤버는', W / 2, 150)
+  g.font = '700 40px "Noto Sans KR", sans-serif'; g.fillText(lines[0], W / 2, 150)
   g.font = '700 110px "Zen Maru Gothic", "Noto Sans JP", sans-serif'; g.fillText(m.ja, W / 2, 1000)
   g.font = '700 48px "Noto Sans KR", sans-serif'; g.fillText(`${m.ko} ${m.emoji} ${pct.value}% 일치`, W / 2, 1080)
-  g.font = '500 34px "Noto Sans KR", sans-serif'; g.fillStyle = '#7a5a80'
+  g.font = '400 34px "Noto Sans KR", sans-serif'; g.fillStyle = '#6a4f70'
   reasons.value.slice(0, 3).forEach((r, i) => g.fillText(`♡ ${r}`, W / 2, 1160 + i * 48))
-  g.font = '600 28px "Noto Sans KR", sans-serif'; g.fillStyle = '#b08ab3'; g.fillText('custo · CUTIE STREET 비공식 팬허브', W / 2, H - 50)
+  g.font = '700 28px "Noto Sans KR", sans-serif'; g.fillStyle = '#8a6a90'; g.fillText('custo · CUTIE STREET 비공식 팬허브', W / 2, H - 50)
   const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = `cutiestreet-match-${m.id}.png`; a.click()
 }
 </script>
