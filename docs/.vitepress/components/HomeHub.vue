@@ -305,7 +305,7 @@ function cleanTitle(t: string) {
 .globe { display: inline-block; font-size: 0.7em; margin-left: 0.12em; vertical-align: 0.1em; animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; font-weight: 700; color: #c2457a; }
-.tag-ja span { display: block; font-size: 14px; font-weight: 500; color: #735779; margin-top: 6px; font-family: 'Noto Sans JP', sans-serif; }
+.tag-ja span { display: block; font-size: 14px; font-weight: 400; color: #735779; margin-top: 6px; font-family: 'Noto Sans JP', sans-serif; }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 999px; font-weight: 700; font-size: 15px;

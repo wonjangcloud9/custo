@@ -253,7 +253,7 @@ function onKey(e: KeyboardEvent) {
 }
 @keyframes pop { from { opacity: 0; transform: translateY(0.4em) scale(0.6) rotate(-8deg); } }
 .ko { margin: 0; font-size: 18px; font-weight: 700; }
-.ko span { font-weight: 500; color: #735779; font-size: 15px; }
+.ko span { font-weight: 400; color: #735779; font-size: 15px; }
 .sns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .sns-btn {
   display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px;

@@ -432,7 +432,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
   transition: transform 0.5s var(--spring);
 }
 .va-more button:hover { transform: translateY(-3px) scale(1.03); }
-.va-more small { opacity: 0.85; font-weight: 500; }
+.va-more small { opacity: 0.85; font-weight: 400; }
 
 .va-dialog {
   border: 0; padding: 0; background: transparent; width: min(1080px, 94vw); max-width: none; overflow: visible;
