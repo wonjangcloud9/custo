@@ -1,0 +1,1 @@
+const e="custo-going",n=t=>`${t.date}|${t.ja}`;function o(){try{return new Set(JSON.parse(localStorage.getItem(e)||"[]"))}catch{return new Set}}function a(t){try{localStorage.setItem(e,JSON.stringify([...t]))}catch{}}export{n as g,o as l,a as s};
