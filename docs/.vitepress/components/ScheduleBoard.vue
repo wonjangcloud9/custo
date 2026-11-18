@@ -19,6 +19,19 @@ function toggleGoing(e: CsEvent) {
   going.value = next
   saveGoing(next)
 }
+// share your marked list as text (only when you press the button; nothing is sent otherwise)
+const shared = ref<'' | 'copied' | 'shared' | 'failed'>('')
+async function shareMine() {
+  const list = upcomingFiltered.value
+  const lines = list.map((e) => `${+e.date.slice(5, 7)}/${+e.date.slice(8)}(${wd(e.date)})${e.time ? ' ' + e.time : ''} ${e.ja}`)
+  const text = `✋ 나의 큐스트 일정 ${list.length}개\n${lines.join('\n')}`
+  const url = location.origin + withBase('/schedule/')
+  if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+    try { await navigator.share({ title: '나의 큐스트 일정', text, url }); shared.value = 'shared'; setTimeout(() => (shared.value = ''), 1800); return } catch (e) { if ((e as Error).name === 'AbortError') return }
+  }
+  try { await navigator.clipboard.writeText(`${text}\n${url}`); shared.value = 'copied' } catch { shared.value = 'failed' }
+  setTimeout(() => (shared.value = ''), 1800)
+}
 const passes = (e: CsEvent) => (cat.value === 'all' || e.cat === cat.value) && (!mineOnly.value || isGoing(e))
 const showPast = ref(false)
 // past events link to that day's official footage: own-channel videos of that performance date and
@@ -241,7 +254,10 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
       <p v-else class="cal-hint">점이 있는 날짜를 눌러 일정을 확인하세요</p>
     </div>
 
-    <div v-if="view === 'list' && upcomingFiltered.length > 1" class="ics-all-row">
+    <div v-if="view === 'list' && (upcomingFiltered.length > 1 || (mineOnly && upcomingFiltered.length))" class="ics-all-row">
+      <button v-if="mineOnly" type="button" class="share-mine" :class="{ done: shared === 'copied' || shared === 'shared' }" @click="shareMine">
+        {{ shared === 'copied' ? '✓ 목록 복사됨' : shared === 'shared' ? '✓ 공유 완료' : shared === 'failed' ? '복사하지 못했어요' : '📤 내 일정 공유' }}
+      </button>
       <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)">📅 {{ mineOnly ? '내 일정' : '다가오는 일정' }} {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
       <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요 · 🔔 하루 전·1시간 전 알림 포함 (종일 일정은 전날 오전 9시){{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
     </div>
@@ -370,6 +386,10 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 .ics-all-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px 0 0; }
 .ics-all { padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #fff; background: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
 .ics-all:hover { transform: translateY(-2px); }
+.share-mine { padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #8a2350; background: #fde3ee; transition: transform 0.4s var(--spring), background 0.2s; }
+.share-mine:hover { transform: translateY(-2px); }
+.share-mine.done { background: #c2185b; color: #fff; }
+@media (prefers-reduced-motion: reduce) { .share-mine { transition: none; } }
 .ics-all-row small { font-size: 12px; color: #735779; }
 @media (prefers-reduced-motion: reduce) { .ics-all { transition: none; } }
 .mjump { flex-basis: 100%; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 0; }
