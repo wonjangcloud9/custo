@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+import { withBase } from 'vitepress'
 import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat } from '../data/events'
 import { memberById } from '../data/members'
 
@@ -227,6 +228,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
                 <template v-if="!isPast(e)">
                   <button type="button" @click="downloadIcs(e)">📅 .ics</button>
                   <a :href="googleCalUrl(e)" target="_blank" rel="noopener">Google 캘린더</a>
+                  <a v-if="e.cat === 'live'" class="prep" :href="withBase('/live-guide/')">🔦 라이브 준비</a>
                 </template>
               </div>
             </article>
@@ -356,6 +358,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
 .ev-act a:hover, .ev-act button:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--cc) 18%, white); }
 .empty { text-align: center; padding: 40px 0; color: #735779; }
 .ev-act a.vid { background: #2f1a35; color: #fff !important; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ev-act a.prep { background: #fff3c4; color: #5a3d00 !important; }
 .vid-more { align-self: center; font-size: 12px; font-weight: 700; color: #735779; }
 .src { margin-top: 28px !important; font-size: 12px; color: #735779; }
 
