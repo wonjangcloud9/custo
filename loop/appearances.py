@@ -55,6 +55,8 @@ def tag(title, ch):
 
 SCAN_Q = ['CUTIE STREET', 'きゅーすと', 'キューティーストリート', '큐티스트릿', '큐티스트리트', '큐스토'] + [ns[0] for ns in NAMES.values()]
 # clip/re-upload/news-summary channels seen before — never official
+# Channels already reviewed and found NOT official (fan reaction / summary / subtitle / clip) — names, exact
+NOT_OFFICIAL = {'きゅーてすとの集い', '音楽の今', 'Zen Pop Media', '𝐓𝐎𝐊𝐘𝐎 𝐓𝐑𝐄𝐍𝐃 𝐋𝐈𝐕𝐄', '𝙏𝙤𝙠𝙮𝙤 𝘽𝙪𝙡𝙡𝙚𝙩𝙞𝙣', '𝐚𝐢', '이루카', 'ジュールのモジュール'}
 SKIP_CH = re.compile(r'切り抜き|切抜|まとめ|推し|ファン|fan|clip|Voice|News|Nipponixia|JPS|Shaheen|ARI Green|Info|Trend|直캠|직캠러|cam$', re.I)
 
 
@@ -83,7 +85,9 @@ def tv_queries(days):
 
 def scan(days):
     import urllib.parse
-    have = {it['id'] for it in json.loads(DATA.read_text())} if DATA.exists() else set()
+    items = json.loads(DATA.read_text()) if DATA.exists() else []
+    have = {it['id'] for it in items}
+    known = {it['ch'] for it in items}  # channels already accepted as official uploaders
     seen = {}
     queries = SCAN_Q + tv_queries(max(days, 2))
     print('queries +TV:', ', '.join(q for q in queries if q not in SCAN_Q) or '(none)')
@@ -115,12 +119,14 @@ def scan(days):
             if vid in have or cid in OWN or vid in seen: continue
             n = re.match(r'(\d+)\s*(秒|分|時間|日)', pub)
             if not n or (n.group(2) == '日' and int(n.group(1)) > days): continue
-            seen[vid] = (pub, ch, title, bool(SKIP_CH.search(ch)))
+            seen[vid] = (pub, ch, title, bool(SKIP_CH.search(ch)) or ch in NOT_OFFICIAL)
         time.sleep(0.4)
     keep = [(k, v) for k, v in seen.items() if not v[3]]
+    keep.sort(key=lambda kv: kv[1][1] not in known)  # channels we already archive from first
     for vid, (pub, ch, title, _) in keep:
-        print(f'{vid} | {pub} | {ch} | {title[:80]}')
-    print(f'{len(keep)} candidates ({len(seen) - len(keep)} clip/fan channels hidden) — review, then: add <kind> <id…>')
+        star = '★' if ch in known else ' '
+        print(f'{star} {vid} | {pub} | {ch} | {title[:80]}')
+    print(f'{len(keep)} candidates ({len(seen) - len(keep)} clip/fan/known-unofficial hidden; ★ = channel already in the archive) — review, then: add <kind> <id…>')
 
 
 def main():
