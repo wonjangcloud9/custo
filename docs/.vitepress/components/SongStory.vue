@@ -81,7 +81,7 @@ const vid = computed(() => s.value.videos[vi.value])
 .read b { color: var(--ink); }
 .tagline { margin: 4px 0 0 !important; font-size: 15px; color: #6a4f70; }
 .badges { list-style: none; margin: 14px 0 0 !important; padding: 0 !important; display: flex; flex-wrap: wrap; gap: 6px; }
-.badges li { margin: 0 !important; padding: 5px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 800; background: #fff; border: 1.5px solid color-mix(in srgb, var(--g1) 45%, white); color: color-mix(in srgb, var(--g1) min(55%, var(--ink-mix, 100%)), #2a1030); }
+.badges li { margin: 0 !important; padding: 5px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 800; background: #fff; border: 1.5px solid color-mix(in srgb, var(--g1) 45%, white); color: color-mix(in srgb, var(--g1) min(45%, var(--ink-mix, 100%)), #2a1030); }
 .facts { margin: 16px 0 0 !important; display: grid; gap: 0; border-top: 1.5px solid #f1dce7; }
 .facts div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1.5px solid #f6e8ef; }
 .facts dt { font-size: 12.5px; font-weight: 800; color: #a33366; }

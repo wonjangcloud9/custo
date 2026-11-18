@@ -377,5 +377,56 @@ export const songs: Song[] = [
       { q: '이 곡의 부제는?', options: ['~君とあたし永久不滅♡~', '~かわいいだけじゃ~', '~Welcome to CUTIE LAND~', '~ナイスだね~'], answer: 0 },
     ],
   },
+  {
+    id: 'discommutant', title: 'でぃすこみゅーたんと！', read: '디스코뮤-탄토', meaning: '디스코뮤턴트!',
+    tagline: 'ナユタン星人 제공 · 애니메이션 MV', grad: ['#5DC8F5', '#A06CD5', '#FF6B9D'],
+    facts: [
+      { k: '발매', v: '2026.02.18 디지털' },
+      { k: '작사·작곡·편곡', v: 'ナユタン星人' },
+      { k: '안무', v: 'カミヤサキ' },
+      { k: '아트워크', v: '逢編いあむ' },
+      { k: '수록', v: '1st ALBUM 「CUTIE LAND」 9번 트랙' },
+    ],
+    badges: ['ナユタン星人 제공곡', 'Animated MV', '앨범 Blu-ray/DVD 영상 수록'],
+    story: [
+      '보카로 P로 알려진 ナユタン星人이 작사·작곡·편곡을 맡은 곡이에요. 공식 소개 문구는 「かわいいに相対性っていりますか？」(귀여움에 상대성이 필요한가요?)예요.',
+      'MV는 큐스트 첫 애니메이션 MV로 나왔고, 멤버들이 직접 실사로 찍은 리릭 비디오도 공개됐어요. 1st 앨범 9번 트랙이고, 초회한정반 Blu-ray/DVD 영상에도 들어가요.',
+    ],
+    videos: [
+      { id: 'a-F6kP71dk0', label: 'Animated MV' },
+      { id: '7HTduQEJpNE', label: '리릭 비디오 (실사판)' },
+      { id: 'dnd39eq6HJM', label: 'Dance Practice' },
+      { id: 'qvEvkpanIuw', label: 'KAWAII FOCUS' },
+      { id: 'HYY4_kKyj2w', label: 'GLION ARENA KOBE (2026.05.31)' },
+    ],
+    quiz: [
+      { q: '이 곡의 MV 형식은?', options: ['실사 MV', '애니메이션 MV', '세로 MV', '라이브 MV'], answer: 1 },
+      { q: '이 곡을 작사·작곡·편곡한 사람은?', options: ['ナユタン星人', '川谷絵音', 'YUPPA', '塩原大貴'], answer: 0 },
+    ],
+  },
+  {
+    id: 'top-of-the-top', title: 'Top of the top', read: '톱 오브 더 톱', meaning: '정상 중의 정상',
+    tagline: '첫 무도관 첫날 공개 · 紅白 결정의 눈물', grad: ['#FFC93C', '#FF6B9D', '#A06CD5'],
+    facts: [
+      { k: '발매', v: '2026.08.25 디지털' },
+      { k: '작사', v: '安部大希-amazuti-' },
+      { k: '작곡', v: '安部大希-amazuti- · 宮崎諒-amazuti-' },
+      { k: '편곡', v: '宮崎諒-amazuti-' },
+      { k: '아트워크', v: '鵜飼まなみ (yenter)' },
+    ],
+    badges: ['첫 日本武道館 첫날 공개', '紅白 결정 라이브'],
+    story: [
+      '데뷔 2주년, 첫 日本武道館 공연(2026년 8월 25–26일) 첫날 0시에 공개된 디지털 싱글이에요. 무도관 라이브 영상이 공식 채널에 올라와 있어요.',
+      '紅白 첫 출장이 결정된 직후인 11월 15일 히로시마 그린 아레나 공연에서 부른 무대가 「涙の紅白決定LIVE映像」(눈물의 紅白 결정 라이브 영상)으로 공개됐어요.',
+    ],
+    videos: [
+      { id: 'KGFOrSUL-uc', label: '日本武道館 라이브' },
+      { id: 'CWFV3vJm5QA', label: '紅白 결정 라이브 · 히로시마 (11.15)' },
+    ],
+    quiz: [
+      { q: '이 곡이 공개된 날 열린 공연은?', options: ['첫 日本武道館', '첫 아레나 투어', '紅白歌合戦', '한국 단독 공연'], answer: 0 },
+      { q: '이 곡의 히로시마 라이브 영상 제목에 담긴 소식은?', options: ['紅白 첫 출장 결정', '1st 앨범 발매', '한국 공연', '하와이 공연'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
