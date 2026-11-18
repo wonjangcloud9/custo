@@ -25,7 +25,7 @@ const TIMELINE = [
   { d: '2026.07.25–26', t: '한국 단독 공연', p: '세종대학교 대양홀', v: 'Jyd_CyxbDeA' },
   { d: '2026.10.21', t: '「동글동글 동글이」 — 포켓몬 첫 한일 W 엔딩', p: 'JEI 재능TV 11/3~', v: 'J7osyzGsxZs' },
   { d: '2026.10.22–24', t: '엠카운트다운 · 쇼! 음악중심 출연', p: '「동글동글 동글이」 음악방송 무대', v: 'K8Ve15WbM_0' },
-  { d: '2027.01.23', t: 'CUTIE STREET Live in Korea 2027 WINTER', p: 'KINTEX Hall 9A · 시간·티켓 추후 공지', v: '' },
+  { d: '2027.01.23', t: 'CUTIE STREET Live in Korea 2027 WINTER', p: 'KINTEX Hall 9A · 18:00 시작', v: '' },
 ]
 const krVideos = koreaVideos as { id: string; title: string }[] // pre-filtered by loop/build_videos.py
 const shown = ref(8)
@@ -37,9 +37,19 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
   <div class="kh">
     <a class="kh-hero" :href="korea.url" target="_blank" rel="noopener">
       <span class="kh-flag" aria-hidden="true">🇰🇷</span>
-      <span class="kh-txt"><small>NEXT IN KOREA</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') }} (토) · {{ korea.venue }} · 시간·티켓 추후 공지</span></span>
+      <span class="kh-txt"><small>NEXT IN KOREA</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') }} (토) {{ korea.time }} 시작 · {{ korea.venue }}</span></span>
       <span class="kh-dd">{{ days === null ? '' : days > 0 ? 'D-' + days : days === 0 ? 'TODAY' : 'THANK YOU' }}</span>
     </a>
+    <!-- KAWAII LAB. Weverse notices 37857 (time, price, Melon Ticket Global) and 37858 (sale schedule), checked 2026-11-18 -->
+    <div class="kh-tix">
+      <b>🎫 티켓</b>
+      <ul>
+        <li>135,000원 (VAT 포함) · 예매처 <a href="https://tkglobal.melon.com/" target="_blank" rel="noopener">멜론티켓</a> (한국·글로벌 페이지 별도)</li>
+        <li>팬클럽 선예매 2026.08.21–23 · 일반 예매 <b>2026.08.24 20:00부터</b> — 잔여석은 예매처에서 확인해 주세요</li>
+        <li>1인 최대 3매 (팬클럽 선예매는 1매) · 입장 시간은 아직 공지 없음</li>
+      </ul>
+      <small>출처: KAWAII LAB. 위버스 공지 <a href="https://weverse.io/kawaii_lab/notice/37857" target="_blank" rel="noopener">선예매 안내</a> · <a href="https://weverse.io/kawaii_lab/notice/37858" target="_blank" rel="noopener">티켓 구매 방법</a></small>
+    </div>
 
     <h2 id="songs">한국어 버전 곡 🎤</h2>
     <div class="songs">
@@ -126,4 +136,9 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
   .tl li { animation: none; }
   .kh-hero, .vid img { transition: none; }
 }
+.kh-tix { margin: 14px 0 6px; padding: 14px 18px; border-radius: 20px; background: #fff; border: 1.5px dashed #f1c6d8; }
+.kh-tix > b { font-size: 15px; }
+.kh-tix ul { margin: 6px 0 8px !important; padding-left: 18px !important; }
+.kh-tix li { margin: 2px 0 !important; font-size: 14px; line-height: 1.6; }
+.kh-tix small { font-size: 12.5px; color: #6a4f70; }
 </style>

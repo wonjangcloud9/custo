@@ -197,7 +197,7 @@ function cleanTitle(t: string) {
 
     <a v-if="korea && koreaDays !== null && koreaDays >= 0 && !koreaInCountdown" class="kr" :href="withBase('/korea/')">
       <span class="kr-flag" aria-hidden="true">🇰🇷</span>
-      <span class="kr-txt"><small>한국 공연 확정</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · 시간·티켓 추후 공지' }}</span></span>
+      <span class="kr-txt"><small>한국 공연 확정</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · ' + (korea.time ?? '') + ' 시작 · 멜론티켓 예매' }}</span></span>
       <span class="kr-dd">{{ koreaDays === 0 ? 'TODAY' : 'D-' + koreaDays }}</span>
     </a>
     <BirthdayParty v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" compact />
