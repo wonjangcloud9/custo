@@ -19,3 +19,18 @@ export function useToday(checkMs = 60000): Ref<Date | null> {
   onBeforeUnmount(() => clearInterval(timer))
   return now
 }
+
+/**
+ * Epoch ms for time-of-day things (event steps that start at 14:00, D-days, 'new' badges): null during SSR,
+ * set on mount and refreshed every minute while the page stays open.
+ */
+export function useClock(stepMs = 60000): Ref<number | null> {
+  const now = ref<number | null>(null)
+  let timer: number | undefined
+  onMounted(() => {
+    now.value = Date.now()
+    timer = window.setInterval(() => { now.value = Date.now() }, stepMs)
+  })
+  onBeforeUnmount(() => clearInterval(timer))
+  return now
+}

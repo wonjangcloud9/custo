@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useClock } from '../theme/today'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
 import { events, startMs, catMeta } from '../data/events'
@@ -23,7 +24,7 @@ const STEPS = ['intro', 'watch', 'members', 'follow', 'next', 'deeper'] as const
 
 const done = ref<Set<string>>(new Set())
 const watched = ref<Set<string>>(new Set())
-const now = ref<number | null>(null)
+const now = useClock()
 const party = ref(false)
 function save() { try { localStorage.setItem('custo-start', JSON.stringify([...done.value])) } catch { /* ignore */ } }
 function toggle(id: string) {
@@ -39,7 +40,6 @@ const upcoming = computed(() => (now.value === null ? [] : events.filter((e) => 
 const confetti = Array.from({ length: 30 }, (_, i) => ({ x: (i * 37) % 100, d: (i % 6) * 0.12, c: members[i % 8].color }))
 
 onMounted(() => {
-  now.value = Date.now()
   try { done.value = new Set(JSON.parse(localStorage.getItem('custo-start') || '[]')) } catch { /* private mode */ }
 })
 </script>

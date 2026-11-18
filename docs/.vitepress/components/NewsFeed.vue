@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import { useClock } from '../theme/today'
 import { withBase } from 'vitepress'
 import { news, tagMeta, type NewsTag } from '../data/news'
 
 const props = defineProps<{ mode?: 'ticker' | 'full' }>()
-const now = ref<number | null>(null)
-onMounted(() => { now.value = Date.now() })
+const now = useClock()
 const isNew = (d: string) => now.value !== null && now.value - new Date(`${d}T00:00:00+09:00`).getTime() < 3 * 86400000
 
 const tag = ref<'all' | NewsTag>('all')

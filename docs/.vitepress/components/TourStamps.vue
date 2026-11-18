@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useClock } from '../theme/today'
 import { events, startMs } from '../data/events'
 
 // Arena tour 'CUTIE LAND' as a stamp rally — stops come straight from events.ts (official schedule)
@@ -16,10 +17,9 @@ const stops = (() => {
   return out
 })()
 
-const now = ref<number | null>(null)
+const now = useClock()
 const clips = ref<Record<string, { id: string; title: string }>>({})
 onMounted(async () => {
-  now.value = Date.now()
   // one official live clip per finished stop (matched by performance date)
   const dated = (await import('../data/otd-videos.json')).default as { id: string; title: string; date: string }[]
   const map: Record<string, { id: string; title: string }> = {}

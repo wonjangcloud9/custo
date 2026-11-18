@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import { useClock } from '../theme/today'
 import { withBase } from 'vitepress'
 import koreaVideos from '../data/korea-videos.json'
 import { events } from '../data/events'
@@ -7,8 +8,7 @@ import { events } from '../data/events'
 // Everything here is sourced from official uploads/pages (see loop/ROADMAP.md research notes, #101).
 
 const korea = events.find((e) => e.ja.includes('Live in Korea'))!
-const now = ref<number | null>(null)
-onMounted(() => { now.value = Date.now() })
+const now = useClock()
 const days = computed(() => (now.value === null ? null : Math.ceil((new Date(`${korea.date}T00:00:00+09:00`).getTime() - now.value) / 86400000)))
 
 const SONGS = [

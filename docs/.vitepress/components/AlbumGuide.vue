@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import { useClock } from '../theme/today'
 
 // 1st ALBUM 「CUTIE LAND」 buyer's guide — editions with their extras, and the release-week timeline.
 // Source: official feature page /feature/1stalbumcutieland + news 96630 (checked 2026-11-18).
@@ -22,8 +23,7 @@ const STEPS = [
   { s: '2026-12-15T00:00+09:00', e: '2026-12-15T23:59+09:00', d: '12.15 (火)', t: '시리얼 추첨 당첨 발표', sub: '', url: FEATURE, emoji: '💌' },
   { s: '2026-12-17T00:00+09:00', e: '2026-12-17T23:59+09:00', d: '12.17 (木)', t: '발매 기념 스페셜 추첨 이벤트', sub: '「すきトーク」 앱 영상 토크 (사전 설치 필요)', url: FEATURE, emoji: '📱' },
 ]
-const now = ref(0)
-onMounted(() => { now.value = Date.now() })
+const now = useClock() // refreshed every minute: steps flip at their start time while the page is open
 const state = (st: typeof STEPS[number]) => {
   if (!now.value) return ''
   const s = Date.parse(st.s), e = Date.parse(st.e)
