@@ -4,6 +4,7 @@ import { withBase, useRouter } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
+import BirthdayCard from './BirthdayCard.vue'
 import ShareButton from './ShareButton.vue'
 import { useOshi, setOshi } from '../theme/oshi'
 import { useToday } from '../theme/today'
@@ -204,6 +205,7 @@ function onKey(e: KeyboardEvent) {
         <span class="lbl">생일 {{ bdayLabel }}</span>
         <b class="big">{{ dday === 0 ? '🎂 TODAY' : dday === null ? 'D-··' : 'D-' + dday }}</b>
         <span class="sub">{{ dday === 0 ? 'おたんじょうびおめでとう！' : '다음 생일까지' }}</span>
+        <BirthdayCard :id="m.id" :dday="dday" />
       </div>
       <div class="tile t-from">
         <span class="lbl">출신</span>
