@@ -524,5 +524,55 @@ export const songs: Song[] = [
       { q: '이 곡의 작사·작곡가가 참여한 또 다른 곡은?', options: ['キュートなキューたい', 'ナイスだね', 'ハロハロミライ', 'Error404♡'], answer: 0 },
     ],
   },
+  {
+    id: 'more-berry-summer', title: 'モアベリサマー', read: '모아베리 사마-', meaning: '모어 베리 서머',
+    tagline: 'ARTribe 제공 여름 노래 · 메모리 비디오', grad: ['#FF4757', '#FF9F43', '#5DC8F5'],
+    facts: [
+      { k: '발매', v: '2025.08.13 디지털' },
+      { k: '작사', v: 'YouToPure · Yamato Ito (ARTribe)' },
+      { k: '작곡', v: 'DjeDje · YouToPure · N1K0 (ARTribe)' },
+      { k: '트랙 프로듀스', v: 'DjeDje (ARTribe)' },
+      { k: '아트워크', v: '3DCG かざまりさ · 로고 鵜飼まなみ (yenter)' },
+    ],
+    badges: ['ARTribe 제공곡', 'Memory Video 공개'],
+    story: [
+      '2025년 8월 13일 0시에 공개된 여름 디지털 싱글이에요. ARTribe 소속 크리에이터들이 작사·작곡을 맡았고, 아트워크는 3DCG 일러스트로 꾸몄어요.',
+      '공개 전인 7월 21일 마쿠하리 메세 무대에서 불렀고, 9월 21일 ROCK IN JAPAN FESTIVAL(소가 스포츠 공원) 무대에서도 선보였어요. 공식 채널에는 \'Memory Video\'가 공개됐어요.',
+    ],
+    videos: [
+      { id: 'z2oi4uftfLA', label: 'Memory Video' },
+      { id: 'DCnRMSD8Ixc', label: '幕張メッセ (2025.07.21)' },
+      { id: 'TbbmWKG0zTk', label: 'ROCK IN JAPAN (2025.09.21)' },
+    ],
+    quiz: [
+      { q: '이 곡을 작사·작곡한 크리에이터들의 소속은?', options: ['ARTribe', 'amazuti', 'M-AG', 'CK Creative Studio'], answer: 0 },
+      { q: '이 곡과 함께 공개된 영상의 종류는?', options: ['Memory Video', 'Animated MV', '세로 MV', '리액션 MV'], answer: 0 },
+    ],
+  },
+  {
+    id: 'tagen-koufukuron', title: '多元幸福論', read: '타겐 코-후쿠론', meaning: '다원 행복론',
+    tagline: '큐스트의 첫 발라드', grad: ['#4A90D9', '#A06CD5', '#5DC8F5'],
+    facts: [
+      { k: '발매', v: '2025.09.29 디지털' },
+      { k: '작사', v: '吉田司' },
+      { k: '작곡', v: '吉田司 · 川村祐寧' },
+      { k: '편곡', v: '川村祐寧' },
+      { k: '안무', v: 'カンナ' },
+      { k: '아트워크', v: 'Miki Taguchi' },
+    ],
+    badges: ['첫 발라드', '도쿄 가든 시어터 라이브'],
+    story: [
+      '공식 디스코그래피가 \'첫 발라드 작품\'으로 소개하는 곡이에요. 작사는 吉田司, 작곡은 吉田司·川村祐寧, 편곡은 川村祐寧, 안무는 カンナ가 맡았어요.',
+      '배포 전인 2025년 9월 9일 도쿄 가든 시어터 공연에서 불렀고, 2026년 아레나 투어 후쿠오카 공연에서도 선보였어요.',
+    ],
+    videos: [
+      { id: '0zGUexG3Wa8', label: '東京ガーデンシアター (2025.09.09)' },
+      { id: 'ROQLsgWCENI', label: 'マリンメッセ福岡 (2026.10.29)' },
+    ],
+    quiz: [
+      { q: '이 곡은 큐스트의 첫 번째 무엇일까요?', options: ['발라드', '록 넘버', '영어 곡', '유닛곡'], answer: 0 },
+      { q: '이 곡의 안무가는?', options: ['カンナ', 'SACO MAKITA', 'えりなっち', 'カミヤサキ'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
