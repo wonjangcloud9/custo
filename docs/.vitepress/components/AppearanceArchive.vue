@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import raw from '../data/appearances.json'
 import { members, memberById } from '../data/members'
-import { events, startMs } from '../data/events'
+import { events, startMs, toIcs, googleCalUrl, type CsEvent } from '../data/events'
 
 // Off-channel appearances: videos uploaded by other official channels (TV, music shows,
 // brands, media, other artists). Data + verification: loop/appearances.py
@@ -17,6 +17,13 @@ const dLabel = (e: { date: string }) => {
   return d <= 0 ? 'TODAY' : d === 1 ? '내일' : `D-${d}`
 }
 const WD = ['日', '月', '火', '水', '木', '金', '土']
+function saveIcs(e: CsEvent | CsEvent[]) {
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(new Blob([toIcs(e)], { type: 'text/calendar;charset=utf-8' }))
+  a.download = Array.isArray(e) ? 'cutiestreet-tv.ics' : `cutiestreet-tv-${e.date}.ics`
+  a.click()
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000)
+}
 const dayJa = (d: string) => `${+d.slice(5, 7)}/${+d.slice(8, 10)} (${WD[new Date(d + 'T00:00:00Z').getUTCDay()]})`
 
 const KINDS: { id: string; label: string; emoji: string; c: string }[] = [
@@ -107,12 +114,17 @@ onMounted(() => {
     <section v-if="onAir.length" class="soon" aria-labelledby="soon-h">
       <h2 id="soon-h" class="soon-h">📡 방송 예정 <small>방송 후 공식 클립이 올라오면 아래 아카이브에 추가돼요</small></h2>
       <div class="soon-row">
-        <a v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }" :href="e.url" target="_blank" rel="noopener">
+        <div v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }">
           <span class="sn-d"><b>{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
-          <span class="sn-t" lang="ja">{{ e.ja }}</span>
+          <a class="sn-t" lang="ja" :href="e.url" target="_blank" rel="noopener">{{ e.ja }}</a>
           <span class="sn-k">{{ e.ko }}</span>
-        </a>
+          <span class="sn-act">
+            <button type="button" :aria-label="`${e.ja} 캘린더 파일(.ics) 저장`" @click="saveIcs(e)">📅 .ics</button>
+            <a :href="googleCalUrl(e)" target="_blank" rel="noopener" :aria-label="`${e.ja} Google 캘린더에 추가`">Google</a>
+          </span>
+        </div>
       </div>
+      <button v-if="onAir.length > 1" type="button" class="sn-all" @click="saveIcs(onAir)">📅 방송 예정 {{ onAir.length }}개 한 번에 캘린더에 넣기</button>
     </section>
 
     <!-- ON AIR panel -->
@@ -201,10 +213,16 @@ onMounted(() => {
 .soon-row { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .sn { flex: 0 0 auto; width: 220px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1.5px #f1d4e1; text-decoration: none !important; color: #2f1a35 !important; transition: transform 0.4s var(--spring); }
 .sn:hover { transform: translateY(-3px); }
+.sn { color: #2f1a35; }
 .sn.big { background: linear-gradient(120deg, #fff0f3, #fff); box-shadow: inset 0 0 0 2px #ff8fa8; }
 .sn-d { font-size: 12.5px; color: #6a4f70; display: flex; gap: 8px; align-items: center; }
 .sn-d b { padding: 2px 8px; border-radius: 999px; background: #2f1a35; color: #fff; font-size: 11.5px; }
-.sn-t { font-size: 14px; font-weight: 800; line-height: 1.45; }
+.sn-t { font-size: 14px; font-weight: 800; line-height: 1.45; color: #2f1a35 !important; text-decoration: none !important; }
+.sn-t:hover { text-decoration: underline !important; }
+.sn-act { display: flex; gap: 6px; margin-top: auto; padding-top: 4px; }
+.sn-act button, .sn-act a { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #faf1f6; color: #2f1a35 !important; text-decoration: none !important; }
+.sn-act button:hover, .sn-act a:hover { background: #f3dbe7; }
+.sn-all { margin-top: 4px; padding: 7px 14px; border-radius: 999px; font-size: 13px; font-weight: 800; background: #2f1a35; color: #fff; }
 .sn-k { font-size: 12px; color: #6a4f70; }
 @media (prefers-reduced-motion: reduce) { .sn { transition: none; } }
 .onair { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; padding: 18px; border-radius: 28px; color: #fff; scroll-margin-top: 80px;
