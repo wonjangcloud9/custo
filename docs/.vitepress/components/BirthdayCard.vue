@@ -17,8 +17,11 @@ async function draw(): Promise<Blob | null> {
   const W = 1080, H = 1350
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H
   const g = cv.getContext('2d')!
+  // web fonts arrive per unicode-range subset: pass the exact text so the subsets holding these glyphs load
+  // before drawing (otherwise characters the page hasn't shown yet fall back to a system font)
+  const all = `${m.ja}${m.ko}${m.ja.slice(-2, -1)}0123456789D-HAPPYBIRTHDAY오늘은의번째생일까지♥·月日CUTIESTREET팬허브${location.host}/membrs`
   try {
-    await Promise.all(['700 120px "Zen Maru Gothic"', '700 60px "Noto Sans KR"', '700 60px "Noto Sans JP"'].map((f) => document.fonts.load(f)))
+    await Promise.all(['700 120px "Zen Maru Gothic"', '700 60px "Noto Sans KR"', '700 60px "Noto Sans JP"'].map((f) => document.fonts.load(f, all)))
   } catch { /* fall back to system fonts */ }
   const ink = onColor(m.color)
   const soft = ink === '#fff' ? 'rgba(255,255,255,0.82)' : 'rgba(42,16,48,0.72)'
