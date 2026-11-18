@@ -16,20 +16,23 @@ const latest = (homeVideos as { latest: Video[] }).latest
 const dated = ref<{ id: string; title: string; date: string }[]>([]) // otd-videos.json, loaded after mount
 
 // Featured milestones come from the shared, source-verified schedule data
-const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: '💿', tv: '🎍' }
+const EMOJI: Record<string, string> = { event: '🎁', live: '🎡', release: '💿', tv: '📺' } // per-event `icon` overrides
 // featured events that have an in-site special page
 const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-12-31': '/kohaku/', '2027-01-23': '/korea/' }
 const EVENTS = events.filter((e) => e.featured).map((e) => ({
-  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(),
+  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), pin: !!e.pin,
   // shown until it ends: the published end time, otherwise the end of its Japan date
-  until: Date.parse(e.through ? `${e.through}T23:59:59+09:00` : `${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: (e.through ? `${e.ko.replace(/\s*DAY\s*\d+$/, '')} (${+e.date.slice(5, 7)}/${+e.date.slice(8)}–${+e.through.slice(8)})` : e.ko) + (e.venue ? ` · ${e.venue}` : ''), // multi-day: show the run, not 'DAY1' emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
+  until: Date.parse(e.through ? `${e.through}T23:59:59+09:00` : `${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: (e.through ? `${e.ko.replace(/\s*DAY\s*\d+$/, '')} (${+e.date.slice(5, 7)}/${+e.date.slice(8)}–${+e.through.slice(8)})` : e.ko) + (e.venue ? ` · ${e.venue}` : ''), // multi-day: show the run, not 'DAY1' emoji: e.icon ?? EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
 }))
 
 const now = ref<number | null>(null)
 let timer: number | undefined
 const upcoming = computed(() => {
   const t = now.value ?? 0
-  return EVENTS.map((e) => ({ ...e, ms: new Date(e.at).getTime() - t })).filter((e) => !now.value || e.until > t).slice(0, 4) // nearest four fill the 4-col / 2-col grid
+  const live = EVENTS.map((e) => ({ ...e, ms: new Date(e.at).getTime() - t })).filter((e) => !now.value || e.until > t)
+  // four cards fill the 4-col / 2-col grid: pinned headline events always, then the nearest others
+  const pinned = live.filter((e) => e.pin)
+  return [...live.filter((e) => !e.pin).slice(0, Math.max(0, 4 - pinned.length)), ...pinned].sort((a, b) => a.ms - b.ms)
 })
 function parts(ms: number) {
   const s = Math.max(0, Math.floor(ms / 1000))
