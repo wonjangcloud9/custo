@@ -170,7 +170,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 178 | ✅ 오늘의 5문제 연속 참여 #130 — JST 날짜 기준 연속 완료일(localStorage custo-mvquiz-daily-streak {last,n}): 어제 이어서 +1, 같은 날 유지, 끊기면 1; 결과 화면 '🔥 n일 연속 참여!', 시작 버튼에 살아 있는 연속일, 공유 문구에 '🔥n일 연속'(2일 이상); 4일 시뮬레이션(1→2→3→끊김 1) | 6 | 1 | 1 | 0.3 | 20 | ✅ Done #130 |
 | 179 | NEW: 11/26 아이카 생탄제 당일 — 공식 생탄제 영상 업로드되면 출연/영상 연결, 홈 생일 카드 확인 | 7 | 1 | 1 | 0.2 | 35 | Todo (11/26) |
 | 180 | NEW: 11/28–29 투어 파이널 — 투어 스탬프 CLEAR 처리 확인, 공식 라이브 영상 연결 | 7 | 1 | 1 | 0.3 | 23 | Todo (11/29) |
-| 181 | NEW: 12/2 앨범 발매일 — CUTIE LAND 페이지 'OUT NOW' 전환, 신곡 6곡 공식 영상 업로드 시 곡 페이지 추가 | 9 | 2 | 1 | 1 | 18 | Todo (12/2) |
+| 181 | 12/2 앨범 발매일 — ✅ 사전 점검 #131(시계 12/01 23:00·12/02 09:00·12/03): 홈 타일 D-1→오늘 발매!→발매 중, CUTIE LAND D-1→TODAY→OUT NOW, 디스코 히어로 동일, 발매 캘린더 단계 정상; 🐞 당일 '⏭ 다음 일정'이 시간 없는 당일 일정을 건너뛰던 것 수정('오늘'로 표시). 남은 일: 신곡 6곡 공식 영상 업로드 시 곡 페이지 | 9 | 2 | 1 | 1 | 18 | Todo (12/2, 영상 대기) |
 | 122 | ⭐ USER REQUEST: 기존(초기) 페이지 전면 개편 — 새 컴포넌트 페이지 수준으로: ~~① about(소개)~~ ✅#72 ~~② stages~~ ✅#73(레전드 무대) ~~③ discography 곡 해설 3곳 + 디스코 하단~~ ✅#75 ~~④ 멤버 페이지 본문~~ ✅#76 ~~⑤ members index 하단~~ ✅#77 ~~⑥ schedule 하단~~ ✅#77 ~~⑦ Quiz 컴포넌트 디자인~~ ✅#77. 1차 목록 완료 — 다음: units/which-member/likes/videos 등 남은 옛 페이지 재점검 | 10 | 3 | 1 | 3 | 10 | ✅ 1차 Done #77 |
 | 123 | 매 회차 '오늘의 화제' 수집: YouTube 검색(최근·CUTIE STREET/큐티스트리트/きゅーすと) + 공식 X/뉴스 → 외부 채널 출연·방송·기사를 검증 후 highlights.ts에 추가 | 9 | 2 | 0.8 | 0.3 | 48 | 🔁 Every iteration |
 | 124 | ⭐ USER IDEA: 🌏 /world/ 큐스트 월드맵 — d3-geo 정사영 지구본(world-atlas 110m), 활동 순서대로 카메라 비행(geoInterpolate slerp)+먼 거리 풀백 줌·동아시아 렌즈 줌, 대권 항로 그리기, 도착 파문 핀, 나라를 멤버 색으로 채움(일본 핑크·대만 민트·한국 블루, 예정 하와이 보라 빗금), 드래그 회전·자동 회전·단계 점프·재생/멈춤, 화면 진입 시 1회 자동 재생; reduced-motion 시 정적; 내비 '여정' 드롭다운·검색·소개 연혁 링크 | 10 | 3 | 1 | 2 | 15 | ✅ Done #74 |
@@ -419,3 +419,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #128 2026-11-18 16:35 — today-update not due (18:47); refresh/appearance scan nothing new. Daily-quiz deep link + share URL; home tile mentions it; 0 errors.
 - #129 2026-11-18 16:55 — today-update not due (18:47); refresh/appearance scan (1 fan-subtitle upload, skipped). MV quiz share card; 0 errors.
 - #130 2026-11-18 17:15 — today-update not due (18:47); refresh/appearance scan (fan-channel vlog of Kana's birthday show, skipped). Daily-quiz streak; backlog refilled with dated items #179–#181; 0 errors.
+- #131 2026-11-18 17:35 — today-update not due (18:47); refresh/appearance scan (fan vlog, skipped). Album-day dry run with the clock; fixed the next-event line skipping today's all-day items; 0 errors.

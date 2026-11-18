@@ -51,7 +51,8 @@ const label = computed(() => {
 // the next official event that hasn't started yet (refreshed every minute)
 const nowMs = ref(0)
 let tick: number | undefined
-const nextEv = computed(() => (nowMs.value ? [...events].filter((e) => startMs(e) > nowMs.value).sort((a, b) => startMs(a) - startMs(b))[0] ?? null : null))
+// all-day items (no start time) count as 'next' for the whole of their Japan date
+const nextEv = computed(() => (nowMs.value ? [...events].filter((e) => startMs(e) > nowMs.value || (!e.time && e.date === jstDay(nowMs.value))).sort((a, b) => startMs(a) - startMs(b))[0] ?? null : null))
 const nextWhen = computed(() => {
   const e = nextEv.value
   if (!e) return ''
