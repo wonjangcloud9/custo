@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase, useRouter } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
@@ -84,8 +84,18 @@ const swipeHint = ref<'prev' | 'next' | null>(null)
 let sx = 0, sy = 0, tracking = false
 function goMember(dir: 'prev' | 'next') {
   const target = dir === 'next' ? next.value : prev.value
+  const url = withBase(`/members/${target.id}`)
+  // where supported, the hero slides out the way you swiped and the next member slides in (View Transitions);
+  // otherwise, or with reduced motion, the old nudge-then-navigate
+  const d = document as Document & { startViewTransition?: (cb: () => Promise<void>) => { finished: Promise<void> } }
+  if (d.startViewTransition && !reduce) {
+    const root = document.documentElement
+    root.dataset.mvDir = dir
+    d.startViewTransition(async () => { await router.go(url); await nextTick() }).finished.finally(() => { delete root.dataset.mvDir })
+    return
+  }
   swipeHint.value = dir
-  setTimeout(() => { swipeHint.value = null; router.go(withBase(`/members/${target.id}`)) }, reduce ? 0 : 160)
+  setTimeout(() => { swipeHint.value = null; router.go(url) }, reduce ? 0 : 160)
 }
 function onTouchStart(e: TouchEvent) {
   if (e.touches.length !== 1) return
@@ -246,7 +256,7 @@ function onKey(e: KeyboardEvent) {
 }
 
 /* HERO */
-.hero {
+.hero { view-transition-name: mp-hero;
   position: relative; overflow: hidden; border-radius: 32px;
   display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: center;
   padding: 40px 36px; min-height: 380px;

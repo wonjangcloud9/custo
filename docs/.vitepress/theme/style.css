@@ -535,3 +535,14 @@ html[data-oshi] {
   .VPContent:not(.has-sidebar) ~ * .VPLocalNav, .Layout:not(:has(.VPContent.has-sidebar)) .VPLocalNav { display: none; }
   .Layout:has(.VPContent.has-sidebar) { --pin-top: var(--vp-local-nav-height, 48px); }
 }
+
+/* ── Member pages: swipe between members (MemberProfile goMember) ──
+   the hero leaves toward the swipe and the next member's hero arrives from the other side.
+   (pseudo-elements hang off <html> itself: no space before ::view-transition-*) */
+html[data-mv-dir='next'] { --mv-out: -18%; --mv-in: 18%; --mv-tilt: -2.5deg; }
+html[data-mv-dir='prev'] { --mv-out: 18%; --mv-in: -18%; --mv-tilt: 2.5deg; }
+html[data-mv-dir]::view-transition-old(mp-hero) { animation: mv-out 0.34s cubic-bezier(0.4, 0, 0.2, 1) both; }
+html[data-mv-dir]::view-transition-new(mp-hero) { animation: mv-in 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+html[data-mv-dir]::view-transition-group(mp-hero) { animation-duration: 0.5s; }
+@keyframes mv-out { to { transform: translateX(var(--mv-out)) rotate(var(--mv-tilt)) scale(0.96); opacity: 0; } }
+@keyframes mv-in { from { transform: translateX(var(--mv-in)) scale(0.96); opacity: 0; } }
