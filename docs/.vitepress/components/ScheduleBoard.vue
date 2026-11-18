@@ -7,6 +7,20 @@ import { memberById } from '../data/members'
 const now = ref<number | null>(null)
 let timer: number | undefined
 const cat = ref<'all' | EventCat>('all')
+// '갈 거예요 / 볼 거예요' marks — kept only in this browser (localStorage), never sent anywhere
+const GOING_KEY = 'custo-going'
+const goingKey = (e: CsEvent) => `${e.date}|${e.ja}`
+const going = ref<Set<string>>(new Set())
+const mineOnly = ref(false)
+const popKey = ref('')
+const isGoing = (e: CsEvent) => going.value.has(goingKey(e))
+function toggleGoing(e: CsEvent) {
+  const k = goingKey(e), next = new Set(going.value)
+  if (next.has(k)) next.delete(k); else { next.add(k); popKey.value = k; setTimeout(() => { if (popKey.value === k) popKey.value = '' }, 700) }
+  going.value = next
+  try { localStorage.setItem(GOING_KEY, JSON.stringify([...next])) } catch { /* private mode: marks last for this visit */ }
+}
+const passes = (e: CsEvent) => (cat.value === 'all' || e.cat === cat.value) && (!mineOnly.value || isGoing(e))
 const showPast = ref(false)
 // past events link to that day's official footage: own-channel videos of that performance date and
 // other channels' uploads from that day or the next (loaded only when past events are shown)
@@ -61,8 +75,10 @@ const cd = computed(() => {
 const pad = (n: number) => String(n).padStart(2, '0')
 const timeLabel = (e: CsEvent) => (e.cat === 'live' ? '開演' : e.cat === 'tv' ? '放送' : '開始')
 
-const filtered = computed(() => sorted.filter((e) => (cat.value === 'all' || e.cat === cat.value) && (showPast.value || !isPast(e))))
-const pastCount = computed(() => sorted.filter((e) => isPast(e) && (cat.value === 'all' || e.cat === cat.value)).length)
+const filtered = computed(() => sorted.filter((e) => passes(e) && (showPast.value || !isPast(e))))
+const pastCount = computed(() => sorted.filter((e) => isPast(e) && passes(e)).length)
+const goingCount = computed(() => sorted.filter((e) => isGoing(e) && !isPast(e)).length)
+watch(goingCount, (n) => { if (!n) mineOnly.value = false })
 
 // group: month → day → events
 const months = computed(() => {
@@ -79,7 +95,7 @@ const months = computed(() => {
 })
 const counts = computed(() => {
   const c: Record<string, number> = { all: 0 }
-  for (const e of sorted) if (showPast.value || !isPast(e)) { c.all++; c[e.cat] = (c[e.cat] || 0) + 1 }
+  for (const e of sorted) if ((showPast.value || !isPast(e)) && (!mineOnly.value || isGoing(e))) { c.all++; c[e.cat] = (c[e.cat] || 0) + 1 }
   return c
 })
 const WD = ['日', '月', '火', '水', '木', '金', '土']
@@ -94,7 +110,7 @@ function dLabel(e: CsEvent) {
   return `D-${days}`
 }
 
-const upcomingFiltered = computed(() => sorted.filter((e) => (cat.value === 'all' || e.cat === cat.value) && !isPast(e)))
+const upcomingFiltered = computed(() => sorted.filter((e) => passes(e) && !isPast(e)))
 function downloadIcs(e: CsEvent | CsEvent[]) {
   const blob = new Blob([toIcs(e)], { type: 'text/calendar;charset=utf-8' })
   const a = document.createElement('a')
@@ -126,7 +142,10 @@ function watchMonths() {
   moSpy = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) activeMo.value = e.target.id.slice(3) }, { rootMargin: '-30% 0px -60% 0px' })
   document.querySelectorAll('.mo[id^="mo-"]').forEach((el) => moSpy!.observe(el))
 }
-onMounted(() => { requestAnimationFrame(watchMonths) })
+onMounted(() => {
+  requestAnimationFrame(watchMonths)
+  try { going.value = new Set(JSON.parse(localStorage.getItem(GOING_KEY) || '[]')) } catch { /* unreadable or blocked storage: start empty */ }
+})
 watch([months, view], () => nextTick(watchMonths))
 // phones: while scrolling down, fold the filter rows so only the month jumper stays pinned; scrolling up unfolds them
 const compact = ref(false)
@@ -174,6 +193,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
         <button type="button" class="chip" :aria-pressed="cat === 'all'" @click="cat = 'all'">전체 <small>{{ counts.all }}</small></button>
         <button v-for="(m, k) in catMeta" :key="k" type="button" class="chip" :aria-pressed="cat === k" :style="{ '--cc': m.color }"
           @click="cat = k as EventCat">{{ m.emoji }} {{ m.ko }} <small>{{ counts[k] || 0 }}</small></button>
+        <button v-if="goingCount" type="button" class="chip mine" :aria-pressed="mineOnly" @click="mineOnly = !mineOnly">✋ 내 일정 <small>{{ goingCount }}</small></button>
       </div>
       <label v-if="view === 'list'" class="past"><input v-model="showPast" type="checkbox" /> 지난 일정 {{ pastCount }}개 보기</label>
       <div class="seg" role="group" aria-label="보기 방식">
@@ -214,7 +234,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
     </div>
 
     <div v-if="view === 'list' && upcomingFiltered.length > 1" class="ics-all-row">
-      <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)">📅 다가오는 일정 {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
+      <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)">📅 {{ mineOnly ? '내 일정' : '다가오는 일정' }} {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
       <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요 · 🔔 하루 전·1시간 전 알림 포함 (종일 일정은 전날 오전 9시){{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
     </div>
 
@@ -228,7 +248,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
             <span :class="{ sun: wd(d.date) === '日', sat: wd(d.date) === '土' }">{{ wd(d.date) }}</span>
           </div>
           <div class="items">
-            <article v-for="e in d.items" :key="e.ja + e.date" class="ev"
+            <article v-for="e in d.items" :key="e.ja + e.date" class="ev" :class="{ mine: isGoing(e) }"
               :style="{ '--cc': e.member ? memberById[e.member].color : catMeta[e.cat].color }">
               <div class="ev-top">
                 <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span>
@@ -248,6 +268,9 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
                   <small v-if="vidsFor(e).length > 2" class="vid-more">+{{ vidsFor(e).length - 2 }}</small>
                 </template>
                 <template v-if="!isPast(e)">
+                  <button type="button" class="go" :class="{ on: isGoing(e), pop: popKey === goingKey(e) }" :aria-pressed="isGoing(e)" @click="toggleGoing(e)">
+                    <span aria-hidden="true">{{ isGoing(e) ? '💖' : e.cat === 'tv' ? '📺' : '✋' }}</span> {{ e.cat === 'tv' ? '볼 거예요' : '갈 거예요' }}
+                  </button>
                   <button type="button" @click="downloadIcs(e)">📅 .ics</button>
                   <a :href="googleCalUrl(e)" target="_blank" rel="noopener">Google 캘린더</a>
                   <a v-if="e.cat === 'live'" class="prep" :href="withBase('/live-guide/')">🔦 라이브 준비</a>
@@ -378,6 +401,15 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 .ev-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 6px 0 0 !important; font-size: 12.5px; color: #735779; }
 .ev-act { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .ev-act a, .ev-act button { font-size: 12px; font-weight: 700; padding: 6px 11px; border-radius: 999px; background: #faf3f7; color: var(--ink) !important; text-decoration: none !important; transition: transform 0.4s var(--spring), background 0.2s; }
+.ev-act button.go { position: relative; background: #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cc) 45%, white); }
+.ev-act button.go.on { background: color-mix(in srgb, var(--cc) 62%, #2a1030); color: #fff !important; box-shadow: none; }
+.ev-act button.go.pop span { display: inline-block; animation: go-pop 0.6s var(--spring); }
+.ev-act button.go.pop::after { content: '♥ ♥ ♥'; position: absolute; left: 50%; top: -4px; transform: translateX(-50%); font-size: 11px; letter-spacing: 6px; color: var(--cc); pointer-events: none; animation: go-burst 0.7s ease-out forwards; }
+@keyframes go-pop { 0% { transform: scale(0.6); } 60% { transform: scale(1.35); } 100% { transform: scale(1); } }
+@keyframes go-burst { from { opacity: 1; transform: translate(-50%, 4px) scale(0.6); } to { opacity: 0; transform: translate(-50%, -16px) scale(1.15); } }
+.ev.mine { box-shadow: 0 0 0 2px color-mix(in srgb, var(--cc) 55%, white), 0 10px 24px -18px rgba(90, 30, 70, 0.5); }
+.chip.mine[aria-pressed='true'] { background: #c2185b; }
+@media (prefers-reduced-motion: reduce) { .ev-act button.go.pop span, .ev-act button.go.pop::after { animation: none; } .ev-act button.go.pop::after { content: none; } }
 .ev-act a:hover, .ev-act button:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--cc) 18%, white); }
 .empty { text-align: center; padding: 40px 0; color: #735779; }
 .ev-act a.vid { background: #2f1a35; color: #fff !important; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
