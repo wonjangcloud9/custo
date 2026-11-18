@@ -107,6 +107,15 @@ export function startMs(e: CsEvent): number {
   return new Date(`${e.date}T${e.time ?? '00:00'}:00+09:00`).getTime()
 }
 
+/** Epoch ms of the end: the published end (past midnight → next day), else start + 3 h for timed events,
+ *  else the next JST midnight for all-day ones. Used for calendar exports and 'hide once aired'. */
+export function endMs(e: CsEvent): number {
+  if (!e.time) return new Date(`${e.date}T00:00:00+09:00`).getTime() + 86400e3
+  if (!e.end) return startMs(e) + 3 * 3600e3
+  const t = new Date(`${e.date}T${e.end}:00+09:00`).getTime()
+  return t > startMs(e) ? t : t + 86400e3
+}
+
 function hash(s: string): string {
   let h = 5381
   for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0
@@ -121,8 +130,7 @@ function vevent(e: CsEvent, stamp: string): string[] {
   const lines = ['BEGIN:VEVENT', `UID:${d}-${hash(e.ja + (e.time ?? ''))}@custo`, `DTSTAMP:${stamp}`]
   if (e.time) {
     // explicit UTC so every calendar app places it correctly (no VTIMEZONE needed)
-    const endMs = e.end ? new Date(`${e.date}T${e.end}:00+09:00`).getTime() : startMs(e) + 3 * 3600e3
-    lines.push(`DTSTART:${icsUtc(startMs(e))}`, `DTEND:${icsUtc(endMs)}`)
+    lines.push(`DTSTART:${icsUtc(startMs(e))}`, `DTEND:${icsUtc(endMs(e))}`)
   } else {
     const next = new Date(`${e.date}T00:00:00Z`); next.setUTCDate(next.getUTCDate() + 1)
     lines.push(`DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${next.toISOString().slice(0, 10).replace(/-/g, '')}`)
@@ -144,7 +152,7 @@ export function googleCalUrl(e: CsEvent): string {
   const d = e.date.replace(/-/g, '')
   let dates: string
   if (e.time) {
-    const s = new Date(startMs(e)), en = new Date(e.end ? new Date(`${e.date}T${e.end}:00+09:00`).getTime() : startMs(e) + 3 * 3600e3)
+    const s = new Date(startMs(e)), en = new Date(endMs(e))
     const f = (x: Date) => x.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
     dates = `${f(s)}/${f(en)}`
   } else {

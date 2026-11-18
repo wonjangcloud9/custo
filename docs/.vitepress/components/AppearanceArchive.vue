@@ -2,16 +2,16 @@
 import { ref, computed, onMounted, nextTick } from 'vue'
 import raw from '../data/appearances.json'
 import { members, memberById } from '../data/members'
-import { events, startMs, toIcs, googleCalUrl, type CsEvent } from '../data/events'
+import { events, startMs, endMs, toIcs, googleCalUrl, type CsEvent } from '../data/events'
 
 // Off-channel appearances: videos uploaded by other official channels (TV, music shows,
 // brands, media, other artists). Data + verification: loop/appearances.py
 interface Ap { id: string; kind: string; title: string; ch: string; date: string; secs: number; members: string[] }
 const all = raw as Ap[]
 const DEBUT = '2024-08-04'
-// upcoming TV appearances from the official schedule (client clock; hidden once aired)
+// upcoming TV appearances from the official schedule (client clock; hidden once aired — published end, else start + 3 h)
 const now = ref(0)
-const onAir = computed(() => (now.value ? events.filter((e) => e.cat === 'tv' && startMs(e) + 3 * 3600e3 > now.value).sort((a, b) => startMs(a) - startMs(b)).slice(0, 6) : []))
+const onAir = computed(() => (now.value ? events.filter((e) => e.cat === 'tv' && endMs(e) > now.value).sort((a, b) => startMs(a) - startMs(b)).slice(0, 6) : []))
 const dLabel = (e: { date: string }) => {
   const d = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(new Date(now.value + 9 * 3600e3).toISOString().slice(0, 10) + 'T00:00:00+09:00')) / 86400000)
   return d <= 0 ? 'TODAY' : d === 1 ? '내일' : `D-${d}`
