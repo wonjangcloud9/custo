@@ -75,6 +75,17 @@ const myWhen = computed(() => {
   const days = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(jstDay(nowMs.value) + 'T00:00:00+09:00')) / 86400000)
   return `${days === 0 ? '오늘' : days === 1 ? '내일' : `${+e.date.slice(5, 7)}/${+e.date.slice(8)} (D-${days})`}${e.time ? ' ' + e.time : ''}`
 })
+// the next seven Japan days at a glance (today first): weekday, date, an icon per event, 💖 if you marked one
+const WD7 = ['日', '月', '火', '水', '木', '金', '土']
+const week = computed(() => {
+  if (!nowMs.value) return []
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = jstDay(nowMs.value + i * 86400000)
+    const items = events.filter((e) => e.date === d).sort((a, b) => startMs(a) - startMs(b))
+    return { d, i, wd: WD7[new Date(`${d}T12:00:00+09:00`).getUTCDay()], n: +d.slice(8), items, mine: items.some((e) => going.value.has(goingKey(e))) }
+  })
+})
+const weekCount = computed(() => week.value.reduce((a, x) => a + x.items.length, 0))
 const nextWhen = computed(() => {
   const e = nextEv.value
   if (!e) return ''
@@ -178,6 +189,20 @@ function pickDay(now: number) {
           <li v-if="!data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 ✨</li>
         </ul>
       </div>
+      <nav v-if="week.length" class="wk7" aria-label="이번 주 일정">
+        <p class="wk7-h">📅 이번 주 <small>{{ weekCount }}개</small></p>
+        <ol>
+          <li v-for="x in week" :key="x.d">
+            <a :href="withBase(`/schedule/#d-${x.d}`)" class="wk7-d" :class="{ today: x.i === 0, has: x.items.length, sun: x.wd === '日', sat: x.wd === '土' }"
+              :aria-label="`${+x.d.slice(5, 7)}월 ${x.n}일(${x.wd}) ${x.items.length ? x.items.map((e) => e.ja).join(', ') : '일정 없음'}${x.mine ? ' · 내 일정 있음' : ''}`">
+              <span class="wk7-wd">{{ x.i === 0 ? '오늘' : x.wd }}</span>
+              <b>{{ x.n }}</b>
+              <span class="wk7-ic" aria-hidden="true"><template v-for="e in x.items.slice(0, 3)" :key="e.ja">{{ catMeta[e.cat].emoji }}</template><small v-if="x.items.length > 3">+{{ x.items.length - 3 }}</small><template v-if="!x.items.length">·</template></span>
+              <i v-if="x.mine" class="wk7-mine" aria-hidden="true">💖</i>
+            </a>
+          </li>
+        </ol>
+      </nav>
       <p class="td-checked" :title="`확인한 곳: ${status.checked.join(' · ')}`"><span aria-hidden="true">🔄</span> 마지막 확인 {{ checked }} (KST) · 6시간마다 공식 소식·스케줄·영상을 다시 확인해요</p>
       <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a><a :href="withBase('/appearances/')">출연 아카이브 →</a></p>
     </template>
@@ -251,6 +276,26 @@ function pickDay(now: number) {
 @media (max-width: 640px) { .td-mine b { order: 3; flex-basis: 100%; } }
 @media (prefers-reduced-motion: reduce) { .td-mine { transition: none; } }
 .td-checked { margin: 12px 0 0 !important; font-size: 12px; color: #6a4f70; }
+/* this week strip */
+.wk7 { margin-top: 14px; }
+.wk7-h { margin: 0 0 6px !important; font-size: 13px; font-weight: 900; color: #3a2340; }
+.wk7-h small { font-weight: 700; color: #6a4f70; margin-left: 4px; }
+.wk7 ol { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.wk7 li { margin: 0 !important; }
+.wk7-d { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 2px 8px; border-radius: 14px; background: #fdf6fa; color: #3a2340 !important; text-decoration: none !important; transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1), background 0.2s; }
+.wk7-d.has { background: #fff; box-shadow: inset 0 0 0 1.5px #f6d6e5; }
+.wk7-d.today { background: #2f1a35; color: #fff !important; box-shadow: none; }
+.wk7-d:hover { transform: translateY(-3px); }
+.wk7-wd { font-size: 11px; font-weight: 800; color: #6a4f70; }
+.wk7-d.sun .wk7-wd { color: #c92f69; }
+.wk7-d.sat .wk7-wd { color: #2f6db5; }
+.wk7-d.today .wk7-wd { color: #ffd1e3; }
+.wk7-d b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 18px; line-height: 1.1; }
+.wk7-ic { font-size: 12px; line-height: 1.2; min-height: 15px; letter-spacing: -1px; white-space: nowrap; }
+.wk7-ic small { font-size: 10px; font-weight: 800; margin-left: 2px; letter-spacing: 0; }
+.wk7-mine { position: absolute; top: -5px; right: -3px; font-size: 11px; font-style: normal; }
+@media (max-width: 400px) { .wk7 ol { gap: 4px; } .wk7-ic { font-size: 10.5px; } }
+@media (prefers-reduced-motion: reduce) { .wk7-d { transition: none; } }
 .td-checked + .td-foot { margin-top: 6px !important; }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .td-foot a { color: #a33366 !important; }

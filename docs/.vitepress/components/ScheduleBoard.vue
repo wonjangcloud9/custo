@@ -128,13 +128,15 @@ onMounted(() => {
 // Month jump chips (list view) + scroll-spy
 const activeMo = ref('')
 let moSpy: IntersectionObserver | undefined
-function jumpMo(key: string) {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const el = document.getElementById(`mo-${key}`)
-  if (!el) return
+function jumpMo(key: string) { scrollToId(`mo-${key}`) }
+function scrollToId(id: string, instant = false) {
+  const reduce = instant || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const el = document.getElementById(id)
+  if (!el) return false
   const bar = document.querySelector('.bar') as HTMLElement | null
   const offset = (bar ? bar.getBoundingClientRect().height + parseFloat(getComputedStyle(bar).top || '0') : 80) + 12 // sticky bar height differs per viewport
   window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - offset, behavior: reduce ? 'auto' : 'smooth' })
+  return true
 }
 function watchMonths() {
   moSpy?.disconnect()
@@ -146,6 +148,10 @@ onMounted(() => {
   going.value = loadGoing()
   // deep link from the home digest: /schedule/?mine opens on your marked events
   if (new URLSearchParams(location.search).has('mine') && goingCount.value) mineOnly.value = true
+  // deep link from the home week strip: /schedule/#d-YYYY-MM-DD → that day (or its month when the day has nothing),
+  // once the client-side list (past days hidden) has rendered
+  const h = decodeURIComponent(location.hash.slice(1))
+  if (/^d-\d{4}-\d\d-\d\d$/.test(h)) setTimeout(() => { if (!scrollToId(h, true)) scrollToId(`mo-${h.slice(2, 9)}`, true) }, 60)
 })
 watch([months, view], () => nextTick(watchMonths))
 // phones: while scrolling down, fold the filter rows so only the month jumper stays pinned; scrolling up unfolds them
@@ -244,7 +250,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
     <div v-show="view === 'list'" class="tl">
       <section v-for="mo in months" :id="`mo-${mo.key}`" :key="mo.key" class="mo">
         <h2 class="mo-h"><span>{{ mo.label }}</span><small>{{ mo.key.slice(0, 4) }}</small></h2>
-        <div v-for="d in mo.days" :key="d.date" class="day" :class="{ past: isPast(d.items[0]), today: isToday(d.items[0]) }">
+        <div v-for="d in mo.days" :id="`d-${d.date}`" :key="d.date" class="day" :class="{ past: isPast(d.items[0]), today: isToday(d.items[0]) }">
           <div class="date">
             <b>{{ Number(d.date.slice(8)) }}</b>
             <span :class="{ sun: wd(d.date) === '日', sat: wd(d.date) === '土' }">{{ wd(d.date) }}</span>
@@ -337,6 +343,9 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; }
 .day-c { position: relative; min-height: 86px; padding: 6px; border-radius: 14px; background: #fdf8fa; text-align: left; display: flex; flex-direction: column; gap: 4px; color: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), background 0.2s; }
 .day-c.blank { background: none; }
+/* #d-YYYY-MM-DD links: keep the day clear of the sticky nav + filter bar, also for the browser's own hash scroll */
+.day { scroll-margin-top: 190px; }
+@media (max-width: 640px) { .day { scroll-margin-top: 72px; } }
 .mine-dot { position: absolute; top: 4px; right: 5px; font-size: 11px; line-height: 1; }
 .mine-pill { background: #fde3ee !important; color: #8a2350 !important; }
 .day-c.has { background: #fff3f8; cursor: pointer; }
