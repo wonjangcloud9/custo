@@ -12,6 +12,7 @@ export interface CsEvent {
   date: string // YYYY-MM-DD (JST)
   time?: string // HH:MM JST start
   end?: string // HH:MM JST end when officially published (calendar export)
+  through?: string // YYYY-MM-DD: a featured multi-day run (e.g. a two-day final) keeps its home card until the end of this date
   cat: EventCat
   ja: string
   ko: string
@@ -62,7 +63,7 @@ export const events: CsEvent[] = [
   { date: '2026-11-24', time: '15:30', cat: 'event', ja: 'オンライン特典会', ko: '온라인 특전회 (빙고 추첨)', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47626` },
   { date: '2026-11-26', time: '19:00', cat: 'live', ja: '佐野愛花 生誕祭 2026', ko: '사노 아이카 생탄제 · 현장 특별 추첨회(CUTIE LAND CD 구매자, 공지 96698)', venue: 'SGCホール有明', url: `${O}/live_information/detail/46341`, member: 'aika' },
   { date: '2026-11-27', time: '18:00', cat: 'live', ja: 'GIFT〜Girls Idol Festival Tokyo〜 DAY-1', ko: '아이돌 페스티벌 DAY-1 출연 (OPEN 17:00 · 출연 순서 미발표)', venue: 'SGCホール有明', url: `${O}/live_information/detail/43800` },
-  { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL' },
+  { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL', through: '2026-11-29' },
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
   { date: '2026-11-29', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연', url: `${O}/news/detail/95696` },
   { date: '2026-12-02', cat: 'release', ja: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', url: `${O}/discography/detail/8458/`, featured: true },

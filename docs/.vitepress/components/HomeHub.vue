@@ -22,7 +22,7 @@ const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-1
 const EVENTS = events.filter((e) => e.featured).map((e) => ({
   id: e.date + e.cat, at: new Date(startMs(e)).toISOString(),
   // shown until it ends: the published end time, otherwise the end of its Japan date
-  until: Date.parse(`${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
+  until: Date.parse(e.through ? `${e.through}T23:59:59+09:00` : `${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: (e.through ? `${e.ko.replace(/\s*DAY\s*\d+$/, '')} (${+e.date.slice(5, 7)}/${+e.date.slice(8)}–${+e.through.slice(8)})` : e.ko) + (e.venue ? ` · ${e.venue}` : ''), // multi-day: show the run, not 'DAY1' emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
 }))
 
 const now = ref<number | null>(null)
