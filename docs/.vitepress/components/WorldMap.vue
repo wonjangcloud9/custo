@@ -174,8 +174,8 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
     </div>
 
     <div class="panel">
-      <p class="eyebrow">CUTIE STREET WORLD MAP</p>
-      <h1 id="wm-h">귀여움으로 세계까지 🌏</h1>
+      <p class="eyebrow">귀여움으로 세계까지 · WORLD MAP</p>
+      <h1 id="wm-h">큐스트 월드맵 🌏</h1>
       <div class="stats">
         <div><b>{{ visitedCountries }}</b><span>나라</span></div>
         <div><b>{{ visitedCities }}</b><span>도시</span></div>
