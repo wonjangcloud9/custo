@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
-import { events, catMeta, startMs } from '../data/events'
+import { events, catMeta, startMs, endMs } from '../data/events'
 import { members, ageOn } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
@@ -53,6 +53,13 @@ const nowMs = ref(0)
 let tick: number | undefined
 // all-day items (no start time) count as 'next' for the whole of their Japan date
 const nextEv = computed(() => (nowMs.value ? [...events].filter((e) => startMs(e) > nowMs.value || (!e.time && e.date === jstDay(nowMs.value))).sort((a, b) => startMs(a) - startMs(b))[0] ?? null : null))
+// happening right now: until the published end; with no end published only for the first hour, since we can't know it
+const nowEv = computed(() => {
+  const t = nowMs.value
+  if (!t) return null
+  return events.filter((e) => e.time && startMs(e) <= t && t < (e.end ? endMs(e) : startMs(e) + 3600e3)).sort((a, b) => startMs(a) - startMs(b))[0] ?? null
+})
+const nowWhen = computed(() => (nowEv.value ? (nowEv.value.end ? `~${nowEv.value.end}까지` : `${nowEv.value.time} 시작 · 진행 중`) : ''))
 const nextWhen = computed(() => {
   const e = nextEv.value
   if (!e) return ''
@@ -84,7 +91,13 @@ onMounted(() => {
       <p class="td-kicker"><span class="td-dot" aria-hidden="true" />{{ isToday ? 'TODAY' : 'LATEST' }}</p>
       <h2 id="td-h">{{ isToday ? '오늘의 큐스트' : '최근 큐스트 소식' }} <span v-if="label" class="td-date">{{ label }}</span></h2>
     </header>
-    <a v-if="nextEv" class="td-next" :href="nextEv.url" target="_blank" rel="noopener">
+    <a v-if="nowEv" class="td-next td-now" :href="nowEv.url" target="_blank" rel="noopener">
+      <span class="tn-k"><i class="live-dot" aria-hidden="true" />{{ nowEv.cat === 'tv' ? 'ON AIR' : 'NOW' }}</span>
+      <span class="tn-w">{{ nowWhen }}</span>
+      <b lang="ja">{{ catMeta[nowEv.cat].emoji }} {{ nowEv.ja }}</b>
+      <span class="tn-go" aria-hidden="true">→</span>
+    </a>
+    <a v-if="nextEv" class="td-next" :class="{ after: nowEv }" :href="nextEv.url" target="_blank" rel="noopener">
       <span class="tn-k">⏭ 다음 일정</span>
       <span class="tn-w">{{ nextWhen }}</span>
       <b lang="ja">{{ catMeta[nextEv.cat].emoji }} {{ nextEv.ja }}</b>
@@ -188,7 +201,15 @@ onMounted(() => {
 .tn-w { padding: 2px 8px; border-radius: 999px; background: #ff4f8b; font-size: 12.5px; font-weight: 800; }
 .td-next b { flex: 1; min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
 .tn-go { font-weight: 900; }
-@media (prefers-reduced-motion: reduce) { .td-next { transition: none; } }
+/* happening now: warm red bar with a breathing dot; the 'next' bar tucks in beneath it */
+.td-now { background: linear-gradient(100deg, #9c1150, #d81b60); margin-bottom: 8px; }
+.td-now .tn-k { display: inline-flex; align-items: center; gap: 7px; color: #fff; }
+.td-now .tn-w { background: rgba(42, 16, 48, 0.32); }
+.live-dot { position: relative; width: 9px; height: 9px; border-radius: 50%; background: #fff; }
+.live-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #fff; animation: live-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+@keyframes live-ping { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(2.6); opacity: 0; } }
+.td-next.after { margin-top: 0; padding: 8px 14px; font-size: 13px; background: #4a2c52; }
+@media (prefers-reduced-motion: reduce) { .td-next { transition: none; } .live-dot::after { animation: none; opacity: 0; } }
 @media (max-width: 640px) { .td-next b { order: 3; flex-basis: 100%; } .tn-go { margin-left: auto; } }
 .td-checked { margin: 12px 0 0 !important; font-size: 12px; color: #6a4f70; }
 .td-checked + .td-foot { margin-top: 6px !important; }
