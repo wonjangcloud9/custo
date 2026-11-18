@@ -33,7 +33,11 @@ const showDone = (d: string) => now.value !== null && new Date(`${d}T23:59:59+09
 const state = (s: (typeof stops)[number]) => (now.value === null ? 'todo' : s.dates.every(showDone) ? 'done' : s.dates.some(showDone) ? 'half' : 'todo')
 const doneShows = computed(() => shows.filter((e) => showDone(e.date)).length)
 const nextStop = computed(() => stops.find((s) => state(s) !== 'done'))
-const dday = computed(() => (nextStop.value && now.value ? Math.ceil((new Date(`${nextStop.value.dates[0]}T00:00:00+09:00`).getTime() - now.value) / 86400000) : null))
+// days to the stop's next unfinished show date (a two-day stop counts from day 2 once day 1 is over)
+const dday = computed(() => {
+  const d = nextStop.value?.dates.find((x) => !showDone(x))
+  return d && now.value ? Math.max(0, Math.ceil((new Date(`${d}T00:00:00+09:00`).getTime() - now.value) / 86400000)) : null
+})
 const md = (d: string) => d.slice(5).replace('-', '/')
 const fmt = (ds: string[]) => ds.map((d, i) => (i > 0 && d.slice(5, 7) === ds[0].slice(5, 7) ? d.slice(8) : md(d))).join('–') // 09/29–30, 10/31–11/01
 </script>
