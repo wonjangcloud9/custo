@@ -1,1 +1,0 @@
-import{v as l,Y as r,p as u}from"./framework.DjjkIGUU.js";function v(o=6e4){const t=u(null);let n;const a=e=>`${e.getFullYear()}-${e.getMonth()}-${e.getDate()}`;return l(()=>{t.value=new Date,n=window.setInterval(()=>{const e=new Date;(!t.value||a(e)!==a(t.value))&&(t.value=e)},o)}),r(()=>clearInterval(n)),t}export{v as u};
