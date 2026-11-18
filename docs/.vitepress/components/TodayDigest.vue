@@ -192,7 +192,7 @@ function pickDay(now: number) {
       <nav v-if="week.length" class="wk7" aria-label="이번 주 일정">
         <p class="wk7-h">📅 이번 주 <small>{{ weekCount }}개</small></p>
         <ol>
-          <li v-for="x in week" :key="x.d">
+          <li v-for="x in week" :key="x.d" :style="{ '--wi': x.i }">
             <a :href="withBase(`/schedule/#d-${x.d}`)" class="wk7-d" :class="{ today: x.i === 0, has: x.items.length, sun: x.wd === '日', sat: x.wd === '土' }"
               :aria-label="`${+x.d.slice(5, 7)}월 ${x.n}일(${x.wd}) ${x.items.length ? x.items.map((e) => e.ja).join(', ') : '일정 없음'}${x.mine ? ' · 내 일정 있음' : ''}`">
               <span class="wk7-wd">{{ x.i === 0 ? '오늘' : x.wd }}</span>
@@ -299,7 +299,12 @@ html[data-oshi] .wk7-d.today { background: var(--custo-accent); }
 .wk7-ic small { font-size: 10px; font-weight: 800; margin-left: 2px; letter-spacing: 0; }
 .wk7-mine { position: absolute; top: -5px; right: -3px; font-size: 11px; font-style: normal; }
 @media (max-width: 400px) { .wk7 ol { gap: 4px; } .wk7-ic { font-size: 10.5px; } }
-@media (prefers-reduced-motion: reduce) { .wk7-d { transition: none; } }
+/* the week arrives left to right like dominoes; today's icons give one little nod */
+.wk7 li { animation: wk7-in 0.55s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--wi, 0) * 55ms); }
+.wk7-d.today .wk7-ic { display: inline-block; animation: wk7-nod 0.9s ease-in-out 0.6s 1 both; }
+@keyframes wk7-in { from { opacity: 0; transform: translateY(10px) scale(0.92); } }
+@keyframes wk7-nod { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-12deg) translateY(-1px); } 60% { transform: rotate(8deg); } }
+@media (prefers-reduced-motion: reduce) { .wk7-d { transition: none; } .wk7 li, .wk7-d.today .wk7-ic { animation: none; } }
 .td-checked + .td-foot { margin-top: 6px !important; }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .td-foot a { color: #a33366 !important; }
