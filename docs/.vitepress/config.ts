@@ -123,9 +123,14 @@ export default defineConfig({
           ],
         },
         {
-          // song spotlight pages, oldest release first — generated from data/songs.ts
+          // song spotlight pages grouped by release year (newest year open; the year holding the
+          // current page opens itself), oldest release first inside a year — generated from data/songs.ts
           text: '📖 곡 이야기',
-          items: [...songs].sort((a, b) => a.facts[0].v.localeCompare(b.facts[0].v)).map((x) => ({ text: x.title, link: `/discography/${x.id}` })),
+          items: [...new Set(songs.map((x) => x.facts[0].v.slice(0, 4)))].sort().reverse().map((y, i) => ({
+            text: `${y}년`,
+            collapsed: i > 0,
+            items: songs.filter((x) => x.facts[0].v.startsWith(y)).sort((a, b) => a.facts[0].v.localeCompare(b.facts[0].v)).map((x) => ({ text: x.title, link: `/discography/${x.id}` })),
+          })),
         },
       ],
     },
