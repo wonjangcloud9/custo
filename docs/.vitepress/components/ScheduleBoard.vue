@@ -128,15 +128,21 @@ onMounted(() => { requestAnimationFrame(watchMonths) })
 watch([months, view], () => nextTick(watchMonths))
 // phones: while scrolling down, fold the filter rows so only the month jumper stays pinned; scrolling up unfolds them
 const compact = ref(false)
-let lastY = 0, ticking = false
+// Folding changes the bar's height by ~110px, and the browser's scroll anchoring then moves scrollY by the
+// same amount. Read as a user scroll, that jump flipped the fold back, sixty times a second (seen with reduced
+// motion on). So after each toggle, ignore scroll for a moment and take the settled position as the new baseline.
+let lastY = 0, ticking = false, holdUntil = 0
 function onScroll() {
   if (ticking) return
   ticking = true
   requestAnimationFrame(() => {
     const y = scrollY
+    ticking = false
+    if (performance.now() < holdUntil) { lastY = y; return }
     const phone = matchMedia('(max-width: 640px)').matches
-    compact.value = phone && y > 400 && y > lastY + 4 ? true : y < lastY - 4 || y <= 400 || !phone ? false : compact.value
-    lastY = y; ticking = false
+    const next = phone && y > 400 && y > lastY + 4 ? true : y < lastY - 4 || y <= 400 || !phone ? false : compact.value
+    if (next !== compact.value) { compact.value = next; holdUntil = performance.now() + 300 }
+    lastY = y
   })
 }
 onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))

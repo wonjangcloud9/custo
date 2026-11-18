@@ -257,7 +257,7 @@ onMounted(async () => {
   const ro = new ResizeObserver(resize); ro.observe(cvs); resize()
 
   // animate
-  let uC = 0, fC = 0, raf = 0, visible = true
+  let uC = 0, fC = 0, raf = 0, visible = true, lastSig = '', settle = 0
   const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3()
   const overviewPos = new THREE.Vector3(18, 52, small ? 190 : 150), overviewLook = new THREE.Vector3(0, 44, 0)
   const summitPos = new THREE.Vector3(0, 99, small ? 78 : 60), summitLook = new THREE.Vector3(0, 80, 0)
@@ -268,6 +268,14 @@ onMounted(async () => {
   const frame = () => {
     raf = requestAnimationFrame(frame)
     if (!visible || document.hidden) return
+    // reduced motion: the scene only changes with scroll progress, step or size, so after a change draw
+    // ~1s more (halos fade in) and then stop redrawing a still picture every frame
+    if (reduce) {
+      const sig = `${progress.value}|${fIndex.value}|${cvs.clientWidth}x${cvs.clientHeight}`
+      if (sig !== lastSig) { lastSig = sig; settle = 60 }
+      else if (settle <= 0) return
+      settle--
+    }
     const t = clock.getElapsedTime()
     const k = reduce ? 1 : 0.07
     uC += (progress.value - uC) * k
