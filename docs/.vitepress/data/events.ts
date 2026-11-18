@@ -75,7 +75,7 @@ export const events: CsEvent[] = [
   { date: '2026-12-27', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 출연', venue: '幕張メッセ', url: `${O}/live_information/detail/46324` },
   { date: '2026-12-31', time: '19:20', end: '23:45', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true },
   // January 2027 — official schedule month page (year=2027&month=1), each detail page checked 2026-11-17
-  { date: '2027-01-09', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },
+  { date: '2027-01-09', time: '14:00', end: '18:30', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연 · 개장 12:30, 종연 18:30 예정 · 출연 시각 미발표)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },
   { date: '2027-01-10', time: '14:00', cat: 'event', ja: 'KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC', ko: '카와이랩 컬렉션 시즈오카 (합동)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47607` },
   { date: '2027-01-23', cat: 'live', time: '18:00', ja: 'CUTIE STREET Live in Korea 2027 WINTER', ko: '🇰🇷 한국 공연 · 킨텍스 · 멜론티켓 예매 (135,000원)', venue: 'KINTEX Hall 9A', url: `${O}/live_information/detail/42855`, featured: true, short: 'Live in Korea 2027' },
   { date: '2027-01-29', time: '19:00', cat: 'live', ja: '桜庭遥花 生誕祭 2027', ko: '사쿠라바 하루카 생탄제', venue: 'SGCホール有明', url: `${O}/live_information/detail/46962`, member: 'haruka' },
@@ -87,7 +87,7 @@ export const events: CsEvent[] = [
   { date: '2027-02-20', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 아이치 DAY1 (합동)', venue: 'IGアリーナ', url: `${O}/live_information/detail/46318` },
   { date: '2027-02-21', time: '16:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 아이치 DAY2 (합동)', venue: 'IGアリーナ', url: `${O}/live_information/detail/46319` },
   // March–April 2027 — official schedule month pages (month=3, 4), detail pages checked 2026-11-17
-  { date: '2027-03-08', cat: 'live', ja: 'ASOBIEXPO HAWAII 2027 - Japanese Pop Culture Experience', ko: '🌺 첫 하와이 · ASOBIEXPO (세부 추후 공지)', venue: 'TOM MOFFATT WAIKIKI SHELL', url: `${O}/live_information/detail/43881` },
+  { date: '2027-03-08', cat: 'live', ja: 'ASOBIEXPO HAWAII 2027 - Japanese Pop Culture Experience', ko: '🌺 첫 하와이 · ASOBIEXPO (시간 미발표 · 공식 FC 투어 판매 중, 일반 티켓 2026년 12월경 예정)', venue: 'TOM MOFFATT WAIKIKI SHELL', url: `${O}/live_information/detail/43881` },
   { date: '2027-03-20', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 고베 DAY1 (합동 · 나기사 학업으로 불참, 7명 출연)', venue: 'GLION ARENA KOBE', url: `${O}/live_information/detail/46320` },
   { date: '2027-03-21', time: '16:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 고베 DAY2 (합동)', venue: 'GLION ARENA KOBE', url: `${O}/live_information/detail/46321` },
   { date: '2027-04-03', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 후쿠오카 DAY1 (합동)', venue: 'マリンメッセ福岡A館', url: `${O}/live_information/detail/46322` },
