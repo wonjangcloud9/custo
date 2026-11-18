@@ -4,7 +4,8 @@ import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
 import { events, catMeta, startMs, isOnNow, nowWord } from '../data/events'
 import { goingKey, loadGoing } from '../data/going'
-import { members, ageOn } from '../data/members'
+import { members, ageOn, daysToBirthday } from '../data/members'
+import BirthdayCard from './BirthdayCard.vue'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
 import apRaw from '../data/appearances.json'
@@ -151,7 +152,8 @@ function pickDay(now: number) {
       <div class="td-grid" :class="{ solo: !data.bdays.length && !data.feats.length && !data.videos.length && !data.aps.length }">
         <!-- big cards: highlights and today's uploads -->
         <div v-if="data.bdays.length || data.feats.length || data.videos.length || data.aps.length" class="td-feats">
-          <a v-for="m in data.bdays" :key="m.id" class="bcard" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color }">
+          <div v-for="m in data.bdays" :key="m.id" class="bwrap" :style="{ '--mc': m.color }">
+          <a class="bcard" :href="withBase(`/members/${m.id}`)">
             <span class="b-hearts" aria-hidden="true"><i v-for="k in 9" :key="k" :style="{ '--k': k }">{{ k % 3 ? '♥' : '✦' }}</i></span>
             <span class="b-kanji" aria-hidden="true">{{ m.ja.slice(2, 3) }}</span>
             <span class="b-body">
@@ -161,6 +163,9 @@ function pickDay(now: number) {
               <span class="b-go">멤버 페이지에서 축하하기 →</span>
             </span>
           </a>
+          <!-- save the share card right here (a button can't live inside the link); D-day from today's real date -->
+          <div class="b-card"><BirthdayCard :id="m.id" :dday="nowMs ? daysToBirthday(m.birthday, new Date(nowMs)) : null" /></div>
+          </div>
           <a v-for="h in data.feats" :key="h.url" class="feat" :href="h.url" target="_blank" rel="noopener">
             <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">{{ kindMeta[h.kind].emoji }} {{ kindMeta[h.kind].ko }}</b></span>
             <span class="feat-body"><strong>{{ h.ko }}</strong><small>{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
@@ -309,6 +314,8 @@ html[data-oshi] .wk7-d.today { background: var(--custo-accent); }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
 .td-foot a { color: #a33366 !important; }
 .feat.vid .feat-body strong { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.bwrap { display: flex; flex-direction: column; }
+.b-card { display: flex; justify-content: flex-end; margin: 2px 6px 0; } /* BirthdayCard has two roots, so a class on it wouldn't land — wrap it */
 .bcard { position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 20px 22px; border-radius: 24px; color: #fff !important; text-decoration: none !important;
   background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--mc) 70%, white), transparent 60%), linear-gradient(135deg, color-mix(in srgb, var(--mc) 62%, #2a1030), color-mix(in srgb, var(--mc) 40%, #2a1030));
   box-shadow: 0 24px 40px -26px color-mix(in srgb, var(--mc) 80%, #2a1030); animation: bpop 0.8s cubic-bezier(.34, 1.56, .64, 1) both; }
