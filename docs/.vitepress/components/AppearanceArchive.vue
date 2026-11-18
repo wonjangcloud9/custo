@@ -217,7 +217,7 @@ onMounted(() => {
 .sn.big { background: linear-gradient(120deg, #fff0f3, #fff); box-shadow: inset 0 0 0 2px #ff8fa8; }
 .sn-d { font-size: 12.5px; color: #6a4f70; display: flex; gap: 8px; align-items: center; }
 .sn-d b { padding: 2px 8px; border-radius: 999px; background: #2f1a35; color: #fff; font-size: 11.5px; }
-.sn-t { font-size: 14px; font-weight: 800; line-height: 1.45; color: #2f1a35 !important; text-decoration: none !important; }
+.sn-t { min-width: 0; font-size: 14px; font-weight: 800; line-height: 1.45; color: #2f1a35 !important; text-decoration: none !important; word-break: normal; overflow-wrap: anywhere; line-break: loose; }
 .sn-t:hover { text-decoration: underline !important; }
 .sn-act { display: flex; gap: 6px; margin-top: auto; padding-top: 4px; }
 .sn-act button, .sn-act a { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #faf1f6; color: #2f1a35 !important; text-decoration: none !important; }

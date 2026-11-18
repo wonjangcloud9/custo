@@ -207,7 +207,7 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 16 | 멤버 페이지 본문(매력/이력/이름읽기/퀴즈)도 멤버 컬러 테마 적용 (h2 언더라인, 표 헤더, 퀴즈 버튼) | 8 | 1 | 1 | 0.5 | 16 | ✅ Done #3 |
 
 ## Regression checklist
-- Full-site sweep: paste `loop/audit.js` into Playwright MCP `browser_run_code_unsafe` (runs ~3 min in background) — expect ox 0 / offs [] / errs [] (known-benign spill: .sat .mb .stop .col). (run every ~5 iterations)
+- Full-site sweep: paste `loop/audit.js` into Playwright MCP `browser_run_code_unsafe` (runs ~3 min in background) — expect ox 0 / offs [] / errs [] (known-benign spill: .sat .mb .stop .col, and .sn-t when a title ends in a full-width 』 — the bracket's empty half overhangs ~4px). (run every ~5 iterations)
 - Lesson (#67): async (defineAsyncComponent) components hydrate after GlobalFx's onMounted — any localStorage-driven render must wait for the component's own mount (useOshi pattern) or hydration mismatches.
 - Lesson (#62): YouTube RSS omits live-stream archives — the /streams tab must be scraped separately (HTML uses lockupViewModel, so match "videoId" rather than videoRenderer).
 - Lesson (#57): scroll-margin can't know a sticky bar whose height changes per viewport/wrap — measure the bar at click time and scroll with an explicit offset.
@@ -407,3 +407,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #123 2026-11-18 14:55 — today-update not due (18:47); refresh/appearance scan (2 fan uploads, skipped). Upcoming live cards link to the live guide; 0 errors.
 - #124 2026-11-18 15:15 — today-update not due (18:47); refresh/appearance scan nothing new. Schedule's sticky filter bar folds to the month row while scrolling down on phones; 0 errors.
 - #125 2026-11-18 15:40 — today-update not due (18:47); refresh/appearance scan nothing new. Mobile pinned-area cleanup (empty local nav hidden, shared --pin-top); 0 errors.
+- #126 2026-11-18 15:55 — today-update not due (18:47); refresh/appearance scan nothing new. Full-site audit after #125's global CSS change: ox 0 / offs 0 / errs 0; new spill .sn-t (さんまのまんま card) = 4px of 』's empty half, visually inside the card; card titles now also wrap anywhere / loose line-break. No other regressions.
