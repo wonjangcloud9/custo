@@ -70,6 +70,7 @@ function sparkle(e: PointerEvent) {
 }
 
 const today = ref<Date | null>(null)
+const jstYmd = (ms: number) => new Date(ms + 9 * 3600e3).toISOString().slice(0, 10)
 const forceBday = ref('')
 const bdayToday = computed(() => (today.value ? members.find((m) => m.id === forceBday.value || daysToBirthday(m.birthday, today.value!) === 0) ?? null : null))
 // Korea show banner (Korean fans' headline) — from the official schedule, hidden once it has passed
@@ -101,7 +102,11 @@ onMounted(() => {
   forceBday.value = new URLSearchParams(location.search).get('bday') ?? '' // preview: ?bday=<id>
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   now.value = Date.now()
-  timer = window.setInterval(() => (now.value = Date.now()), 1000)
+  timer = window.setInterval(() => {
+    now.value = Date.now()
+    // the Japan date rolled over while the page was open: birthdays, D-days and 'today' panels follow
+    if (today.value && jstYmd(now.value) !== jstYmd(today.value.getTime())) today.value = new Date(now.value)
+  }, 1000)
   io = new IntersectionObserver((entries) => {
     if (!entries.some((en) => en.isIntersecting)) return
     io?.disconnect()

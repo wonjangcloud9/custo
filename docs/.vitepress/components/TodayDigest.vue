@@ -91,14 +91,23 @@ onMounted(() => {
   const now = Date.now()
   nowMs.value = now
   going.value = loadGoing()
-  tick = window.setInterval(() => { nowMs.value = Date.now() }, 60000)
+  pickDay(now)
+  // every minute; when the Japan date rolls over while the page is open, pick the day again
+  let lastDay = jstDay(now)
+  tick = window.setInterval(() => {
+    nowMs.value = Date.now()
+    const d = jstDay(nowMs.value)
+    if (d !== lastDay) { lastDay = d; pickDay(nowMs.value) }
+  }, 60000)
+})
+// today if anything happened, otherwise the most recent day (≤ 3 days back) that had something
+function pickDay(now: number) {
   const today = jstDay(now)
-  // today if anything happened, otherwise the most recent day (≤ 3 days back) that had something
   for (let i = 0; i <= 3; i++) {
     const d = jstDay(now - i * 86400000)
     if (count(itemsFor(d)) || i === 3) { day.value = count(itemsFor(d)) ? d : today; isToday.value = day.value === today; break }
   }
-})
+}
 </script>
 
 <template>
