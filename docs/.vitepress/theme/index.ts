@@ -24,6 +24,7 @@ const lazy = {
   MemberMatch: () => import('../components/MemberMatch.vue'),
   NewsFeed: () => import('../components/NewsFeed.vue'),
   CutieLand: () => import('../components/CutieLand.vue'),
+  CountdownCard: () => import('../components/CountdownCard.vue'),
   StarterQuest: () => import('../components/StarterQuest.vue'),
   KohakuSpecial: () => import('../components/KohakuSpecial.vue'),
   VideoStats: () => import('../components/VideoStats.vue'),
