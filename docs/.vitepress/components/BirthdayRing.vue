@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import { useToday } from '../theme/today'
 import { withBase, useRouter } from 'vitepress'
 import { members, daysToBirthday, ageOn, onColor } from '../data/members'
 
 const SIZE = 360, C = SIZE / 2, R = 132
-const now = ref<Date | null>(null)
+const now = useToday() // moves to the new day if left open past midnight
 const hover = ref<string | null>(null)
 const router = useRouter()
 const go = (id: string) => router.go(withBase(`/members/${id}`))
@@ -43,7 +44,6 @@ const todayDot = computed(() => (now.value ? pos(dayOfYear(now.value.getMonth() 
 const months = Array.from({ length: 12 }, (_, i) => ({ i, ...pos(dayOfYear(i + 1, 15), R + 34), tick: pos(dayOfYear(i + 1, 1), R + 10), tick2: pos(dayOfYear(i + 1, 1), R - 10) }))
 const focus = computed(() => dots.value.find((d) => d.m.id === hover.value) ?? next.value)
 
-onMounted(() => { now.value = new Date() })
 </script>
 
 <template>

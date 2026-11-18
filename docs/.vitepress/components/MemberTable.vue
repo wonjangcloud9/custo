@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import { useToday } from '../theme/today'
 import { withBase } from 'vitepress'
 import { members, ageOn, daysToBirthday, prefectureKo } from '../data/members'
 
 type Key = 'order' | 'name' | 'age' | 'height' | 'bday' | 'from'
 const key = ref<Key>('order')
 const dir = ref<1 | -1>(1)
-const now = ref<Date | null>(null)
-onMounted(() => { now.value = new Date() })
+const now = useToday() // moves to the new day if left open past midnight
 
 const rows = computed(() => members.map((m, i) => ({
   m, i,

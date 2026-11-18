@@ -6,6 +6,7 @@ import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
 import ShareButton from './ShareButton.vue'
 import { useOshi, setOshi } from '../theme/oshi'
+import { useToday } from '../theme/today'
 import { events, startMs, catMeta, type CsEvent } from '../data/events'
 
 const props = defineProps<{ id: string }>()
@@ -15,7 +16,7 @@ const prev = computed(() => members[(idx.value + members.length - 1) % members.l
 const next = computed(() => members[(idx.value + 1) % members.length])
 
 
-const now = ref<Date | null>(null)
+const now = useToday() // moves to the new day if left open past midnight
 const age = computed(() => (now.value ? ageOn(m.value.birthday, now.value) : null))
 const dday = computed(() => (now.value ? daysToBirthday(m.value.birthday, now.value) : null))
 const bdayLabel = computed(() => {
@@ -71,7 +72,6 @@ const showDays = computed(() => (bdayShow.value && now.value ? Math.max(0, Math.
 const forceBday = ref(false)
 const isBday = computed(() => forceBday.value || dday.value === 0)
 onMounted(() => {
-  now.value = new Date()
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   forceBday.value = new URLSearchParams(location.search).get('bday') === props.id // preview: ?bday=<id>
   window.addEventListener('keydown', onKey)
