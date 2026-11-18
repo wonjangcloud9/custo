@@ -6,7 +6,7 @@ import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
 import ShareButton from './ShareButton.vue'
 import { useOshi, setOshi } from '../theme/oshi'
-import { events, startMs } from '../data/events'
+import { events, startMs, catMeta, type CsEvent } from '../data/events'
 
 const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
@@ -53,8 +53,20 @@ async function copyColor() {
 
 const oshi = useOshi()
 const bdayShow = computed(() => (now.value ? events.find((e) => e.member === props.id && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) ?? null : null))
-// Other upcoming appearances where only some members take part (official schedule 'with')
-const soloApps = computed(() => (now.value ? events.filter((e) => e.with?.includes(props.id) && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) : []))
+// Her next official dates as compact date tiles: whole-group events, her own solo slots and her own birthday show.
+// Left out: other members' birthday shows and solo slots she isn't in — we can't say she appears there.
+const MO = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+const WDJ = ['日', '月', '火', '水', '木', '金', '土']
+const mine = (e: CsEvent) => (e.member ? e.member === props.id : e.with ? e.with.includes(props.id) : true)
+// her own solo slots always make the list (up to 2), the nearest group dates fill the rest — four rows in all
+const upcoming = computed(() => {
+  if (!now.value) return []
+  const left = [...events].filter((e) => mine(e) && e !== bdayShow.value && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime())
+    .sort((a, b) => startMs(a) - startMs(b))
+  const solo = left.filter((e) => e.with).slice(0, 2)
+  return [...left.filter((e) => !e.with).slice(0, 4 - solo.length), ...solo].sort((a, b) => startMs(a) - startMs(b))
+})
+const tileDays = (e: CsEvent) => Math.max(0, Math.ceil((new Date(`${e.date}T00:00:00+09:00`).getTime() - now.value!.getTime()) / 86400000))
 const showDays = computed(() => (bdayShow.value && now.value ? Math.max(0, Math.ceil((new Date(`${bdayShow.value.date}T00:00:00+09:00`).getTime() - now.value.getTime()) / 86400000)) : 0))
 const forceBday = ref(false)
 const isBday = computed(() => forceBday.value || dday.value === 0)
@@ -144,10 +156,27 @@ function onKey(e: KeyboardEvent) {
       <span class="show-dd">{{ showDays === 0 ? 'TODAY' : 'D-' + showDays }}</span>
     </a>
 
-    <a v-for="e in soloApps" :key="e.date + e.ja" class="app" :href="e.url" target="_blank" rel="noopener">
-      <span aria-hidden="true">✨</span><small>개인 출연</small><b lang="ja">{{ e.ja }}</b>
-      <span class="app-meta">{{ e.date.replace(/-/g, '.') + (e.venue ? ` · 📍 ${e.venue}` : '') }}</span>
-    </a>
+    <!-- UPCOMING: date tiles (Apple Music-style concert list) -->
+    <section v-if="upcoming.length" class="up" aria-labelledby="up-h">
+      <h3 id="up-h" class="up-h">다가오는 일정 <a :href="withBase('/schedule/')">전체 스케줄 →</a></h3>
+      <ol class="up-list">
+        <li v-for="e in upcoming" :key="e.date + e.ja">
+          <a class="up-row" :href="e.url" target="_blank" rel="noopener">
+            <span class="up-tile" aria-hidden="true"><small>{{ MO[+e.date.slice(5, 7) - 1] }}</small><b>{{ +e.date.slice(8) }}</b></span>
+            <span class="up-txt">
+              <b lang="ja">{{ e.ja }}</b>
+              <span>{{ WDJ[new Date(`${e.date}T12:00:00+09:00`).getUTCDay()] }}{{ e.time ? ' · ' + e.time : '' }}{{ e.venue ? ' · ' + e.venue : '' }}</span>
+            </span>
+            <span class="up-tag">
+              <i v-if="e.with" class="solo">✨ 개인 출연</i>
+              <i v-else>{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</i>
+              <em>{{ tileDays(e) === 0 ? 'TODAY' : 'D-' + tileDays(e) }}</em>
+            </span>
+            <span class="sr-only">{{ e.date }}</span>
+          </a>
+        </li>
+      </ol>
+    </section>
 
     <!-- BENTO -->
     <div class="bento">
@@ -372,6 +401,26 @@ function onKey(e: KeyboardEvent) {
 .app { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 12px 18px; border-radius: 18px; text-decoration: none !important; color: #3a2340 !important;
   background: color-mix(in srgb, var(--mc) 10%, white); border: 1.5px dashed color-mix(in srgb, var(--mc) 45%, white); transition: transform 0.45s var(--spring); }
 .app:hover { transform: translateY(-2px); }
+.up { margin-top: 18px; }
+.up-h { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px !important; padding: 0 !important; border: 0 !important; font-size: 16px !important; }
+.up-h a { margin-left: auto; font-size: 12.5px; font-weight: 700; color: var(--mc-deep) !important; }
+.up-list { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; gap: 8px; }
+.up-list li { margin: 0 !important; }
+.up-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px 8px 8px; border-radius: 18px; background: #fff; border: 1.5px solid var(--mc-soft); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), border-color 0.2s; }
+.up-row:hover { transform: translateX(4px); border-color: color-mix(in srgb, var(--mc) 45%, white); }
+.up-tile { flex: none; width: 50px; height: 54px; border-radius: 14px; display: grid; place-content: center; text-align: center; background: var(--mc-soft); color: var(--mc-deep); line-height: 1; }
+.up-tile small { font-size: 10.5px; font-weight: 900; letter-spacing: 0.08em; }
+.up-tile b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 22px; margin-top: 3px; }
+.up-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.up-txt b { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+.up-txt span { font-size: 12.5px; color: #5a4060; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.up-tag { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.up-tag i { font-style: normal; font-size: 11px; font-weight: 800; color: #5a4060; }
+.up-tag i.solo { color: var(--mc-deep); }
+.up-tag em { font-style: normal; font-size: 12px; font-weight: 900; color: #fff; background: var(--mc-deep); padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 480px) { .up-tag i:not(.solo) { display: none; } } /* phones: drop the category, keep '✨ 개인 출연' */
+@media (prefers-reduced-motion: reduce) { .up-row { transition: none; } }
 .app small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; color: color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030); }
 .app b { font-size: 14.5px; }
 .app-meta { font-size: 12.5px; color: #5a4060; }
