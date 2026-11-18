@@ -38,6 +38,8 @@ export default defineConfig({
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Zen+Maru+Gothic:wght@500;700&display=swap', rel: 'stylesheet' }],
     ['meta', { name: 'keywords', content: '큐티스트리트, 큐스트, CUTIE STREET, キューティーストリート, きゅーすと, KAWAII LAB, 팬사이트, 멤버, 스케줄, MV, 紅白, 큐스트 한국' }],
     ['meta', { name: 'theme-color', content: '#FF6B9D' }],
+    // light-only design (appearance: false): ask browsers not to auto-darken it (Chrome/Samsung forced dark) — 'only' opts out
+    ['meta', { name: 'color-scheme', content: 'only light' }],
     ['meta', { name: 'author', content: 'Custo' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Custo · CUTIE STREET Fan Hub' }],

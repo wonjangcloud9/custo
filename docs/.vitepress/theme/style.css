@@ -553,3 +553,6 @@ html[data-mv-dir]::view-transition-new(mp-hero) { animation: mv-in 0.5s cubic-be
 html[data-mv-dir]::view-transition-group(mp-hero) { animation-duration: 0.5s; }
 @keyframes mv-out { to { transform: translateX(var(--mv-out)) rotate(var(--mv-tilt)) scale(0.96); opacity: 0; } }
 @keyframes mv-in { from { transform: translateX(var(--mv-in)) scale(0.96); opacity: 0; } }
+
+/* Light-only site: keep form controls/scrollbars light under a dark OS and opt out of forced dark (with the meta tag) */
+:root { color-scheme: only light; }
