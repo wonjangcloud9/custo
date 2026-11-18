@@ -270,7 +270,7 @@ onMounted(() => {
 
 .month { margin-top: 26px; }
 .m-h { display: flex; align-items: baseline; gap: 8px; margin: 0 0 12px !important; padding: 0 0 6px !important; border: 0 !important; border-bottom: 1.5px dashed #f1d4e1 !important;
-  position: sticky; top: calc(var(--vp-nav-height, 64px) + 0px); z-index: 2; background: color-mix(in srgb, var(--vp-c-bg, #fff8f3) 92%, transparent); backdrop-filter: blur(6px); font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px !important; }
+  position: sticky; top: var(--pin-top, 64px); z-index: 2; background: color-mix(in srgb, var(--vp-c-bg, #fff8f3) 92%, transparent); backdrop-filter: blur(6px); font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px !important; }
 .m-h small { font-size: 13px; color: #735779; font-family: inherit; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 14px; }
 .card { display: flex; flex-direction: column; text-align: left; border-radius: 20px; overflow: hidden; background: #fff; box-shadow: inset 0 0 0 1.5px #f6e0ea; color: var(--ink);

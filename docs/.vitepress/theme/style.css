@@ -526,3 +526,12 @@ html[data-oshi] {
   .VPNavBarHamburger { display: flex !important; }
   .VPNavScreen { display: block !important; }
 }
+
+/* Pinned bars sit under the fixed top nav on desktop; below 960px VitePress doesn't pin the nav. */
+:root { --pin-top: var(--vp-nav-height, 64px); }
+@media (max-width: 959px) {
+  :root { --pin-top: 0px; }
+  /* pages without a sidebar hide the outline anyway — drop the empty "Return to top" bar on phones */
+  .VPContent:not(.has-sidebar) ~ * .VPLocalNav, .Layout:not(:has(.VPContent.has-sidebar)) .VPLocalNav { display: none; }
+  .Layout:has(.VPContent.has-sidebar) { --pin-top: var(--vp-local-nav-height, 48px); }
+}
