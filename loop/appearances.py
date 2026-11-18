@@ -58,11 +58,36 @@ SCAN_Q = ['CUTIE STREET', 'きゅーすと', 'キューティーストリート'
 SKIP_CH = re.compile(r'切り抜き|切抜|まとめ|推し|ファン|fan|clip|Voice|News|Nipponixia|JPS|Shaheen|ARI Green|Info|Trend|直캠|직캠러|cam$', re.I)
 
 
+EVENTS_TS = DATA.parent / 'events.ts'
+
+
+def tv_queries(days):
+    """'CUTIE STREET <program>' for official TV slots within ±days of today (program name = text inside 『』)."""
+    import datetime
+    today = datetime.date.today()
+    out = []
+    for line in EVENTS_TS.read_text().splitlines():
+        m = re.search(r"date: '(\d{4}-\d\d-\d\d)'.*cat: 'tv'.*ja: '([^']*)'", line)
+        if not m:
+            continue
+        d = datetime.date.fromisoformat(m.group(1))
+        if abs((d - today).days) > days:
+            continue
+        prog = re.search(r'『([^』]+)』', m.group(2))
+        name = prog.group(1) if prog else m.group(2)
+        q = f'CUTIE STREET {name}'
+        if q not in out:
+            out.append(q)
+    return out
+
+
 def scan(days):
     import urllib.parse
     have = {it['id'] for it in json.loads(DATA.read_text())} if DATA.exists() else set()
     seen = {}
-    for q in SCAN_Q:
+    queries = SCAN_Q + tv_queries(max(days, 2))
+    print('queries +TV:', ', '.join(q for q in queries if q not in SCAN_Q) or '(none)')
+    for q in queries:
         url = 'https://www.youtube.com/results?search_query=' + urllib.parse.quote(q) + '&sp=CAISAhAB&hl=ja&gl=JP'
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0', 'Accept-Language': 'ja'})
         try:
