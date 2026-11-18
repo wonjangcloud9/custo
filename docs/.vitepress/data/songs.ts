@@ -476,5 +476,53 @@ export const songs: Song[] = [
       { q: '발매 당일 이 곡을 부른 공연장은?', options: ['有明アリーナ', '日本武道館', '横浜アリーナ', 'Kアリーナ横浜'], answer: 0 },
     ],
   },
+  {
+    id: 'haru-flake', title: 'ハルフレーク', read: '하루후레-쿠', meaning: '봄(ハル) + 플레이크',
+    tagline: '2025년 봄의 디지털 싱글 · 久下真音 작곡', grad: ['#FF6B9D', '#FFC93C', '#5DC8F5'],
+    facts: [
+      { k: '발매', v: '2025.03.26 디지털' },
+      { k: '작사', v: 'つむぎしゃち' },
+      { k: '작곡·편곡', v: '久下真音' },
+      { k: '안무', v: 'カンナ' },
+    ],
+    badges: ['Dance Practice 공개'],
+    story: [
+      '2025년 3월 26일에 나온 디지털 싱글이에요. 작사는 つむぎしゃち, 작곡·편곡은 久下真音, 안무는 カンナ가 맡았어요.',
+      '발매 나흘 전인 3월 22일 Zepp Namba(오사카) 공연에서도 불렀어요.',
+    ],
+    videos: [
+      { id: 'jHAFmuO2rPc', label: 'Dance Practice' },
+      { id: 'RmIZT__aF-M', label: 'Zepp Namba (2025.03.22)' },
+    ],
+    quiz: [
+      { q: '이 곡의 안무가는?', options: ['カンナ', 'SACO MAKITA', 'えりなっち', 'カミヤサキ'], answer: 0 },
+      { q: '이 곡의 발매 시기는?', options: ['2025년 3월', '2025년 8월', '2026년 2월', '2026년 6월'], answer: 0 },
+    ],
+  },
+  {
+    id: 'chotto-hitosaji', title: 'チョットヒトサジ', read: '춋토 히토사지', meaning: '조금, 한 스푼',
+    tagline: '2nd 싱글 초회반 수록 · ジンツチハシ 작사·작곡', grad: ['#3CCFA8', '#FFC93C', '#FF9F43'],
+    facts: [
+      { k: '발매', v: '2025.06.25 디지털' },
+      { k: '작사·작곡', v: 'ジンツチハシ' },
+      { k: '편곡', v: '河原レオ · ジンツチハシ' },
+      { k: '안무', v: 'カミヤサキ' },
+      { k: '사운드 프로듀스', v: '早川博隆' },
+      { k: '수록', v: '2nd SINGLE 초회한정반 (2025.07.23)' },
+    ],
+    badges: ['2nd 싱글 초회반 수록', 'Dance Practice 공개'],
+    story: [
+      '2025년 6월 25일 디지털로 먼저 나왔고, 7월 2nd CD 싱글의 초회한정반에 실렸어요. 작사·작곡은 「キュートなキューたい」에도 참여한 ジンツチハシ, 사운드 프로듀스는 早川博隆이에요.',
+      '공식 배포 링크 이름은 \'A Little Spoonful\'(한 스푼만)이에요. 발매 전인 2025년 2월 豊洲PIT 공연에서도 불렀어요.',
+    ],
+    videos: [
+      { id: 'i8J-zHUTvGk', label: 'Dance Practice' },
+      { id: 'ECr1Fvn_lcM', label: '豊洲PIT (2025.02.02)' },
+    ],
+    quiz: [
+      { q: '이 곡이 실린 2nd CD 싱글의 반은?', options: ['초회한정반', 'CUTIE STREET盤', '통상반', 'STREET盤'], answer: 0 },
+      { q: '이 곡의 작사·작곡가가 참여한 또 다른 곡은?', options: ['キュートなキューたい', 'ナイスだね', 'ハロハロミライ', 'Error404♡'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
