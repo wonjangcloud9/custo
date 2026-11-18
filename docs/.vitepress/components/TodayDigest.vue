@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
-import { events, catMeta } from '../data/events'
+import { events, catMeta, startMs } from '../data/events'
 import { members, ageOn } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
@@ -48,8 +48,26 @@ const label = computed(() => {
   return `${day.value.slice(5).replace('-', '.')} (${WD[d.getUTCDay()]})`
 })
 
+// the next official event that hasn't started yet (refreshed every minute)
+const nowMs = ref(0)
+let tick: number | undefined
+const nextEv = computed(() => (nowMs.value ? [...events].filter((e) => startMs(e) > nowMs.value).sort((a, b) => startMs(a) - startMs(b))[0] ?? null : null))
+const nextWhen = computed(() => {
+  const e = nextEv.value
+  if (!e) return ''
+  const days = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(jstDay(nowMs.value) + 'T00:00:00+09:00')) / 86400000)
+  const d = days === 0 ? '오늘' : days === 1 ? '내일' : `${+e.date.slice(5, 7)}/${+e.date.slice(8)} (D-${days})`
+  if (e.time && days === 0) {
+    const m = Math.round((startMs(e) - nowMs.value) / 60000)
+    return `${d} ${e.time} · ${m >= 60 ? `${Math.floor(m / 60)}시간 ${m % 60}분` : `${m}분`} 뒤`
+  }
+  return e.time ? `${d} ${e.time}` : d
+})
+onBeforeUnmount(() => clearInterval(tick))
 onMounted(() => {
   const now = Date.now()
+  nowMs.value = now
+  tick = window.setInterval(() => { nowMs.value = Date.now() }, 60000)
   const today = jstDay(now)
   // today if anything happened, otherwise the most recent day (≤ 3 days back) that had something
   for (let i = 0; i <= 3; i++) {
@@ -65,6 +83,12 @@ onMounted(() => {
       <p class="td-kicker"><span class="td-dot" aria-hidden="true" />{{ isToday ? 'TODAY' : 'LATEST' }}</p>
       <h2 id="td-h">{{ isToday ? '오늘의 큐스트' : '최근 큐스트 소식' }} <span v-if="label" class="td-date">{{ label }}</span></h2>
     </header>
+    <a v-if="nextEv" class="td-next" :href="nextEv.url" target="_blank" rel="noopener">
+      <span class="tn-k">⏭ 다음 일정</span>
+      <span class="tn-w">{{ nextWhen }}</span>
+      <b lang="ja">{{ catMeta[nextEv.cat].emoji }} {{ nextEv.ja }}</b>
+      <span class="tn-go" aria-hidden="true">→</span>
+    </a>
 
     <div v-if="!data" class="td-skel" aria-hidden="true"><i /><i /><i /></div>
     <template v-else>
@@ -157,6 +181,14 @@ onMounted(() => {
 .pill { flex: none; font-style: normal; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; color: #8a2350; background: #fde3ee; }
 .bd a { background: color-mix(in srgb, var(--mc) 16%, white); }
 .empty { padding: 14px; border-radius: 18px; background: #fdf6fa; font-size: 13.5px; color: #5a4060; }
+.td-next { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 12px 0 14px; padding: 10px 14px; border-radius: 16px; background: #2f1a35; color: #fff !important; text-decoration: none !important; font-size: 14px; transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1); }
+.td-next:hover { transform: translateY(-2px); }
+.tn-k { font-size: 11.5px; font-weight: 900; letter-spacing: 0.08em; color: #ffd1e3; }
+.tn-w { padding: 2px 8px; border-radius: 999px; background: #ff4f8b; font-size: 12.5px; font-weight: 800; }
+.td-next b { flex: 1; min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
+.tn-go { font-weight: 900; }
+@media (prefers-reduced-motion: reduce) { .td-next { transition: none; } }
+@media (max-width: 640px) { .td-next b { order: 3; flex-basis: 100%; } .tn-go { margin-left: auto; } }
 .td-checked { margin: 12px 0 0 !important; font-size: 12px; color: #6a4f70; }
 .td-checked + .td-foot { margin-top: 6px !important; }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
