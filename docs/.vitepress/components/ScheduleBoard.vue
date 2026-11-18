@@ -205,7 +205,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
       <div v-if="selItems.length" class="sel-list">
         <a v-for="e in selItems" :key="e.ja + e.date" :href="e.url" target="_blank" rel="noopener" :style="{ '--cc': e.member ? memberById[e.member].color : catMeta[e.cat].color }">
           <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span><b lang="ja">{{ e.ja }}</b>
-          <small>{{ e.ko }}<template v-if="e.time"> · {{ e.time }} {{ timeLabel(e) }}</template><template v-if="e.venue"> · 📍 {{ e.venue }}</template></small>
+          <small>{{ e.ko }}<template v-if="e.time"> · {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</template><template v-if="e.venue"> · 📍 {{ e.venue }}</template></small>
         </a>
       </div>
       <p v-else class="cal-hint">점이 있는 날짜를 눌러 일정을 확인하세요</p>
@@ -236,7 +236,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
               <h3 class="ev-ja">{{ e.ja }}</h3>
               <p class="ev-ko">{{ e.ko }}</p>
               <p class="ev-meta">
-                <span v-if="e.time">🕕 {{ e.time }} {{ timeLabel(e) }}</span>
+                <span v-if="e.time">🕕 {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</span>
                 <span v-if="e.venue">📍 {{ e.venue }}</span>
               </p>
               <div class="ev-act">
