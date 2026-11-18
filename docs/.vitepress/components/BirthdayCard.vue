@@ -42,7 +42,13 @@ async function draw(): Promise<Blob | null> {
   const kanji = m.ja.slice(-2, -1)
   g.fillStyle = ink === '#fff' ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.45)'
   const tx = W / 2 - 170, ty = 170
-  g.beginPath(); g.roundRect(tx, ty, 340, 340, 72); g.fill()
+  g.beginPath()
+  if (g.roundRect) g.roundRect(tx, ty, 340, 340, 72)
+  else { // Safari < 16 has no roundRect: trace the rounded square by hand
+    const r = 72, w = 340
+    g.moveTo(tx + r, ty); g.arcTo(tx + w, ty, tx + w, ty + w, r); g.arcTo(tx + w, ty + w, tx, ty + w, r); g.arcTo(tx, ty + w, tx, ty, r); g.arcTo(tx, ty, tx + w, ty, r); g.closePath()
+  }
+  g.fill()
   g.fillStyle = ink; g.font = '700 230px "Zen Maru Gothic", "Noto Sans JP", sans-serif'; g.fillText(kanji, W / 2, ty + 180)
   // countdown
   const d = props.dday
@@ -50,16 +56,19 @@ async function draw(): Promise<Blob | null> {
   g.font = `700 ${today ? 150 : 250}px "Zen Maru Gothic", sans-serif`
   g.fillText(today ? 'HAPPY' : `D-${d}`, W / 2, today ? 690 : 720)
   if (today) g.fillText('BIRTHDAY', W / 2, 850)
+  // one line that must stay inside the card: shrink the font 2px at a time until it fits (long names, the site address)
+  const fit = (text: string, family: string, size: number, y: number) => {
+    let px = size
+    do { g.font = `700 ${px}px ${family}`; px -= 2 } while (g.measureText(text).width > W - 120 && px > 18)
+    g.fillText(text, W / 2, y)
+  }
   g.fillStyle = soft
-  g.font = '700 54px "Noto Sans KR", sans-serif'
   const turning = ageOn(m.birthday, new Date()) + (today ? 0 : 1)
-  g.fillText(today ? `오늘은 ${m.ko}의 ${turning}번째 생일 ♥` : `${m.ko} ${turning}번째 생일까지`, W / 2, today ? 990 : 900)
-  g.font = '700 46px "Noto Sans JP", sans-serif'
-  g.fillText(`${m.ja} · ${+m.birthday.slice(5, 7)}月${+m.birthday.slice(8)}日`, W / 2, today ? 1070 : 980)
+  fit(today ? `오늘은 ${m.ko}의 ${turning}번째 생일 ♥` : `${m.ko} ${turning}번째 생일까지`, '"Noto Sans KR", sans-serif', 54, today ? 990 : 900)
+  fit(`${m.ja} · ${+m.birthday.slice(5, 7)}月${+m.birthday.slice(8)}日`, '"Noto Sans JP", sans-serif', 46, today ? 1070 : 980)
   // footer
   g.fillStyle = ink === '#fff' ? 'rgba(255,255,255,0.7)' : 'rgba(42,16,48,0.6)'
-  g.font = '700 34px "Noto Sans KR", sans-serif'
-  g.fillText(`CUTIE STREET 팬허브 · ${location.host}${import.meta.env.BASE_URL}members/${m.id}`, W / 2, H - 90)
+  fit(`CUTIE STREET 팬허브 · ${location.host}${import.meta.env.BASE_URL}members/${m.id}`, '"Noto Sans KR", sans-serif', 34, H - 90)
   return new Promise((res) => cv.toBlob((b) => res(b), 'image/png'))
 }
 
@@ -67,7 +76,8 @@ async function save() {
   if (state.value === 'busy' || props.dday === null) return
   state.value = 'busy'
   const m = memberById[props.id]
-  const blob = await draw()
+  let blob: Blob | null = null
+  try { blob = await draw() } catch { /* canvas unsupported → report below instead of staying 'busy' */ }
   if (!blob) { state.value = 'failed'; return reset() }
   const file = new File([blob], `cutiestreet-${m.id}-birthday.png`, { type: 'image/png' })
   if (matchMedia('(pointer: coarse)').matches && navigator.canShare?.({ files: [file] })) {
@@ -83,6 +93,7 @@ function reset() { setTimeout(() => (state.value = ''), 1800) }
 </script>
 
 <template>
+  <span class="sr-only" aria-live="polite">{{ state === 'saved' ? '카드 이미지를 저장했어요' : state === 'shared' ? '카드 이미지를 공유했어요' : state === 'failed' ? '카드 이미지를 만들지 못했어요' : '' }}</span>
   <button type="button" class="bc" :disabled="dday === null || state === 'busy'" @click="save">
     {{ state === 'busy' ? '만드는 중…' : state === 'saved' ? '✓ 저장했어요' : state === 'shared' ? '✓ 공유 완료' : state === 'failed' ? '만들지 못했어요' : dday === 0 ? '🎂 축하 카드 저장' : '🎂 D-day 카드 저장' }}
   </button>
@@ -94,4 +105,5 @@ function reset() { setTimeout(() => (state.value = ''), 1800) }
 .bc:hover:not(:disabled) { transform: translateY(-2px) rotate(-1deg); }
 .bc:disabled { opacity: 0.6; }
 @media (prefers-reduced-motion: reduce) { .bc { transition: none; } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
