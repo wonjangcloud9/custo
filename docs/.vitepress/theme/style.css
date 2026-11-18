@@ -475,6 +475,13 @@ html {
   border-radius: 8px;
 }
 
+/* Buttons: VitePress's base `button:focus` (browser auto ring) outranks the zero-specificity :where() above,
+   so buttons showed a blue system ring while links got the pink one — match them */
+button:focus-visible {
+  outline: 3px solid #c92f69;
+  outline-offset: 3px;
+}
+
 /* Mobile: VitePress hides the closed sidebar only with opacity/transform, so its links stayed
    in the Tab order while invisible. Take it out of the focus order until it is opened. */
 @media (max-width: 959px) {
