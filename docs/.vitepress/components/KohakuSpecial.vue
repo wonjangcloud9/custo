@@ -64,6 +64,7 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
           <dt>일시</dt><dd>2026년 12월 31일(목) 19:20 – 23:45 (JST)</dd>
           <dt>채널</dt><dd>NHK 総合 · BSP4K · BS8K · NHK AM(라디오) 생방송</dd>
           <dt>歌唱曲</dt><dd>공식 발표 대기 중 — 발표되면 업데이트할게요</dd>
+          <dt>함께</dt><dd>같은 소속사 <span lang="ja">きゃりーぱみゅぱみゅ</span> · FRUITS ZIPPER도 출장 <a class="src-a" href="https://www.oricon.co.jp/news/2492591/full/" target="_blank" rel="noopener">(ORICON)</a></dd>
         </dl>
         <a class="src" href="https://mdpr.jp/music/detail/4875525" target="_blank" rel="noopener">출처: 모델프레스 ↗</a>
         <div style="margin-top: 12px"><ShareButton title="CUTIE STREET 紅白 첫 출장 특집" text="12/31 19:20 JST 第77回 NHK紅白歌合戦 🎍 카운트다운" label="특집 공유하기" /></div>
@@ -172,4 +173,5 @@ figcaption { margin-top: 8px; font-size: 12.5px; color: #735779; }
   .note { width: calc(50% - 6px); }
 }
 @media (prefers-reduced-motion: reduce) { .digit, .note, .dot { animation: none; } .note { transition: none; } }
+.src-a { font-size: 12px; color: #a33366 !important; }
 </style>
