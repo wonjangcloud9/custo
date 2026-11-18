@@ -9,8 +9,13 @@ import { members, memberById, onColor } from '../data/members'
 const SONGS = Object.entries(MV).map(([title, id]) => ({ title, id }))
 const ROUNDS = 10
 const REVEAL_MS = 8000
-type Mode = 'song' | 'member'
-const KEY: Record<Mode, string> = { song: 'custo-mvquiz-best', member: 'custo-mvquiz-best-member' }
+type Mode = 'song' | 'member' | 'daily'
+const DAILY_ROUNDS = 5
+// daily challenge: the same 5 MV scenes for everyone on a given Japan date (seeded, not Math.random)
+const jstDate = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10)
+const seeded = (seed: number) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 }
+const dayKey = ref('')
+const KEY = (m: Mode) => (m === 'daily' ? `custo-mvquiz-daily-${dayKey.value}` : m === 'member' ? 'custo-mvquiz-best-member' : 'custo-mvquiz-best')
 
 interface Opt { key: string; label: string; color?: string; kanji?: string; on?: string }
 interface Round { id: string; img: string; key: string; label: string; fx: number; fy: number; options: Opt[] }
@@ -33,16 +38,19 @@ let t0 = 0
 let timer: number | undefined
 const reduce = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
-const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]] } return b }
+let rnd: () => number = Math.random
+const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [b[i], b[j]] = [b[j], b[i]] } return b }
 const cur = computed(() => rounds.value[idx.value])
 const MEMBER_OPTS: Opt[] = members.map((m) => ({ key: m.id, label: m.ko.split(' ')[1], color: m.color, kanji: m.ja.slice(2, 3), on: onColor(m.color) }))
 
 async function start(m: Mode = mode.value) {
   mode.value = m
-  const focus = () => ({ fx: 25 + Math.random() * 50, fy: 20 + Math.random() * 45 })
-  if (m === 'song') {
-    rounds.value = shuffle(SONGS).slice(0, ROUNDS).map((s) => ({
-      id: s.id, img: `https://i.ytimg.com/vi/${s.id}/maxres${1 + Math.floor(Math.random() * 3)}.jpg`, key: s.title, label: s.title, ...focus(),
+  dayKey.value = jstDate()
+  rnd = m === 'daily' ? seeded(Number(dayKey.value.replace(/-/g, ''))) : Math.random
+  const focus = () => ({ fx: 25 + rnd() * 50, fy: 20 + rnd() * 45 })
+  if (m !== 'member') {
+    rounds.value = shuffle(SONGS).slice(0, m === 'daily' ? DAILY_ROUNDS : ROUNDS).map((s) => ({
+      id: s.id, img: `https://i.ytimg.com/vi/${s.id}/maxres${1 + Math.floor(rnd() * 3)}.jpg`, key: s.title, label: s.title, ...focus(),
       options: shuffle([s.title, ...shuffle(SONGS.filter((o) => o.id !== s.id)).slice(0, 3).map((o) => o.title)]).map((t) => ({ key: t, label: t })),
     }))
   } else {
@@ -65,7 +73,7 @@ async function start(m: Mode = mode.value) {
     })
   }
   idx.value = 0; score.value = 0; right.value = 0; streak.value = 0; bestStreak.value = 0; copied.value = false
-  try { const b = localStorage.getItem(KEY[m]); best.value = b ? Number(b) : null } catch { /* ignore */ }
+  try { const b = localStorage.getItem(KEY(m)); best.value = b ? Number(b) : null } catch { /* ignore */ }
   stage.value = 'play'
   begin()
 }
@@ -91,9 +99,9 @@ function answer(key: string) {
   nextTick(() => nextBtn.value?.focus({ preventScroll: true }))
 }
 function next() {
-  if (idx.value < ROUNDS - 1) { idx.value++; begin(); return }
+  if (idx.value < total.value - 1) { idx.value++; begin(); return }
   stage.value = 'done'
-  try { if (best.value === null || score.value > best.value) { localStorage.setItem(KEY[mode.value], String(score.value)); best.value = score.value } } catch { /* ignore */ }
+  try { if (best.value === null || score.value > best.value) { localStorage.setItem(KEY(mode.value), String(score.value)); best.value = score.value } } catch { /* ignore */ }
 }
 // keyboard: 1–4 (song) / 1–8 (member) answer, Enter/→ next; ignored while typing or with modifiers
 function onKey(e: KeyboardEvent) {
@@ -107,16 +115,18 @@ function onKey(e: KeyboardEvent) {
 onMounted(() => window.addEventListener('keydown', onKey))
 onBeforeUnmount(() => { clearInterval(timer); window.removeEventListener('keydown', onKey) })
 
+const total = computed(() => rounds.value.length || ROUNDS)
+const isSong = computed(() => mode.value !== 'member')
 const rank = computed(() => {
-  const s = score.value, mv = mode.value === 'song'
+  const s = (score.value / total.value) * 10, mv = isSong.value // scaled to a 10-round game
   if (s >= 800) return { t: mv ? '큐스트 MV 마스터' : '찐 큐티스트 인증', e: '👑' }
   if (s >= 600) return { t: '프로 큐티스트', e: '💖' }
   if (s >= 400) return { t: '성장 중인 큐티스트', e: '🌱' }
   return { t: mv ? 'MV 정주행 추천!' : '멤버 페이지 정주행 추천!', e: mv ? '🎬' : '👀' }
 })
-const modeName = computed(() => (mode.value === 'song' ? 'MV 장면 퀴즈' : '멤버 맞히기 퀴즈'))
+const modeName = computed(() => (mode.value === 'daily' ? `오늘의 MV 퀴즈 ${+dayKey.value.slice(5, 7)}/${+dayKey.value.slice(8)}` : mode.value === 'song' ? 'MV 장면 퀴즈' : '멤버 맞히기 퀴즈'))
 async function share() {
-  const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${ROUNDS}) — ${rank.value.e} ${rank.value.t}`
+  const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${total.value}) — ${rank.value.e} ${rank.value.t}`
   // phones: the system share sheet; elsewhere (or if it is dismissed/unsupported): copy to clipboard
   if (navigator.share && matchMedia('(pointer: coarse)').matches) {
     try { await navigator.share({ title: `큐스트 ${modeName.value}`, text, url: location.href }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
@@ -125,7 +135,7 @@ async function share() {
 }
 const imgStyle = computed(() => {
   if (!cur.value) return {}
-  const z = mode.value === 'song' ? 2.6 : 2.2
+  const z = isSong.value ? 2.6 : 2.2
   return {
     transformOrigin: `${cur.value.fx}% ${cur.value.fy}%`,
     transform: `scale(${(z - (z - 1) * r.value).toFixed(3)})`,
@@ -146,29 +156,30 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       </div>
       <ul class="rules">
         <li>🔍 확대되고 흐릿한 장면이 점점 선명해져요</li>
-        <li>⚡ 빨리 맞힐수록 높은 점수 (최대 100점 × {{ ROUNDS }}문제)</li>
+        <li>⚡ 빨리 맞힐수록 높은 점수 (문제당 최대 100점)</li>
         <li class="kb-tip">⌨️ 키보드: 숫자 키로 답하고 Enter로 다음 문제</li>
       </ul>
       <div class="modes">
         <button type="button" class="mode" @click="start('song')"><span aria-hidden="true">🎬</span><b>무슨 곡?</b><small>공식 MV {{ SONGS.length }}곡의 한 장면</small></button>
         <button type="button" class="mode mem" :disabled="loading" @click="start('member')"><span aria-hidden="true">💖</span><b>누구일까?</b><small>멤버 솔로 MV 티저 · 8명 중 한 명</small></button>
+        <button type="button" class="mode day" @click="start('daily')"><span aria-hidden="true">📅</span><b>오늘의 5문제</b><small>오늘은 모두에게 같은 5장면 · 친구와 점수 비교</small></button>
       </div>
     </div>
 
     <!-- PLAY -->
     <div v-else-if="stage === 'play' && cur" class="play">
       <div class="hud">
-        <span class="q">{{ mode === 'song' ? '무슨 곡?' : '누구일까?' }} · Q{{ idx + 1 }} / {{ ROUNDS }}</span>
+        <span class="q">{{ mode === 'daily' ? '오늘의 5문제' : isSong ? '무슨 곡?' : '누구일까?' }} · Q{{ idx + 1 }} / {{ total }}</span>
         <span class="pts">{{ score }}점</span>
         <span v-if="streak >= 2" class="streak">🔥 {{ streak }}연속</span>
       </div>
       <div class="frame" :class="{ ok: picked && picked === cur.key, no: picked && picked !== cur.key }">
-        <img :key="cur.img" :src="cur.img" :alt="mode === 'song' ? 'MV의 한 장면 (어떤 곡인지 맞혀 보세요)' : '멤버 컷 (누구인지 맞혀 보세요)'" :style="imgStyle" />
+        <img :key="cur.img" :src="cur.img" :alt="isSong ? 'MV의 한 장면 (어떤 곡인지 맞혀 보세요)' : '멤버 컷 (누구인지 맞혀 보세요)'" :style="imgStyle" />
         <span class="bar" aria-hidden="true"><i :style="{ transform: `scaleX(${1 - r})` }" /></span>
         <span v-if="picked && gained" class="plus" aria-hidden="true">+{{ gained }}</span>
       </div>
-      <div class="opts" :class="{ mems: mode === 'member' }" role="group" :aria-label="mode === 'song' ? '곡 선택' : '멤버 선택'">
-        <button v-for="o in cur.options" :key="o.key" type="button" class="opt" :lang="mode === 'song' ? 'ja' : undefined" :disabled="!!picked" :style="o.color ? { '--mc': o.color } : undefined"
+      <div class="opts" :class="{ mems: mode === 'member' }" role="group" :aria-label="isSong ? '곡 선택' : '멤버 선택'">
+        <button v-for="o in cur.options" :key="o.key" type="button" class="opt" :lang="isSong ? 'ja' : undefined" :disabled="!!picked" :style="o.color ? { '--mc': o.color } : undefined"
           :class="{ correct: picked && o.key === cur.key, wrong: picked === o.key && o.key !== cur.key, dim: picked && o.key !== cur.key && picked !== o.key }" @click="answer(o.key)">
           <kbd class="hk" aria-hidden="true">{{ cur.options.indexOf(o) + 1 }}</kbd><span v-if="o.kanji" class="kj" aria-hidden="true" :style="{ color: o.on }">{{ o.kanji }}</span>{{ o.label }}
         </button>
@@ -176,11 +187,11 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <div class="fb" aria-live="polite">
         <template v-if="picked">
           <p v-if="picked === cur.key" class="good">정답! +{{ gained }}점 🎉</p>
-          <p v-else class="bad">아쉬워요 — 정답은 <b :lang="mode === 'song' ? 'ja' : undefined">{{ cur.label }}</b></p>
+          <p v-else class="bad">아쉬워요 — 정답은 <b :lang="isSong ? 'ja' : undefined">{{ cur.label }}</b></p>
           <div class="fb-act">
-            <a :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">{{ mode === 'song' ? 'MV 보기 ↗' : '영상 보기 ↗' }}</a>
+            <a :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">{{ isSong ? 'MV 보기 ↗' : '영상 보기 ↗' }}</a>
             <a v-if="curMember" :href="`../members/${curMember.id}`">{{ curMember.ko.split(' ')[1] }} 페이지 →</a>
-            <button ref="nextBtn" type="button" class="go sm" @click="next">{{ idx < ROUNDS - 1 ? '다음 장면 →' : '결과 보기 🏆' }}</button>
+            <button ref="nextBtn" type="button" class="go sm" @click="next">{{ idx < total - 1 ? '다음 장면 →' : '결과 보기 🏆' }}</button>
           </div>
         </template>
       </div>
@@ -190,8 +201,9 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
     <div v-else class="done">
       <p class="rk-e" aria-hidden="true">{{ rank.e }}</p>
       <p class="rk">{{ rank.t }}</p>
-      <p class="sc"><b>{{ score }}</b>점 · {{ right }}/{{ ROUNDS }} 정답 · 최고 연속 {{ bestStreak }}</p>
-      <p v-if="best !== null" class="best">내 최고 기록 {{ best }}점{{ best === score ? ' — 새 기록! ✨' : '' }}</p>
+      <p class="sc"><b>{{ score }}</b>점 · {{ right }}/{{ total }} 정답 · 최고 연속 {{ bestStreak }}</p>
+      <p v-if="mode === 'daily'" class="best">내일 0시(일본 시간)에 새 5문제가 나와요</p>
+      <p v-if="best !== null" class="best">{{ mode === 'daily' ? '오늘' : '내' }} 최고 기록 {{ best }}점{{ best === score ? ' — 새 기록! ✨' : '' }}</p>
       <div class="done-act">
         <button type="button" class="go" @click="start()">다시 도전 🔄</button>
         <button type="button" class="ghost" @click="stage = 'start'">모드 바꾸기</button>
@@ -220,6 +232,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
 .modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: min(100%, 520px); }
 .mode { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 14px; border-radius: 22px; color: #fff; background: linear-gradient(130deg, #ff4f8b, #c0397a);
   box-shadow: 0 18px 30px -18px #c92f69; transition: transform 0.45s var(--spring); }
+.mode.day { grid-column: 1 / -1; background: linear-gradient(130deg, #ff9f43, #e0566b); box-shadow: 0 18px 30px -18px #c2413a; }
 .mode.mem { background: linear-gradient(130deg, #a06cd5, #6b3fa0); box-shadow: 0 18px 30px -18px #6b3fa0; }
 .mode span { font-size: 30px; }
 .mode b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
