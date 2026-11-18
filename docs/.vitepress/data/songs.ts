@@ -574,5 +574,60 @@ export const songs: Song[] = [
       { q: '이 곡의 안무가는?', options: ['カンナ', 'SACO MAKITA', 'えりなっち', 'カミヤサキ'], answer: 0 },
     ],
   },
+  {
+    id: 'crush-on-you', title: 'Crush on you', read: '크러시 온 유', meaning: '너에게 반했어',
+    tagline: '유닛 ちーむすとりーと (5인)의 곡', grad: ['#FF4757', '#4A90D9', '#A06CD5'],
+    facts: [
+      { k: '발매', v: '2026.04.21 디지털' },
+      { k: '유닛', v: 'ちーむすとりーと — 아이카 · 카나 · 아야노 · 나기사 · 하루카' },
+      { k: '작사·작곡·편곡', v: '板垣祐介' },
+      { k: '안무', v: 'GENTA YAMAGUCHI' },
+      { k: '수록', v: '3rd SINGLE STREET盤' },
+    ],
+    badges: ['유닛곡 ❤️💚💙💜🩷', '「I Amai Me Mind」와 동시 공개'],
+    story: [
+      '아이카·카나·아야노·나기사·하루카 5명의 유닛 ちーむすとりーと의 곡이에요. 같은 날 공개된 ちーむきゅーてぃー의 「I Amai Me Mind」와 짝을 이루고, 두 곡의 MV 메이킹도 함께 공개됐어요.',
+      '작사·작곡·편곡은 板垣祐介, 안무는 GENTA YAMAGUCHI가 맡았어요. 3rd 싱글의 STREET盤에 실렸어요.',
+    ],
+    videos: [
+      { id: '_LbnAnoHOFQ', label: '공식 MV' },
+      { id: 'pdl8ZDlFZ-M', label: '안무 영상' },
+      { id: 'Wcm2NTyNouA', label: 'MV 메이킹 (두 유닛)' },
+      { id: 'QNv5g3fi_5E', label: 'Zepp Haneda 라이브' },
+      { id: 'yhWv_FO9R0o', label: '有明アリーナ (유닛곡 메들리)' },
+    ],
+    quiz: [
+      { q: 'ちーむすとりーと에 속하지 않는 멤버는?', options: ['아이카', '나기사', '리사', '하루카'], answer: 2 },
+      { q: '이 곡이 실린 3rd 싱글의 반은?', options: ['STREET盤', 'CUTIE盤', '초회한정반', '아니포케반'], answer: 0 },
+    ],
+  },
+  {
+    id: 'i-amai-me-mind', title: 'I Amai Me Mind', read: '아이 아마이 미 마인드', meaning: '달콤한(甘い) 마음',
+    tagline: '유닛 ちーむきゅーてぃー (3인)의 곡', grad: ['#FFC93C', '#FF9F43', '#5DC8F5'],
+    facts: [
+      { k: '발매', v: '2026.04.21 디지털' },
+      { k: '유닛', v: 'ちーむきゅーてぃー — 리사 · 에미루 · 미유' },
+      { k: '작사', v: 'ウエノトモコ' },
+      { k: '작곡', v: '蒔田貴幸' },
+      { k: '편곡', v: '川村祐寧' },
+      { k: '안무', v: 'らん先生' },
+      { k: '수록', v: '3rd SINGLE CUTIE盤' },
+    ],
+    badges: ['유닛곡 💛🧡🩵', '「Crush on you」와 동시 공개'],
+    story: [
+      '리사·에미루·미유 3명의 유닛 ちーむきゅーてぃー의 곡이에요. ちーむすとりーと의 「Crush on you」와 같은 날 공개됐어요.',
+      '작사 ウエノトモコ, 작곡 蒔田貴幸, 편곡 川村祐寧, 안무 らん先生. 3rd 싱글의 CUTIE盤에 실렸어요.',
+    ],
+    videos: [
+      { id: '6PdFLmbZAjs', label: '공식 MV' },
+      { id: 'Wcm2NTyNouA', label: 'MV 메이킹 (두 유닛)' },
+      { id: 'dFJ671XjT5o', label: 'Zepp Haneda 라이브' },
+      { id: 'yhWv_FO9R0o', label: '有明アリーナ (유닛곡 메들리)' },
+    ],
+    quiz: [
+      { q: 'ちーむきゅーてぃー의 멤버 수는?', options: ['2명', '3명', '5명', '8명'], answer: 1 },
+      { q: '이 곡이 실린 3rd 싱글의 반은?', options: ['CUTIE盤', 'STREET盤', '통상반', '아니포케반'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))

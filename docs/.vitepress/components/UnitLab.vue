@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { withBase } from 'vitepress'
 import { members, memberById, onColor } from '../data/members'
+import { songs } from '../data/songs'
 import { units } from '../data/units'
 import videosRaw from '../data/videos.json'
 
@@ -64,7 +65,8 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         <p class="u-ko">{{ u.ko }} · {{ u.members.length }}인</p>
         <p class="u-names">{{ u.members.map((id) => memberById[id].ko.split(' ')[1]).join(' · ') }}</p>
         <div v-if="u.song" class="song">
-          <span>🎵 {{ u.song }}</span>
+          <a v-if="songs.some((x) => x.title === u.song)" class="song-link" :href="withBase(`/discography/${songs.find((x) => x.title === u.song)!.id}`)">🎵 {{ u.song }} <small>곡 이야기 →</small></a>
+          <span v-else>🎵 {{ u.song }}</span>
           <a v-if="u.mv" :href="`https://www.youtube.com/watch?v=${u.mv}`" target="_blank" rel="noopener" class="mv">▶ MV</a>
         </div>
         <div class="vids">
@@ -123,4 +125,6 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .note { margin: 12px 0 0 !important; font-size: 12px; color: #735779; }
 @media (max-width: 640px) { .finder { padding: 18px; } .pick-face { width: 46px; height: 46px; font-size: 17px; } .picks { gap: 6px; } }
 @media (prefers-reduced-motion: reduce) { .card, .av, .pick-face, .tg-v { transition: none; animation: none; } }
+.song-link { font-weight: 800; color: inherit !important; text-decoration: none !important; }
+.song-link small { font-size: 11.5px; font-weight: 700; margin-left: 4px; text-decoration: underline; }
 </style>
