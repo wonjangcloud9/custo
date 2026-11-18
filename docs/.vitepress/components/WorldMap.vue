@@ -19,6 +19,7 @@ const ready = ref(false)
 let reduce = false, raf = 0, dragging = false, lastX = 0, lastY = 0, timer: ReturnType<typeof setTimeout> | undefined, seen = false
 const root = ref<HTMLElement | null>(null)
 let io: IntersectionObserver | undefined
+let onScreen = true, parked = false // idle spin pauses while the globe is scrolled out of view
 
 const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10)
 const done = (c: Chapter) => c.iso <= today
@@ -91,7 +92,12 @@ function flyTo(ll: [number, number], ms: number, onT?: (t: number) => void, z = 
 function idle() {
   if (reduce) return
   cancelAnimationFrame(raf)
-  const spin = () => { if (!dragging && !playing.value) rot.value = [rot.value[0] + 0.06 / zoom.value, rot.value[1]]; raf = requestAnimationFrame(spin) }
+  parked = false
+  const spin = () => {
+    if (!onScreen) { parked = true; return } // the observer restarts it when the globe comes back
+    if (!dragging && !playing.value) rot.value = [rot.value[0] + 0.06 / zoom.value, rot.value[1]]
+    raf = requestAnimationFrame(spin)
+  }
   raf = requestAnimationFrame(spin)
 }
 const wait = (ms: number) => new Promise<void>((r) => { timer = setTimeout(r, reduce ? 0 : ms) })
@@ -134,8 +140,11 @@ onMounted(async () => {
   ready.value = true
   idle()
   io = new IntersectionObserver((es) => {
-    if (es[0].isIntersecting && !seen && !reduce) { seen = true; play() }
-  }, { threshold: 0.45 })
+    const e = es[0]
+    onScreen = e.isIntersecting
+    if (onScreen && parked) idle()
+    if (e.intersectionRatio >= 0.45 && !seen && !reduce) { seen = true; play() }
+  }, { threshold: [0, 0.45] })
   if (root.value) io.observe(root.value)
 })
 onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disconnect(); playing.value = false })
