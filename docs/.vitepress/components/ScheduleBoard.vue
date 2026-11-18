@@ -126,7 +126,21 @@ function watchMonths() {
 }
 onMounted(() => { requestAnimationFrame(watchMonths) })
 watch([months, view], () => nextTick(watchMonths))
-onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
+// phones: while scrolling down, fold the filter rows so only the month jumper stays pinned; scrolling up unfolds them
+const compact = ref(false)
+let lastY = 0, ticking = false
+function onScroll() {
+  if (ticking) return
+  ticking = true
+  requestAnimationFrame(() => {
+    const y = scrollY
+    const phone = matchMedia('(max-width: 640px)').matches
+    compact.value = phone && y > 400 && y > lastY + 4 ? true : y < lastY - 4 || y <= 400 || !phone ? false : compact.value
+    lastY = y; ticking = false
+  })
+}
+onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
+onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.removeEventListener('scroll', onScroll) })
 </script>
 
 <template>
@@ -147,7 +161,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
     <div v-else class="next skeleton" aria-hidden="true" />
 
     <!-- FILTERS -->
-    <div class="bar">
+    <div class="bar" :class="{ compact }">
       <div class="chips" role="toolbar" aria-label="카테고리">
         <button type="button" class="chip" :aria-pressed="cat === 'all'" @click="cat = 'all'">전체 <small>{{ counts.all }}</small></button>
         <button v-for="(m, k) in catMeta" :key="k" type="button" class="chip" :aria-pressed="cat === k" :style="{ '--cc': m.color }"
@@ -363,6 +377,8 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect() })
 .src { margin-top: 28px !important; font-size: 12px; color: #735779; }
 
 @media (max-width: 640px) {
+  .bar.compact .chips, .bar.compact .past, .bar.compact .seg { display: none; }
+  .bar.compact { padding: 6px 8px; }
   .day-c { min-height: 54px; padding: 4px; border-radius: 10px; }
   .first { display: none; }
   .cal { padding: 12px; }
