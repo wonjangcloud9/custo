@@ -4,9 +4,7 @@ description: CUTIE STREET의 한국 공연·한국어 버전 곡·한국 활동 
 pageClass: wide-page
 ---
 
-# 🇰🇷 큐스트 in KOREA
-
-큐티스트리트의 **한국 활동**을 한곳에 모았어요. 다가오는 한국 공연, 한국어 버전 곡, 지금까지의 한국 무대와 영상까지! 귀여움으로 세계까지, 그 길 위의 한국 💖
+<PageHero eyebrow="CUTIE STREET in KOREA" title="큐스트 in KOREA" sticker="🇰🇷" lead="다가오는 한국 공연, 한국어 버전 곡, 지금까지의 한국 무대와 영상까지 — 큐티스트리트의 한국 활동을 한곳에 모았어요." />
 
 <KoreaHub />
 
