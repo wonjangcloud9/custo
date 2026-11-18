@@ -629,5 +629,31 @@ export const songs: Song[] = [
       { q: '이 곡이 실린 3rd 싱글의 반은?', options: ['CUTIE盤', 'STREET盤', '통상반', '아니포케반'], answer: 0 },
     ],
   },
+  {
+    id: 'hitamuki-cinderella', title: 'ひたむきシンデレラ！', read: '히타무키 신데레라', meaning: '한결같은 신데렐라!',
+    tagline: '데뷔 초부터 불러 온 곡 · 단독 발매 없이 MV로', grad: ['#4A90D9', '#A06CD5', '#FF6B9D'],
+    facts: [
+      { k: '공식 영상', v: '2024.09.08 恵比寿 라이브부터 (단독 발매 없음)' },
+      { k: '작사', v: 'Orca' },
+      { k: '작곡·편곡', v: '塩原大貴' },
+      { k: '수록', v: '2nd SINGLE CUTIE STREET盤 (라이브 음원) · 1st ALBUM 「CUTIE LAND」 3번 트랙' },
+    ],
+    badges: ['Billboard JAPAN Hot 100 36위', '앨범 3번 트랙'],
+    story: [
+      '공식 디스코그래피에 단독 발매로는 올라 있지 않지만, 공식 MV가 있고 데뷔 직후인 2024년 9월 공연부터 불러 온 곡이에요. Billboard JAPAN Hot 100에는 36위로 진입했어요.',
+      '2nd CD 싱글 CUTIE STREET盤에 라이브 음원이 실렸고, 1st 앨범 「CUTIE LAND」에 3번 트랙으로 들어가요. (작사·작곡은 UtaTen·ChordWiki 기준 — 공식 크레딧은 확인되지 않았어요)',
+    ],
+    videos: [
+      { id: 'AtDErGSpfYQ', label: '공식 MV' },
+      { id: 'bGkgQ-BXxm0', label: '안무 영상 (MV edition)' },
+      { id: 'oSAbW5HXNxY', label: 'Dance Practice' },
+      { id: 'ouG5yFJVQBo', label: '恵比寿 (2024.09.08)' },
+      { id: 'H87dEasUmSM', label: '日本武道館 라이브' },
+    ],
+    quiz: [
+      { q: '1st 앨범 「CUTIE LAND」에서 이 곡은 몇 번 트랙?', options: ['2번', '3번', '7번', '13번'], answer: 1 },
+      { q: '이 곡의 라이브 음원이 실린 싱글은?', options: ['2nd 싱글 CUTIE STREET盤', '1st 싱글 초회반', '3rd 싱글 통상반', '3rd 싱글 STREET盤'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
