@@ -13,7 +13,9 @@ const EDS = [
 // start/end in JST (ISO with +09:00)
 const STEPS = [
   { s: '2026-11-17T17:00+09:00', e: '2026-11-25T23:59+09:00', d: '11.17 – 11.25', t: '楽天ブックス 온라인 예약 추첨회', sub: '구매 직후 추첨 — 직필 사인 아크릴 패널·솔로 체키 등', url: 'https://cutiestreet.asobisystem.com/news/detail/96630', emoji: '🎰' },
-  { s: '2026-11-23T00:00+09:00', e: '2026-11-23T23:59+09:00', d: '11.23 (月·祝)', t: '大特典会 · 홋카이도', sub: 'アクセスサッポロ', url: 'https://cutiestreet.asobisystem.com/live_information/detail/47104', emoji: '🎪' },
+  { s: '2026-11-23T10:00+09:00', e: '2026-11-23T18:50+09:00', d: '11.23 (月·祝)', t: '大特典会 · 홋카이도', sub: 'アクセスサッポロ · 10:00–18:50 (1~6부)', url: 'https://cutiestreet.asobisystem.com/live_information/detail/47104', emoji: '🎪' },
+  // news 96698 (2026-11-18): CD buyers at the venue get lottery tickets (3 per CD, max 30 per checkout); pickup after the show
+  { s: '2026-11-26T14:00+09:00', e: '2026-11-26T23:59+09:00', d: '11.26 (木)', t: '아이카 생탄제 현장 특별 추첨회', sub: 'SGCホール有明 · CD 1장당 추첨권 3장 · 선행 판매 14:00–17:00 예정(티켓 없어도 가능) · A 전원 사인 단체 체키 / B 아이카+멤버 1명 투샷 체키 / C 포스트카드', url: 'https://cutiestreet.asobisystem.com/news/detail/96698', emoji: '🎂' },
   { s: '2026-12-01T12:00+09:00', e: '2026-12-13T23:59+09:00', d: '12.01 – 12.13', t: '시리얼 추첨 응모 기간', sub: '「すきトーク」 영상 토크 · 멤버당 70명, 총 560명', url: FEATURE, emoji: '🎫' },
   { s: '2026-12-02T00:00+09:00', e: '2026-12-02T23:59+09:00', d: '12.02 (水)', t: '1st ALBUM 「CUTIE LAND」 발매', sub: '16곡 수록 · 3형태', url: FEATURE, emoji: '💿', key: true },
   { s: '2026-12-06T00:00+09:00', e: '2026-12-06T23:59+09:00', d: '12.06 (日)', t: '大特典会 · 오사카', sub: 'インテックス大阪 3号館', url: 'https://cutiestreet.asobisystem.com/news/detail/96353', emoji: '🎪' },
