@@ -112,7 +112,11 @@ function onKey(e: KeyboardEvent) {
   if (!picked.value && n >= 1 && n <= cur.value.options.length) { e.preventDefault(); answer(cur.value.options[n - 1].key); return }
   if (picked.value && (e.key === 'Enter' || e.key === 'ArrowRight') && document.activeElement !== nextBtn.value) { e.preventDefault(); next() }
 }
-onMounted(() => window.addEventListener('keydown', onKey))
+onMounted(() => {
+  window.addEventListener('keydown', onKey)
+  // shared daily link (?daily) drops friends straight into today's five
+  if (new URLSearchParams(location.search).has('daily')) start('daily')
+})
 onBeforeUnmount(() => { clearInterval(timer); window.removeEventListener('keydown', onKey) })
 
 const total = computed(() => rounds.value.length || ROUNDS)
@@ -125,13 +129,14 @@ const rank = computed(() => {
   return { t: mv ? 'MV 정주행 추천!' : '멤버 페이지 정주행 추천!', e: mv ? '🎬' : '👀' }
 })
 const modeName = computed(() => (mode.value === 'daily' ? `오늘의 MV 퀴즈 ${+dayKey.value.slice(5, 7)}/${+dayKey.value.slice(8)}` : mode.value === 'song' ? 'MV 장면 퀴즈' : '멤버 맞히기 퀴즈'))
+const shareUrl = () => location.origin + location.pathname + (mode.value === 'daily' ? '?daily' : '')
 async function share() {
   const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${total.value}) — ${rank.value.e} ${rank.value.t}`
   // phones: the system share sheet; elsewhere (or if it is dismissed/unsupported): copy to clipboard
   if (navigator.share && matchMedia('(pointer: coarse)').matches) {
-    try { await navigator.share({ title: `큐스트 ${modeName.value}`, text, url: location.href }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
+    try { await navigator.share({ title: `큐스트 ${modeName.value}`, text, url: shareUrl() }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
   }
-  try { await navigator.clipboard.writeText(`${text}\n${location.href}`); copied.value = true } catch { copied.value = false }
+  try { await navigator.clipboard.writeText(`${text}\n${shareUrl()}`); copied.value = true } catch { copied.value = false }
 }
 const imgStyle = computed(() => {
   if (!cur.value) return {}

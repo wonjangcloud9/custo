@@ -261,7 +261,7 @@ function cleanTitle(t: string) {
         <a class="b" :href="withBase('/which-member/')"><span class="b-emoji">🔮</span><b>나와 닮은 멤버</b><span>6문항 테스트</span></a>
         <a class="b" :href="withBase('/live-guide/')"><span class="b-emoji">🔦</span><b>펜라이트 가이드</b><span>라이브 준비</span></a>
         <a class="b" :href="withBase('/kohaku/')"><span class="b-emoji">🎍</span><b>紅白 특집</b><span>12/31 첫 출장 카운트다운</span></a>
-        <a class="b b-quiz" :href="withBase('/mv-quiz/')"><i class="b-new">NEW</i><span class="b-emoji">🎯</span><b>MV 장면 퀴즈</b><span>흐릿한 한 장면, 무슨 곡일까?</span></a>
+        <a class="b b-quiz" :href="withBase('/mv-quiz/')"><i class="b-new">NEW</i><span class="b-emoji">🎯</span><b>MV 장면 퀴즈</b><span>흐릿한 한 장면, 무슨 곡일까? · 📅 오늘의 5문제</span></a>
         <a class="b" :href="withBase('/appearances/')"><i class="b-new">NEW</i><span class="b-emoji">📺</span><b>출연 아카이브</b><span>다른 채널에 나온 큐스트</span></a>
         <a class="b b-cl" :href="withBase('/cutie-land/')"><span class="b-emoji">💿</span><b>CUTIE LAND</b><span>{{ albumD === null ? '1st ALBUM 12.02' : albumD > 0 ? `1st ALBUM 발매 D-${albumD}` : albumD === 0 ? '오늘 발매! 🎉' : '1st ALBUM 발매 중' }}</span></a>
       </div>
