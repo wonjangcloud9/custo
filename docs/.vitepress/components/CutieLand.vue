@@ -16,7 +16,7 @@ const ORDER: Record<string, number> = { mv: 0, dance: 1, live: 2, making: 3 }
 // ひたむきシンデレラ！: no standalone release; a live recording is on the 2nd single's CUTIE STREET盤 (UtaTen / retailer listing);
 // tracks in neither the 31 official releases nor the lyric sites' song lists are marked as album premieres.
 const firstRel = (t: string) => releases.filter((r) => r.type !== 'ALBUM' && norm(r.song) === norm(t)).sort((a, b) => a.date.localeCompare(b.date))[0]
-const ORIGIN_NOTE: Record<string, string> = { 'ひたむきシンデレラ！': '2nd SINGLE CUTIE STREET盤(2025.07.23)에 라이브 음원으로 수록된 곡 · 공식 디스코그래피에 단독 발매는 없음' }
+const ORIGIN_NOTE: Record<string, string> = { 'きゅーすとのうた': '일본어 원곡은 2025.08.27 배포 시작(보도자료 기준) — 공식 디스코그래피 목록에는 한국어 ver.만 있어요', 'ひたむきシンデレラ！': '2nd SINGLE CUTIE STREET盤(2025.07.23)에 라이브 음원으로 수록된 곡 · 공식 디스코그래피에 단독 발매는 없음' }
 const KNOWN = new Set(['ひたむきシンデレラ！'])
 const tracks = cutieLand.tracks.map((t, i) => {
   const key = norm(t)

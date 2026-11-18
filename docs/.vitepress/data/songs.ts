@@ -428,5 +428,53 @@ export const songs: Song[] = [
       { q: '이 곡의 히로시마 라이브 영상 제목에 담긴 소식은?', options: ['紅白 첫 출장 결정', '1st 앨범 발매', '한국 공연', '하와이 공연'], answer: 0 },
     ],
   },
+  {
+    id: 'cutie-street-no-uta', title: 'きゅーすとのうた', read: '큐-스토노 우타', meaning: '큐스토의 노래',
+    tagline: '8명을 소개하는 멤버 소개 송 · 한국어 버전도', grad: ['#FFC93C', '#FF4757', '#3CCFA8'],
+    facts: [
+      { k: '발매', v: '2025.08.27 디지털 (보도자료 기준) · 한국어 ver. 2026.07.26' },
+      { k: '작사', v: '早川博隆' },
+      { k: '작곡·편곡', v: '早川博隆 · 宇田川翔' },
+      { k: '한국어 가사', v: 'Junghun · Yoogyeong · NICE73' },
+      { k: '수록', v: '1st ALBUM 「CUTIE LAND」 2번 트랙 · 초회반 영상' },
+    ],
+    badges: ['멤버 소개 송', '한국어 ver. 「큐스토의 노래」', '첫 전국 투어 개막일 공개'],
+    story: [
+      '첫 전국 투어가 시작된 2025년 8월 27일, 「かわいいさがしてくれますか？」와 함께 배포가 시작된 곡이에요(보도자료 기준 — 공식 디스코그래피 목록에는 한국어 버전만 올라 있어요). 그날 투어 첫 공연에서도 불렀어요.',
+      '2025년 11월 한국 킨텍스 「WONDERLIVET 2025」 무대에서도 불렀고, 2026년 7월 서울 단독(앙코르) 공연에서 한국어 버전을 처음 선보인 뒤 7월 26일 「큐스토의 노래」로 배포했어요. 1st 앨범의 2번 트랙이에요.',
+    ],
+    videos: [
+      { id: 'plklYajMpvM', label: 'Dance Practice' },
+      { id: 'DIlD51Q8KPg', label: '전국 투어 첫날 (2025.08.27)' },
+      { id: 'ksgYbSPHaJI', label: '킨텍스 (2025.11.15)' },
+      { id: 'HTEAgH2gK-k', label: '서울 단독 (2026.07.25)' },
+    ],
+    quiz: [
+      { q: '이 곡의 한국어 버전 제목은?', options: ['큐스토의 노래', '동글동글 동글이', '프리큐큐', '귀엽기만 하면 안 되나요?'], answer: 0 },
+      { q: '1st 앨범 「CUTIE LAND」에서 이 곡은 몇 번 트랙?', options: ['1번', '2번', '9번', '16번'], answer: 1 },
+    ],
+  },
+  {
+    id: 'homemakurhythm', title: 'ホメマクリズム', read: '호메마쿠리즈무', meaning: '칭찬 폭격 리듬',
+    tagline: 'MUTEKI DEAD SNAKE 제공 · 발매 당일 아리아케 아레나에서', grad: ['#FF9F43', '#FF6B9D', '#FFC93C'],
+    facts: [
+      { k: '발매', v: '2026.06.17 디지털' },
+      { k: '작사·작곡·편곡', v: 'MUTEKI DEAD SNAKE' },
+      { k: '안무', v: 'SACO MAKITA' },
+    ],
+    badges: ['MUTEKI DEAD SNAKE 제공곡'],
+    story: [
+      'MUTEKI DEAD SNAKE가 작사·작곡·편곡을 맡고 SACO MAKITA가 안무를 만든 디지털 싱글이에요. 2026년 6월 17일 0시에 공개됐어요.',
+      '발매 당일 아리아케 아레나 무대에서 불렀고, 10월 고베 월드 기념홀 공연에서도 선보였어요.',
+    ],
+    videos: [
+      { id: 'kyuYOe7-G48', label: '有明アリーナ (2026.06.17)' },
+      { id: 'BRk7MBFFoks', label: '神戸ワールド記念ホール (2026.10.31)' },
+    ],
+    quiz: [
+      { q: '이 곡을 작사·작곡·편곡한 사람은?', options: ['MUTEKI DEAD SNAKE', 'ナユタン星人', '川谷絵音', 'ありぼぼ'], answer: 0 },
+      { q: '발매 당일 이 곡을 부른 공연장은?', options: ['有明アリーナ', '日本武道館', '横浜アリーナ', 'Kアリーナ横浜'], answer: 0 },
+    ],
+  },
 ]
 export const songById = Object.fromEntries(songs.map((s) => [s.id, s]))
