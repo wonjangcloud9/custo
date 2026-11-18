@@ -7,6 +7,7 @@ import BirthdayParty from './BirthdayParty.vue'
 import ShareButton from './ShareButton.vue'
 import { useOshi, setOshi } from '../theme/oshi'
 import { useToday } from '../theme/today'
+import { goingKey, loadGoing } from '../data/going'
 import { events, startMs, catMeta, type CsEvent } from '../data/events'
 
 const props = defineProps<{ id: string }>()
@@ -67,6 +68,9 @@ const upcoming = computed(() => {
   const solo = left.filter((e) => e.with).slice(0, 2)
   return [...left.filter((e) => !e.with).slice(0, 4 - solo.length), ...solo].sort((a, b) => startMs(a) - startMs(b))
 })
+// marks from the schedule's '갈 거예요' (this browser only)
+const going = ref<Set<string>>(new Set())
+onMounted(() => { going.value = loadGoing() })
 const tileDays = (e: CsEvent) => Math.max(0, Math.ceil((new Date(`${e.date}T00:00:00+09:00`).getTime() - now.value!.getTime()) / 86400000))
 const showDays = computed(() => (bdayShow.value && now.value ? Math.max(0, Math.ceil((new Date(`${bdayShow.value.date}T00:00:00+09:00`).getTime() - now.value.getTime()) / 86400000)) : 0))
 const forceBday = ref(false)
@@ -161,7 +165,7 @@ function onKey(e: KeyboardEvent) {
     <!-- UPCOMING BIRTHDAY SHOW (from the official schedule) -->
     <a v-if="bdayShow" class="show" :href="bdayShow.url" target="_blank" rel="noopener">
       <span class="show-ic" aria-hidden="true">🎂</span>
-      <span class="show-txt"><small>다가오는 생탄제</small><b lang="ja">{{ bdayShow.ja }}</b>
+      <span class="show-txt"><small>다가오는 생탄제<template v-if="going.has(goingKey(bdayShow))"> · 💖 내 일정</template></small><b lang="ja">{{ bdayShow.ja }}</b>
         <span>{{ bdayShow.date.replace(/-/g, '.') + (bdayShow.time ? ` ${bdayShow.time} 開演` : '') + (bdayShow.venue ? ` · 📍 ${bdayShow.venue}` : '') }}</span></span>
       <span class="show-dd">{{ showDays === 0 ? 'TODAY' : 'D-' + showDays }}</span>
     </a>
@@ -178,7 +182,8 @@ function onKey(e: KeyboardEvent) {
               <span>{{ WDJ[new Date(`${e.date}T12:00:00+09:00`).getUTCDay()] }}{{ e.time ? ' · ' + e.time : '' }}{{ e.venue ? ' · ' + e.venue : '' }}</span>
             </span>
             <span class="up-tag">
-              <i v-if="e.with" class="solo">✨ 개인 출연</i>
+              <i v-if="going.has(goingKey(e))" class="mine">💖 내 일정</i>
+              <i v-else-if="e.with" class="solo">✨ 개인 출연</i>
               <i v-else>{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</i>
               <em>{{ tileDays(e) === 0 ? 'TODAY' : 'D-' + tileDays(e) }}</em>
             </span>
@@ -426,10 +431,10 @@ function onKey(e: KeyboardEvent) {
 .up-txt span { font-size: 12.5px; color: #5a4060; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .up-tag { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .up-tag i { font-style: normal; font-size: 11px; font-weight: 800; color: #5a4060; }
-.up-tag i.solo { color: var(--mc-deep); }
+.up-tag i.solo, .up-tag i.mine { color: var(--mc-deep); }
 .up-tag em { font-style: normal; font-size: 12px; font-weight: 900; color: #fff; background: var(--mc-deep); padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (max-width: 480px) { .up-tag i:not(.solo) { display: none; } } /* phones: drop the category, keep '✨ 개인 출연' */
+@media (max-width: 480px) { .up-tag i:not(.solo):not(.mine) { display: none; } } /* phones: drop the category, keep '✨ 개인 출연' */
 @media (prefers-reduced-motion: reduce) { .up-row { transition: none; } }
 .app small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; color: color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030); }
 .app b { font-size: 14.5px; }

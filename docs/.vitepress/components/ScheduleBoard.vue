@@ -219,15 +219,16 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
       <div class="days">
         <button v-for="(c, i) in grid" :key="i" type="button" class="day-c" :disabled="!c.date || !c.items.length"
           :class="{ blank: !c.date, has: c.items.length, today: c.date === todayStr, sel: c.date === selDay, past: c.date && c.date < todayStr }"
-          :aria-label="c.date ? `${c.d}일 일정 ${c.items.length}개` : undefined" @click="selDay = c.date === selDay ? '' : (c.date || '')">
+          :aria-label="c.date ? `${c.d}일 일정 ${c.items.length}개${c.items.some(isGoing) ? ' · 내 일정 있음' : ''}` : undefined" @click="selDay = c.date === selDay ? '' : (c.date || '')">
           <span v-if="c.date" class="dn">{{ c.d }}</span>
+          <span v-if="c.items.some(isGoing)" class="mine-dot" aria-hidden="true">💖</span>
           <span class="pips"><i v-for="e in c.items.slice(0, 4)" :key="e.ja" :style="{ background: e.member ? memberById[e.member].color : catMeta[e.cat].color }" /></span>
           <span v-if="c.items.length" class="first">{{ catMeta[c.items[0].cat].emoji }} {{ c.items[0].ko }}</span>
         </button>
       </div>
       <div v-if="selItems.length" class="sel-list">
         <a v-for="e in selItems" :key="e.ja + e.date" :href="e.url" target="_blank" rel="noopener" :style="{ '--cc': e.member ? memberById[e.member].color : catMeta[e.cat].color }">
-          <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span><b lang="ja">{{ e.ja }}</b>
+          <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span><span v-if="isGoing(e)" class="pill mine-pill">💖 내 일정</span><b lang="ja">{{ e.ja }}</b>
           <small>{{ e.ko }}<template v-if="e.time"> · {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</template><template v-if="e.venue"> · 📍 {{ e.venue }}</template></small>
         </a>
       </div>
@@ -336,6 +337,8 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 6px; }
 .day-c { position: relative; min-height: 86px; padding: 6px; border-radius: 14px; background: #fdf8fa; text-align: left; display: flex; flex-direction: column; gap: 4px; color: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), background 0.2s; }
 .day-c.blank { background: none; }
+.mine-dot { position: absolute; top: 4px; right: 5px; font-size: 11px; line-height: 1; }
+.mine-pill { background: #fde3ee !important; color: #8a2350 !important; }
 .day-c.has { background: #fff3f8; cursor: pointer; }
 .day-c.has:hover { transform: translateY(-2px); background: #ffe8f2; }
 .day-c.past { opacity: 0.5; }
