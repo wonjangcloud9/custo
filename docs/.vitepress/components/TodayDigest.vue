@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
-import { events, catMeta, startMs, endMs } from '../data/events'
+import { events, catMeta, startMs, isOnNow, nowWord } from '../data/events'
 import { members, ageOn } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
@@ -57,7 +57,7 @@ const nextEv = computed(() => (nowMs.value ? [...events].filter((e) => startMs(e
 const nowEv = computed(() => {
   const t = nowMs.value
   if (!t) return null
-  return events.filter((e) => e.time && startMs(e) <= t && t < (e.end ? endMs(e) : startMs(e) + 3600e3)).sort((a, b) => startMs(a) - startMs(b))[0] ?? null
+  return events.filter((e) => isOnNow(e, t)).sort((a, b) => startMs(a) - startMs(b))[0] ?? null
 })
 const nowWhen = computed(() => (nowEv.value ? (nowEv.value.end ? `~${nowEv.value.end}까지` : `${nowEv.value.time} 시작 · 진행 중`) : ''))
 const nextWhen = computed(() => {
@@ -92,7 +92,7 @@ onMounted(() => {
       <h2 id="td-h">{{ isToday ? '오늘의 큐스트' : '최근 큐스트 소식' }} <span v-if="label" class="td-date">{{ label }}</span></h2>
     </header>
     <a v-if="nowEv" class="td-next td-now" :href="nowEv.url" target="_blank" rel="noopener">
-      <span class="tn-k"><i class="live-dot" aria-hidden="true" />{{ nowEv.cat === 'tv' ? 'ON AIR' : 'NOW' }}</span>
+      <span class="tn-k"><i class="live-dot" aria-hidden="true" />{{ nowWord(nowEv) }}</span>
       <span class="tn-w">{{ nowWhen }}</span>
       <b lang="ja">{{ catMeta[nowEv.cat].emoji }} {{ nowEv.ja }}</b>
       <span class="tn-go" aria-hidden="true">→</span>

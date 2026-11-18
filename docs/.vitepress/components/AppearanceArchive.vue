@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import raw from '../data/appearances.json'
 import { members, memberById } from '../data/members'
-import { events, startMs, endMs, toIcs, googleCalUrl, type CsEvent } from '../data/events'
+import { events, startMs, endMs, isOnNow, nowWord, toIcs, googleCalUrl, type CsEvent } from '../data/events'
 
 // Off-channel appearances: videos uploaded by other official channels (TV, music shows,
 // brands, media, other artists). Data + verification: loop/appearances.py
@@ -11,8 +11,11 @@ const all = raw as Ap[]
 const DEBUT = '2024-08-04'
 // upcoming TV appearances from the official schedule (client clock; hidden once aired — published end, else start + 3 h)
 const now = ref(0)
+let nowTick: number | undefined
+onBeforeUnmount(() => clearInterval(nowTick))
 const onAir = computed(() => (now.value ? events.filter((e) => e.cat === 'tv' && endMs(e) > now.value).sort((a, b) => startMs(a) - startMs(b)).slice(0, 6) : []))
-const dLabel = (e: { date: string }) => {
+const dLabel = (e: CsEvent) => {
+  if (isOnNow(e, now.value)) return nowWord(e)
   const d = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(new Date(now.value + 9 * 3600e3).toISOString().slice(0, 10) + 'T00:00:00+09:00')) / 86400000)
   return d <= 0 ? 'TODAY' : d === 1 ? '내일' : `D-${d}`
 }
@@ -92,6 +95,7 @@ function reset() { kind.value = ''; who.value = ''; ch.value = ''; q.value = '';
 
 onMounted(() => {
   now.value = Date.now()
+  nowTick = window.setInterval(() => { now.value = Date.now() }, 60000) // on-air labels change while the page is open
   const p = new URLSearchParams(location.search)
   const m = p.get('m'), k = p.get('k')
   if (m && memberById[m]) who.value = m
@@ -115,7 +119,7 @@ onMounted(() => {
       <h2 id="soon-h" class="soon-h">📡 방송 예정 <small>방송 후 공식 클립이 올라오면 아래 아카이브에 추가돼요</small></h2>
       <div class="soon-row">
         <div v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }">
-          <span class="sn-d"><b>{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
+          <span class="sn-d"><b :class="{ live: isOnNow(e, now) }">{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
           <a class="sn-t" lang="ja" :href="e.url" target="_blank" rel="noopener">{{ e.ja }}</a>
           <span class="sn-k">{{ e.ko }}</span>
           <span class="sn-act">
@@ -217,6 +221,7 @@ onMounted(() => {
 .sn.big { background: linear-gradient(120deg, #fff0f3, #fff); box-shadow: inset 0 0 0 2px #ff8fa8; }
 .sn-d { font-size: 12.5px; color: #6a4f70; display: flex; gap: 8px; align-items: center; }
 .sn-d b { padding: 2px 8px; border-radius: 999px; background: #2f1a35; color: #fff; font-size: 11.5px; }
+.sn-d b.live { background: #c2185b; letter-spacing: 0.04em; }
 .sn-t { min-width: 0; font-size: 14px; font-weight: 800; line-height: 1.45; color: #2f1a35 !important; text-decoration: none !important; word-break: normal; overflow-wrap: anywhere; line-break: loose; }
 .sn-t:hover { text-decoration: underline !important; }
 .sn-act { display: flex; gap: 6px; margin-top: auto; padding-top: 4px; }

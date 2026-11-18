@@ -116,6 +116,14 @@ export function endMs(e: CsEvent): number {
   return t > startMs(e) ? t : t + 86400e3
 }
 
+/** Happening right now: from the start until the published end — or, when no end is published, only for the
+ *  first hour (we can't know the real end). Shared by the home ON AIR bar, schedule cards and the on-air strip. */
+export function isOnNow(e: CsEvent, t: number): boolean {
+  return !!e.time && startMs(e) <= t && t < (e.end ? endMs(e) : startMs(e) + 3600e3)
+}
+/** Label for something happening now: ON AIR for TV, NOW otherwise. */
+export const nowWord = (e: CsEvent) => (e.cat === 'tv' ? 'ON AIR' : 'NOW')
+
 function hash(s: string): string {
   let h = 5381
   for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { withBase } from 'vitepress'
-import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat } from '../data/events'
+import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
 import { memberById } from '../data/members'
 
 const now = ref<number | null>(null)
@@ -87,6 +87,8 @@ const wd = (date: string) => WD[new Date(`${date}T12:00:00+09:00`).getUTCDay()]
 function dLabel(e: CsEvent) {
   if (now.value === null) return ''
   if (isPast(e)) return '종료'
+  if (isOnNow(e, now.value)) return nowWord(e)
+  if (e.end && endMs(e) <= now.value) return '종료' // published end has passed, even if it's still that day
   if (isToday(e)) return 'TODAY'
   const days = Math.ceil((new Date(`${e.date}T00:00:00+09:00`).getTime() - now.value) / 86400000)
   return `D-${days}`
@@ -231,7 +233,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
               <div class="ev-top">
                 <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span>
                 <span v-if="e.member" class="bday">🎂 {{ memberById[e.member].ko }}</span>
-                <span class="dd" :class="{ hot: dLabel(e) === 'TODAY' }">{{ dLabel(e) }}</span>
+                <span class="dd" :class="{ hot: ['TODAY', 'ON AIR', 'NOW'].includes(dLabel(e)), live: ['ON AIR', 'NOW'].includes(dLabel(e)) }">{{ dLabel(e) }}</span>
               </div>
               <h3 class="ev-ja">{{ e.ja }}</h3>
               <p class="ev-ko">{{ e.ko }}</p>
@@ -369,6 +371,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 .bday { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--cc) 62%, #2a1030); color: #fff; }
 .dd { margin-left: auto; font-size: 12px; font-weight: 800; color: #6a4f70; font-variant-numeric: tabular-nums; }
 .dd.hot { color: #fff; background: #ff3b6f; padding: 2px 8px; border-radius: 999px; animation: pulse 1.4s ease-in-out infinite; }
+.dd.live { background: #c2185b; letter-spacing: 0.04em; }
 @keyframes pulse { 50% { transform: scale(1.08); } }
 .ev-ja { margin: 8px 0 2px !important; padding: 0 !important; border: 0 !important; font-family: 'Noto Sans JP', sans-serif; font-size: 16px !important; line-height: 1.4 !important; font-weight: 700; overflow-wrap: anywhere; white-space: normal; }
 .ev-ko { margin: 0 !important; font-size: 13px; color: #6a4a70; }
