@@ -74,7 +74,7 @@ const hMin = Math.min(...members.map((m) => m.height)), hMax = Math.max(...membe
         </tr>
       </TransitionGroup>
     </table>
-    <p class="src">출처: 공식 프로필 · Wikipedia(일본어) — 나이·D-day는 오늘 날짜 기준 자동 계산</p>
+    <p class="src">출처: 생일 — <a href="https://cutiestreet.asobisystem.com/news/2" target="_blank" rel="noopener">공식 프로필</a> · 키·출신 — <a href="https://www.ticket.co.jp/entx/?p=5758" target="_blank" rel="noopener">ticket.co.jp</a>·Wikipedia(일본어) 등 비공식 매체(아야노 키는 매체마다 156/157cm) — 나이·D-day는 오늘 날짜 기준 자동 계산</p>
   </div>
 </template>
 
