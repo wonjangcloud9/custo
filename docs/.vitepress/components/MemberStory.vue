@@ -4,11 +4,15 @@ import { memberById } from '../data/members'
 import { stories } from '../data/memberStories'
 import { withBase } from 'vitepress'
 import apRaw from '../data/appearances.json'
+import { units } from '../data/units'
+import { songs } from '../data/songs'
 
 // Member page body: charm points, career path and fan quiz in the member's colour.
 const props = defineProps<{ id: string }>()
 const m = computed(() => memberById[props.id])
 const st = computed(() => stories[props.id])
+// units this member belongs to, with the unit song (song page when there is one)
+const myUnits = computed(() => units.filter((u) => u.members.includes(props.id)).map((u) => ({ ...u, page: songs.find((x) => x.title === u.song)?.id, mates: u.members.filter((x) => x !== props.id) })))
 // latest off-channel appearances featuring this member (by name in the title)
 const groupN = (apRaw as { members: string[] }[]).filter((a) => !a.members.length).length
 const aps = computed(() => (apRaw as { id: string; title: string; ch: string; date: string; members: string[] }[]).filter((a) => a.members.includes(props.id)))
@@ -40,6 +44,18 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
         </li>
       </ol>
       <p class="src">📚 출처: <a href="https://www.ticket.co.jp/entx/?p=5758" target="_blank" rel="noopener">ticket.co.jp 멤버 프로필</a> · <a href="https://ja.wikipedia.org/wiki/CUTIE_STREET" target="_blank" rel="noopener">Wikipedia(일본어)</a> · <a href="https://ciatr.jp/topics/336201" target="_blank" rel="noopener">ciatr</a></p>
+    </section>
+
+    <!-- UNITS -->
+    <section v-if="myUnits.length" class="mu" aria-labelledby="mu-h">
+      <header class="sh"><span class="no">💞</span><h2 id="mu-h">유닛</h2></header>
+      <div class="mu-row">
+        <div v-for="u in myUnits" :key="u.id" class="mu-card">
+          <b lang="ja">{{ u.ja }}</b>
+          <span class="mu-mates">with <template v-for="(id, i) in u.mates" :key="id"><a :href="withBase(`/members/${id}`)" :style="{ '--c': memberById[id].color }">{{ memberById[id].ko.split(' ')[1] }}</a><template v-if="i < u.mates.length - 1"> · </template></template></span>
+          <a v-if="u.song" class="mu-song" :href="withBase(u.page ? `/discography/${u.page}` : '/units/')"><span lang="ja">🎵 {{ u.song }}</span><small>{{ u.page ? '곡 이야기 →' : '유닛 페이지 →' }}</small></a>
+        </div>
+      </div>
     </section>
 
     <!-- APPEARANCES -->
@@ -89,6 +105,13 @@ mark { background: linear-gradient(transparent 58%, color-mix(in srgb, var(--mc)
 .now .what { padding: 8px 12px; border-radius: 14px; background: var(--deep); color: #fff; align-self: flex-start; }
 .src { margin: 16px 0 0 !important; font-size: 12.5px; color: #735779; }
 .src a { color: var(--deep) !important; }
+.mu-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.mu-card { display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 20px; background: #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mc) 26%, white); }
+.mu-card b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 17px; }
+.mu-mates { font-size: 13px; color: #5a4060; }
+.mu-mates a { font-weight: 800; color: color-mix(in srgb, var(--c) 45%, #2a1030) !important; text-decoration: none !important; }
+.mu-song { margin-top: auto; display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 8px 12px; border-radius: 14px; background: color-mix(in srgb, var(--mc) 10%, white); color: #2f1a35 !important; text-decoration: none !important; font-size: 14px; font-weight: 700; }
+.mu-song small { flex: none; font-size: 12px; color: var(--deep); }
 .ap-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .ap { display: flex; flex-direction: column; gap: 6px; border-radius: 18px; overflow: hidden; padding-bottom: 12px; background: #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mc) 24%, white); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.45s var(--spring); }
 .ap:hover { transform: translateY(-3px) rotate(-0.5deg); }
