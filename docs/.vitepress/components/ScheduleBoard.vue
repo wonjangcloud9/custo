@@ -3,13 +3,12 @@ import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
 import { memberById } from '../data/members'
+import { goingKey, loadGoing, saveGoing } from '../data/going'
 
 const now = ref<number | null>(null)
 let timer: number | undefined
 const cat = ref<'all' | EventCat>('all')
 // '갈 거예요 / 볼 거예요' marks — kept only in this browser (localStorage), never sent anywhere
-const GOING_KEY = 'custo-going'
-const goingKey = (e: CsEvent) => `${e.date}|${e.ja}`
 const going = ref<Set<string>>(new Set())
 const mineOnly = ref(false)
 const popKey = ref('')
@@ -18,7 +17,7 @@ function toggleGoing(e: CsEvent) {
   const k = goingKey(e), next = new Set(going.value)
   if (next.has(k)) next.delete(k); else { next.add(k); popKey.value = k; setTimeout(() => { if (popKey.value === k) popKey.value = '' }, 700) }
   going.value = next
-  try { localStorage.setItem(GOING_KEY, JSON.stringify([...next])) } catch { /* private mode: marks last for this visit */ }
+  saveGoing(next)
 }
 const passes = (e: CsEvent) => (cat.value === 'all' || e.cat === cat.value) && (!mineOnly.value || isGoing(e))
 const showPast = ref(false)
@@ -144,7 +143,9 @@ function watchMonths() {
 }
 onMounted(() => {
   requestAnimationFrame(watchMonths)
-  try { going.value = new Set(JSON.parse(localStorage.getItem(GOING_KEY) || '[]')) } catch { /* unreadable or blocked storage: start empty */ }
+  going.value = loadGoing()
+  // deep link from the home digest: /schedule/?mine opens on your marked events
+  if (new URLSearchParams(location.search).has('mine') && goingCount.value) mineOnly.value = true
 })
 watch([months, view], () => nextTick(watchMonths))
 // phones: while scrolling down, fold the filter rows so only the month jumper stays pinned; scrolling up unfolds them

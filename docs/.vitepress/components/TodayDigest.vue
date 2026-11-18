@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
 import { events, catMeta, startMs, isOnNow, nowWord } from '../data/events'
+import { goingKey, loadGoing } from '../data/going'
 import { members, ageOn } from '../data/members'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
@@ -60,6 +61,20 @@ const nowEv = computed(() => {
   return events.filter((e) => isOnNow(e, t)).sort((a, b) => startMs(a) - startMs(b))[0] ?? null
 })
 const nowWhen = computed(() => (nowEv.value ? (nowEv.value.end ? `~${nowEv.value.end}까지` : `${nowEv.value.time} 시작 · 진행 중`) : ''))
+// your next marked event (from the schedule's '갈 거예요'); shown only when it isn't already the 'next' bar
+const going = ref<Set<string>>(new Set())
+const myNext = computed(() => {
+  const t = nowMs.value
+  if (!t || !going.value.size) return null
+  return [...events].filter((e) => going.value.has(goingKey(e)) && (startMs(e) > t || isOnNow(e, t) || (!e.time && e.date === jstDay(t))))
+    .sort((a, b) => startMs(a) - startMs(b))[0] ?? null
+})
+const myWhen = computed(() => {
+  const e = myNext.value
+  if (!e) return ''
+  const days = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(jstDay(nowMs.value) + 'T00:00:00+09:00')) / 86400000)
+  return `${days === 0 ? '오늘' : days === 1 ? '내일' : `${+e.date.slice(5, 7)}/${+e.date.slice(8)} (D-${days})`}${e.time ? ' ' + e.time : ''}`
+})
 const nextWhen = computed(() => {
   const e = nextEv.value
   if (!e) return ''
@@ -75,6 +90,7 @@ onBeforeUnmount(() => clearInterval(tick))
 onMounted(() => {
   const now = Date.now()
   nowMs.value = now
+  going.value = loadGoing()
   tick = window.setInterval(() => { nowMs.value = Date.now() }, 60000)
   const today = jstDay(now)
   // today if anything happened, otherwise the most recent day (≤ 3 days back) that had something
@@ -98,9 +114,15 @@ onMounted(() => {
       <span class="tn-go" aria-hidden="true">→</span>
     </a>
     <a v-if="nextEv" class="td-next" :class="{ after: nowEv }" :href="nextEv.url" target="_blank" rel="noopener">
-      <span class="tn-k">⏭ 다음 일정</span>
+      <span class="tn-k">⏭ 다음 일정<template v-if="going.has(goingKey(nextEv))"> · ✋ 내 일정</template></span>
       <span class="tn-w">{{ nextWhen }}</span>
       <b lang="ja">{{ catMeta[nextEv.cat].emoji }} {{ nextEv.ja }}</b>
+      <span class="tn-go" aria-hidden="true">→</span>
+    </a>
+    <a v-if="myNext && myNext !== nextEv && myNext !== nowEv" class="td-mine" :href="withBase('/schedule/?mine')">
+      <span class="tm-k">✋ 내 다음 일정</span>
+      <span class="tm-w">{{ myWhen }}</span>
+      <b lang="ja">{{ myNext.ja }}</b>
       <span class="tn-go" aria-hidden="true">→</span>
     </a>
 
@@ -211,6 +233,14 @@ onMounted(() => {
 .td-next.after { margin-top: 0; padding: 8px 14px; font-size: 13px; background: #4a2c52; }
 @media (prefers-reduced-motion: reduce) { .td-next { transition: none; } .live-dot::after { animation: none; opacity: 0; } }
 @media (max-width: 640px) { .td-next b { order: 3; flex-basis: 100%; } .tn-go { margin-left: auto; } }
+/* your next marked event: a soft pink row under the dark 'next' bar */
+.td-mine { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: -6px 0 14px; padding: 8px 14px; border-radius: 14px; background: #fde3ee; color: #6b1d43 !important; text-decoration: none !important; font-size: 13px; transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1); }
+.td-mine:hover { transform: translateY(-2px); }
+.tm-k { font-size: 11.5px; font-weight: 900; letter-spacing: 0.04em; }
+.tm-w { padding: 1px 8px; border-radius: 999px; background: #fff; font-weight: 800; font-size: 12px; }
+.td-mine b { flex: 1; min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
+@media (max-width: 640px) { .td-mine b { order: 3; flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .td-mine { transition: none; } }
 .td-checked { margin: 12px 0 0 !important; font-size: 12px; color: #6a4f70; }
 .td-checked + .td-foot { margin-top: 6px !important; }
 .td-foot { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; margin: 14px 0 0 !important; font-size: 13px; font-weight: 700; }
