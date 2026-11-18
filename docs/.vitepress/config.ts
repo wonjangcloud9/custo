@@ -57,7 +57,7 @@ export default defineConfig({
     // member pages share a card in that member's colour (rendered from loop/og-member.html)
     const mem = path.match(/^members\/(risa|aika|kana|ayano|emiru|miyu|nagisa|haruka)$/)?.[1]
     // section hubs share their own card too (loop/og-section.html)
-    const sec = path.match(/^(appearances|cutie-land|kohaku|world|korea|schedule|videos|discography|stages)\/$/)?.[1] ?? (path.startsWith('discography/') ? 'discography' : undefined)
+    const sec = path.match(/^(appearances|cutie-land|kohaku|world|korea|schedule|videos|discography|stages|mv-quiz)\/$/)?.[1] ?? (path.startsWith('discography/') ? 'discography' : undefined)
     const img = `https://wonjangcloud9.github.io/custo/${mem ? `og/${mem}.png` : sec ? `og/sec-${sec}.png` : 'og.png'}`
     const alt = mem ? `${pageData.title} — CUTIE STREET 멤버 카드` : sec ? `${pageData.title} — CUTIE STREET 팬허브` : 'CUTIE STREET 팬허브 — 귀여움으로 세계까지'
     const ld = jsonLd(path, title)
