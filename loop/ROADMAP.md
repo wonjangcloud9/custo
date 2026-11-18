@@ -167,6 +167,10 @@ Score = R(1–10) × I(0.25/0.5/1/2/3) × C(0.5/0.8/1) ÷ E(person-iterations). 
 | 175 | ✅ MV 퀴즈 '📅 오늘의 5문제' #127 — JST 날짜(YYYYMMDD)를 시드로 한 mulberry32 RNG로 곡·장면·초점·보기 순서를 정해 모두에게 같은 5문제, 날짜별 최고 기록(localStorage custo-mvquiz-daily-YYYY-MM-DD), 결과 공유 문구 '오늘의 MV 퀴즈 M/D', '내일 0시(JST) 새 문제' 안내; 등급 기준을 10문제 환산 비율로; 재플레이 동일·다음 날 다름 검증 | 7 | 2 | 1 | 0.5 | 28 | ✅ Done #127 |
 | 176 | ✅ 오늘의 5문제 공유 링크 #128 — /mv-quiz/?daily 로 열면 바로 오늘의 5문제 시작, 오늘의 5문제 결과 공유 URL에 ?daily 자동 포함(다른 모드는 일반 URL), 홈 EXPLORE 퀴즈 타일에 '📅 오늘의 5문제' 안내 | 6 | 1 | 1 | 0.2 | 30 | ✅ Done #128 |
 | 177 | ✅ MV 퀴즈 공유 카드 #129 — loop/og-section.html로 og/sec-mv-quiz.png('이 장면, 무슨 곡?' · 곡·멤버 맞히기 · 매일 바뀌는 오늘의 5문제, 🎯) 렌더(제목 자동 축소 86px, 부제·구슬 간격 OK), transformHead 섹션 매핑에 mv-quiz 추가; ?daily 링크도 같은 카드 | 6 | 1 | 1 | 0.2 | 30 | ✅ Done #129 |
+| 178 | ✅ 오늘의 5문제 연속 참여 #130 — JST 날짜 기준 연속 완료일(localStorage custo-mvquiz-daily-streak {last,n}): 어제 이어서 +1, 같은 날 유지, 끊기면 1; 결과 화면 '🔥 n일 연속 참여!', 시작 버튼에 살아 있는 연속일, 공유 문구에 '🔥n일 연속'(2일 이상); 4일 시뮬레이션(1→2→3→끊김 1) | 6 | 1 | 1 | 0.3 | 20 | ✅ Done #130 |
+| 179 | NEW: 11/26 아이카 생탄제 당일 — 공식 생탄제 영상 업로드되면 출연/영상 연결, 홈 생일 카드 확인 | 7 | 1 | 1 | 0.2 | 35 | Todo (11/26) |
+| 180 | NEW: 11/28–29 투어 파이널 — 투어 스탬프 CLEAR 처리 확인, 공식 라이브 영상 연결 | 7 | 1 | 1 | 0.3 | 23 | Todo (11/29) |
+| 181 | NEW: 12/2 앨범 발매일 — CUTIE LAND 페이지 'OUT NOW' 전환, 신곡 6곡 공식 영상 업로드 시 곡 페이지 추가 | 9 | 2 | 1 | 1 | 18 | Todo (12/2) |
 | 122 | ⭐ USER REQUEST: 기존(초기) 페이지 전면 개편 — 새 컴포넌트 페이지 수준으로: ~~① about(소개)~~ ✅#72 ~~② stages~~ ✅#73(레전드 무대) ~~③ discography 곡 해설 3곳 + 디스코 하단~~ ✅#75 ~~④ 멤버 페이지 본문~~ ✅#76 ~~⑤ members index 하단~~ ✅#77 ~~⑥ schedule 하단~~ ✅#77 ~~⑦ Quiz 컴포넌트 디자인~~ ✅#77. 1차 목록 완료 — 다음: units/which-member/likes/videos 등 남은 옛 페이지 재점검 | 10 | 3 | 1 | 3 | 10 | ✅ 1차 Done #77 |
 | 123 | 매 회차 '오늘의 화제' 수집: YouTube 검색(최근·CUTIE STREET/큐티스트리트/きゅーすと) + 공식 X/뉴스 → 외부 채널 출연·방송·기사를 검증 후 highlights.ts에 추가 | 9 | 2 | 0.8 | 0.3 | 48 | 🔁 Every iteration |
 | 124 | ⭐ USER IDEA: 🌏 /world/ 큐스트 월드맵 — d3-geo 정사영 지구본(world-atlas 110m), 활동 순서대로 카메라 비행(geoInterpolate slerp)+먼 거리 풀백 줌·동아시아 렌즈 줌, 대권 항로 그리기, 도착 파문 핀, 나라를 멤버 색으로 채움(일본 핑크·대만 민트·한국 블루, 예정 하와이 보라 빗금), 드래그 회전·자동 회전·단계 점프·재생/멈춤, 화면 진입 시 1회 자동 재생; reduced-motion 시 정적; 내비 '여정' 드롭다운·검색·소개 연혁 링크 | 10 | 3 | 1 | 2 | 15 | ✅ Done #74 |
@@ -414,3 +418,4 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #127 2026-11-18 16:20 — today-update not due (18:47); refresh/appearance scan nothing new. MV quiz daily 5 (seeded by JST date, shareable); 0 errors.
 - #128 2026-11-18 16:35 — today-update not due (18:47); refresh/appearance scan nothing new. Daily-quiz deep link + share URL; home tile mentions it; 0 errors.
 - #129 2026-11-18 16:55 — today-update not due (18:47); refresh/appearance scan (1 fan-subtitle upload, skipped). MV quiz share card; 0 errors.
+- #130 2026-11-18 17:15 — today-update not due (18:47); refresh/appearance scan (fan-channel vlog of Kana's birthday show, skipped). Daily-quiz streak; backlog refilled with dated items #179–#181; 0 errors.

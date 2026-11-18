@@ -102,7 +102,24 @@ function next() {
   if (idx.value < total.value - 1) { idx.value++; begin(); return }
   stage.value = 'done'
   try { if (best.value === null || score.value > best.value) { localStorage.setItem(KEY(mode.value), String(score.value)); best.value = score.value } } catch { /* ignore */ }
+  if (mode.value === 'daily') bumpStreak()
 }
+// daily streak: consecutive Japan dates on which today's five was finished (this browser only)
+const STREAK_KEY = 'custo-mvquiz-daily-streak'
+const streakDays = ref(0)
+const prevDay = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10)
+function readStreak(): { last: string; n: number } {
+  try { return JSON.parse(localStorage.getItem(STREAK_KEY) || '{"last":"","n":0}') } catch { return { last: '', n: 0 } }
+}
+function bumpStreak() {
+  const today = jstDate(), s = readStreak()
+  const n = s.last === today ? s.n : s.last === prevDay(today) ? s.n + 1 : 1
+  try { localStorage.setItem(STREAK_KEY, JSON.stringify({ last: today, n })) } catch { /* ignore */ }
+  streakDays.value = n
+}
+// shown on the start screen: alive if played today or yesterday
+const liveStreak = ref(0)
+onMounted(() => { const s = readStreak(), t = jstDate(); liveStreak.value = s.last === t || s.last === prevDay(t) ? s.n : 0 })
 // keyboard: 1–4 (song) / 1–8 (member) answer, Enter/→ next; ignored while typing or with modifiers
 function onKey(e: KeyboardEvent) {
   if (stage.value !== 'play' || !cur.value || e.metaKey || e.ctrlKey || e.altKey) return
@@ -131,7 +148,7 @@ const rank = computed(() => {
 const modeName = computed(() => (mode.value === 'daily' ? `오늘의 MV 퀴즈 ${+dayKey.value.slice(5, 7)}/${+dayKey.value.slice(8)}` : mode.value === 'song' ? 'MV 장면 퀴즈' : '멤버 맞히기 퀴즈'))
 const shareUrl = () => location.origin + location.pathname + (mode.value === 'daily' ? '?daily' : '')
 async function share() {
-  const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${total.value}) — ${rank.value.e} ${rank.value.t}`
+  const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${total.value}) — ${rank.value.e} ${rank.value.t}${mode.value === 'daily' && streakDays.value > 1 ? ` · 🔥${streakDays.value}일 연속` : ''}`
   // phones: the system share sheet; elsewhere (or if it is dismissed/unsupported): copy to clipboard
   if (navigator.share && matchMedia('(pointer: coarse)').matches) {
     try { await navigator.share({ title: `큐스트 ${modeName.value}`, text, url: shareUrl() }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
@@ -167,7 +184,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <div class="modes">
         <button type="button" class="mode" @click="start('song')"><span aria-hidden="true">🎬</span><b>무슨 곡?</b><small>공식 MV {{ SONGS.length }}곡의 한 장면</small></button>
         <button type="button" class="mode mem" :disabled="loading" @click="start('member')"><span aria-hidden="true">💖</span><b>누구일까?</b><small>멤버 솔로 MV 티저 · 8명 중 한 명</small></button>
-        <button type="button" class="mode day" @click="start('daily')"><span aria-hidden="true">📅</span><b>오늘의 5문제</b><small>오늘은 모두에게 같은 5장면 · 친구와 점수 비교</small></button>
+        <button type="button" class="mode day" @click="start('daily')"><span aria-hidden="true">📅</span><b>오늘의 5문제</b><small>오늘은 모두에게 같은 5장면 · 친구와 점수 비교<template v-if="liveStreak"> · 🔥 {{ liveStreak }}일 연속</template></small></button>
       </div>
     </div>
 
@@ -207,6 +224,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <p class="rk-e" aria-hidden="true">{{ rank.e }}</p>
       <p class="rk">{{ rank.t }}</p>
       <p class="sc"><b>{{ score }}</b>점 · {{ right }}/{{ total }} 정답 · 최고 연속 {{ bestStreak }}</p>
+      <p v-if="mode === 'daily' && streakDays" class="streak-d">🔥 {{ streakDays }}일 연속 참여!</p>
       <p v-if="mode === 'daily'" class="best">내일 0시(일본 시간)에 새 5문제가 나와요</p>
       <p v-if="best !== null" class="best">{{ mode === 'daily' ? '오늘' : '내' }} 최고 기록 {{ best }}점{{ best === score ? ' — 새 기록! ✨' : '' }}</p>
       <div class="done-act">
@@ -287,6 +305,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
 .rk { margin: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 28px; font-weight: 900; }
 .sc { margin: 0 !important; font-size: 16px; color: #5a4060; }
 .sc b { font-size: 26px; color: #a33366; }
+.streak-d { margin: 4px 0 0 !important; padding: 4px 12px; border-radius: 999px; background: #fff0e0; color: #7a3d00; font-weight: 900; font-size: 15px; animation: pop 0.6s var(--spring) both; }
 .best { margin: 0 !important; font-size: 14px; font-weight: 700; color: #6a4f70; }
 .done-act { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
 .ghost { padding: 12px 20px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px #f1d4e1; font-weight: 800; color: #a33366; }
@@ -297,5 +316,5 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
   .ph { width: 220px; transform: translateX(-50%) rotate(calc((var(--i) - 2) * 7deg)) translateX(calc((var(--i) - 2) * 26px)); }
   .deck { height: 180px; }
 }
-@media (prefers-reduced-motion: reduce) { .mode { transition: none; } .ph, .streak, .plus, .rk-e, .opt.wrong { animation: none; } .go, .opt { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .mode { transition: none; } .ph, .streak, .streak-d, .plus, .rk-e, .opt.wrong { animation: none; } .go, .opt { transition: none; } }
 </style>
