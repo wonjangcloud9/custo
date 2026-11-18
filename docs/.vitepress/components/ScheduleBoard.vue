@@ -215,7 +215,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 
     <div v-if="view === 'list' && upcomingFiltered.length > 1" class="ics-all-row">
       <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)">📅 다가오는 일정 {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
-      <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요{{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
+      <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요 · 🔔 하루 전·1시간 전 알림 포함 (종일 일정은 전날 오전 9시){{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
     </div>
 
     <!-- TIMELINE -->

@@ -110,7 +110,7 @@ onMounted(() => {
     <div class="stats">
       <div><b>{{ all.length }}</b><span>출연 영상</span></div>
       <div><b>{{ channels.length }}</b><span>채널</span></div>
-      <div><b>{{ fmtDate(all[all.length - 1].date).slice(0, 7) }}</b><span>가장 오래된 기록</span></div>
+      <div><b>{{ fmtDate(all[all.length - 1].date).slice(0, 7) }}</b><span>가장 오래된 기록<template v-if="pre(all[all.length - 1])"> · 데뷔 전 멤버 활동</template></span></div>
       <div><b>{{ fmtDate(all[0].date) }}</b><span>최근 출연</span></div>
     </div>
 

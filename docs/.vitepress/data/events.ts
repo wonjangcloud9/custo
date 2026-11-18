@@ -145,6 +145,10 @@ function vevent(e: CsEvent, stamp: string): string[] {
   }
   lines.push(`SUMMARY:${esc('CUTIE STREET · ' + e.ja)}`, `DESCRIPTION:${esc(e.ko + ' — ' + e.url)}`)
   if (e.venue) lines.push(`LOCATION:${esc(e.venue)}`)
+  // reminders (RFC 5545 VALARM): a day before and an hour before; all-day items at 09:00 the day before
+  const alarm = (trigger: string, when: string) => ['BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(`${when} · CUTIE STREET · ${e.ja}`)}`, `TRIGGER:${trigger}`, 'END:VALARM']
+  if (e.time) lines.push(...alarm('-P1D', '내일'), ...alarm('-PT1H', '1시간 뒤'))
+  else lines.push(...alarm('-PT15H', '내일'))
   lines.push(`URL:${e.url}`, 'END:VEVENT')
   return lines
 }
