@@ -285,6 +285,10 @@ function pickDay(now: number) {
 .wk7-d { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 2px 8px; border-radius: 14px; background: #fdf6fa; color: #3a2340 !important; text-decoration: none !important; transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1), background 0.2s; }
 .wk7-d.has { background: #fff; box-shadow: inset 0 0 0 1.5px #f6d6e5; }
 .wk7-d.today { background: #2f1a35; color: #fff !important; box-shadow: none; }
+/* with a 최애 picked (<html data-oshi>), the my-next row and week strip take her colour (ink-capped like the rest of the site) */
+html[data-oshi] .td-mine { background: color-mix(in srgb, var(--oshi) 14%, white); color: var(--custo-accent) !important; }
+html[data-oshi] .wk7-d.has { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--oshi) 32%, white); }
+html[data-oshi] .wk7-d.today { background: var(--custo-accent); }
 .wk7-d:hover { transform: translateY(-3px); }
 .wk7-wd { font-size: 11px; font-weight: 800; color: #6a4f70; }
 .wk7-d.sun .wk7-wd { color: #c92f69; }

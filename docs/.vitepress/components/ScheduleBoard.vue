@@ -442,6 +442,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 @keyframes go-burst { from { opacity: 1; transform: translate(-50%, 4px) scale(0.6); } to { opacity: 0; transform: translate(-50%, -16px) scale(1.15); } }
 .ev.mine { box-shadow: 0 0 0 2px color-mix(in srgb, var(--cc) 55%, white), 0 10px 24px -18px rgba(90, 30, 70, 0.5); }
 .chip.mine[aria-pressed='true'] { background: #c2185b; }
+html[data-oshi] .chip.mine[aria-pressed='true'] { background: var(--custo-accent); }
 @media (prefers-reduced-motion: reduce) { .ev-act button.go.pop span, .ev-act button.go.pop::after { animation: none; } .ev-act button.go.pop::after { content: none; } }
 .ev-act a:hover, .ev-act button:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--cc) 18%, white); }
 .empty { text-align: center; padding: 40px 0; color: #735779; }
