@@ -499,3 +499,5 @@ _(append: `#N  YYYY-MM-DD HH:MM — what shipped — commit sha — next`)_
 - #167 2026-11-19 05:40 — next today-update 06:47; refresh nothing new. Album release calendar gains Aika's 11/26 on-site lottery (official notice 96698) and Sapporo's hours; 0 errors.
 - #168 2026-11-19 06:00 — today-update cron at 06:47; refresh nothing new. Five components that read the clock once now use a shared minute clock (useClock), so time-based states change while a page stays open; 0 errors.
 - #169 2026-11-19 06:15 — today-update cron at 06:47; refresh nothing new. Week strip gets a domino-style entrance and a nod on today's icons (off with reduced motion); CLS unchanged; 0 errors.
+- #170 2026-11-19 06:35 — today-update cron at 06:47; refresh nothing new. Checked the ⌘K search covers every section: it does (incl. /videos/stats/ as '영상 통계'); a suspected missing comma in searchIndex PAGES was an artefact of my `cut -c1-230` truncation — verified in the browser (레전드 무대 / 공식 소식 found, 0 errors). No code changes.
+- Lesson (#170): don't judge syntax from `cut`-truncated lines; read the line end (awk substr / tail -c) or test in the browser first.
