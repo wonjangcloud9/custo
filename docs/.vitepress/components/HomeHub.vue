@@ -20,14 +20,16 @@ const EMOJI: Record<string, string> = { event: '❄️', live: '🎡', release: 
 // featured events that have an in-site special page
 const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-12-31': '/kohaku/', '2027-01-23': '/korea/' }
 const EVENTS = events.filter((e) => e.featured).map((e) => ({
-  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
+  id: e.date + e.cat, at: new Date(startMs(e)).toISOString(),
+  // shown until it ends: the published end time, otherwise the end of its Japan date
+  until: Date.parse(`${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: e.ko + (e.venue ? ` · ${e.venue}` : ''), emoji: EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
 }))
 
 const now = ref<number | null>(null)
 let timer: number | undefined
 const upcoming = computed(() => {
   const t = now.value ?? 0
-  return EVENTS.map((e) => ({ ...e, ms: new Date(e.at).getTime() - t })).filter((e) => !now.value || e.ms > -86400000).slice(0, 4) // nearest four fill the 4-col / 2-col grid
+  return EVENTS.map((e) => ({ ...e, ms: new Date(e.at).getTime() - t })).filter((e) => !now.value || e.until > t).slice(0, 4) // nearest four fill the 4-col / 2-col grid
 })
 function parts(ms: number) {
   const s = Math.max(0, Math.floor(ms / 1000))
