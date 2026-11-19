@@ -10,6 +10,31 @@ const hover = ref<string | null>(null)
 const router = useRouter()
 const go = (id: string) => router.go(withBase(`/members/${id}`))
 
+// all eight birthdays as yearly all-day events, starting from this year's (or next year's) date so calendars
+// don't fill with decades of past ones; a reminder at 09:00 the day before
+const icsSaved = ref(false)
+function saveBirthdays() {
+  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10)
+  const ymd = (d: string) => d.replace(/-/g, '')
+  const esc = (t: string) => t.replace(/[\\;,]/g, (c) => '\\' + c)
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+  const site = location.origin + withBase('/members/')
+  const ev = members.flatMap((m) => {
+    const md = m.birthday.slice(5)
+    const y = +today.slice(0, 4)
+    const first = `${today.slice(5) <= md ? y : y + 1}-${md}`
+    const next = new Date(`${first}T00:00:00Z`); next.setUTCDate(next.getUTCDate() + 1)
+    return ['BEGIN:VEVENT', `UID:birthday-${m.id}@custo`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${ymd(first)}`, `DTEND;VALUE=DATE:${ymd(next.toISOString().slice(0, 10))}`,
+      'RRULE:FREQ=YEARLY', `SUMMARY:${esc(`🎂 ${m.ja} (${m.ko}) 생일`)}`, `DESCRIPTION:${esc(`CUTIE STREET ${m.ko} 생일 — ${site}${m.id}`)}`, `URL:${site}${m.id}`,
+      'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(`내일은 ${m.ko} 생일 🎂`)}`, 'TRIGGER:-PT15H', 'END:VALARM', 'END:VEVENT']
+  })
+  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:CUTIE STREET 멤버 생일', ...ev, 'END:VCALENDAR'].join('\r\n')
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' })); a.download = 'cutiestreet-member-birthdays.ics'; a.click()
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500)
+  icsSaved.value = true; setTimeout(() => (icsSaved.value = false), 1800)
+}
+
 const dayOfYear = (m: number, d: number) => {
   const start = Date.UTC(2025, 0, 1) // non-leap reference year
   return (Date.UTC(2025, m - 1, d) - start) / 86400000
@@ -93,10 +118,19 @@ const focus = computed(() => dots.value.find((d) => d.m.id === hover.value) ?? n
         </a>
       </li>
     </ol>
+    <div class="br-ics">
+      <button type="button" class="br-ics-btn" @click="saveBirthdays">{{ icsSaved ? '✓ 캘린더 파일을 받았어요' : '📅 멤버 생일 8개 캘린더에 넣기' }}</button>
+      <small>매년 반복 · 전날 오전 9시 알림 · 아이폰·구글·아웃룩 캘린더에서 열면 추가돼요</small>
+    </div>
   </section>
 </template>
 
 <style scoped>
+.br-ics { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 18px; text-align: center; }
+.br-ics-btn { padding: 9px 18px; border-radius: 999px; font-size: 13.5px; font-weight: 800; color: #fff; background: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
+.br-ics-btn:hover { transform: translateY(-2px); }
+.br-ics small { font-size: 12px; color: #6a4f70; }
+@media (prefers-reduced-motion: reduce) { .br-ics-btn { transition: none; } }
 .br { --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077 20.4%, 1.121, 1.149 24.3%, 1.159, 1.163 27%, 1.154, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; margin: 16px 0 40px; padding: 24px; border-radius: 32px; background: linear-gradient(160deg, #fff3f8, #f6f0ff); color: #3a2340; }
 .ring-wrap { max-width: 420px; width: 100%; justify-self: center; }
