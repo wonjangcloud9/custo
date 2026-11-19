@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase, useRouter } from 'vitepress'
-import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../data/members'
+import { members, memberById, ageOn, daysToBirthday, prefectureKo, onColor } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
 import BirthdayCard from './BirthdayCard.vue'
@@ -158,7 +158,7 @@ function onKey(e: KeyboardEvent) {
       <div ref="card" class="holo" @pointermove="onMove" @pointerleave="onLeave">
         <div class="holo-inner">
           <div class="holo-top"><span>CUTIE STREET</span><span>KAWAII LAB.</span></div>
-          <div class="holo-face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</div>
+          <div class="holo-face" aria-hidden="true" :style="{ '--face-ink': onColor(m.color) }">{{ m.ja.slice(-2, -1) }}</div>
           <div class="holo-name">{{ m.ja }}</div>
           <div class="holo-row"><span>BIRTH</span><b>{{ m.birthday.replace(/-/g, '.') }}</b></div>
           <div class="holo-row"><span>FROM</span><b>{{ m.birthplace }}</b></div>
@@ -340,9 +340,9 @@ function onKey(e: KeyboardEvent) {
 .holo-top { display: flex; justify-content: space-between; font-size: 9px; font-weight: 800; letter-spacing: 0.16em; color: var(--mc-deep); }
 .holo-face {
   flex: 1; display: grid; place-items: center; margin: 6px 0; border-radius: 16px;
-  font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 110px; font-size: 40cqi; line-height: 1; color: #fff;
+  font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 110px; font-size: 40cqi; line-height: 1; color: var(--face-ink, #fff); /* dark on bright member colours */
   background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--mc) 50%, white), var(--mc));
-  text-shadow: 0 6px 20px color-mix(in srgb, var(--mc) 80%, #000);
+  text-shadow: 0 6px 22px color-mix(in srgb, var(--mc) 70%, transparent);
 }
 .holo-name { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px; text-align: center; color: var(--mc-deep); }
 .holo-row { display: flex; justify-content: space-between; font-size: 11px; border-top: 1px dashed color-mix(in srgb, var(--mc) 35%, white); padding-top: 4px; }
