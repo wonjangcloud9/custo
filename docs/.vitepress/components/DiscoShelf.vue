@@ -199,9 +199,9 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .hero-d { margin: 6px 0 0 !important; font-weight: 800; color: #e8558a; font-size: 18px; min-height: 1.5em; }
 .tracks { columns: 2; column-gap: 18px; margin: 14px 0 0 !important; padding: 0 !important; list-style: none; }
 .tracks li { break-inside: avoid; display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin: 0 0 6px !important; font-family: 'Noto Sans JP', sans-serif; }
-.tn { font-size: 11px; font-weight: 800; color: var(--tc); font-variant-numeric: tabular-nums; }
+.tn { font-size: 11px; font-weight: 800; color: color-mix(in srgb, var(--tc) 45%, #2a1030); font-variant-numeric: tabular-nums; } /* raw member colours were 1.3–2.9:1 on the light card */
 .tracks a { color: var(--ink) !important; text-decoration: none !important; border-bottom: 2px solid color-mix(in srgb, var(--tc) 50%, transparent); }
-.tracks a small { font-size: 10px; color: var(--tc); font-weight: 800; }
+.tracks a small { font-size: 10px; color: color-mix(in srgb, var(--tc) 45%, #2a1030); font-weight: 800; }
 .eds { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .ed { font-size: 11.5px; padding: 5px 10px; border-radius: 999px; background: #fff; border: 1px solid #f0dbe7; }
 .cta { display: inline-block; margin-top: 14px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff !important; font-weight: 700; font-size: 13px; text-decoration: none !important; transition: transform 0.45s var(--spring); }

@@ -110,7 +110,8 @@ onBeforeUnmount(() => clearInterval(timer))
 .chip .sw { width: 12px; height: 12px; border-radius: 50%; background: var(--mc); box-shadow: 0 0 8px var(--mc); }
 .chip[aria-pressed='true'] { background: color-mix(in srgb, var(--mc, #3a2340) 62%, #2a1030); border-color: transparent; color: #fff; transform: translateY(-2px); }
 .chip[aria-pressed='true'] .sw { background: #fff; }
-.chip.all[aria-pressed='true'] { background: linear-gradient(90deg, #ffc93c, #ff4757, #3ccfa8, #4a90d9, #a06cd5, #ff6b9d); border-color: transparent; }
+.chip.all[aria-pressed='true'] { /* white text on a plum fill, the rainbow kept as the ring (white on the rainbow was ~1:1 over yellow) */
+  background: linear-gradient(#3a2340, #3a2340) padding-box, linear-gradient(90deg, #ffc93c, #ff4757, #3ccfa8, #4a90d9, #a06cd5, #ff6b9d) border-box; border: 2px solid transparent; }
 .wave-toggle { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #735779; }
 .wave-toggle input { accent-color: #ff6b9d; }
 

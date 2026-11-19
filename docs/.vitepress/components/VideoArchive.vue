@@ -403,9 +403,9 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 }
 .dur { right: 8px; font-variant-numeric: tabular-nums; }
 .seen { left: 8px; background: rgba(255, 107, 157, 0.9); }
-.official.new { background: linear-gradient(135deg, #ff4757, #ff9f43); animation: newPulse 1.6s ease-in-out infinite; }
+.official.new { background: linear-gradient(135deg, #c8102e, #b85400); animation: newPulse 1.6s ease-in-out infinite; } /* red→orange kept, deep enough for white (was 2.5:1) */
 @keyframes newPulse { 50% { transform: scale(1.08); } }
-.official { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; padding: 4px 8px; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #ff6b9d, #a06cd5); box-shadow: 0 4px 12px rgba(160, 108, 213, 0.5); }
+.official { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; padding: 4px 8px; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #c2185b, #6d3fb0); box-shadow: 0 4px 12px rgba(160, 108, 213, 0.5); }
 .body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .pill { align-self: flex-start; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #fff0f6; color: #a33366; }
 .pill[data-cat='live'] { background: #ffefe3; color: #9c4510; }
@@ -428,7 +428,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 .va-more { display: flex; justify-content: center; margin-top: 36px; }
 .va-more button {
   padding: 14px 28px; border-radius: 999px; font-weight: 700; color: #fff;
-  background: linear-gradient(135deg, #ff6b9d, #c49cff); box-shadow: 0 12px 30px -12px rgba(255, 107, 157, 0.8);
+  background: linear-gradient(135deg, #c2185b, #7b3fb0); box-shadow: 0 12px 30px -12px rgba(194, 24, 91, 0.7); /* deep enough for white text end to end */
   transition: transform 0.5s var(--spring);
 }
 .va-more button:hover { transform: translateY(-3px) scale(1.03); }
