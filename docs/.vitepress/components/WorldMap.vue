@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, shallowRef, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { geoOrthographic, geoPath, geoGraticule10, geoInterpolate, geoDistance } from 'd3-geo'
@@ -193,7 +194,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
       <Transition name="swap" mode="out-in">
         <article :key="cur.iso + cur.title" class="now" :style="{ '--cc': COUNTRY[cur.country].color }">
           <p class="now-top"><span class="flag" aria-hidden="true">{{ COUNTRY[cur.country].flag }}</span>{{ cur.date }} · {{ COUNTRY[cur.country].ko }}<em v-if="!done(cur)">예정</em></p>
-          <h2>{{ cur.title }}</h2>
+          <h2 :lang="jaLang(cur.title)">{{ cur.title }}</h2>
           <p class="now-sub">{{ cur.sub }}</p>
           <p class="now-links">
             <a v-if="cur.video" :href="`https://www.youtube.com/watch?v=${cur.video}`" target="_blank" rel="noopener">▶ 영상</a>

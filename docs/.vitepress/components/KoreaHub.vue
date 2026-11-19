@@ -37,7 +37,7 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
   <div class="kh">
     <a class="kh-hero" :href="korea.url" target="_blank" rel="noopener">
       <span class="kh-flag" aria-hidden="true">🇰🇷</span>
-      <span class="kh-txt"><small>NEXT IN KOREA</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') }} (토) {{ korea.time }} 시작 · {{ korea.venue }}</span></span>
+      <span class="kh-txt"><small>NEXT IN KOREA</small><b lang="ja">{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') }} (토) {{ korea.time }} 시작 · {{ korea.venue }}</span></span>
       <span class="kh-dd">{{ days === null ? '' : days > 0 ? 'D-' + days : days === 0 ? 'TODAY' : 'THANK YOU' }}</span>
     </a>
     <!-- KAWAII LAB. Weverse notices 37857 (time, price, Melon Ticket Global) and 37858 (sale schedule), checked 2026-11-18 -->

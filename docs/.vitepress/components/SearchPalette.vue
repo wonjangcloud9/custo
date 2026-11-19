@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, shallowRef, computed, nextTick, onMounted, onBeforeUnmount, watch } from 'vue'
 import { withBase, useRouter } from 'vitepress'
 import type { Hit, Kind } from '../data/searchIndex'
@@ -95,7 +96,7 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
               <button v-for="h in g.items" :key="g.kind + h.href + h.title" type="button" role="option" class="sp-item"
                 :class="{ on: flat[active] === h }" :aria-selected="flat[active] === h" @mousemove="active = flat.indexOf(h)" @click="go(h)">
                 <span class="sp-ic" :style="h.color ? { background: h.color, color: '#fff' } : {}">{{ h.icon }}</span>
-                <span class="sp-txt"><b>{{ h.title }}</b><small>{{ h.sub }}</small></span>
+                <span class="sp-txt"><b :lang="jaLang(h.title)">{{ h.title }}</b><small>{{ h.sub }}</small></span>
                 <span v-if="h.ext" class="sp-ext" aria-hidden="true">↗</span>
               </button>
             </template>

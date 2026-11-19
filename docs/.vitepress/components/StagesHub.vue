@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed } from 'vue'
 import { withBase } from 'vitepress'
 
@@ -60,10 +61,10 @@ const MILESTONES = [
       </div>
       <div class="now-info">
         <p class="now-tag">NOW SHOWING</p>
-        <h2>{{ cur.song }}</h2>
+        <h2 :lang="jaLang(cur.song)">{{ cur.song }}</h2>
         <p class="now-show">{{ cur.show }}</p>
         <p class="now-note">{{ cur.note }}</p>
-        <p class="now-meta"><span>📅 {{ cur.date }}</span><span>📺 {{ cur.ch }}</span></p>
+        <p class="now-meta"><span>📅 {{ cur.date }}</span><span>📺 <span :lang="jaLang(cur.ch)">{{ cur.ch }}</span></span></p>
         <a class="yt" :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">YouTube에서 보기 ↗</a>
       </div>
     </section>
@@ -73,7 +74,7 @@ const MILESTONES = [
     <TransitionGroup tag="div" name="card" class="grid">
       <button v-for="s in list" :key="s.id" type="button" class="card" :class="[s.cat, { on: cur.id === s.id }]" :aria-pressed="cur.id === s.id" @click="pick(s)">
         <span class="th"><img :src="`https://i.ytimg.com/vi/${s.id}/mqdefault.jpg`" alt="" loading="lazy" /><span class="play" aria-hidden="true">▶</span><b class="badge">{{ s.cat === 'kr' ? '🇰🇷 음악방송' : s.cat === 'special' ? '🎙️ 스페셜' : '🏟️ 라이브' }}</b></span>
-        <span class="body"><small>{{ s.date }} · {{ s.show }}</small><strong>{{ s.song }}</strong></span>
+        <span class="body"><small>{{ s.date }} · {{ s.show }}</small><strong :lang="jaLang(s.song)">{{ s.song }}</strong></span>
       </button>
     </TransitionGroup>
 

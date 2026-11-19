@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { releases, cutieLand, MV, officialUrl, type Release, type RelType } from '../data/discography'
@@ -97,8 +98,8 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         <ol class="tracks">
           <li v-for="(t, i) in cutieLand.tracks" :key="t" :style="{ '--tc': members[i % 8].color }">
             <span class="tn">{{ String(i + 1).padStart(2, '0') }}</span>
-            <a v-if="MV[t]" :href="`https://www.youtube.com/watch?v=${MV[t]}`" target="_blank" rel="noopener">{{ t }} <small>▶ MV</small></a>
-            <span v-else>{{ t }}</span>
+            <a v-if="MV[t]" :href="`https://www.youtube.com/watch?v=${MV[t]}`" target="_blank" rel="noopener" :lang="jaLang(t)">{{ t }} <small>▶ MV</small></a>
+            <span v-else :lang="jaLang(t)">{{ t }}</span>
           </li>
         </ol>
         <div class="eds">
@@ -124,11 +125,11 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
           <span class="disc" aria-hidden="true"><span class="disc-label">{{ r.song.slice(0, 6) }}</span></span>
           <span class="sleeve">
             <img v-if="sleeveImg(r)" :src="sleeveImg(r)" alt="" loading="lazy" />
-            <span v-else class="sleeve-title sm">{{ r.song }}</span>
+            <span v-else class="sleeve-title sm" :lang="jaLang(r.song)">{{ r.song }}</span>
             <span class="type">{{ r.type }}</span>
             <span v-if="r.mv" class="has-mv">▶ {{ r.mvKind }}</span>
           </span>
-          <span class="meta"><b>{{ r.title }}</b><small>{{ fmt(r.date) }}<template v-if="r.note"> · {{ r.note }}</template></small></span>
+          <span class="meta"><b :lang="jaLang(r.title)">{{ r.title }}</b><small>{{ fmt(r.date) }}<template v-if="r.note"> · {{ r.note }}</template></small></span>
         </button>
       </div>
     </div>
@@ -138,7 +139,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
       <div v-if="cur" class="dlg-card" :style="{ '--c1': palette(cur)[0], '--c2': palette(cur)[1] }">
         <div class="dlg-top">
           <span class="type">{{ cur.type }}</span>
-          <b>{{ cur.title }}</b>
+          <b :lang="jaLang(cur.title)">{{ cur.title }}</b>
           <button type="button" class="x" aria-label="닫기" @click="close">✕</button>
         </div>
         <div v-if="cur.mv" class="dlg-media">
@@ -160,7 +161,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
             <div class="rel">
               <a v-for="v in relList.slice(0, shown)" :key="v.id" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" class="rv">
                 <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" />
-                <span>{{ v.title }}</span>
+                <span :lang="jaLang(v.title)">{{ v.title }}</span>
                 <small v-if="v.sub" class="rv-sub">{{ v.tab === 'tv' ? '📺 ' : '' }}{{ v.sub }}</small>
               </a>
             </div>

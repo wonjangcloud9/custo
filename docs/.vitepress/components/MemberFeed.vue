@@ -104,7 +104,7 @@ onMounted(() => {
           <li><b>{{ counts.teaser || 0 }}</b> MV 티저</li>
           <li><a class="to-album" :href="withBase('/likes/')"><b>{{ myLikes }}</b> 내 ♡</a></li>
         </ul>
-        <p class="ig-bio"><b>{{ m.ja }}</b> {{ m.emoji }} {{ m.nickname }}<br />CUTIE STREET · {{ m.colorName }} · 더블탭으로 ♡</p>
+        <p class="ig-bio"><b lang="ja">{{ m.ja }}</b> {{ m.emoji }} <span lang="ja">{{ m.nickname }}</span><br />CUTIE STREET · {{ m.colorName }} · 더블탭으로 ♡</p>
       </div>
     </header>
 

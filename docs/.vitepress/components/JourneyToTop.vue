@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
@@ -387,7 +388,7 @@ onBeforeUnmount(() => cleanup?.())
             <span class="date">{{ m.date }}</span>
             <span class="no">{{ String(i + 1).padStart(2, '0') }} / {{ milestones.length }}</span>
           </div>
-          <h2 class="ja">{{ m.ja }}</h2>
+          <h2 class="ja" :lang="jaLang(m.ja)">{{ m.ja }}</h2>
           <p class="ko">{{ m.ko }}</p>
           <p class="desc">{{ m.desc }}</p>
           <a v-if="m.video" class="vid" :href="`https://www.youtube.com/watch?v=${m.video}`" target="_blank" rel="noopener">

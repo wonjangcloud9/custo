@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import raw from '../data/appearances.json'
 import { members, memberById } from '../data/members'
@@ -143,9 +144,9 @@ onMounted(() => {
       <div class="oa-meta">
         <p class="oa-live"><i aria-hidden="true" />{{ playing ? 'NOW PLAYING' : 'LATEST' }}</p>
         <p class="oa-kind">{{ kindById[cur.kind].emoji }} {{ kindById[cur.kind].label }}<span v-if="pre(cur)" class="pre">데뷔 전</span></p>
-        <h2 class="oa-title">{{ cur.title }}</h2>
+        <h2 class="oa-title" :lang="jaLang(cur.title)">{{ cur.title }}</h2>
         <dl>
-          <div><dt>채널</dt><dd>{{ cur.ch }}</dd></div>
+          <div><dt>채널</dt><dd :lang="jaLang(cur.ch)">{{ cur.ch }}</dd></div>
           <div><dt>업로드</dt><dd>{{ fmtDate(cur.date) }}</dd></div>
           <div><dt>출연</dt><dd>{{ whoLabel(cur) }}</dd></div>
         </dl>
@@ -193,8 +194,8 @@ onMounted(() => {
             <span v-if="pre(a)" class="pre on-th">데뷔 전</span>
           </span>
           <span class="tx">
-            <b class="tt">{{ a.title }}</b>
-            <span class="meta"><span class="chn">{{ a.ch }}</span> · {{ fmtDate(a.date).slice(5) }}</span>
+            <b class="tt" :lang="jaLang(a.title)">{{ a.title }}</b>
+            <span class="meta"><span class="chn" :lang="jaLang(a.ch)">{{ a.ch }}</span> · {{ fmtDate(a.date).slice(5) }}</span>
             <span v-if="a.members.length" class="dots" :aria-label="`출연: ${whoLabel(a)}`">
               <i v-for="m in a.members" :key="m" :style="{ background: memberById[m].color }" />
             </span>

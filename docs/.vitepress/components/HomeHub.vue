@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { members, daysToBirthday, ageOn, onColor } from '../data/members'
@@ -167,7 +168,7 @@ function cleanTitle(t: string) {
           <span class="line"><span v-for="(c, i) in HEAD1" :key="'a' + i" class="ch" :style="{ '--i': i, '--c': members[i % 8].color }">{{ c }}</span></span>
           <span class="line"><span v-for="(c, i) in HEAD2" :key="'b' + i" class="ch" :style="{ '--i': i + 6, '--c': members[(i + 5) % 8].color }">{{ c }}</span><span class="globe" aria-hidden="true">🌏</span></span>
         </h1>
-        <p class="tag-ja">かわいいで、世界へ。 <span>— 原宿から世界へ KAWAII を届ける 8人組</span></p>
+        <p class="tag-ja" lang="ja">かわいいで、世界へ。 <span>— 原宿から世界へ KAWAII を届ける 8人組</span></p>
         <div class="cta">
           <a class="btn primary" :href="withBase('/members/')">멤버 만나기 <span aria-hidden="true">→</span></a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
@@ -205,7 +206,7 @@ function cleanTitle(t: string) {
 
     <a v-if="korea && koreaDays !== null && koreaDays >= 0 && !koreaInCountdown" class="kr" :href="withBase('/korea/')">
       <span class="kr-flag" aria-hidden="true">🇰🇷</span>
-      <span class="kr-txt"><small>한국 공연 확정</small><b>{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · ' + (korea.time ?? '') + ' 시작 · 멜론티켓 예매' }}</span></span>
+      <span class="kr-txt"><small>한국 공연 확정</small><b lang="ja">{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · ' + (korea.time ?? '') + ' 시작 · 멜론티켓 예매' }}</span></span>
       <span class="kr-dd">{{ koreaDays === 0 ? 'TODAY' : 'D-' + koreaDays }}</span>
     </a>
     <BirthdayParty v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" compact />
@@ -227,7 +228,7 @@ function cleanTitle(t: string) {
       <div class="otd-grid">
         <a v-for="x in onThisDay" :key="x.v.id" class="otd-card" :href="`https://www.youtube.com/watch?v=${x.v.id}`" target="_blank" rel="noopener">
           <span class="otd-th"><img :src="`https://i.ytimg.com/vi/${x.v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b>{{ x.ago }}년 전 {{ x.diff === 0 ? '오늘' : '이맘때' }}</b></span>
-          <span class="otd-t">{{ cleanTitle(x.v.title) }}</span><small>{{ x.v.date.replace(/-/g, '.') }}</small>
+          <span class="otd-t" :lang="jaLang(x.v.title)">{{ cleanTitle(x.v.title) }}</span><small>{{ x.v.date.replace(/-/g, '.') }}</small>
         </a>
       </div>
     </section>
@@ -239,7 +240,7 @@ function cleanTitle(t: string) {
         <a v-for="(m, i) in members" :key="m.id" class="acc-item" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--i': i }">
           <span class="acc-kanji" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span>
           <span class="acc-body">
-            <b>{{ m.ja }}</b>
+            <b lang="ja">{{ m.ja }}</b>
             <span>{{ m.ko }} · {{ m.emoji }} {{ m.colorName }}</span>
           </span>
         </a>
@@ -252,7 +253,7 @@ function cleanTitle(t: string) {
       <div class="rail">
         <a v-for="v in latest" :key="v.id" class="rv" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
           <span class="rv-thumb"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" /><span v-if="v.duration" class="rv-dur">{{ v.duration }}</span><span v-if="v.published && now !== null && now - new Date(v.published + 'T00:00:00Z').getTime() < 7 * 86400000" class="rv-new">NEW</span></span>
-          <span class="rv-ttl">{{ cleanTitle(v.title) }}</span>
+          <span class="rv-ttl" :lang="jaLang(v.title)">{{ cleanTitle(v.title) }}</span>
           <span v-if="v.date" class="rv-date">{{ v.date.replace(/-/g, '.') }}</span>
         </a>
       </div>

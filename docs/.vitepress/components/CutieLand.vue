@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { cutieLand, MV, releases } from '../data/discography'
@@ -59,14 +60,14 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
     <aside class="cl-side">
       <div class="cl-stage" aria-hidden="true">
         <div class="cl-disc" :style="{ '--tc': cur.color }">
-          <div class="cl-label"><b>{{ String(cur.n).padStart(2, '0') }}</b><span>{{ cur.title }}</span></div>
+          <div class="cl-label"><b>{{ String(cur.n).padStart(2, '0') }}</b><span :lang="jaLang(cur.title)">{{ cur.title }}</span></div>
         </div>
         <div class="cl-sleeve"><span>CUTIE<br />LAND</span><small>1st ALBUM</small></div>
       </div>
       <div class="cl-info">
         <p class="eyebrow">2026.12.02 RELEASE</p>
         <p class="dday">{{ days === null ? '' : days > 0 ? `D-${days}` : days === 0 ? 'TODAY 🎉' : 'OUT NOW 💿' }}</p>
-        <p class="now">Now spinning · <b>{{ cur.title }}</b></p>
+        <p class="now">Now spinning · <b :lang="jaLang(cur.title)">{{ cur.title }}</b></p>
         <div class="eds">
           <div v-for="e in cutieLand.editions" :key="e.code" class="ed"><b>{{ e.name }}</b><span>{{ e.spec }}</span><small>{{ e.code }} · {{ e.price }}</small></div>
         </div>

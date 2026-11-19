@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
@@ -195,7 +196,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
     <!-- NEXT UP -->
     <a v-if="next" class="next" :href="next.url" target="_blank" rel="noopener" :style="{ '--cc': catMeta[next.cat].color }">
       <span class="next-eyebrow"><span class="dot" /> NEXT UP · {{ catMeta[next.cat].emoji }} {{ catMeta[next.cat].ko }}</span>
-      <b class="next-title">{{ next.ja }}</b>
+      <b class="next-title" :lang="jaLang(next.ja)">{{ next.ja }}</b>
       <span class="next-ko">{{ next.ko }}<template v-if="next.venue"> · 📍 {{ next.venue }}</template></span>
       <span v-if="cd" class="clock" aria-live="off">
         <span><b>{{ cd.d }}</b><small>DAYS</small></span>
@@ -279,11 +280,11 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
                 <span v-if="e.member" class="bday">🎂 {{ memberById[e.member].ko }}</span>
                 <span class="dd" :class="{ hot: ['TODAY', 'ON AIR', 'NOW'].includes(dLabel(e)), live: ['ON AIR', 'NOW'].includes(dLabel(e)) }">{{ dLabel(e) }}</span>
               </div>
-              <h3 class="ev-ja">{{ e.ja }}</h3>
+              <h3 class="ev-ja" :lang="jaLang(e.ja)">{{ e.ja }}</h3>
               <p class="ev-ko">{{ e.ko }}</p>
               <p class="ev-meta">
                 <span v-if="e.time">🕕 {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</span>
-                <span v-if="e.venue">📍 {{ e.venue }}</span>
+                <span v-if="e.venue">📍 <span :lang="jaLang(e.venue)">{{ e.venue }}</span></span>
               </p>
               <div class="ev-act">
                 <a :href="e.url" target="_blank" rel="noopener">공식 상세 ↗</a>

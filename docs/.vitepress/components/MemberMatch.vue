@@ -155,7 +155,7 @@ async function drawAndDeliver() {
         <div class="face front-f">
           <p class="r-eyebrow">나와 닮은 멤버는</p>
           <div class="r-kanji">{{ result.ja.slice(-2, -1) }}</div>
-          <h2 class="r-name">{{ result.ja }}</h2>
+          <h2 class="r-name" lang="ja">{{ result.ja }}</h2>
           <p class="r-ko">{{ result.ko }} {{ result.emoji }} · <b>{{ pct }}%</b> 일치</p>
           <ul class="why"><li v-for="r in reasons" :key="r">♡ {{ r }}</li></ul>
           <p class="facts">{{ result.colorName }} · {{ prefectureKo[result.birthplace] }} 출신 · {{ result.birthday.slice(5).replace('-', '/') }} 생일</p>

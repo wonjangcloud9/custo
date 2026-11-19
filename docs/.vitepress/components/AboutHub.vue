@@ -78,7 +78,7 @@ const QUIZ = [
           <span v-for="(w, wi) in WORDS" :key="w" class="word" aria-hidden="true"><span v-for="(ch, i) in w.split('')" :key="i" :style="{ '--c': members[(wi * 5 + i) % 8].color, '--i': wi * 5 + i }">{{ ch }}</span></span>
         </h1>
         <p class="kana" lang="ja">キューティーストリート · きゅーすと</p>
-        <p class="lead">하라주쿠에서 세계로 <b>KAWAII</b>를 발신하는 8인조, <b>큐티스트리트</b>.<br />데뷔 2년 만에 日本武道館과 紅白까지 — <span class="motto">かわいいで、世界へ。</span></p>
+        <p class="lead">하라주쿠에서 세계로 <b>KAWAII</b>를 발신하는 8인조, <b>큐티스트리트</b>.<br />데뷔 2년 만에 日本武道館과 紅白까지 — <span class="motto" lang="ja">かわいいで、世界へ。</span></p>
         <nav class="links" aria-label="공식 채널">
           <a v-for="l in LINKS" :key="l.t" :href="l.h" target="_blank" rel="noopener"><span aria-hidden="true">{{ l.i }}</span>{{ l.t }}</a>
         </nav>

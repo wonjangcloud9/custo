@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { useOshi } from '../theme/oshi'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import ShareButton from './ShareButton.vue'
@@ -223,9 +224,9 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
         </button>
         <div class="body">
           <span class="pill" :data-cat="v.category">{{ catLabel[v.category]?.emoji }} {{ catLabel[v.category]?.label }}</span>
-          <h3 class="ttl">{{ cleanTitle(v.title) }}</h3>
+          <h3 class="ttl" :lang="jaLang(v.title)">{{ cleanTitle(v.title) }}</h3>
           <p class="meta">
-            <span v-if="v.venue">📍 {{ v.venue }}</span>
+            <span v-if="v.venue">📍 <span :lang="jaLang(v.venue)">{{ v.venue }}</span></span>
             <span v-if="v.date">{{ fmtDate(v.date) }}</span>
           </p>
           <div v-if="v.members.length" class="dots">
@@ -247,7 +248,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen @load="subscribe" />
         </div>
         <div class="va-player-bar">
-          <p>{{ playing.title }}</p>
+          <p :lang="jaLang(playing.title)">{{ playing.title }}</p>
           <a :href="`https://www.youtube.com/watch?v=${playing.id}`" target="_blank" rel="noopener">YouTube에서 보기 ↗</a>
           <button type="button" class="x" aria-label="닫기" @click="close">✕</button>
         </div>

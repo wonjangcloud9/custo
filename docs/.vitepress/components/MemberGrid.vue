@@ -13,7 +13,7 @@ import { members, onColor } from '../data/members'
       <span v-if="oshi === m.id" class="mg-oshi">💖 내 최애</span>
       <span class="mg-face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span>
       <span class="mg-info">
-        <b class="mg-ja">{{ m.ja }}</b>
+        <b class="mg-ja" lang="ja">{{ m.ja }}</b>
         <span class="mg-ko">{{ m.ko }}</span>
         <span class="mg-meta">{{ m.birthday.replace(/-/g, '.') }} · {{ m.height }}cm · {{ m.colorName }}</span>
       </span>

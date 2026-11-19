@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
@@ -168,7 +169,7 @@ function pickDay(now: number) {
           </div>
           <a v-for="h in data.feats" :key="h.url" class="feat" :href="h.url" target="_blank" rel="noopener">
             <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">{{ kindMeta[h.kind].emoji }} {{ kindMeta[h.kind].ko }}</b></span>
-            <span class="feat-body"><strong>{{ h.ko }}</strong><small>{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
+            <span class="feat-body"><strong>{{ h.ko }}</strong><small :lang="jaLang(h.title)">{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
           </a>
           <a v-for="v in data.videos" :key="v.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
             <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">🎬 새 영상</b><i v-if="v.duration" class="dur">{{ v.duration }}</i></span>
@@ -176,7 +177,7 @@ function pickDay(now: number) {
           </a>
           <a v-for="x in data.aps.slice(0, 3)" :key="x.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${x.id}`" target="_blank" rel="noopener">
             <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">📺 다른 채널 출연</b><i v-if="x.secs" class="dur">{{ fmtLen(x.secs) }}</i></span>
-            <span class="feat-body"><strong>{{ x.title }}</strong><small>{{ x.ch }}</small></span>
+            <span class="feat-body"><strong :lang="jaLang(x.title)">{{ x.title }}</strong><small :lang="jaLang(x.ch)">{{ x.ch }}</small></span>
           </a>
           <a v-if="data.aps.length > 3" class="td-more" :href="withBase('/appearances/')">📺 이날 다른 채널 출연 {{ data.aps.length - 3 }}편 더 보기 →</a>
         </div>

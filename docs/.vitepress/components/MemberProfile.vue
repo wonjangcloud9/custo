@@ -143,7 +143,7 @@ function onKey(e: KeyboardEvent) {
 
       <div class="hero-text">
         <p class="no">MEMBER {{ String(idx + 1).padStart(2, '0') }} / 08 · {{ m.emoji }} {{ m.colorName }}</p>
-        <p class="kana">{{ m.kana }}</p>
+        <p class="kana" lang="ja">{{ m.kana }}</p>
         <h2 class="ja"><span v-for="(ch, i) in m.ja.split('')" :key="i" :style="{ '--i': i }">{{ ch }}</span></h2>
         <p class="ko">{{ m.ko }} <span>· {{ m.en }}</span></p>
         <div class="sns">
@@ -161,7 +161,7 @@ function onKey(e: KeyboardEvent) {
         <div class="holo-inner">
           <div class="holo-top"><span>CUTIE STREET</span><span>KAWAII LAB.</span></div>
           <div class="holo-face" aria-hidden="true" :style="{ '--face-ink': onColor(m.color) }">{{ m.ja.slice(-2, -1) }}</div>
-          <div class="holo-name">{{ m.ja }}</div>
+          <div class="holo-name" lang="ja">{{ m.ja }}</div>
           <div class="holo-row"><span>BIRTH</span><b>{{ m.birthday.replace(/-/g, '.') }}</b></div>
           <div class="holo-row"><span>FROM</span><b>{{ m.birthplace }}</b></div>
           <div class="holo-row"><span>HEIGHT</span><b>{{ m.height }}cm</b></div>

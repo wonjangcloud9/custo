@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { computed } from 'vue'
 import { memberById } from '../data/members'
 import { stories } from '../data/memberStories'
@@ -64,7 +65,7 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
       <div class="ap-row">
         <a v-for="a in aps.slice(0, 4)" :key="a.id" class="ap" :href="`https://www.youtube.com/watch?v=${a.id}`" target="_blank" rel="noopener">
           <img :src="`https://i.ytimg.com/vi/${a.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" />
-          <b>{{ a.title }}</b><small>{{ a.ch }} · {{ a.date.replace(/-/g, '.') }}</small>
+          <b :lang="jaLang(a.title)">{{ a.title }}</b><small>{{ a.ch }} · {{ a.date.replace(/-/g, '.') }}</small>
         </a>
       </div>
       <a class="ap-more" :href="withBase(`/appearances/?m=${m.id}`)">{{ m.ko.split(' ')[1] }} 출연 {{ aps.length }}편 + 그룹 출연 {{ groupN }}편 모두 보기 →</a>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { jaLang } from '../theme/lang'
 import { ref } from 'vue'
 // Lightweight YouTube facade: shows the official thumbnail and only loads the player iframe on click.
 const props = defineProps<{ id: string; title?: string }>()
@@ -12,7 +13,7 @@ const on = ref(false)
     <button v-else type="button" class="yt-poster" :aria-label="`${props.title || '영상'} 재생`" @click="on = true">
       <img :src="`https://i.ytimg.com/vi/${props.id}/hqdefault.jpg`" alt="" loading="lazy" />
       <span class="yt-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" /></svg></span>
-      <span v-if="props.title" class="yt-title">{{ props.title }}</span>
+      <span v-if="props.title" class="yt-title" :lang="jaLang(props.title)">{{ props.title }}</span>
     </button>
   </div>
 </template>
