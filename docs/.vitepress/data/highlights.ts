@@ -13,6 +13,13 @@ export interface Highlight {
 
 export const highlights: Highlight[] = [
   {
+    date: '2026-11-19', kind: 'web',
+    title: 'オトバズ収録現場に10時間密着したら…チョコプラ、CUTIE STREET、マルシィ、GENERATIONS、こっちのけんと、ICEx、GENTA YAMAGUCHI、ME:Iに遭遇しました…#281',
+    ko: '키타야마 히로미츠가 「オトバズ」 녹화 현장 10시간 밀착 — 큐티스트리트도 등장! 🎙️',
+    url: 'https://www.youtube.com/watch?v=C3lx7V1_L2s', video: 'C3lx7V1_L2s',
+    source: '北山宏光 공식 채널 @k_hiro_mitsu917 (TOBE 공식 채널 설명란에 기재된 핸들)',
+  },
+  {
     date: '2026-11-17', kind: 'feature',
     title: '[MV] YENA (최예나)_사쿠란보 (Sakuranbo) : J-POP REMAKE Vol.5',
     ko: '최예나 「사쿠란보」 J-POP 리메이크 MV에 큐티스트리트 출연! 🍒',
