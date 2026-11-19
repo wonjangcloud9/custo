@@ -2,6 +2,7 @@
 import { ref, computed, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { members, memberById, prefectureKo, onColor } from '../data/members'
+import { loadFonts, deliver } from '../theme/card'
 
 // Every option maps only to verified facts (member color, hobbies, hometown, birthday season, unit) — see loop/ROADMAP.md
 interface Opt { label: string; emoji: string; pts: Record<string, number>; why: string }
@@ -88,17 +89,24 @@ function reveal() {
 }
 
 // share image (original graphic only — no photos)
+// phones: the share sheet with the image; elsewhere a PNG download (theme/card.ts)
+const saveState = ref<'' | 'busy' | 'saved' | 'shared' | 'failed'>('')
 async function download() {
+  if (saveState.value === 'busy') return
+  saveState.value = 'busy'
+  try { await drawAndDeliver() } catch { saveState.value = 'failed' }
+  if (saveState.value === 'busy') saveState.value = ''
+  if (saveState.value) setTimeout(() => (saveState.value = ''), 1800)
+}
+async function drawAndDeliver() {
   const m = result.value
   const W = 1080, H = 1350
   const lines = ['나와 닮은 CUTIE STREET 멤버는', m.ja, `${m.ko} ${m.emoji} ${pct.value}% 일치`, ...reasons.value.slice(0, 3).map((r) => `♡ ${r}`), 'custo · CUTIE STREET 비공식 팬허브']
-  // web fonts load per unicode-range subset — ask for the ones holding this exact text before drawing (#172)
-  try {
-    const all = lines.join('') + m.ja.slice(-2, -1)
-    await Promise.all(['700 100px "Zen Maru Gothic"', '700 40px "Noto Sans KR"', '400 40px "Noto Sans KR"', '700 40px "Noto Sans JP"'].map((f) => document.fonts.load(f, all)))
-  } catch { /* system fonts */ }
+  // load the font subsets holding this exact text before drawing (#172)
+  await loadFonts(lines.join('') + m.ja.slice(-2, -1), ['700 100px "Zen Maru Gothic"', '700 40px "Noto Sans KR"', '400 40px "Noto Sans KR"', '700 40px "Noto Sans JP"'])
   const c = document.createElement('canvas'); c.width = W; c.height = H
-  const g = c.getContext('2d')!
+  const g = c.getContext('2d')
+  if (!g) { saveState.value = 'failed'; return }
   const grad = g.createLinearGradient(0, 0, W, H)
   grad.addColorStop(0, '#fff6fb'); grad.addColorStop(1, m.color + '55')
   g.fillStyle = grad; g.fillRect(0, 0, W, H)
@@ -112,7 +120,10 @@ async function download() {
   g.font = '400 34px "Noto Sans KR", sans-serif'; g.fillStyle = '#6a4f70'
   reasons.value.slice(0, 3).forEach((r, i) => g.fillText(`♡ ${r}`, W / 2, 1160 + i * 48))
   g.font = '700 28px "Noto Sans KR", sans-serif'; g.fillStyle = '#8a6a90'; g.fillText('custo · CUTIE STREET 비공식 팬허브', W / 2, H - 50)
-  const a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = `cutiestreet-match-${m.id}.png`; a.click()
+  const blob = await new Promise<Blob | null>((res) => c.toBlob((b) => res(b), 'image/png'))
+  if (!blob) { saveState.value = 'failed'; return }
+  const r = await deliver(blob, `cutiestreet-match-${m.id}.png`, `나와 닮은 멤버는 ${m.ko}`)
+  saveState.value = r === 'cancelled' ? '' : r
 }
 </script>
 
@@ -139,7 +150,7 @@ async function download() {
       <div class="confetti" aria-hidden="true">
         <i v-for="p in confetti" :key="p.id" :style="{ left: p.x + '%', background: p.c, animationDelay: p.d + 's', rotate: p.r + 'deg' }" />
       </div>
-      <div class="card" :class="{ flipped }" :style="{ '--mc': result.color }">
+      <div class="card" :class="{ flipped }" :style="{ '--mc': result.color, '--on-mc': onColor(result.color) }">
         <div class="face back-f" aria-hidden="true"><span>?</span></div>
         <div class="face front-f">
           <p class="r-eyebrow">나와 닮은 멤버는</p>
@@ -152,7 +163,8 @@ async function download() {
       </div>
       <div class="r-act">
         <a class="btn primary" :href="withBase(`/members/${result.id}`)" :style="{ background: `color-mix(in srgb, ${result.color} 62%, #2a1030)`, borderColor: 'transparent' }">{{ result.ko.split(' ')[1] }} 만나러 가기 →</a>
-        <button type="button" class="btn" @click="download">📸 결과 이미지 저장</button>
+        <button type="button" class="btn" :disabled="saveState === 'busy'" @click="download">{{ saveState === 'busy' ? '만드는 중…' : saveState === 'saved' ? '✓ 저장했어요' : saveState === 'shared' ? '✓ 공유 완료' : saveState === 'failed' ? '만들지 못했어요' : '📸 결과 이미지 저장' }}</button>
+        <span class="sr-only" aria-live="polite">{{ saveState === 'saved' ? '결과 이미지를 저장했어요' : saveState === 'shared' ? '결과 이미지를 공유했어요' : saveState === 'failed' ? '결과 이미지를 만들지 못했어요' : '' }}</span>
         <button type="button" class="btn" @click="restart">↺ 다시 하기</button>
       </div>
       <div class="board">
@@ -199,7 +211,7 @@ async function download() {
 .card.flipped .back-f { transform: rotateY(-180deg); }
 .card.flipped .front-f { transform: rotateY(0); }
 .r-eyebrow { margin: 0 !important; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: #c2457a; }
-.r-kanji { flex: none; width: 130px; height: 130px; margin: 12px 0; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: #fff; font-size: 70px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; box-shadow: 0 16px 30px -12px var(--mc); }
+.r-kanji { flex: none; width: 130px; height: 130px; margin: 12px 0; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: var(--on-mc, #fff); font-size: 70px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; box-shadow: 0 16px 30px -12px var(--mc); }
 .r-name { margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 38px !important; color: color-mix(in srgb, var(--mc) 60%, #3a2340); }
 .r-ko { margin: 4px 0 0 !important; font-weight: 700; }
 .why { list-style: none; padding: 0 !important; margin: 12px 0 0 !important; font-size: 13.5px; color: #5a4060; }
@@ -216,4 +228,5 @@ async function download() {
 .board b { text-align: left; font-variant-numeric: tabular-nums; }
 @media (max-width: 560px) { .quiz { padding: 18px; } .opts, .opts.many { grid-template-columns: 1fr; } .opt { padding: 12px 14px; } }
 @media (prefers-reduced-motion: reduce) { .face { transition: none; } .opt { animation: none; transition: none; } .q-enter-active, .q-leave-active { transition: none; } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
