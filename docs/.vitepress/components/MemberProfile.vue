@@ -438,7 +438,7 @@ function onKey(e: KeyboardEvent) {
 .up { margin-top: 18px; }
 .up-h { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px !important; padding: 0 !important; border: 0 !important; font-size: 16px !important; }
 .up-h a { margin-left: auto; font-size: 12.5px; font-weight: 700; color: var(--mc-deep) !important; }
-.up-list { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; gap: 8px; }
+.up-list { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; } /* the auto track grew to the nowrap meta line's width: rows 26px wider than the card on phones, tags clipped (#209) */
 .up-list li { margin: 0 !important; }
 .up-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px 8px 8px; border-radius: 18px; background: #fff; border: 1.5px solid var(--mc-soft); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), border-color 0.2s; }
 .up-row:hover { transform: translateX(4px); border-color: color-mix(in srgb, var(--mc) 45%, white); }
