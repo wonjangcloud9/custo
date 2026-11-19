@@ -456,18 +456,18 @@ function cleanTitle(t: string) {
 .acc-item:hover, .acc-item:focus-visible,
 .acc:not(:hover):not(:focus-within) .acc-item:first-child { flex-grow: 4; }
 .acc:not(:hover):not(:focus-within) .acc-item:first-child .acc-kanji { font-size: 150px; left: 18px; translate: 0 0; }
-.acc:not(:hover):not(:focus-within) .acc-item:first-child .acc-body { opacity: 1; transform: none; }
+.acc:not(:hover):not(:focus-within) .acc-item:first-child .acc-body { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 .acc-kanji {
   position: absolute; top: 14px; left: 50%; translate: -50% 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700;
   font-size: 64px; line-height: 1; opacity: 0.9; transition: font-size 0.6s var(--spring), left 0.6s var(--spring), translate 0.6s var(--spring);
   text-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 .acc-item:hover .acc-kanji { font-size: 150px; left: 18px; translate: 0 0; }
-.acc-body { padding: 18px; display: flex; flex-direction: column; gap: 2px; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.5s var(--spring); white-space: nowrap; }
-.acc-body { text-shadow: 0 1px 10px rgba(40, 10, 40, 0.45); }
+.acc-body { padding: 18px; display: flex; flex-direction: column; gap: 2px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.3s, transform 0.5s var(--spring), visibility 0s 0.3s; white-space: nowrap; } /* visibility too: a faint ghost of the name stayed on collapsed cards (#205) */
+.acc-body { text-shadow: 0 1px 10px rgba(40, 10, 40, 0.45); flex: 1; background: linear-gradient(to top, rgba(42, 16, 48, 0.62), rgba(42, 16, 48, 0)); } /* scrim under the white name: Risa's open card read 2.6:1 on desktop (#205) */
 .acc-body b { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px; }
 .acc-body span { font-size: 13px; font-weight: 600; opacity: 0.9; }
-.acc-item:hover .acc-body, .acc-item:focus-visible .acc-body { opacity: 1; transform: none; transition-delay: 0.15s; }
+.acc-item:hover .acc-body, .acc-item:focus-visible .acc-body { opacity: 1; visibility: visible; transform: none; transition-delay: 0.15s, 0.15s, 0s; }
 
 /* RAIL */
 .rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; scrollbar-width: thin; }
@@ -518,11 +518,11 @@ function cleanTitle(t: string) {
   .acc-kanji { font-size: 34px; left: 18px; translate: 0 0; top: 50%; margin-top: -17px; }
   .acc-item:hover .acc-kanji,
   .acc:not(:hover):not(:focus-within) .acc-item:first-child .acc-kanji { font-size: 34px; left: 18px; }
-  .acc-body { opacity: 1; transform: none; padding: 12px 18px 12px 72px; }
+  .acc-body { opacity: 1; visibility: visible; transform: none; padding: 12px 18px 12px 72px; }
   /* phones: the short pills only show the gradient's light top, so white names sank to 1.5:1 on Risa's yellow
      (#198) — a lighter member-colour sweep with dark ink instead (every member colour reads better dark) */
   .acc-item { color: #2a1030 !important; background: linear-gradient(100deg, color-mix(in srgb, var(--mc) 55%, white), color-mix(in srgb, var(--mc) 85%, white)); }
-  .acc-body { text-shadow: none; }
+  .acc-body { text-shadow: none; background: none; }
   .acc-body span { opacity: 1; }
   .acc-kanji { color: #fff; text-shadow: 0 2px 10px color-mix(in srgb, var(--mc) 70%, #2a1030); }
   .acc-body b { font-size: 18px; }
