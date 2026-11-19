@@ -42,6 +42,7 @@ const lazy = {
   AppearanceArchive: () => import('../components/AppearanceArchive.vue'),
   AlbumGuide: () => import('../components/AlbumGuide.vue'),
   MvSceneQuiz: () => import('../components/MvSceneQuiz.vue'),
+  OfflineReady: () => import('../components/OfflineReady.vue'),
 }
 
 export default {

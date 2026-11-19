@@ -326,6 +326,10 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 @keyframes spin { to { transform: rotate(360deg); } }
 .next > * { position: relative; z-index: 1; }
 .skeleton { min-height: 220px; }
+/* the server can't know what's next (it depends on now), so it renders a placeholder; size it like the real card and
+   give the card the same floor, or the whole timeline jumps when it hydrates (desktop CLS 0.116, #235) */
+.next, .skeleton { min-height: 300px; justify-content: center; }
+@media (min-width: 641px) { .next, .skeleton { min-height: 287px; } }
 .next-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.18em; color: #ffc1d8; display: flex; align-items: center; gap: 8px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6b9d; animation: ping 1.6s infinite; }
 @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.7); } 70%, 100% { box-shadow: 0 0 0 10px rgba(255, 107, 157, 0); } }

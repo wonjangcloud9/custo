@@ -7,6 +7,8 @@ description: CUTIE STREET 공식 스케줄 — 아레나 투어, TV, 이벤트, 
 
 <PageHero eyebrow="SCHEDULE" title="스케줄" sticker="🗓️" lead="공식 스케줄의 공연·방송·이벤트·발매를 한눈에. 카운트다운과 캘린더 추가까지 할 수 있어요." />
 
+<OfflineReady />
+
 <ScheduleBoard />
 
 <NextCards title="더 둘러보기 ✨" :items="[
