@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { useRoute } from 'vitepress'
 import { members, memberById } from '../data/members'
 import { loadOshi, oshi } from '../theme/oshi'
@@ -64,7 +64,26 @@ function registerSw() {
   'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 4000 }) : setTimeout(go, 2000)
 }
 
+// a few screen-reader labels are hard-coded in English inside VitePress' theme (no config for them) — #200
+const CHROME_KO: [string, string, string][] = [
+  ['#main-nav-aria-label', 'text', '주 메뉴'],
+  ['#sidebar-aria-label', 'text', '사이드바 메뉴'],
+  ['#doc-footer-aria-label', 'text', '이전·다음 페이지'],
+  ['.VPNavBarHamburger', 'aria-label', '메뉴 열기'],
+  ['.VPNavBarExtra button', 'aria-label', '더 보기'],
+  ['.VPSidebarItem .caret[role="button"]', 'aria-label', '목록 펼치기·접기'],
+]
+function localizeChrome() {
+  for (const [sel, what, ko] of CHROME_KO) {
+    for (const el of document.querySelectorAll(sel)) {
+      if (what === 'text') { if (el.textContent?.trim() !== ko) el.textContent = ko } else el.setAttribute(what, ko)
+    }
+  }
+}
+watch(() => route.path, () => nextTick(localizeChrome))
+
 onMounted(() => {
+  localizeChrome()
   registerSw()
   if (!navigator.onLine) net.value = 'offline'
   window.addEventListener('offline', onOffline)

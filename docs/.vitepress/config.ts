@@ -51,6 +51,18 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
   ],
   sitemap: { hostname: 'https://wonjangcloud9.github.io/custo/' },
+  // heading anchors: VitePress labels them 'Permalink to "…"' for screen readers; same markup, Korean label (#200)
+  markdown: {
+    anchor: {
+      permalink: (slug: string, _opts: unknown, state: any, idx: number) => {
+        const title = state.tokens[idx + 1].content
+        const space = Object.assign(new state.Token('text', '', 0), { content: ' ' })
+        const open = Object.assign(new state.Token('link_open', 'a', 1), { attrs: [['class', 'header-anchor'], ['href', `#${slug}`], ['aria-label', `‘${title}’ 제목으로 바로 가는 링크`]] })
+        const zw = Object.assign(new state.Token('html_inline', '', 0), { content: '&ZeroWidthSpace;' })
+        state.tokens[idx + 1].children.push(space, open, zw, new state.Token('link_close', 'a', -1))
+      },
+    },
+  },
   // the build's own clock, identical on the server render and before the page mounts — lets 'what's next' lists
   // render into the HTML instead of popping in after hydration (#196, layout shift)
   vite: { define: { __BUILD_TIME__: JSON.stringify(Date.now()) } },
@@ -165,9 +177,9 @@ export default defineConfig({
       ],
     },
     socialLinks: [
-      { icon: 'x', link: 'https://x.com/CUTIE_STREET_' },
-      { icon: 'instagram', link: 'https://www.instagram.com/cutie_street_/' },
-      { icon: 'youtube', link: 'https://www.youtube.com/@CUTIE_STREET' },
+      { icon: 'x', link: 'https://x.com/CUTIE_STREET_', ariaLabel: 'CUTIE STREET 공식 X' },
+      { icon: 'instagram', link: 'https://www.instagram.com/cutie_street_/', ariaLabel: 'CUTIE STREET 공식 인스타그램' },
+      { icon: 'youtube', link: 'https://www.youtube.com/@CUTIE_STREET', ariaLabel: 'CUTIE STREET 공식 유튜브' },
     ],
     footer: {
       message: '귀여움으로 세계까지 — CUTIE STREET 비공식 팬허브 · 영상·이미지 저작권은 각 권리자(ASOBISYSTEM / KAWAII LAB.)에 있습니다',
