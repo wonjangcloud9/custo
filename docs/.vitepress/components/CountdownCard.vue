@@ -7,6 +7,7 @@ import { loadFonts, roundRect, fitText, deliver } from '../theme/card'
 // Hidden once the date has passed; on the day it reads TODAY.
 const props = defineProps<{
   date: string // YYYY-MM-DD (Japan date)
+  through?: string // last day of a multi-day run (two-day final): TODAY on every day of it, hidden after
   kicker: string // small line at the top
   glyph: string // 1–2 characters in the tile
   title: string // e.g. '「CUTIE LAND」 발매까지'
@@ -20,7 +21,14 @@ const props = defineProps<{
 }>()
 const now = useClock()
 const jst = (ms: number) => new Date(ms + 9 * 3600e3).toISOString().slice(0, 10)
-const days = computed(() => (now.value === null ? null : Math.round((Date.parse(`${props.date}T00:00:00+09:00`) - Date.parse(`${jst(now.value)}T00:00:00+09:00`)) / 86400000)))
+const dayDiff = (d: string) => Math.round((Date.parse(`${d}T00:00:00+09:00`) - Date.parse(`${jst(now.value!)}T00:00:00+09:00`)) / 86400000)
+// days until the first day; 0 on every day of a multi-day run; negative (hidden) once the last day has passed
+const days = computed(() => {
+  if (now.value === null) return null
+  const d = dayDiff(props.date)
+  if (d < 0 && props.through && dayDiff(props.through) >= 0) return 0
+  return d
+})
 const state = ref<'' | 'busy' | 'saved' | 'shared' | 'failed'>('')
 
 async function draw(d: number): Promise<Blob | null> {
