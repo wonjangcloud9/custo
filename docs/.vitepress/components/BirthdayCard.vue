@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { memberById, onColor, ageOn } from '../data/members'
+import { loadFonts, roundRect, fitText, deliver } from '../theme/card'
 
 // '생일 D-day 카드': draws a 1080×1350 share card on a canvas — member colour, her kanji, the countdown,
 // names and the date. Text and colour only (no photos, rule 2). Phones get the share sheet, others a PNG download.
@@ -17,12 +18,8 @@ async function draw(): Promise<Blob | null> {
   const W = 1080, H = 1350
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H
   const g = cv.getContext('2d')!
-  // web fonts arrive per unicode-range subset: pass the exact text so the subsets holding these glyphs load
-  // before drawing (otherwise characters the page hasn't shown yet fall back to a system font)
-  const all = `${m.ja}${m.ko}${m.ja.slice(-2, -1)}0123456789D-HAPPYBIRTHDAY오늘은의번째생일까지♥·月日CUTIESTREET팬허브${location.host}/membrs`
-  try {
-    await Promise.all(['700 120px "Zen Maru Gothic"', '700 60px "Noto Sans KR"', '700 60px "Noto Sans JP"'].map((f) => document.fonts.load(f, all)))
-  } catch { /* fall back to system fonts */ }
+  await loadFonts(`${m.ja}${m.ko}0123456789D-HAPPYBIRTHDAY오늘은의번째생일까지♥·月日CUTIESTREET팬허브${location.host}/members`,
+    ['700 120px "Zen Maru Gothic"', '700 60px "Noto Sans KR"', '700 60px "Noto Sans JP"'])
   const ink = onColor(m.color)
   const soft = ink === '#fff' ? 'rgba(255,255,255,0.82)' : 'rgba(42,16,48,0.72)'
   // background: member colour fading to a lighter tint, with a soft glow
@@ -42,13 +39,7 @@ async function draw(): Promise<Blob | null> {
   const kanji = m.ja.slice(-2, -1)
   g.fillStyle = ink === '#fff' ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.45)'
   const tx = W / 2 - 170, ty = 170
-  g.beginPath()
-  if (g.roundRect) g.roundRect(tx, ty, 340, 340, 72)
-  else { // Safari < 16 has no roundRect: trace the rounded square by hand
-    const r = 72, w = 340
-    g.moveTo(tx + r, ty); g.arcTo(tx + w, ty, tx + w, ty + w, r); g.arcTo(tx + w, ty + w, tx, ty + w, r); g.arcTo(tx, ty + w, tx, ty, r); g.arcTo(tx, ty, tx + w, ty, r); g.closePath()
-  }
-  g.fill()
+  roundRect(g, tx, ty, 340, 340, 72); g.fill()
   g.fillStyle = ink; g.font = '700 230px "Zen Maru Gothic", "Noto Sans JP", sans-serif'; g.fillText(kanji, W / 2, ty + 180)
   // countdown
   const d = props.dday
@@ -56,12 +47,7 @@ async function draw(): Promise<Blob | null> {
   g.font = `700 ${today ? 150 : 250}px "Zen Maru Gothic", sans-serif`
   g.fillText(today ? 'HAPPY' : `D-${d}`, W / 2, today ? 690 : 720)
   if (today) g.fillText('BIRTHDAY', W / 2, 850)
-  // one line that must stay inside the card: shrink the font 2px at a time until it fits (long names, the site address)
-  const fit = (text: string, family: string, size: number, y: number) => {
-    let px = size
-    do { g.font = `700 ${px}px ${family}`; px -= 2 } while (g.measureText(text).width > W - 120 && px > 18)
-    g.fillText(text, W / 2, y)
-  }
+  const fit = (text: string, family: string, size: number, y: number) => fitText(g, text, family, size, W / 2, y, W - 120)
   g.fillStyle = soft
   const turning = ageOn(m.birthday, new Date()) + (today ? 0 : 1)
   fit(today ? `오늘은 ${m.ko}의 ${turning}번째 생일 ♥` : `${m.ko} ${turning}번째 생일까지`, '"Noto Sans KR", sans-serif', 54, today ? 990 : 900)
@@ -79,15 +65,9 @@ async function save() {
   let blob: Blob | null = null
   try { blob = await draw() } catch { /* canvas unsupported → report below instead of staying 'busy' */ }
   if (!blob) { state.value = 'failed'; return reset() }
-  const file = new File([blob], `cutiestreet-${m.id}-birthday.png`, { type: 'image/png' })
-  if (matchMedia('(pointer: coarse)').matches && navigator.canShare?.({ files: [file] })) {
-    try { await navigator.share({ files: [file], title: `${m.ko} 생일 카운트다운` }); state.value = 'shared'; return reset() }
-    catch (e) { if ((e as Error).name === 'AbortError') { state.value = ''; return } }
-  }
-  const a = document.createElement('a')
-  a.href = URL.createObjectURL(blob); a.download = file.name; a.click()
-  setTimeout(() => URL.revokeObjectURL(a.href), 1500)
-  state.value = 'saved'; reset()
+  const r = await deliver(blob, `cutiestreet-${m.id}-birthday.png`, `${m.ko} 생일 카운트다운`)
+  if (r === 'cancelled') { state.value = ''; return }
+  state.value = r; reset()
 }
 function reset() { setTimeout(() => (state.value = ''), 1800) }
 </script>
