@@ -48,6 +48,36 @@ function show(e: MouseEvent | FocusEvent, t: string) {
   tip.value = { x: r.left - h.left + r.width / 2, y: r.top - h.top, t }
 }
 const table = ref(false)
+// monthly chart as one scrubbable slider (#197): 27 bars on a phone are 8px wide each — too small to tap one by
+// one (WCAG 2.5.8) and, as buttons inside role=img, unreachable for screen readers. Now the whole chart is the
+// target: tap or drag across it, or focus it and use ←/→/Home/End; the value is read out as text.
+const colsEl = ref<HTMLElement | null>(null)
+const cur = ref(-1) // -1 → latest month (months is computed)
+const active = ref<number | null>(null)
+const curIdx = computed(() => (cur.value < 0 ? months.value.length - 1 : cur.value))
+const mLabel = (x: { k: string; n: number }) => `${x.k.replace('-', '년 ')}월 · ${x.n}편`
+function showCol(i: number) {
+  const el = colsEl.value; if (!el || !months.value.length) return
+  i = Math.max(0, Math.min(months.value.length - 1, i))
+  cur.value = i; active.value = i
+  const bar = el.querySelectorAll<HTMLElement>('.col .bar')[i]
+  const host = el.closest('.vs') as HTMLElement
+  const r = bar.getBoundingClientRect(), h = host.getBoundingClientRect()
+  // keep the bubble inside the card at the first/last months (it centres on the bar, ~120px wide)
+  tip.value = { x: Math.max(66, Math.min(h.width - 66, r.left - h.left + r.width / 2)), y: r.top - h.top, t: mLabel(months.value[i]) }
+}
+function onPoint(e: PointerEvent) {
+  if (e.type === 'pointermove' && e.pointerType !== 'mouse' && !e.buttons) return
+  const b = (colsEl.value!.querySelector('.bars') as HTMLElement).getBoundingClientRect()
+  showCol(Math.floor(((e.clientX - b.left) / b.width) * months.value.length))
+}
+function onLeave(e: PointerEvent) { if (e.pointerType === 'mouse' && document.activeElement !== colsEl.value) { tip.value = null; active.value = null } }
+function onKey(e: KeyboardEvent) {
+  const n = months.value.length, i = curIdx.value
+  const to = e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? i - 1 : e.key === 'ArrowRight' || e.key === 'ArrowUp' ? i + 1 : e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : null
+  if (to === null) return
+  e.preventDefault(); showCol(to)
+}
 const fmtM = (k: string) => `${k.slice(2, 4)}.${k.slice(5)}`
 </script>
 
@@ -63,14 +93,15 @@ const fmtM = (k: string) => `${k.slice(2, 4)}.${k.slice(5)}`
         <div><h3>월별 영상 수</h3><p>영상 제목의 공연·촬영 날짜 기준 ({{ months.length }}개월 · 날짜가 있는 영상 {{ months.reduce((a, x) => a + x.n, 0) }}편)</p></div>
         <button type="button" class="tbl" :aria-pressed="table" @click="table = !table">{{ table ? '차트 보기' : '표로 보기' }}</button>
       </div>
-      <div v-if="!table" class="cols" role="img" :aria-label="`월별 영상 수, 최대 ${mMax}편`">
+      <div v-if="!table" ref="colsEl" class="cols" role="slider" tabindex="0" :aria-label="`월별 영상 수 (최대 ${mMax}편) — 좌우 화살표로 달을 옮겨요`"
+        aria-orientation="horizontal" :aria-valuemin="0" :aria-valuemax="Math.max(0, months.length - 1)" :aria-valuenow="curIdx" :aria-valuetext="months[curIdx] ? mLabel(months[curIdx]) : ''"
+        @pointerdown="onPoint" @pointermove="onPoint" @pointerleave="onLeave" @keydown="onKey" @focus="showCol(curIdx)" @blur="tip = null; active = null">
         <div class="grid" aria-hidden="true"><span v-for="t in yTicks" :key="t" :style="{ bottom: (t / yTop) * 100 + '%' }"><i>{{ t }}</i></span></div>
-        <div class="bars">
-          <button v-for="x in months" :key="x.k" type="button" class="col" :aria-label="`${x.k} ${x.n}편`"
-            @mouseenter="show($event, `${x.k.replace('-', '년 ')}월 · ${x.n}편`)" @focus="show($event, `${x.k.replace('-', '년 ')}월 · ${x.n}편`)" @blur="tip = null" @mouseleave="tip = null">
+        <div class="bars" aria-hidden="true">
+          <div v-for="(x, i) in months" :key="x.k" class="col" :class="{ on: active === i }">
             <span class="bar" :style="{ height: (x.n / yTop) * 100 + '%' }"><em v-if="x.n === mMax">{{ x.n }}</em></span>
             <small v-if="x.k.endsWith('-01') || x.k === months[0].k">{{ fmtM(x.k) }}</small>
-          </button>
+          </div>
         </div>
       </div>
       <table v-else class="t"><thead><tr><th>월</th><th>영상 수</th></tr></thead><tbody><tr v-for="x in months" :key="x.k"><td>{{ x.k }}</td><td>{{ x.n }}</td></tr></tbody></table>
@@ -115,14 +146,17 @@ const fmtM = (k: string) => `${k.slice(2, 4)}.${k.slice(5)}`
 .head h3 { margin: 0 !important; padding: 0 !important; border: 0 !important; font-size: 17px !important; font-family: 'Zen Maru Gothic', sans-serif; }
 .head p { margin: 2px 0 0 !important; font-size: 12.5px; color: #735779; }
 .tbl { flex: none; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: #faf3f7; color: #3a2340; }
-.cols { position: relative; height: 220px; margin: 18px 0 0 30px; }
+.cols { position: relative; height: 220px; margin: 18px 0 0 30px; touch-action: pan-y; cursor: crosshair; border-radius: 8px; }
+.cols:focus-visible { outline: 3px solid #ffb3cf; outline-offset: 6px; }
 .grid { position: absolute; inset: 0 0 22px 0; }
 .grid span { position: absolute; left: 0; right: 0; height: 1px; background: #f1e6ec; }
 .grid i { position: absolute; left: -30px; top: -8px; width: 24px; text-align: right; font-style: normal; font-size: 11px; color: #735779; font-variant-numeric: tabular-nums; }
 .bars { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 2px; }
-.col { position: relative; flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 0 0 22px; background: none; cursor: default; }
-.bar { position: relative; width: 100%; max-width: 24px; min-height: 1px; background: #c92f69; border-radius: 4px 4px 0 0; transition: filter 0.2s; }
-.col:hover .bar, .col:focus-visible .bar { filter: brightness(0.82); }
+.col { position: relative; flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 0 0 22px; }
+.bar { position: relative; z-index: 1; width: 100%; max-width: 24px; min-height: 1px; background: #c92f69; border-radius: 4px 4px 0 0; transition: filter 0.2s; }
+.col.on .bar { filter: brightness(0.78); }
+/* the scrub cursor: a soft hairline under the picked month */
+.col.on::after { content: ''; position: absolute; top: 0; bottom: 22px; left: 50%; width: 1px; background: color-mix(in srgb, #c92f69 35%, transparent); }
 .bar em { position: absolute; bottom: 100%; left: 50%; translate: -50% -4px; font-style: normal; font-size: 11px; font-weight: 800; color: #3a2340; }
 .col small { position: absolute; bottom: 0; left: 50%; translate: -50% 0; font-size: 10.5px; color: #735779; white-space: nowrap; }
 .col:first-child small { left: 0; translate: 0 0; }

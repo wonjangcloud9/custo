@@ -93,8 +93,9 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
 .chip { flex: none; padding: 7px 13px; border-radius: 999px; font-size: 13px; font-weight: 700; background: #fff; border: 1.5px solid #f1dce7; color: #3a2340; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
 .chip small { opacity: 0.6; }
 .chip[aria-pressed='true'] { background: var(--tc, #3a2340); border-color: transparent; color: #fff; }
-.ja-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #735779; }
-.ja-toggle input { accent-color: #c92f69; }
+.ja-toggle { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px 0 8px; border-radius: 999px; font-size: 13px; font-weight: 600; color: #5a4060; cursor: pointer; } /* the whole label is the tap target (#197) */
+.ja-toggle:hover { background: #faf3f7; }
+.ja-toggle input { width: 18px; height: 18px; margin: 0; accent-color: #c92f69; }
 .day { display: grid; grid-template-columns: 70px 1fr; gap: 14px; padding: 14px 0; border-top: 1px dashed #f0dbe6; }
 .date { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 64px; border-radius: 18px; background: #fff; border: 1.5px solid #f3dfe9; }
 .date b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
