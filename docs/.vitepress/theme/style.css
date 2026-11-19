@@ -556,3 +556,9 @@ html[data-mv-dir]::view-transition-group(mp-hero) { animation-duration: 0.5s; }
 
 /* Light-only site: keep form controls/scrollbars light under a dark OS and opt out of forced dark (with the meta tag) */
 :root { color-scheme: only light; }
+
+/* Korean wraps between words, not inside them (the browser default breaks Hangul anywhere: '큐티스/트리트').
+   Japanese has no spaces, so keep its normal line breaking; anything still too long for its box breaks where it
+   would overflow (break-word doesn't shrink min-content like 'anywhere' would). */
+.VPContent { word-break: keep-all; overflow-wrap: break-word; }
+.VPContent [lang='ja'], .VPContent :lang(ja) { word-break: normal; }
