@@ -112,7 +112,8 @@ onMounted(async () => {
   const curve = new THREE.CatmullRomCurve3(pts)
 
   // mountain
-  const profile: import('three').Vector2[] = [new THREE.Vector2(radiusAt(0) + 16, -2)]
+  // the foot runs out into a long, low plain that melts into the fog (it used to end in a hard ring — a 'plate' under the mountain)
+  const profile: import('three').Vector2[] = [new THREE.Vector2(300, -16), new THREE.Vector2(170, -8), new THREE.Vector2(100, -4), new THREE.Vector2(62, -1.8), new THREE.Vector2(radiusAt(0) + 6, -0.4)]
   for (let k = 0; k <= 64; k++) {
     const y = (k / 64) * MH
     profile.push(new THREE.Vector2(radiusAt(y), y))
@@ -133,7 +134,7 @@ onMounted(async () => {
     // vertex colors: pink foot → lavender → snow cap whose streaks run down the gullies, baked light
     const nor = mountainGeo.attributes.normal
     const cols = new Float32Array(pos.count * 3)
-    const foot = new THREE.Color(0xffd3e6), mid = new THREE.Color(0xc4b2f7), deep = new THREE.Color(0x9d86e0), snow = new THREE.Color(0xfdfaff), ice = new THREE.Color(0xcfc3f2)
+    const foot = new THREE.Color(0xffd3e6), mid = new THREE.Color(0xc4b2f7), deep = new THREE.Color(0x9d86e0), snow = new THREE.Color(0xfdfaff), ice = new THREE.Color(0xcfc3f2), plain = new THREE.Color(0xf3def6)
     const L = new THREE.Vector3(0.5, 0.6, 0.62).normalize(), n = new THREE.Vector3(), c = new THREE.Color()
     for (let i = 0; i < pos.count; i++) {
       const h = pos.getY(i) / MH
@@ -145,7 +146,9 @@ onMounted(async () => {
       c.lerp(ice, cap * (1 - g) * 0.55 * THREE.MathUtils.smoothstep(Math.sin(a * 17 + Math.sin(a * 5) * 2.2 + h * 3), -0.2, 0.6))
       n.set(nor.getX(i), nor.getY(i), nor.getZ(i))
       const light = 0.7 + 0.32 * Math.max(0, n.dot(L)) - 0.05 * g
-      cols[i * 3] = Math.min(1, c.r * light); cols[i * 3 + 1] = Math.min(1, c.g * light); cols[i * 3 + 2] = Math.min(1, c.b * light)
+      c.r = Math.min(1, c.r * light); c.g = Math.min(1, c.g * light); c.b = Math.min(1, c.b * light)
+      c.lerp(plain, THREE.MathUtils.smoothstep(Math.hypot(pos.getX(i), pos.getZ(i)), 42, 190)) // plain → fog colour
+      cols[i * 3] = c.r; cols[i * 3 + 1] = c.g; cols[i * 3 + 2] = c.b
     }
     mountainGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3))
   }
@@ -399,7 +402,7 @@ onMounted(async () => {
       const facing = tmp.set(f.g.position.x, 0, f.g.position.z).normalize().dot(tmp3.copy(camera.position).sub(f.g.position).setY(0).normalize())
       const near = 1 - THREE.MathUtils.smoothstep(Math.abs(fC - 1 - i), 1.1, 2.4)
       const v = tmp2.project(camera)
-      let o = near * (i > fC - 1 + 0.5 ? 0.7 : 1) * THREE.MathUtils.smoothstep(facing, -0.4, -0.1) * (v.z < 1 ? 1 : 0) * (1 - THREE.MathUtils.smoothstep(fC, N + 0.2, N + 0.7))
+      let o = near * (i > fC - 1 + 0.5 ? 0.7 : 1) * THREE.MathUtils.smoothstep(facing, -0.4, -0.1) * (v.z < 1 ? 1 : 0) * (1 - THREE.MathUtils.smoothstep(fC, N + 0.2, N + 0.7)) * THREE.MathUtils.smoothstep(fC, 0.45, 0.9)
       const x = (v.x * 0.5 + 0.5) * W, y = (-v.y * 0.5 + 0.5) * H
       if (x < -80 || x > W + 80 || y < -40 || y > H + 40) o = 0
       el.style.opacity = o.toFixed(3)
@@ -473,7 +476,7 @@ onBeforeUnmount(() => cleanup?.())
         <div class="alt-track"><div class="alt-fill" :style="{ height: progress * 100 + '%' }" />
           <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active }"
             :style="{ bottom: (i / (milestones.length - 1)) * 100 + '%', '--tc': members[i % 8].color }" />
-          <span v-if="nowU !== null && nowU < 1" class="alt-now" :style="{ bottom: nowU * 100 + '%' }"><i />지금<span class="alt-now-m"> {{ nowAlt.toLocaleString() }}m</span></span>
+          <span v-if="nowU !== null && nowU < 1" class="alt-now" :class="{ gone: summitIn }" :style="{ bottom: nowU * 100 + '%' }"><i />지금<span class="alt-now-m"> {{ nowAlt.toLocaleString() }}m</span></span>
         </div>
         <div class="alt-label"><small>ALT.</small><b>{{ alt.toLocaleString() }}</b><small>m</small></div>
       </div>
@@ -582,8 +585,13 @@ onBeforeUnmount(() => cleanup?.())
 @keyframes spinE { to { transform: rotate(360deg); } }
 .title .grad { background: linear-gradient(90deg, #ff6b9d, #a06cd5, #4a90d9); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 6px 0 #fff); }
 .title.small { font-size: clamp(40px, 7vw, 88px); }
+/* the summit title sits on the white snow cap — a soft halo keeps '세계' readable */
+.outro .title { position: relative; isolation: isolate; }
+.outro .title::before { content: ''; position: absolute; inset: -18% -10%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 248, 252, 0.82), rgba(255, 248, 252, 0.5) 60%, transparent); pointer-events: none; }
 .lead { margin: 22px auto 0; max-width: 560px; font-size: 17px; line-height: 1.8; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(8px); padding: 14px 20px; border-radius: 20px; }
-.lead b { color: #c2457a; }
+.lead b { color: #c2457a; white-space: nowrap; }
+.alt-now { transition: opacity 0.3s, translate 0.4s; }
+.alt-now.gone { opacity: 0; translate: -8px 0; }
 .hint { margin-top: 28px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: #735779; }
 .mouse { width: 20px; height: 32px; border-radius: 12px; border: 2px solid #c49cff; position: relative; }
 .mouse::after { content: ''; position: absolute; left: 50%; top: 6px; width: 4px; height: 6px; margin-left: -2px; border-radius: 2px; background: #ff6b9d; animation: wheel 1.6s ease-in-out infinite; }
