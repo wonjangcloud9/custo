@@ -103,7 +103,7 @@ onMounted(async () => {
   --ink: #3a2340; color: var(--ink); margin-top: 64px;
 }
 .lod-head h2 { margin: 0; border: 0; padding: 0; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(26px, 4vw, 40px); line-height: 1.1; }
-.lod-head h2 span { color: #ff6b9d; }
+.lod-head h2 span { color: #d63d78; }
 .lod-head p { margin: 6px 0 0; font-size: 13.5px; color: #735779; }
 .lod-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-top: 24px; }
 .lod-skel { height: 420px; border-radius: 24px; background: #fbeef4; margin-top: 24px; }

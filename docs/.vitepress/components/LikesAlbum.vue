@@ -106,7 +106,7 @@ onMounted(() => {
 .la-head { padding: 26px 28px; border-radius: 28px; background: linear-gradient(150deg, #fff0f7, #f3ebff); border: 1.5px dashed #f2c6db; }
 .eyebrow { margin: 0 !important; font-size: 12px; font-weight: 800; letter-spacing: 0.22em; color: #c2457a; }
 .la-head h2 { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(26px, 4vw, 38px) !important; }
-.la-head h2 small { font-size: 16px; color: #e8558a; margin-left: 6px; }
+.la-head h2 small { font-size: 16px; color: #c2185b; margin-left: 6px; }
 .sub { margin: 6px 0 0 !important; font-size: 14px; }
 .acts { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
 .btn { display: inline-block; padding: 11px 18px; border-radius: 999px; font-weight: 700; font-size: 14px; background: #fff; color: var(--ink) !important; text-decoration: none !important; border: 1.5px solid #f3cfe0; transition: transform 0.45s var(--spring); }

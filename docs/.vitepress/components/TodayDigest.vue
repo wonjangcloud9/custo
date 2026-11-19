@@ -219,7 +219,7 @@ function pickDay(now: number) {
   background: radial-gradient(110% 120% at 0% 0%, #ffe4ef 0%, transparent 55%), radial-gradient(110% 120% at 100% 100%, #efe6ff 0%, transparent 55%), #fff;
   border: 1.5px solid #f3d6e4; box-shadow: 0 24px 50px -36px rgba(201, 47, 105, 0.45); }
 .td-head { display: flex; flex-direction: column; gap: 2px; }
-.td-kicker { margin: 0 !important; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; letter-spacing: 0.2em; color: #c92f69; }
+.td-kicker { margin: 0 !important; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; letter-spacing: 0.2em; color: #ad2459; }
 .td-dot { width: 9px; height: 9px; border-radius: 50%; background: #ff4d8d; box-shadow: 0 0 0 0 rgba(255, 77, 141, 0.6); animation: ping 1.8s ease-out infinite; }
 @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 141, 0.55); } 100% { box-shadow: 0 0 0 12px rgba(255, 77, 141, 0); } }
 .td-head h2 { margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(24px, 3.4vw, 34px) !important; line-height: 1.2; letter-spacing: -0.01em; }

@@ -478,7 +478,7 @@ onBeforeUnmount(() => cleanup?.())
 .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
 .btn { padding: 13px 20px; border-radius: 999px; font-weight: 700; font-size: 14px; background: #fff; color: var(--ink) !important; text-decoration: none !important; border: 1.5px solid #f3cfe0; transition: transform 0.5s var(--spring); }
 .btn:hover { transform: translateY(-3px); }
-.btn.primary { background: linear-gradient(135deg, #ff4d6d, #ff6b9d); color: #fff !important; border-color: transparent; box-shadow: 0 14px 30px -14px #ff4d6d; }
+.btn.primary { background: linear-gradient(135deg, #d81b4f, #c2185b); color: #fff !important; border-color: transparent; box-shadow: 0 14px 30px -14px #ff4d6d; }
 
 @media (max-width: 640px) {
   .step, .step.left, .step.right { padding: 72px 16px 72px 64px; justify-content: center; align-items: flex-end; }

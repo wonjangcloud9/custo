@@ -115,14 +115,14 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .card:hover .av:first-child { margin-left: 0; }
 .av:hover { transform: translateY(-6px) rotate(-10deg); }
 .u-ja { margin: 14px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px !important; }
-.u-ko { margin: 2px 0 0 !important; font-size: 13px; font-weight: 700; color: #6a4a70; }
-.u-names { margin: 6px 0 0 !important; font-size: 13px; color: #6a4a70; }
+.u-ko { margin: 2px 0 0 !important; font-size: 13px; font-weight: 700; color: #3f2645; }
+.u-names { margin: 6px 0 0 !important; font-size: 13px; color: #3f2645; } /* the cards' colour blobs went down to 2.6:1 under #6a4a70 */
 .song { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-weight: 700; font-family: 'Noto Sans JP', sans-serif; }
 .mv { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: #3a2340; color: #fff !important; text-decoration: none !important; }
 .vids { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .vids a { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); color: var(--ink) !important; text-decoration: none !important; transition: transform 0.4s var(--spring); }
 .vids a:hover { transform: translateY(-2px); }
-.note { margin: 12px 0 0 !important; font-size: 12px; color: #735779; }
+.note { margin: 12px 0 0 !important; font-size: 12px; color: #4a2f50; }
 @media (max-width: 640px) { .finder { padding: 18px; } .pick-face { width: 46px; height: 46px; font-size: 17px; } .picks { gap: 6px; } }
 @media (prefers-reduced-motion: reduce) { .card, .av, .pick-face, .tg-v { transition: none; animation: none; } }
 .song-link { font-weight: 800; color: inherit !important; text-decoration: none !important; }

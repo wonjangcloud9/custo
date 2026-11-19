@@ -159,7 +159,7 @@ const QUIZ = [
 .links a:hover { transform: translateY(-2px); background: #fff2f8; }
 .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .sw { position: relative; aspect-ratio: 3 / 4; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; justify-content: flex-end; gap: 1px; overflow: hidden; text-decoration: none !important;
-  color: #fff !important; background: linear-gradient(160deg, var(--mc), color-mix(in srgb, var(--mc) min(70%, var(--ink-mix, 100%)), #2a1030));
+  color: #fff !important; background: linear-gradient(to top, rgba(42, 16, 48, 0.78), rgba(42, 16, 48, 0) 64%), linear-gradient(160deg, var(--mc), color-mix(in srgb, var(--mc) min(70%, var(--ink-mix, 100%)), #2a1030)); /* scrim under the white name */
   box-shadow: 0 14px 26px -18px var(--mc); animation: tile 0.8s var(--spring) both; animation-delay: calc(240ms + var(--i) * 55ms); transition: transform 0.45s var(--spring); }
 .sw:nth-child(odd) { transform: translateY(14px); }
 .sw:hover { transform: translateY(-4px) rotate(-2deg) scale(1.03); }

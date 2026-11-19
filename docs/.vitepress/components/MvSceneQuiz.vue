@@ -253,10 +253,10 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
 .go.sm { padding: 10px 20px; font-size: 15px; }
 .go:focus-visible, .ghost:focus-visible, .opt:focus-visible { outline: 3px solid #ffb3cf; outline-offset: 3px; }
 .modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: min(100%, 520px); }
-.mode { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 14px; border-radius: 22px; color: #fff; background: linear-gradient(130deg, #ff4f8b, #c0397a);
+.mode { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 14px; border-radius: 22px; color: #fff; background: linear-gradient(130deg, #c92f69, #a0285c);
   box-shadow: 0 18px 30px -18px #c92f69; transition: transform 0.45s var(--spring); }
-.mode.day { grid-column: 1 / -1; background: linear-gradient(130deg, #ff9f43, #e0566b); box-shadow: 0 18px 30px -18px #c2413a; }
-.mode.mem { background: linear-gradient(130deg, #a06cd5, #6b3fa0); box-shadow: 0 18px 30px -18px #6b3fa0; }
+.mode.day { grid-column: 1 / -1; background: linear-gradient(130deg, #b34a0a, #b02a4f); box-shadow: 0 18px 30px -18px #c2413a; }
+.mode.mem { background: linear-gradient(130deg, #7d4cb8, #5a2e8c); box-shadow: 0 18px 30px -18px #6b3fa0; }
 .mode span { font-size: 30px; }
 .mode b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
 .mode small { font-size: 12.5px; opacity: 0.92; }

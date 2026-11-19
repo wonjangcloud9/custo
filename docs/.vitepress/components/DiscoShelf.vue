@@ -194,9 +194,9 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .disc.big { position: absolute; right: 0; top: 10%; width: 72%; aspect-ratio: 1; z-index: 1; animation: spin 6s linear infinite; }
 .disc.big .disc-label { font-size: clamp(12px, 1.6vw, 18px); font-family: 'Zen Maru Gothic', sans-serif; background: conic-gradient(#ff6b9d, #a06cd5, #4a90d9, #3ccfa8, #ffc93c, #ff6b9d); }
 @keyframes spin { to { transform: rotate(360deg); } }
-.eyebrow { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; color: #c2457a; }
+.eyebrow { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; color: #a33366; }
 .hero-title { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(40px, 6vw, 64px) !important; line-height: 1 !important; }
-.hero-d { margin: 6px 0 0 !important; font-weight: 800; color: #e8558a; font-size: 18px; min-height: 1.5em; }
+.hero-d { margin: 6px 0 0 !important; font-weight: 800; color: #c2185b; font-size: 18px; min-height: 1.5em; }
 .tracks { columns: 2; column-gap: 18px; margin: 14px 0 0 !important; padding: 0 !important; list-style: none; }
 .tracks li { break-inside: avoid; display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin: 0 0 6px !important; font-family: 'Noto Sans JP', sans-serif; }
 .tn { font-size: 11px; font-weight: 800; color: color-mix(in srgb, var(--tc) 45%, #2a1030); font-variant-numeric: tabular-nums; } /* raw member colours were 1.3–2.9:1 on the light card */
@@ -221,7 +221,8 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .rec .disc { position: absolute; top: 8px; left: 8px; width: 152px; aspect-ratio: 1; transition: transform 0.8s var(--spring); }
 .rec { display: flex; flex-direction: column; align-items: stretch; }
 .rec .sleeve { position: relative; display: block; width: 168px; aspect-ratio: 1; border-radius: 10px; overflow: hidden; z-index: 1;
-  background: linear-gradient(140deg, var(--c1), var(--c2)); box-shadow: 0 16px 26px -16px rgba(90, 30, 70, 0.7); transition: transform 0.6s var(--spring); }
+  background: linear-gradient(transparent 30%, rgba(42, 16, 48, 0.6)), linear-gradient(140deg, var(--c1), var(--c2)); /* scrim under the white song title */
+  box-shadow: 0 16px 26px -16px rgba(90, 30, 70, 0.7); transition: transform 0.6s var(--spring); }
 .rec .sleeve img { width: 100%; height: 100%; object-fit: cover; }
 .sleeve-title.sm { position: absolute; inset: auto 12px 14px 12px; font-size: 22px; line-height: 1.05; word-break: break-word; }
 .type { position: absolute; top: 8px; left: 8px; font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em; padding: 3px 7px; border-radius: 6px; background: rgba(255, 255, 255, 0.92); color: var(--ink); }

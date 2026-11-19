@@ -399,7 +399,7 @@ function cleanTitle(t: string) {
 .sec { margin-top: 64px; }
 .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
 .sec-head h2 { margin: 0; border: 0; padding: 0; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(26px, 4vw, 40px); letter-spacing: 0.02em; line-height: 1.1; }
-.sec-head a { font-size: 14px; font-weight: 700; color: #c2457a !important; white-space: nowrap; }
+.sec-head a { font-size: 14px; font-weight: 700; color: #a33366 !important; white-space: nowrap; }
 @supports (animation-timeline: view()) {
   .sec-head h2 { animation: slideIn linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
   @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); letter-spacing: 0.3em; } }

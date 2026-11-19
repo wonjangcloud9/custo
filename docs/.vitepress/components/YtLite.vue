@@ -29,6 +29,6 @@ const on = ref(false)
 .yt-play svg { width: 32px; height: 32px; fill: currentColor; margin-left: 4px; }
 .yt-poster:hover .yt-play { scale: 1.12; }
 @keyframes yblob { 50% { border-radius: 58% 42% 38% 62% / 55% 60% 40% 45%; } }
-.yt-title { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 16px 12px; text-align: left; color: #fff; font-weight: 700; font-size: 14px; background: linear-gradient(transparent, rgba(20, 5, 20, 0.75)); }
+.yt-title { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 16px 12px; text-align: left; color: #fff; font-weight: 700; font-size: 14px; background: linear-gradient(transparent, rgba(20, 5, 20, 0.6) 40%, rgba(20, 5, 20, 0.88)); } /* bright thumbnails left white titles at 3.4:1 */
 @media (prefers-reduced-motion: reduce) { .yt-play { animation: none; } .yt-poster img, .yt-play { transition: none; } }
 </style>

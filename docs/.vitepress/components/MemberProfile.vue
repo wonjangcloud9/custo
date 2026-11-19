@@ -295,7 +295,7 @@ function onKey(e: KeyboardEvent) {
 @keyframes marq { to { transform: translateX(-50%); } }
 
 .hero-text { position: relative; z-index: 1; }
-.no { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: var(--mc-deep); margin: 0 0 18px; }
+.no { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: color-mix(in srgb, var(--mc-deep) 85%, #2a1030); margin: 0 0 18px; }
 .kana { margin: 0; font-size: 15px; letter-spacing: 0.3em; color: #735779; }
 .ja {
   margin: 4px 0 6px !important; padding: 0 !important; border: 0 !important;

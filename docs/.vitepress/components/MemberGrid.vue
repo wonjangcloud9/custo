@@ -39,7 +39,7 @@ import { members, onColor } from '../data/members'
 }
 @keyframes mgIn { from { opacity: 0; transform: translateY(24px) scale(0.92); } }
 .mg-card:hover { transform: translateY(-8px) rotate(calc((var(--i) - 3.5) * 0.4deg)); box-shadow: 0 24px 40px -20px color-mix(in srgb, var(--mc) 90%, #000); }
-.mg-no { position: absolute; top: 14px; left: 16px; font-size: 12px; font-weight: 800; letter-spacing: 0.16em; color: color-mix(in srgb, var(--mc) 70%, #3a2340); }
+.mg-no { position: absolute; top: 14px; left: 16px; font-size: 12px; font-weight: 800; letter-spacing: 0.16em; color: color-mix(in srgb, var(--mc) 45%, #2a1030); }
 .mg-emoji { position: absolute; top: 10px; right: 14px; font-size: 22px; transition: transform 0.6s var(--spring); }
 .mg-card:hover .mg-emoji { transform: scale(1.4) rotate(-15deg); }
 .mg-face {
