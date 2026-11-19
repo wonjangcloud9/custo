@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { jaLang } from '../theme/lang'
-import { ref, shallowRef, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, shallowRef, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import Ico from './Ico.vue'
 import { withBase } from 'vitepress'
 import { geoOrthographic, geoPath, geoGraticule10, geoInterpolate, geoDistance } from 'd3-geo'
 import { CHAPTERS, COUNTRY, HOME, type Chapter } from '../data/world'
@@ -70,6 +71,57 @@ const pins = computed(() => {
 const visitedCountries = computed(() => new Set(shown.value.filter(done).map((c) => c.country)).size)
 const visitedCities = computed(() => new Set(shown.value.filter(done).flatMap((c) => c.pins.map((p) => p.name.replace(/ \(.*\)/, ''))) ).size)
 const upcomingCount = computed(() => CHAPTERS.filter((c) => !done(c)).length)
+
+// the plane at the head of the arc that is being drawn, nose along the route
+const plane = computed(() => {
+  if (step.value < 1 || arcT.value >= 1) return null
+  const a = anchor(CHAPTERS[step.value - 1]), b = anchor(CHAPTERS[step.value])
+  if (geoDistance(a, b) < 0.02) return null
+  const interp = geoInterpolate(a, b), t = arcT.value
+  const p = interp(t)
+  if (geoDistance(p, center.value) > Math.PI / 2 - 0.05) return null
+  const xy = proj.value(p), back = proj.value(interp(Math.max(0, t - 0.03)))
+  if (!xy || !back) return null
+  const ang = (Math.atan2(xy[1] - back[1], xy[0] - back[0]) * 180) / Math.PI
+  return { x: xy[0], y: xy[1], ang, up: !done(CHAPTERS[step.value]) }
+})
+// a speech-bubble label on the stop we just landed at (multi-city tours: first city + count)
+const label = computed(() => {
+  if (!ready.value || step.value < 0 || arcT.value < 1) return null // client-only: keeps SSR markup identical at hydration
+  const c = CHAPTERS[step.value], p0 = c.pins[0]
+  if (geoDistance(p0.ll, center.value) > Math.PI / 2 - 0.05) return null
+  const xy = proj.value(p0.ll)
+  if (!xy) return null
+  const text = c.pins.length > 1 ? `${p0.name} 외 ${c.pins.length - 1}곳` : p0.name
+  const w = 18 + [...text].reduce((n, ch) => n + (/[\x00-\x7f]/.test(ch) ? 7.2 : 12.6), 0)
+  return { x: xy[0], y: xy[1], text, w, color: COUNTRY[c.country].color, below: xy[1] < 90 }
+})
+// arrival: the country flashes in its colour once
+const flash = computed(() => {
+  if (fresh.value < 0 || !countries.value.length) return null
+  const c = CHAPTERS[fresh.value]
+  const f = countries.value.find((x) => x.id === COUNTRY[c.country].id)
+  const d = f && path.value(f)
+  return d ? { d, color: COUNTRY[c.country].color, k: fresh.value } : null
+})
+
+// stat numbers roll to their new value
+const shownStats = ref({ countries: visitedCountries.value, cities: visitedCities.value })
+const bump = ref(0)
+let statRaf = 0
+watch([visitedCountries, visitedCities], ([c2, m2], [c1, m1]) => {
+  if (c2 === c1 && m2 === m1) return
+  bump.value++
+  cancelAnimationFrame(statRaf)
+  if (reduce) { shownStats.value = { countries: c2, cities: m2 }; return }
+  const t0 = performance.now(), from = { ...shownStats.value }
+  const tick = (now: number) => {
+    const k = Math.min(1, (now - t0) / 650), e = 1 - Math.pow(1 - k, 3)
+    shownStats.value = { countries: Math.round(from.countries + (c2 - from.countries) * e), cities: Math.round(from.cities + (m2 - from.cities) * e) }
+    if (k < 1) statRaf = requestAnimationFrame(tick)
+  }
+  statRaf = requestAnimationFrame(tick)
+})
 const cur = computed(() => CHAPTERS[Math.max(0, step.value)])
 
 // ── camera ─────────────────────────────────────────────
@@ -148,7 +200,7 @@ onMounted(async () => {
   }, { threshold: [0, 0.45] })
   if (root.value) io.observe(root.value)
 })
-onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disconnect(); playing.value = false })
+onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf); clearTimeout(timer); io?.disconnect(); playing.value = false })
 </script>
 
 <template>
@@ -161,8 +213,12 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
           <radialGradient id="ocean" cx="38%" cy="32%" r="75%"><stop offset="0%" stop-color="#fff" /><stop offset="55%" stop-color="#fbeef6" /><stop offset="100%" stop-color="#ecd9f3" /></radialGradient>
           <pattern id="upcoming" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#efe4fb" /><line x1="0" y1="0" x2="0" y2="8" stroke="#a06cd5" stroke-width="3" /></pattern>
           <clipPath id="lens"><circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" /></clipPath>
+          <radialGradient id="atmo" cx="50%" cy="50%" r="50%"><stop :offset="R / (R + 26)" stop-color="#ff9cc4" stop-opacity="0.55" /><stop :offset="(R + 8) / (R + 26)" stop-color="#d9b8ff" stop-opacity="0.28" /><stop offset="1" stop-color="#d9b8ff" stop-opacity="0" /></radialGradient>
+          <radialGradient id="spec" cx="34%" cy="26%" r="42%"><stop offset="0" stop-color="#fff" stop-opacity="0.75" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></radialGradient>
+          <radialGradient id="planeGlow"><stop offset="0" stop-color="#fff" stop-opacity="1" /><stop offset="0.4" stop-color="#ff8fb8" stop-opacity="0.6" /><stop offset="1" stop-color="#ff8fb8" stop-opacity="0" /></radialGradient>
           <radialGradient id="shade" cx="35%" cy="30%" r="80%"><stop offset="60%" stop-color="#2a1030" stop-opacity="0" /><stop offset="100%" stop-color="#2a1030" stop-opacity="0.18" /></radialGradient>
         </defs>
+        <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R + 26" fill="url(#atmo)" class="nohit atmo" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#ocean)" />
         <g clip-path="url(#lens)">
           <path :d="path({ type: 'Sphere' } as any) || ''" fill="url(#ocean)" />
@@ -170,14 +226,33 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
           <template v-if="ready">
             <path v-for="(c, i) in countries" :key="i" :d="path(c) || ''" class="land" :class="{ hit: fillOf[c.id] }" :style="fillOf[c.id] ? { fill: fillOf[c.id] } : undefined" />
           </template>
+          <path v-if="flash" :key="'fl' + flash.k" :d="flash.d" class="flash" :style="{ fill: flash.color }" />
           <path v-for="a in arcs" :key="a.k" :d="a.d" class="arc" :class="{ up: a.upcoming }" />
         </g>
+        <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#spec)" class="nohit" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#shade)" class="nohit" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" class="rim" />
         <g v-for="p in pins" :key="p.key" :transform="`translate(${p.x},${p.y})`" class="pin" :class="{ up: p.upcoming, fresh: p.fresh }">
           <title>{{ p.name }}{{ p.upcoming ? ' (예정)' : '' }}</title>
           <circle v-if="p.fresh" r="6" class="ping" :style="{ stroke: p.color }" />
           <circle r="5.5" :fill="p.upcoming ? '#fff' : p.color" :stroke="p.upcoming ? p.color : '#fff'" stroke-width="2.2" />
+        </g>
+        <g v-if="plane" class="plane" :class="{ up: plane.up }" :transform="`translate(${plane.x},${plane.y})`" aria-hidden="true">
+          <circle r="26" fill="url(#planeGlow)" />
+          <circle r="15" class="plane-disc" />
+          <g :transform="`rotate(${plane.ang + 90}) translate(-10,-10)`"><Ico n="plane" duo size="20" /></g>
+        </g>
+        <g v-if="label" class="lbl" :transform="`translate(${label.x},${label.y})`" aria-hidden="true">
+          <g :transform="label.below ? 'translate(0,16)' : 'translate(0,-46)'">
+            <!-- inner group carries the CSS pop-in; the outer ones keep their SVG transform attributes -->
+            <Transition name="lbl" appear>
+              <g :key="label.text" class="lbl-in" :class="{ below: label.below }">
+                <rect :x="-label.w / 2" y="0" :width="label.w" height="28" rx="14" :style="{ stroke: label.color }" />
+                <path v-if="!label.below" d="M-6 27.5 0 35 6 27.5Z" :style="{ fill: '#fff', stroke: label.color }" class="tail" />
+                <text x="0" y="18.5" text-anchor="middle">{{ label.text }}</text>
+              </g>
+            </Transition>
+          </g>
         </g>
       </svg>
       <p class="drag-hint" aria-hidden="true"><Ico n="drag" size="15" /> 드래그해서 돌려 보세요</p>
@@ -187,8 +262,8 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
       <p class="eyebrow">귀여움으로 세계까지 · WORLD MAP</p>
       <h1 id="wm-h">큐스트 월드맵 <Ico class="h-ico" n="globe" duo size="0.9em" /></h1>
       <div class="stats">
-        <div><b>{{ visitedCountries }}</b><span>나라</span></div>
-        <div><b>{{ visitedCities }}</b><span>도시</span></div>
+        <div><b :key="'c' + bump" :class="{ pop: bump }">{{ shownStats.countries }}</b><span>나라</span></div>
+        <div><b :key="'m' + bump" :class="{ pop: bump }">{{ shownStats.cities }}</b><span>도시</span></div>
         <div class="up"><b>{{ upcomingCount }}</b><span>예정</span></div>
       </div>
       <Transition name="swap" mode="out-in">
@@ -234,6 +309,26 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
 @keyframes land { 0% { r: 0; } 60% { r: 9; } 100% { r: 5.5; } }
 .ping { fill: none; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: ping 1.4s ease-out 2; }
 @keyframes ping { from { transform: scale(1); opacity: 0.9; } to { transform: scale(5); opacity: 0; } }
+.atmo { animation: breathe 6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes breathe { 50% { opacity: 0.7; transform: scale(1.015); } }
+.flash { opacity: 0; animation: flash 1.3s ease-out; pointer-events: none; }
+@keyframes flash { 0% { opacity: 0.95; filter: brightness(1.35) drop-shadow(0 0 10px #fff); } 100% { opacity: 0; } }
+.plane { color: #c92f69; pointer-events: none; }
+.plane-disc { fill: #fff; stroke: currentColor; stroke-width: 2; filter: drop-shadow(0 4px 8px rgba(90, 20, 60, 0.3)); }
+.plane.up { color: #7d4fb0; }
+.plane .ico { --ico-fill: currentColor; stroke-width: 1.2; }
+.lbl { pointer-events: none; }
+.lbl rect { fill: #fff; stroke-width: 2; filter: drop-shadow(0 6px 10px rgba(90, 30, 70, 0.22)); }
+.lbl .tail { stroke-width: 2; stroke-dasharray: 0 12 30; } /* hide the tail's top edge where it meets the bubble */
+.lbl text { font-size: 13px; font-weight: 800; fill: #2f1a35; font-family: var(--cs-sans); }
+.lbl-enter-active { transition: opacity 0.25s, transform 0.5s var(--spring); }
+.lbl-enter-from { opacity: 0; transform: translateY(8px) scale(0.8); }
+.lbl-leave-active { transition: opacity 0.15s; }
+.lbl-leave-to { opacity: 0; }
+.lbl-in { transform-box: fill-box; transform-origin: 50% 100%; }
+.lbl-in.below { transform-origin: 50% 0; }
+.stats b.pop { animation: pop 0.5s var(--spring); display: inline-block; }
+@keyframes pop { 0% { transform: translateY(6px) scale(0.85); opacity: 0.4; } 100% { transform: none; opacity: 1; } }
 .drag-hint { margin: 4px 0 0 !important; text-align: center; font-size: 12px; color: #735779; }
 /* panel */
 .eyebrow { margin: 0 !important; font-size: 12px; font-weight: 900; letter-spacing: 0.22em; color: #c92f69; }
@@ -275,5 +370,5 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
   .wm { grid-template-columns: 1fr; }
   .globe-wrap { position: relative; top: 0; max-width: 520px; margin: 0 auto; width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .ping, .pin.fresh > circle:last-of-type { animation: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .ping, .pin.fresh > circle:last-of-type, .atmo, .flash, .stats b.pop { animation: none; } .lbl-enter-active { transition: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
 </style>
