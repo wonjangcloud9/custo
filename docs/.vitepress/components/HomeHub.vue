@@ -181,7 +181,7 @@ function cleanTitle(t: string) {
         <div class="core" aria-hidden="true"><b>CUTIE</b><b>STREET</b><small>KAWAII LAB.</small></div>
         <nav class="orbit" aria-label="멤버 바로가기">
           <a v-for="(m, i) in members" :key="m.id" class="sat" :href="withBase(`/members/${m.id}`)" :aria-label="`${m.ko} (${m.ja}) 페이지`"
-            :style="{ '--a': i * 45 + 'deg', '--mc': m.color, '--on': onColor(m.color) }"><i>{{ m.ja.slice(-2, -1) }}<span class="sat-tip">{{ m.ko.split(' ')[1] }} {{ m.emoji }}</span></i></a>
+            :style="{ '--a': i * 45 + 'deg', '--mc': m.color, '--on': onColor(m.color) }"><i><span lang="ja">{{ m.ja.slice(-2, -1) }}</span><span class="sat-tip">{{ m.ko.split(' ')[1] }} {{ m.emoji }}</span></i></a>
         </nav>
         <div class="ring r1" aria-hidden="true" /><div class="ring r2" aria-hidden="true" />
       </div>

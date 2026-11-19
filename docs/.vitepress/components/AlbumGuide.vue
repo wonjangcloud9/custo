@@ -73,8 +73,8 @@ const open = ref<string>('初回限定盤A')
         <span class="dot" aria-hidden="true">{{ st.emoji }}</span>
         <a :href="st.url" target="_blank" rel="noopener" class="tl-card">
           <span class="d">{{ st.d }}<em v-if="state(st) === 'now'" class="badge now">진행 중</em><em v-else-if="i === nextIdx" class="badge">다음</em><em v-else-if="state(st) === 'done'" class="badge done">종료</em></span>
-          <b>{{ st.t }}</b>
-          <small v-if="st.sub">{{ st.sub }}</small>
+          <b><JaText :t="st.t" /></b>
+          <small v-if="st.sub"><JaText :t="st.sub" /></small>
         </a>
       </li>
     </ol>

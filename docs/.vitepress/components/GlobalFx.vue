@@ -74,6 +74,11 @@ const CHROME_KO: [string, string, string][] = [
   ['.VPSidebarItem .caret[role="button"]', 'aria-label', '목록 펼치기·접기'],
 ]
 function localizeChrome() {
+  // Japanese song titles in the sidebar and the prev/next pager (VitePress renders them; #203)
+  for (const el of document.querySelectorAll('.VPSidebarItem .text, .VPDocFooter .pager-link .title')) {
+    const t = el.textContent ?? ''
+    if (/[\u3041-\u30FF\u4E00-\u9FFF]/.test(t) && !/[\uAC00-\uD7A3]/.test(t)) el.setAttribute('lang', 'ja')
+  }
   for (const [sel, what, ko] of CHROME_KO) {
     for (const el of document.querySelectorAll(sel)) {
       if (what === 'text') { if (el.textContent?.trim() !== ko) el.textContent = ko } else el.setAttribute(what, ko)

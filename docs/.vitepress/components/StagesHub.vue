@@ -74,7 +74,7 @@ const MILESTONES = [
     <TransitionGroup tag="div" name="card" class="grid">
       <button v-for="s in list" :key="s.id" type="button" class="card" :class="[s.cat, { on: cur.id === s.id }]" :aria-pressed="cur.id === s.id" @click="pick(s)">
         <span class="th"><img :src="`https://i.ytimg.com/vi/${s.id}/mqdefault.jpg`" alt="" loading="lazy" /><span class="play" aria-hidden="true">▶</span><b class="badge">{{ s.cat === 'kr' ? '🇰🇷 음악방송' : s.cat === 'special' ? '🎙️ 스페셜' : '🏟️ 라이브' }}</b></span>
-        <span class="body"><small>{{ s.date }} · <JaText :t="s.show" /></small><strong :lang="jaLang(s.song)">{{ s.song }}</strong></span>
+        <span class="body"><small>{{ s.date }} · <JaText :t="s.show" /></small><strong><JaText :t="s.song" /></strong></span>
       </button>
     </TransitionGroup>
 
@@ -82,7 +82,7 @@ const MILESTONES = [
     <section class="ms" aria-labelledby="ms-h">
       <h2 id="ms-h">무대로 보는 큐스트 <span>주요 무대 연표</span></h2>
       <ol>
-        <li v-for="(m, i) in MILESTONES" :key="m.d" :style="{ '--i': i }"><span class="d">{{ m.d }}</span><b>{{ m.t }}</b><small>{{ m.s }}</small></li>
+        <li v-for="(m, i) in MILESTONES" :key="m.d" :style="{ '--i': i }"><span class="d">{{ m.d }}</span><b><JaText :t="m.t" /></b><small><JaText :t="m.s" /></small></li>
       </ol>
       <p class="more"><a :href="withBase('/korea/')">🇰🇷 큐스트 in KOREA →</a><a :href="withBase('/videos/?cat=live')">🎬 라이브 영상 전체 →</a></p>
     </section>

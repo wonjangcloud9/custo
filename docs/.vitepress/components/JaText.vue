@@ -9,7 +9,12 @@ const props = defineProps<{ t?: string | null }>()
 // a single space may join two Japanese words (アクセス サッポロ) but never a Korean one
 const RUN = /((?:[　-〿ぁ-ヿ一-鿿！-｠]+(?:[ 　](?=[ぁ-ヿ一-鿿「『]))?)+)/
 const LETTER = /[ぁ-ヿ一-鿿]/
-const parts = computed(() => (props.t ?? '').split(RUN).filter((s) => s !== '').map((s) => ({ s, ja: LETTER.test(s) && RUN.test(s) && !/[가-힣]/.test(s) })))
+const parts = computed(() => {
+  const t = props.t ?? ''
+  // no Korean at all → the whole line is Japanese, digits/emoji/♪ included: one span, not a dozen
+  if (LETTER.test(t) && !/[\uAC00-\uD7A3]/.test(t)) return [{ s: t, ja: true }]
+  return t.split(RUN).filter((s) => s !== '').map((s) => ({ s, ja: LETTER.test(s) && RUN.test(s) && !/[가-힣]/.test(s) }))
+})
 </script>
 
 <template><template v-for="(p, i) in parts" :key="i"><span v-if="p.ja" lang="ja">{{ p.s }}</span><template v-else>{{ p.s }}</template></template></template>

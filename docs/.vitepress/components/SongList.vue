@@ -46,14 +46,14 @@ const list = computed(() => {
       </div>
       <div class="row" role="toolbar" aria-label="자주 함께한 작가">
         <span class="lbl">✍️ 자주 함께한 작가</span>
-        <button v-for="[w, n] in topWriters" :key="w" type="button" class="chip wr" :aria-pressed="writer === w" @click="writer = writer === w ? '' : w">{{ w }} <small>{{ n }}</small></button>
+        <button v-for="[w, n] in topWriters" :key="w" type="button" class="chip wr" :aria-pressed="writer === w" @click="writer = writer === w ? '' : w"><span lang="ja">{{ w }}</span> <small>{{ n }}</small></button>
       </div>
       <p class="cnt" aria-live="polite">{{ list.length }}곡</p>
     </div>
     <TransitionGroup tag="div" name="sc" class="sl">
       <a v-for="(s, i) in list" :key="s.id" class="sc" :href="withBase(`/discography/${s.id}`)" :style="{ '--g1': s.grad[0], '--g2': s.grad[1], '--g3': s.grad[2], '--i': i }">
         <span class="art" aria-hidden="true"><span lang="ja">{{ s.title }}</span></span>
-        <span class="txt"><small>{{ s.facts[0].v }}</small><b lang="ja">{{ s.title }}</b><span>{{ s.meaning }}</span></span>
+        <span class="txt"><small>{{ s.facts[0].v }}</small><b lang="ja">{{ s.title }}</b><span><JaText :t="s.meaning" /></span></span>
       </a>
     </TransitionGroup>
   </div>

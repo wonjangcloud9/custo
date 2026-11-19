@@ -169,11 +169,11 @@ function pickDay(now: number) {
           </div>
           <a v-for="h in data.feats" :key="h.url" class="feat" :href="h.url" target="_blank" rel="noopener">
             <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">{{ kindMeta[h.kind].emoji }} {{ kindMeta[h.kind].ko }}</b></span>
-            <span class="feat-body"><strong>{{ h.ko }}</strong><small :lang="jaLang(h.title)">{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
+            <span class="feat-body"><strong><JaText :t="h.ko" /></strong><small :lang="jaLang(h.title)">{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
           </a>
           <a v-for="v in data.videos" :key="v.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
             <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">🎬 새 영상</b><i v-if="v.duration" class="dur">{{ v.duration }}</i></span>
-            <span class="feat-body"><strong>{{ clean(v.title) }}</strong><small>CUTIE STREET 공식 YouTube</small></span>
+            <span class="feat-body"><strong><JaText :t="clean(v.title)" /></strong><small>CUTIE STREET 공식 YouTube</small></span>
           </a>
           <a v-for="x in data.aps.slice(0, 3)" :key="x.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${x.id}`" target="_blank" rel="noopener">
             <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">📺 다른 채널 출연</b><i v-if="x.secs" class="dur">{{ fmtLen(x.secs) }}</i></span>

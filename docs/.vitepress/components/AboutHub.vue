@@ -94,7 +94,7 @@ const QUIZ = [
     <section class="sec">
       <header class="sec-l"><span class="no">01</span><h2>프로필</h2><p>그룹 기본 정보</p></header>
       <div class="facts">
-        <div v-for="f in FACTS" :key="f.k" class="fact"><small>{{ f.k }}</small><b :lang="/[ぁ-んァ-ン一-龯]/.test(f.v) ? 'ja' : undefined">{{ f.v }}</b><span>{{ f.sub }}</span></div>
+        <div v-for="f in FACTS" :key="f.k" class="fact"><small>{{ f.k }}</small><b><JaText :t="f.v" /></b><span><JaText :t="f.sub" /></span></div>
       </div>
     </section>
 

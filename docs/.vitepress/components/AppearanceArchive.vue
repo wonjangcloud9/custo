@@ -194,7 +194,7 @@ onMounted(() => {
             <span v-if="pre(a)" class="pre on-th">데뷔 전</span>
           </span>
           <span class="tx">
-            <b class="tt" :lang="jaLang(a.title)">{{ a.title }}</b>
+            <b class="tt"><JaText :t="a.title" /></b>
             <span class="meta"><span class="chn" :lang="jaLang(a.ch)">{{ a.ch }}</span> · {{ fmtDate(a.date).slice(5) }}</span>
             <span v-if="a.members.length" class="dots" :aria-label="`출연: ${whoLabel(a)}`">
               <i v-for="m in a.members" :key="m" :style="{ background: memberById[m].color }" />

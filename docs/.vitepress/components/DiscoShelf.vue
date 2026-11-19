@@ -129,7 +129,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
             <span class="type">{{ r.type }}</span>
             <span v-if="r.mv" class="has-mv">▶ {{ r.mvKind }}</span>
           </span>
-          <span class="meta"><b :lang="jaLang(r.title)">{{ r.title }}</b><small>{{ fmt(r.date) }}<template v-if="r.note"> · {{ r.note }}</template></small></span>
+          <span class="meta"><b><JaText :t="r.title" /></b><small>{{ fmt(r.date) }}<template v-if="r.note"> · <JaText :t="r.note" /></template></small></span>
         </button>
       </div>
     </div>
