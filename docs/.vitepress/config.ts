@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { members } from './data/members'
 import { songs } from './data/songs'
 
@@ -49,6 +51,29 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
   ],
   sitemap: { hostname: 'https://wonjangcloud9.github.io/custo/' },
+  // offline support (#234): list the lazy component chunks the always-saved pages need (and what they import),
+  // so the service worker can save them on install; and stamp sw.js so each deploy refreshes the saved copies
+  buildEnd(site) {
+    const chunkDir = join(site.outDir, 'assets/chunks')
+    const files = readdirSync(chunkDir)
+    const skip = /^(three\.module|countries-110m|WorldMap|JourneyToTop)\./
+    const want = new Set<string>()
+    const add = (f: string) => {
+      if (want.has(f) || skip.test(f) || !files.includes(f)) return
+      want.add(f)
+      // static imports only — following import() from the theme chunk would pull in every page's components
+      for (const m of readFileSync(join(chunkDir, f), 'utf8').matchAll(/(?:from|import)\s*["'`]\.\/([\w.-]+\.js)["'`]/g)) add(m[1])
+    }
+    for (const md of ['index.md', 'live-guide/index.md', 'schedule/index.md', 'cutie-land/index.md', 'members/index.md']) {
+      for (const m of readFileSync(join(site.srcDir, md), 'utf8').matchAll(/<([A-Z][A-Za-z0-9]+)/g)) {
+        const f = files.find((x) => x.startsWith(`${m[1]}.`))
+        if (f) add(f)
+      }
+    }
+    writeFileSync(join(site.outDir, 'sw-precache.json'), JSON.stringify([...want].map((f) => `assets/chunks/${f}`)))
+    const sw = join(site.outDir, 'sw.js')
+    writeFileSync(sw, `// build ${Date.now().toString(36)}\n` + readFileSync(sw, 'utf8'))
+  },
   transformHead({ pageData, siteData }) {
     const title = pageData.frontmatter.titleTemplate
       ? `${pageData.title} | ${pageData.frontmatter.titleTemplate}`

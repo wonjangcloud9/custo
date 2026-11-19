@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import { members, memberById } from '../data/members'
 import { loadOshi, oshi } from '../theme/oshi'
@@ -52,18 +52,47 @@ function syncThemeColor() {
 }
 watch([() => route.path, oshi], () => syncThemeColor())
 
+// offline support (#234): register the service worker once the page is idle (production builds only), and say
+// so when the connection drops — at an arena the page you're on keeps working from the saved copy
+const net = ref<'' | 'offline' | 'back'>('')
+let backTimer: ReturnType<typeof setTimeout> | undefined
+const onOffline = () => { clearTimeout(backTimer); net.value = 'offline' }
+const onOnline = () => { if (net.value !== 'offline') return; net.value = 'back'; backTimer = setTimeout(() => (net.value = ''), 2600) }
+function registerSw() {
+  if (!import.meta.env.PROD || !('serviceWorker' in navigator)) return
+  const go = () => navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`, { scope: import.meta.env.BASE_URL }).catch(() => {})
+  'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 4000 }) : setTimeout(go, 2000)
+}
+
 onMounted(() => {
+  registerSw()
+  if (!navigator.onLine) net.value = 'offline'
+  window.addEventListener('offline', onOffline)
+  window.addEventListener('online', onOnline)
   loadOshi()
   syncThemeColor()
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   window.addEventListener('pointerdown', burst, { passive: true })
 })
-onBeforeUnmount(() => window.removeEventListener('pointerdown', burst))
+onBeforeUnmount(() => {
+  window.removeEventListener('pointerdown', burst)
+  window.removeEventListener('offline', onOffline)
+  window.removeEventListener('online', onOnline)
+  clearTimeout(backTimer)
+})
 watch(() => route.path, () => requestAnimationFrame(enter))
 </script>
 
 <template>
   <div class="fx-progress" aria-hidden="true" />
+  <div class="fx-net-live" role="status" aria-live="polite">
+    <Transition name="fx-net">
+      <p v-if="net" :key="net" class="fx-net" :class="net">
+        <span class="fx-net-i" aria-hidden="true">{{ net === 'offline' ? '📴' : '📶' }}</span>
+        {{ net === 'offline' ? '오프라인 — 저장된 화면으로 볼게요' : '다시 연결됐어요' }}
+      </p>
+    </Transition>
+  </div>
 </template>
 
 <style>
@@ -87,7 +116,21 @@ watch(() => route.path, () => requestAnimationFrame(enter))
 }
 .VPContent.fx-enter { animation: fx-enter 0.6s cubic-bezier(.2, .8, .2, 1); }
 @keyframes fx-enter { from { opacity: 0.001; transform: translateY(14px); filter: blur(4px); } }
+/* connection pill: bottom-centre, above the phone home bar; the icon gives a little "searching for signal" wobble */
+.fx-net-live { position: fixed; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 90; display: flex; justify-content: center; pointer-events: none; }
+.fx-net { margin: 0; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 800; letter-spacing: 0.01em;
+  color: #fff; background: #3a2340; box-shadow: 0 14px 30px -14px rgba(42, 16, 48, 0.7), inset 0 0 0 1.5px rgba(255, 255, 255, 0.14); word-break: keep-all; }
+.fx-net.back { background: #0f7a5c; }
+.fx-net-i { display: inline-block; font-size: 15px; }
+.fx-net.offline .fx-net-i { animation: fx-net-seek 2.4s ease-in-out infinite; }
+@keyframes fx-net-seek { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-14deg); } 80% { transform: rotate(10deg); } 90% { transform: rotate(-5deg); } }
+.fx-net-enter-active { transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1), opacity 0.3s; }
+.fx-net-leave-active { transition: transform 0.3s ease-in, opacity 0.25s; }
+.fx-net-enter-from, .fx-net-leave-to { transform: translateY(24px) scale(0.9); opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .fx-progress { animation: none !important; transform: scaleX(0); }
+  .fx-net.offline .fx-net-i { animation: none; }
+  .fx-net-enter-active, .fx-net-leave-active { transition: opacity 0.2s; }
+  .fx-net-enter-from, .fx-net-leave-to { transform: none; }
 }
 </style>
