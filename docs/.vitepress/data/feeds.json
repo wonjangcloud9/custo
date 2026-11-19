@@ -351,12 +351,6 @@
    "hq": true
   },
   {
-   "id": "uJyEc6RPrAY",
-   "title": "【CUTIE STREET】かわいいで乗り切れ！選手権①【佐野愛花/川本笑瑠/増田彩乃】",
-   "kind": "moment",
-   "hq": true
-  },
-  {
    "id": "QtZVvFPVY0Q",
    "title": "【悪い顔選手権】古澤里紗💛＆佐野愛花❤️【CUTIE STREET】",
    "kind": "moment",
@@ -391,6 +385,12 @@
    "title": "【ラジオ第1回】CUTIE STREET ゆる〜いラジオ始めたってさ【桜庭遥花/増田彩乃/佐野愛花】",
    "kind": "moment",
    "hq": true
+  },
+  {
+   "id": "uJyEc6RPrAY",
+   "title": "【CUTIE STREET】かわいいで乗り切れ！選手権①【佐野愛花/川本笑瑠/増田彩乃】",
+   "kind": "moment",
+   "hq": false
   }
  ],
  "kana": [
@@ -775,12 +775,6 @@
    "hq": true
   },
   {
-   "id": "uJyEc6RPrAY",
-   "title": "【CUTIE STREET】かわいいで乗り切れ！選手権①【佐野愛花/川本笑瑠/増田彩乃】",
-   "kind": "moment",
-   "hq": true
-  },
-  {
    "id": "Rfzmg2Hg8-o",
    "title": "【悪い顔選手権】増田彩乃💙＆梅田みゆ🩵【CUTIE STREET】",
    "kind": "moment",
@@ -833,6 +827,12 @@
    "title": "【ラジオ第1回】CUTIE STREET ゆる〜いラジオ始めたってさ【桜庭遥花/増田彩乃/佐野愛花】",
    "kind": "moment",
    "hq": true
+  },
+  {
+   "id": "uJyEc6RPrAY",
+   "title": "【CUTIE STREET】かわいいで乗り切れ！選手権①【佐野愛花/川本笑瑠/増田彩乃】",
+   "kind": "moment",
+   "hq": false
   }
  ],
  "emiru": [
@@ -1017,12 +1017,6 @@
    "hq": true
   },
   {
-   "id": "uJyEc6RPrAY",
-   "title": "【CUTIE STREET】かわいいで乗り切れ！選手権①【佐野愛花/川本笑瑠/増田彩乃】",
-   "kind": "moment",
-   "hq": true
-  },
-  {
    "id": "FDIeZgvYv3U",
    "title": "【悪い顔選手権】板倉可奈💚＆川本笑瑠🧡【CUTIE STREET】",
    "kind": "moment",
@@ -1045,6 +1039,12 @@
    "title": "【ラジオ第2回】CUTIE STREET 踊れるケーキ屋さん？【板倉可奈/川本笑瑠/古澤里紗】",
    "kind": "moment",
    "hq": true
+  },
+  {
+   "id": "uJyEc6RPrAY",
+   "title": "【CUTIE STREET】かわいいで乗り切れ！選手権①【佐野愛花/川本笑瑠/増田彩乃】",
+   "kind": "moment",
+   "hq": false
   }
  ],
  "miyu": [

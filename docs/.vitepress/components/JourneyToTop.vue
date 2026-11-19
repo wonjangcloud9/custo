@@ -23,6 +23,7 @@ const summitIn = computed(() => fIndex.value > N - 0.15)
 const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
 
 let cleanup: (() => void) | null = null
+const flabEls: HTMLElement[] = [] // HTML labels pinned to the 3D flags (positioned every frame, no Vue re-render)
 
 function altOf(i: number) { return Math.round((i / (N - 1)) * SUMMIT).toLocaleString() }
 
@@ -331,7 +332,7 @@ onMounted(async () => {
 
   // animate
   let uC = 0, fC = 0, raf = 0, visible = true, lastSig = '', settle = 0
-  const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3()
+  const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), tmp3 = new THREE.Vector3()
   const overviewPos = new THREE.Vector3(18, 52, small ? 190 : 150), overviewLook = new THREE.Vector3(0, 44, 0)
   const summitPos = new THREE.Vector3(0, 99, small ? 78 : 60), summitLook = new THREE.Vector3(0, 80, 0)
   const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting })
@@ -387,6 +388,22 @@ onMounted(async () => {
       f.halo.material.opacity += (target - f.halo.material.opacity) * 0.1
       const pulse = passed && !reduce ? 4 + Math.sin(t * 3 + i) * 0.6 : 4
       f.halo.scale.setScalar(pulse)
+    })
+
+    // flag labels: project the flag tip to the screen; show the ones near the current step on the near side of the mountain
+    const W = cvs.clientWidth, H = cvs.clientHeight
+    flagGroups.forEach((f, i) => {
+      const el = flabEls[i]
+      if (!el) return
+      tmp2.copy(f.g.position); tmp2.y += 3.9
+      const facing = tmp.set(f.g.position.x, 0, f.g.position.z).normalize().dot(tmp3.copy(camera.position).sub(f.g.position).setY(0).normalize())
+      const near = 1 - THREE.MathUtils.smoothstep(Math.abs(fC - 1 - i), 1.1, 2.4)
+      const v = tmp2.project(camera)
+      let o = near * (i > fC - 1 + 0.5 ? 0.7 : 1) * THREE.MathUtils.smoothstep(facing, -0.4, -0.1) * (v.z < 1 ? 1 : 0) * (1 - THREE.MathUtils.smoothstep(fC, N + 0.2, N + 0.7))
+      const x = (v.x * 0.5 + 0.5) * W, y = (-v.y * 0.5 + 0.5) * H
+      if (x < -80 || x > W + 80 || y < -40 || y > H + 40) o = 0
+      el.style.opacity = o.toFixed(3)
+      if (o > 0.001) el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`
     })
 
     // the 紅白 stars always face the camera (they used to spin edge-on into a thin sliver), with a little sway
@@ -447,6 +464,11 @@ onBeforeUnmount(() => cleanup?.())
       <div class="sky" />
       <canvas ref="canvas" class="gl" />
       <div class="vignette" />
+      <div class="flabs">
+        <span v-for="(m, i) in milestones" :key="i" :ref="(el) => { if (el) flabEls[i] = el as HTMLElement }" class="flab" :class="{ on: i === active, l: i % 2 === 1 }" :style="{ '--fc': members[i % 8].color }">
+          <i>▲ {{ altOf(i) }}m</i><b :lang="jaLang(m.flag)">{{ m.flag }}</b>
+        </span>
+      </div>
       <div class="alt">
         <div class="alt-track"><div class="alt-fill" :style="{ height: progress * 100 + '%' }" />
           <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active }"
@@ -517,7 +539,21 @@ onBeforeUnmount(() => cleanup?.())
 .sky { position: absolute; inset: -4% -2% -24%; background: url('/art/journey-sky.webp') center bottom / cover no-repeat; transform: translate3d(0, calc(var(--p, 0) * 18%), 0) scale(calc(1 + var(--p, 0) * 0.08)); transform-origin: 50% 100%; filter: saturate(calc(1 + var(--p, 0) * 0.25)) hue-rotate(calc(var(--p, 0) * -8deg)); opacity: 0.95; will-change: transform; }
 .sky::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255, 246, 251, 0.0) 0%, rgba(255, 246, 251, 0.35) 100%); }
 .nogl .stage { background: url('/art/journey-fuji.webp') center bottom / cover no-repeat; }
-.nogl .sky, .nogl .gl { display: none; }
+.nogl .sky, .nogl .gl, .nogl .flabs { display: none; }
+.flabs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.flab { position: absolute; left: 0; top: 0; opacity: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 5px 10px 6px 9px; margin: -46px 0 0 6px; white-space: nowrap; border-radius: 12px 12px 12px 3px;
+  background: rgba(255, 255, 255, 0.86); box-shadow: 0 8px 18px -10px rgba(90, 30, 70, 0.5), inset 3px 0 0 var(--fc); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); will-change: transform, opacity; }
+.flab i { font-style: normal; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--fc) 55%, #2a1030); }
+.flab b { font-size: 13px; font-weight: 800; color: #2f1a35; }
+.flab::after { content: ''; position: absolute; left: -1px; bottom: -6px; width: 8px; height: 8px; background: inherit; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.flab.on { scale: 1.12; transform-origin: 0 100%; box-shadow: 0 10px 24px -10px var(--fc), inset 3px 0 0 var(--fc); }
+.flab.on b { color: color-mix(in srgb, var(--fc) 60%, #2a1030); }
+.flab { transition: scale 0.4s var(--spring); }
+@media (min-width: 641px) { /* right-hand cards cover the right of the screen → their flag labels hang to the left */
+  .flab.l { margin-left: -6px; translate: -100% 0; align-items: flex-end; border-radius: 12px 12px 3px 12px; box-shadow: 0 8px 18px -10px rgba(90, 30, 70, 0.5), inset -3px 0 0 var(--fc); padding: 5px 9px 6px 10px; }
+  .flab.l::after { left: auto; right: -1px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+  .flab.l.on { transform-origin: 100% 100%; box-shadow: 0 10px 24px -10px var(--fc), inset -3px 0 0 var(--fc); }
+}
 .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(255, 240, 247, 0.55)); }
 
 .alt { position: absolute; left: 22px; top: 50%; translate: 0 -50%; display: flex; align-items: center; gap: 10px; z-index: 2; }
@@ -605,6 +641,9 @@ onBeforeUnmount(() => cleanup?.())
   .lead { font-size: 15px; }
   .card { padding: 18px; }
   .stamp { width: 104px; height: 104px; margin-bottom: 12px !important; }
+  .flab { padding: 4px 8px 5px 7px; margin-top: -40px; }
+  .flab b { font-size: 11.5px; }
+  .flab i { font-size: 9px; }
   .stamp b { font-size: 27px; }
   .stamp small { font-size: 10px; }
 }
