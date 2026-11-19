@@ -11,7 +11,9 @@ async (page) => {
     'news/', 'schedule/', 'stages/', 'start/', 'units/', 'videos/', 'videos/stats/', 'which-member/', 'world/']
   const browser = page.context().browser()
   const report = {}, errs = []
-  for (const w of [390, 1440]) {
+  // widths: navigate the MCP tab to about:blank#w=320 first for the reflow check (#198) — globals don't carry between runs
+  const widths = page.url().match(/#w=([\d,]+)/)?.[1].split(',').map(Number) || [390, 1440]
+  for (const w of widths) {
     const ctx = await browser.newContext({ viewport: { width: w, height: 900 } })
     const p = await ctx.newPage()
     let cur = ''

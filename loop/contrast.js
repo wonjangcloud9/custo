@@ -2,13 +2,13 @@
 // Run with the Playwright MCP `browser_run_code_unsafe` tool (filename: loop/contrast.js) while `bash loop/preview.sh`
 // serves. For every text element whose nearest painted ancestor has a gradient, the element is shot twice — text
 // transparent (background) and pure green (glyph mask) — and the contrast is taken at the glyph pixels only
-// (10th percentile). Solid backgrounds are covered by the earlier sweeps (#115/#116/#145). Expect {} back.
+// (10th percentile). Phone width: navigate the MCP tab to about:blank#w=390 first. Solid backgrounds are covered by the earlier sweeps (#115/#116/#145). Expect {} back.
 async (page) => {
   const browser = page.context().browser()
   const pages = ['', 'about.html', 'schedule/', 'members/', 'members/risa.html', 'korea/', 'appearances/', 'videos/', 'mv-quiz/', 'units/', 'world/',
     'live-guide/', 'likes/', 'discography/', 'cutie-land/', 'kohaku/', 'journey/', 'start/', 'which-member/']
   const out = {}
-  const c = await browser.newContext({ viewport: { width: globalThis.CC_W || 1440, height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce', timezoneId: 'Asia/Seoul' })
+  const c = await browser.newContext({ viewport: { width: +(page.url().match(/#w=(\d+)/)?.[1] || 1440), height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce', timezoneId: 'Asia/Seoul' })
   const p = await c.newPage()
   for (const u of pages) {
     await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' })

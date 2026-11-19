@@ -392,7 +392,7 @@ onBeforeUnmount(() => cleanup?.())
           <p class="desc">{{ m.desc }}</p>
           <a v-if="m.video" class="vid" :href="`https://www.youtube.com/watch?v=${m.video}`" target="_blank" rel="noopener">
             <img :src="`https://i.ytimg.com/vi/${m.video}/mqdefault.jpg`" alt="" loading="lazy" width="160" height="90" />
-            <span><b>▶ {{ m.videoLabel }}</b><small>YouTube</small></span>
+            <span><b>▶&nbsp;{{ m.videoLabel }}</b><small>YouTube</small></span>
           </a>
         </article>
       </section>
@@ -472,7 +472,10 @@ onBeforeUnmount(() => cleanup?.())
 .vid { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 8px; border-radius: 16px; background: color-mix(in srgb, var(--mc) 12%, white); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.5s var(--spring); }
 .vid:hover { transform: translateY(-3px) rotate(-1deg); }
 .vid img { width: 112px; height: 63px; object-fit: cover; border-radius: 10px; flex: none; }
-.vid b { display: block; font-size: 13.5px; }
+.vid > span { min-width: 0; }
+/* very narrow phones: thumbnail on top, title underneath, instead of a 3-line squeeze beside it */
+@media (max-width: 360px) { .vid { flex-direction: column; align-items: stretch; gap: 8px; } .vid img { width: 100%; height: auto; aspect-ratio: 16 / 9; } .vid > span { padding: 0 4px 2px; } }
+.vid b { display: block; font-size: 13.5px; overflow-wrap: anywhere; } /* Japanese titles have no spaces; under keep-all they never wrapped (23px overflow at 320, #198) */
 .vid small { font-size: 11px; color: #735779; }
 
 .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }

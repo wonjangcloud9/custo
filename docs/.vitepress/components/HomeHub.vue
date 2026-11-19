@@ -312,7 +312,7 @@ function cleanTitle(t: string) {
 @keyframes chHue { 0%, 85%, 100% { color: var(--ink); } 90% { color: var(--c); } }
 .globe { display: inline-block; font-size: 0.7em; margin-left: 0.12em; vertical-align: 0.1em; animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; font-weight: 700; color: #c2457a; }
+.tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; font-weight: 700; color: #ad2f68; }
 .tag-ja span { display: block; font-size: 14px; font-weight: 400; color: #735779; margin-top: 6px; font-family: 'Noto Sans JP', sans-serif; }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn {
@@ -516,6 +516,12 @@ function cleanTitle(t: string) {
   .acc-item:hover .acc-kanji,
   .acc:not(:hover):not(:focus-within) .acc-item:first-child .acc-kanji { font-size: 34px; left: 18px; }
   .acc-body { opacity: 1; transform: none; padding: 12px 18px 12px 72px; }
+  /* phones: the short pills only show the gradient's light top, so white names sank to 1.5:1 on Risa's yellow
+     (#198) — a lighter member-colour sweep with dark ink instead (every member colour reads better dark) */
+  .acc-item { color: #2a1030 !important; background: linear-gradient(100deg, color-mix(in srgb, var(--mc) 55%, white), color-mix(in srgb, var(--mc) 85%, white)); }
+  .acc-body { text-shadow: none; }
+  .acc-body span { opacity: 1; }
+  .acc-kanji { color: #fff; text-shadow: 0 2px 10px color-mix(in srgb, var(--mc) 70%, #2a1030); }
   .acc-body b { font-size: 18px; }
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(130px, auto); }
   .otd-grid { grid-template-columns: repeat(2, 1fr); }

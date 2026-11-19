@@ -194,7 +194,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .disc.big { position: absolute; right: 0; top: 10%; width: 72%; aspect-ratio: 1; z-index: 1; animation: spin 6s linear infinite; }
 .disc.big .disc-label { font-size: clamp(12px, 1.6vw, 18px); font-family: 'Zen Maru Gothic', sans-serif; background: conic-gradient(#ff6b9d, #a06cd5, #4a90d9, #3ccfa8, #ffc93c, #ff6b9d); }
 @keyframes spin { to { transform: rotate(360deg); } }
-.eyebrow { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; color: #a33366; }
+.eyebrow { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; color: #8f2a59; }
 .hero-title { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(40px, 6vw, 64px) !important; line-height: 1 !important; }
 .hero-d { margin: 6px 0 0 !important; font-weight: 800; color: #c2185b; font-size: 18px; min-height: 1.5em; }
 .tracks { columns: 2; column-gap: 18px; margin: 14px 0 0 !important; padding: 0 !important; list-style: none; }
