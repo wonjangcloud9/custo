@@ -74,7 +74,7 @@ onMounted(() => {
         <div class="vids">
           <a v-for="v in MUST_WATCH" :key="v.id" class="vid" :class="{ seen: watched.has(v.id) }" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" @click="markWatch(v.id)">
             <span class="th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><i v-if="watched.has(v.id)">✓</i></span>
-            <b>{{ v.t }}</b><small>{{ v.why }}</small>
+            <b><JaText :t="v.t" /></b><small><JaText :t="v.why" /></small>
           </a>
         </div>
       </li>
@@ -83,7 +83,7 @@ onMounted(() => {
         <header><span class="n">3</span><h3>멤버 8명 한눈에</h3><button type="button" class="chk" :aria-pressed="done.has('members')" @click="toggle('members')">{{ done.has('members') ? '✓ 완료' : '외웠어요' }}</button></header>
         <div class="mem">
           <a v-for="m in members" :key="m.id" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color }">
-            <span class="face">{{ m.ja.slice(-2, -1) }}</span><b>{{ m.ko }}</b><small>{{ m.emoji }} {{ m.colorName }}</small>
+            <span class="face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span><b>{{ m.ko }}</b><small>{{ m.emoji }} {{ m.colorName }}</small>
           </a>
         </div>
         <a class="link" :href="withBase('/which-member/')">🔮 나와 닮은 멤버 테스트로 최애 찾기 →</a>

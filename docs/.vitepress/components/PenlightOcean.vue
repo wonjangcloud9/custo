@@ -74,7 +74,7 @@ onBeforeUnmount(() => clearInterval(timer))
       <ul>
         <li v-for="it in ITEMS" :key="it.id" :class="{ on: done.has(it.id) }">
           <button type="button" class="box" :aria-pressed="done.has(it.id)" :aria-label="`${it.t} 완료 표시`" @click="toggle(it.id)">{{ done.has(it.id) ? '✓' : '' }}</button>
-          <span class="txt"><b>{{ it.t }}</b><small>{{ it.s }}</small></span>
+          <span class="txt"><b><JaText :t="it.t" /></b><small><JaText :t="it.s" /></small></span>
           <a v-if="it.link" :href="withBase(it.link)" class="go">바로가기 →</a>
         </li>
       </ul>

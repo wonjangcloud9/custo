@@ -95,7 +95,7 @@ const focus = computed(() => dots.value.find((d) => d.m.id === hover.value) ?? n
       <li v-for="d in upcoming" :key="d.m.id" :style="{ '--mc': d.m.color }" :class="{ on: hover === d.m.id }"
         @mouseenter="hover = d.m.id" @mouseleave="hover = null">
         <a :href="withBase(`/members/${d.m.id}`)">
-          <span class="li-dot" :style="{ '--on': onColor(d.m.color) }">{{ d.m.ja.slice(-2, -1) }}</span>
+          <span class="li-dot" :style="{ '--on': onColor(d.m.color) }" aria-hidden="true">{{ d.m.ja.slice(-2, -1) }}</span>
           <span class="li-name"><b>{{ d.m.ko }}</b><small>{{ d.mo }}/{{ d.d }}<template v-if="d.turning"> · {{ d.turning }}번째 생일</template></small></span>
           <span class="li-dd">{{ d.dd === null ? '' : d.dd === 0 ? '🎂 TODAY' : 'D-' + d.dd }}</span>
         </a>

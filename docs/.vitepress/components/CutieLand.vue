@@ -84,14 +84,14 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
           <h3 lang="ja">{{ t.title }}</h3>
           <div class="tags">
             <span v-if="t.mv" class="tag mv">🎬 MV</span>
-            <span v-if="t.unit" class="tag unit">💞 {{ t.unit.ja }}</span>
+            <span v-if="t.unit" class="tag unit">💞 <span lang="ja">{{ t.unit.ja }}</span></span>
             <span v-if="t.lives" class="tag">🎤 라이브 영상 {{ t.lives }}</span>
             <span v-if="t.premiere" class="tag new">✨ 앨범 첫 공개</span>
             <span v-else-if="t.first" class="tag rel">📀 {{ fmtD(t.first.date) }} {{ t.first.type === 'SINGLE' ? 'CD 싱글' : '디지털' }}{{ /Korean/i.test(t.first.title) ? ' (한국어 ver.)' : '' }}</span>
           </div>
           <p v-if="t.note" class="origin">{{ t.note }}</p>
           <div v-if="t.unit" class="unit-av">
-            <a v-for="id in t.unit.members" :key="id" :href="withBase(`/members/${id}`)" :style="{ '--mc': memberById[id].color }" :title="memberById[id].ko">{{ memberById[id].ja.slice(-2, -1) }}</a>
+            <a v-for="id in t.unit.members" :key="id" :href="withBase(`/members/${id}`)" :style="{ '--mc': memberById[id].color }" :title="memberById[id].ko" :aria-label="memberById[id].ko" lang="ja">{{ memberById[id].ja.slice(-2, -1) }}</a>
           </div>
           <div v-if="t.mv || t.thumbs.length" class="thumbs">
             <a v-if="t.mv" class="th main" :href="`https://www.youtube.com/watch?v=${t.mv}`" target="_blank" rel="noopener">

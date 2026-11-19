@@ -74,7 +74,7 @@ const MILESTONES = [
     <TransitionGroup tag="div" name="card" class="grid">
       <button v-for="s in list" :key="s.id" type="button" class="card" :class="[s.cat, { on: cur.id === s.id }]" :aria-pressed="cur.id === s.id" @click="pick(s)">
         <span class="th"><img :src="`https://i.ytimg.com/vi/${s.id}/mqdefault.jpg`" alt="" loading="lazy" /><span class="play" aria-hidden="true">▶</span><b class="badge">{{ s.cat === 'kr' ? '🇰🇷 음악방송' : s.cat === 'special' ? '🎙️ 스페셜' : '🏟️ 라이브' }}</b></span>
-        <span class="body"><small>{{ s.date }} · {{ s.show }}</small><strong :lang="jaLang(s.song)">{{ s.song }}</strong></span>
+        <span class="body"><small>{{ s.date }} · <JaText :t="s.show" /></small><strong :lang="jaLang(s.song)">{{ s.song }}</strong></span>
       </button>
     </TransitionGroup>
 

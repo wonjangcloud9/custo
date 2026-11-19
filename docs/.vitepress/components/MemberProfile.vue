@@ -176,7 +176,7 @@ function onKey(e: KeyboardEvent) {
     <a v-if="bdayShow" class="show" :href="bdayShow.url" target="_blank" rel="noopener">
       <span class="show-ic" aria-hidden="true">🎂</span>
       <span class="show-txt"><small>다가오는 생탄제<template v-if="going.has(goingKey(bdayShow))"> · 💖 내 일정</template></small><b lang="ja">{{ bdayShow.ja }}</b>
-        <span>{{ bdayShow.date.replace(/-/g, '.') + (bdayShow.time ? ` ${bdayShow.time} 開演` : '') + (bdayShow.venue ? ` · 📍 ${bdayShow.venue}` : '') }}</span></span>
+        <span>{{ bdayShow.date.replace(/-/g, '.') }}<template v-if="bdayShow.time"> {{ bdayShow.time }} <span lang="ja">開演</span></template><template v-if="bdayShow.venue"> · 📍 <span lang="ja">{{ bdayShow.venue }}</span></template></span></span>
       <span class="show-dd">{{ showDays === 0 ? 'TODAY' : 'D-' + showDays }}</span>
     </a>
 
@@ -221,7 +221,7 @@ function onKey(e: KeyboardEvent) {
       </div>
       <div class="tile t-from">
         <span class="lbl">출신</span>
-        <b class="mid"><span class="pin" aria-hidden="true">📍</span>{{ m.birthplace }}</b>
+        <b class="mid"><span class="pin" aria-hidden="true">📍</span><span lang="ja">{{ m.birthplace }}</span></b>
         <span class="sub">{{ prefectureKo[m.birthplace] }}</span>
       </div>
       <div class="tile t-color">
@@ -232,7 +232,7 @@ function onKey(e: KeyboardEvent) {
       </div>
       <div class="tile t-nick">
         <span class="lbl">닉네임</span>
-        <b class="mid">{{ m.nickname }}</b>
+        <b class="mid" lang="ja">{{ m.nickname }}</b>
         <span class="sub">{{ m.nicknameKo }}</span>
       </div>
       <div class="tile t-likes">
@@ -247,7 +247,7 @@ function onKey(e: KeyboardEvent) {
         <div class="ruler">
           <a v-for="x in heights" :key="x.id" :href="withBase(`/members/${x.id}`)" class="bar" :class="{ me: x.id === m.id }"
             :style="{ '--h': ((x.height - minH) / (maxH - minH)) * 100 + '%', '--bc': x.color }" :title="`${x.ko} ${x.height}cm`">
-            <span class="bar-fill" /><span class="bar-cm">{{ x.height }}</span><span class="bar-nm">{{ x.ja.slice(-2, -1) }}</span>
+            <span class="bar-fill" /><span class="bar-cm">{{ x.height }}</span><span class="bar-nm" lang="ja">{{ x.ja.slice(-2, -1) }}</span>
           </a>
         </div>
       </div>

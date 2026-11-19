@@ -33,7 +33,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
       <p class="hint">멤버를 탭하면 같은 유닛과 함께 나온 공식 영상을 찾아줘요</p>
       <div class="picks" role="group" aria-label="멤버 선택">
         <button v-for="m in members" :key="m.id" type="button" class="pick" :aria-pressed="picked.includes(m.id)" :style="{ '--mc': m.color }" @click="toggle(m.id)">
-          <span class="pick-face">{{ m.ja.slice(-2, -1) }}</span>
+          <span class="pick-face" lang="ja">{{ m.ja.slice(-2, -1) }}</span>
           <small>{{ m.ko.split(' ')[1] }}</small>
         </button>
       </div>
@@ -58,7 +58,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
     <div class="cards">
       <article v-for="u in units" :key="u.id" class="card" :class="{ hit: matches(u), dim: picked.length && !matches(u) }" :style="{ backgroundImage: mesh(u.members) }">
         <div class="stack" :style="{ '--n': u.members.length }">
-          <a v-for="(id, i) in u.members" :key="id" :href="withBase(`/members/${id}`)" class="av" :style="{ '--mc': memberById[id].color, '--on': onColor(memberById[id].color), '--i': i }" :title="memberById[id].ko">
+          <a v-for="(id, i) in u.members" :key="id" :href="withBase(`/members/${id}`)" class="av" :style="{ '--mc': memberById[id].color, '--on': onColor(memberById[id].color), '--i': i }" :title="memberById[id].ko" :aria-label="`${memberById[id].ko} 페이지`" lang="ja">
             {{ memberById[id].ja.slice(-2, -1) }}
           </a>
         </div>
@@ -71,7 +71,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
           <a v-if="u.mv" :href="`https://www.youtube.com/watch?v=${u.mv}`" target="_blank" rel="noopener" class="mv">▶ MV</a>
         </div>
         <div class="vids">
-          <a v-for="v in u.videos" :key="v.id" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">▶ {{ v.label }}</a>
+          <a v-for="v in u.videos" :key="v.id" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">▶ <JaText :t="v.label" /></a>
         </div>
         <p class="note">{{ u.note }}</p>
       </article>

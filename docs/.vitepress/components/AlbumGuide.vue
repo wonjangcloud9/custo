@@ -78,7 +78,7 @@ const open = ref<string>('初回限定盤A')
         </a>
       </li>
     </ol>
-    <p class="src">📚 출처: <a :href="FEATURE" target="_blank" rel="noopener">공식 1st ALBUM 특설 페이지</a> · <a href="https://cutiestreet.asobisystem.com/news/detail/96630" target="_blank" rel="noopener">楽天ブックス 예약 추첨회 공지</a> (2026.11.18 확인)</p>
+    <p class="src">📚 출처: <a :href="FEATURE" target="_blank" rel="noopener">공식 1st ALBUM 특설 페이지</a> · <a href="https://cutiestreet.asobisystem.com/news/detail/96630" target="_blank" rel="noopener"><span lang="ja">楽天ブックス</span> 예약 추첨회 공지</a> (2026.11.18 확인)</p>
   </section>
 </template>
 

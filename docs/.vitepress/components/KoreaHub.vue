@@ -74,7 +74,7 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
     <div class="vids">
       <a v-for="v in krVideos.slice(0, shown)" :key="v.id" class="vid" :href="watch(v.id)" target="_blank" rel="noopener">
         <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" decoding="async" />
-        <span>{{ clean(v.title) }}</span>
+        <span><JaText :t="clean(v.title)" /></span>
       </a>
     </div>
     <div class="more-row">

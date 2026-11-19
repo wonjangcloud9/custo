@@ -173,7 +173,7 @@ onMounted(() => {
       </div>
       <div class="chs" role="toolbar" aria-label="자주 출연한 채널">
         <span class="chs-h">자주 만난 채널</span>
-        <button v-for="[c, n] in channels.slice(0, 8)" :key="c" type="button" class="chp" :aria-pressed="ch === c" @click="ch = ch === c ? '' : c">{{ c }} <small>{{ n }}</small></button>
+        <button v-for="[c, n] in channels.slice(0, 8)" :key="c" type="button" class="chp" :aria-pressed="ch === c" @click="ch = ch === c ? '' : c"><span :lang="jaLang(c)">{{ c }}</span> <small>{{ n }}</small></button>
       </div>
       <label v-if="who" class="grp"><input v-model="withGroup" type="checkbox" /> 그룹 전체 출연도 함께 보기 <small>+{{ groupCount }}</small></label>
       <p class="result" aria-live="polite">

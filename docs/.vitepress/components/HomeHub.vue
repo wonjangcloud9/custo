@@ -192,7 +192,7 @@ function cleanTitle(t: string) {
       <a v-for="(e, i) in upcoming" :key="e.id" class="cd-card" :class="{ next: i === 0 }" :href="e.link" :target="e.ext ? '_blank' : undefined" :rel="e.ext ? 'noopener' : undefined">
         <span class="cd-emoji" aria-hidden="true">{{ e.emoji }}</span>
         <span class="cd-label">{{ e.label }}</span>
-        <span class="cd-ko">{{ e.ko }}</span>
+        <span class="cd-ko"><JaText :t="e.ko" /></span>
         <span v-if="now === null" class="cd-d">D-··</span>
         <span v-else-if="e.ms <= 0" class="cd-d now">TODAY ✨</span>
         <template v-else>

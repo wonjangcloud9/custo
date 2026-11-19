@@ -64,7 +64,7 @@ const hMin = Math.min(...members.map((m) => m.height)), hMax = Math.max(...membe
         <tr v-for="r in sorted" :key="r.m.id" :style="{ '--mc': r.m.color }">
           <td class="n c-order">{{ String(r.i + 1).padStart(2, '0') }}</td>
           <td class="who c-name">
-            <a :href="withBase(`/members/${r.m.id}`)"><span class="face">{{ r.m.ja.slice(-2, -1) }}</span><span><b lang="ja">{{ r.m.ja }}</b><small>{{ r.m.ko }}</small></span></a>
+            <a :href="withBase(`/members/${r.m.id}`)"><span class="face" aria-hidden="true">{{ r.m.ja.slice(-2, -1) }}</span><span><b lang="ja">{{ r.m.ja }}</b><small>{{ r.m.ko }}</small></span></a>
           </td>
           <td class="num">{{ r.age === null ? '–' : r.age + '세' }}</td>
           <td class="ht"><span class="hbar"><i :style="{ width: 30 + ((r.m.height - hMin) / (hMax - hMin)) * 70 + '%' }" /></span><span class="num">{{ r.m.height }}cm</span></td>

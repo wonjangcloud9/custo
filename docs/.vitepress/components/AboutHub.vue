@@ -78,7 +78,7 @@ const QUIZ = [
           <span v-for="(w, wi) in WORDS" :key="w" class="word" aria-hidden="true"><span v-for="(ch, i) in w.split('')" :key="i" :style="{ '--c': members[(wi * 5 + i) % 8].color, '--i': wi * 5 + i }">{{ ch }}</span></span>
         </h1>
         <p class="kana" lang="ja">キューティーストリート · きゅーすと</p>
-        <p class="lead">하라주쿠에서 세계로 <b>KAWAII</b>를 발신하는 8인조, <b>큐티스트리트</b>.<br />데뷔 2년 만에 日本武道館과 紅白까지 — <span class="motto" lang="ja">かわいいで、世界へ。</span></p>
+        <p class="lead">하라주쿠에서 세계로 <b>KAWAII</b>를 발신하는 8인조, <b>큐티스트리트</b>.<br />데뷔 2년 만에 <span lang="ja">日本武道館</span>과 <span lang="ja">紅白</span>까지 — <span class="motto" lang="ja">かわいいで、世界へ。</span></p>
         <nav class="links" aria-label="공식 채널">
           <a v-for="l in LINKS" :key="l.t" :href="l.h" target="_blank" rel="noopener"><span aria-hidden="true">{{ l.i }}</span>{{ l.t }}</a>
         </nav>
@@ -109,8 +109,8 @@ const QUIZ = [
               <span class="ic" aria-hidden="true">{{ it.i }}</span>
               <span class="when">{{ it.d }}</span>
               <span class="what">
-                <component :is="it.link ? 'a' : 'span'" :href="it.link ? withBase(it.link) : undefined" class="tt">{{ it.t }}<template v-if="it.link"> →</template></component>
-                <small v-if="it.s">{{ it.s }}</small>
+                <component :is="it.link ? 'a' : 'span'" :href="it.link ? withBase(it.link) : undefined" class="tt"><JaText :t="it.t" /><template v-if="it.link"> →</template></component>
+                <small v-if="it.s"><JaText :t="it.s" /></small>
               </span>
               <i v-if="it.key" class="star" aria-label="주요 이정표">★</i>
             </li>
@@ -124,7 +124,7 @@ const QUIZ = [
       <header class="sec-l"><span class="no">03</span><h2>수상</h2><p>신인상부터 차트까지</p></header>
       <div class="awards">
         <div v-for="(a, i) in AWARDS" :key="a.t" class="aw" :class="{ big: a.big }" :style="{ '--i': i }">
-          <span class="cup" aria-hidden="true">🏆</span><small>{{ a.y }}</small><b>{{ a.t }}</b><span>{{ a.s }}</span>
+          <span class="cup" aria-hidden="true">🏆</span><small>{{ a.y }}</small><b><JaText :t="a.t" /></b><span><JaText :t="a.s" /></span>
         </div>
       </div>
     </section>

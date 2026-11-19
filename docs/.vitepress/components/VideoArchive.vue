@@ -193,7 +193,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
     <div class="va-members" role="toolbar" aria-label="멤버별">
       <button v-for="m in memberOrder" :key="m.id" type="button" class="mchip" :class="{ oshi: oshi === m.id }" :aria-pressed="member === m.id"
         :style="{ '--mc': m.color }" :title="`${m.ko} (${m.ja})`" @click="setMember(m.id)">
-        <span class="mchip-ring"><span class="mchip-face">{{ m.ja.slice(-2, -1) }}</span></span>
+        <span class="mchip-ring"><span class="mchip-face" lang="ja">{{ m.ja.slice(-2, -1) }}</span></span>
         <span class="mchip-name"><span v-if="oshi === m.id" aria-label="최애">💖</span>{{ m.ko.split(' ')[1] }}</span>
         <small>{{ memberCounts[m.id] || 0 }}</small>
       </button>

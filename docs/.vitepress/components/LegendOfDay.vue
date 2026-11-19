@@ -76,8 +76,8 @@ onMounted(async () => {
           <span class="play" aria-hidden="true">▶</span>
         </a>
         <figcaption>
-          <b>{{ main.m.ja }} <span>{{ main.m.emoji }}</span></b>
-          <small>{{ caption(main.post.title) || main.m.ko }}</small>
+          <b><span lang="ja">{{ main.m.ja }}</span> <span>{{ main.m.emoji }}</span></b>
+          <small><JaText :t="caption(main.post.title) || main.m.ko" /></small>
         </figcaption>
         <div class="pola-act">
           <a :href="withBase(`/members/${main.m.id}`)">{{ main.m.ko.split(' ')[1] }} 페이지 →</a>
@@ -89,7 +89,7 @@ onMounted(async () => {
         <button v-for="(p, i) in others" :key="p.m.id" type="button" role="listitem" class="pola mini"
           :style="{ '--mc': p.m.color, '--i': i, '--n': others.length }" :aria-label="`${p.m.ko}의 오늘 컷 보기`" @click="choose(p.m.id)">
           <span class="mini-img"><img :src="`https://i.ytimg.com/vi/${p.post.id}/mqdefault.jpg`" alt="" loading="lazy" /></span>
-          <span class="mini-name">{{ p.m.ja.slice(-2) }}</span>
+          <span class="mini-name" lang="ja">{{ p.m.ja.slice(-2) }}</span>
         </button>
       </div>
     </div>

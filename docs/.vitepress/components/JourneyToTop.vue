@@ -377,7 +377,7 @@ onBeforeUnmount(() => cleanup?.())
       <section class="step intro">
         <p class="eyebrow">STREET TO THE TOP · 2024 → 2026</p>
         <h1 class="title"><span>정상까지의</span><span class="grad">여정</span></h1>
-        <p class="lead">큐티스트리트의 2년 반을 <b>후지산 3,776m</b> 등반에 빗대 봤어요.<br />스크롤하면 8명이 함께 길을 올라갑니다 — 정상은 <b>紅白</b>.</p>
+        <p class="lead">큐티스트리트의 2년 반을 <b>후지산 3,776m</b> 등반에 빗대 봤어요.<br />스크롤하면 8명이 함께 길을 올라갑니다 — 정상은 <b lang="ja">紅白</b>.</p>
         <p class="hint"><span class="mouse" /> 스크롤해서 등반 시작</p>
       </section>
 
@@ -389,11 +389,11 @@ onBeforeUnmount(() => cleanup?.())
             <span class="no">{{ String(i + 1).padStart(2, '0') }} / {{ milestones.length }}</span>
           </div>
           <h2 class="ja" :lang="jaLang(m.ja)">{{ m.ja }}</h2>
-          <p class="ko">{{ m.ko }}</p>
-          <p class="desc">{{ m.desc }}</p>
+          <p class="ko"><JaText :t="m.ko" /></p>
+          <p class="desc"><JaText :t="m.desc" /></p>
           <a v-if="m.video" class="vid" :href="`https://www.youtube.com/watch?v=${m.video}`" target="_blank" rel="noopener">
             <img :src="`https://i.ytimg.com/vi/${m.video}/mqdefault.jpg`" alt="" loading="lazy" width="160" height="90" />
-            <span><b>▶&nbsp;{{ m.videoLabel }}</b><small>YouTube</small></span>
+            <span><b>▶&nbsp;<JaText :t="m.videoLabel" /></b><small>YouTube</small></span>
           </a>
         </article>
       </section>
@@ -401,7 +401,7 @@ onBeforeUnmount(() => cleanup?.())
       <section class="step outro">
         <p class="eyebrow">3,776m · TOP OF THE TOP</p>
         <h2 class="title small"><span>그리고 다음 산은,</span><span><span class="grad">세계</span> <span class="emoji">🌏</span></span></h2>
-        <p class="lead">かわいいで、世界へ。 우리의 큐티즈도 함께 올라가요.</p>
+        <p class="lead"><span lang="ja">かわいいで、世界へ。</span> 우리의 큐티즈도 함께 올라가요.</p>
         <div class="cta">
           <a class="btn primary" href="https://www.youtube.com/watch?v=KGFOrSUL-uc" target="_blank" rel="noopener">▶ 「Top of the top」 부도칸 LIVE</a>
           <a class="btn" :href="withBase('/members/')">멤버 만나기</a>
