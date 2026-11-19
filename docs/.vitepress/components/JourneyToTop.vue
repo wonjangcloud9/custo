@@ -77,7 +77,7 @@ onMounted(async () => {
   } catch { noGL.value = true; return }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2))
   const scene = new THREE.Scene()
-  scene.fog = new THREE.Fog(0xfff3f8, 60, 260)
+  scene.fog = new THREE.Fog(0xf3def6, 90, 340) // lavender-pink, matched to the watercolour sky (white fog read as a grey curtain)
   const camera = new THREE.PerspectiveCamera(small ? 62 : 52, 1, 0.1, 500)
   const disposables: { dispose: () => void }[] = []
   const track = <T extends { dispose: () => void }>(o: T) => (disposables.push(o), o)
@@ -442,15 +442,16 @@ onBeforeUnmount(() => cleanup?.())
 </script>
 
 <template>
-  <div ref="root" class="jr" :class="{ nogl: noGL }">
+  <div ref="root" class="jr" :class="{ nogl: noGL }" :style="{ '--p': progress }">
     <div class="stage" aria-hidden="true">
+      <div class="sky" />
       <canvas ref="canvas" class="gl" />
       <div class="vignette" />
       <div class="alt">
         <div class="alt-track"><div class="alt-fill" :style="{ height: progress * 100 + '%' }" />
           <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active }"
             :style="{ bottom: (i / (milestones.length - 1)) * 100 + '%', '--tc': members[i % 8].color }" />
-          <span v-if="nowU !== null && nowU < 1" class="alt-now" :style="{ bottom: nowU * 100 + '%' }"><i />지금 {{ nowAlt.toLocaleString() }}m</span>
+          <span v-if="nowU !== null && nowU < 1" class="alt-now" :style="{ bottom: nowU * 100 + '%' }"><i />지금<span class="alt-now-m"> {{ nowAlt.toLocaleString() }}m</span></span>
         </div>
         <div class="alt-label"><small>ALT.</small><b>{{ alt.toLocaleString() }}</b><small>m</small></div>
       </div>
@@ -511,8 +512,13 @@ onBeforeUnmount(() => cleanup?.())
 }
 .stage { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
 .gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.nogl .stage { background: radial-gradient(60% 50% at 50% 70%, #ffd6e8, transparent), radial-gradient(40% 40% at 50% 20%, #fff, transparent); }
-.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(255, 240, 247, 0.85)); }
+/* original watercolour sky (higgsfield, no people) behind the transparent WebGL canvas. As you climb, the sea of
+   clouds at its foot sinks out of the bottom and the sky deepens — the page *feels* higher without a single extra draw call. */
+.sky { position: absolute; inset: -4% -2% -24%; background: url('/art/journey-sky.webp') center bottom / cover no-repeat; transform: translate3d(0, calc(var(--p, 0) * 18%), 0) scale(calc(1 + var(--p, 0) * 0.08)); transform-origin: 50% 100%; filter: saturate(calc(1 + var(--p, 0) * 0.25)) hue-rotate(calc(var(--p, 0) * -8deg)); opacity: 0.95; will-change: transform; }
+.sky::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255, 246, 251, 0.0) 0%, rgba(255, 246, 251, 0.35) 100%); }
+.nogl .stage { background: url('/art/journey-fuji.webp') center bottom / cover no-repeat; }
+.nogl .sky, .nogl .gl { display: none; }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(255, 240, 247, 0.55)); }
 
 .alt { position: absolute; left: 22px; top: 50%; translate: 0 -50%; display: flex; align-items: center; gap: 10px; z-index: 2; }
 .alt-track { position: relative; width: 6px; height: 46vh; border-radius: 999px; background: rgba(255, 255, 255, 0.7); box-shadow: inset 0 0 0 1px rgba(196, 156, 255, 0.35); }
@@ -527,7 +533,7 @@ onBeforeUnmount(() => cleanup?.())
 .alt-label b { font-size: 22px; font-variant-numeric: tabular-nums; color: #c2457a; }
 .alt-label small { font-size: 10px; letter-spacing: 0.2em; color: #7d6083; font-weight: 700; }
 
-.steps { position: relative; z-index: 1; margin-top: -100vh; margin-top: -100dvh; }
+.steps { position: relative; z-index: 1; margin-top: -100vh; margin-top: -100dvh; overflow-x: clip; } /* the stamp waits scaled ×1.8 before it lands — 13px spill at 320 */
 .step { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; padding: 80px 8vw; }
 .step.left { justify-content: flex-start; padding-left: max(110px, 10vw); }
 .step.right { justify-content: flex-end; }
@@ -591,6 +597,9 @@ onBeforeUnmount(() => cleanup?.())
   .intro, .outro { padding: 72px 16px; align-items: center; }
   .outro { justify-content: center; padding-top: 96px; }
   .alt { left: 12px; }
+  .alt-now { left: 12px; padding: 2px 7px 2px 5px; font-size: 10px; }
+  .alt-now-m { display: none; }
+  .eyebrow { font-size: 10.5px; letter-spacing: 0.16em; white-space: nowrap; }
   .alt-track { height: 38vh; }
   .alt-label b { font-size: 16px; }
   .lead { font-size: 15px; }
@@ -599,6 +608,7 @@ onBeforeUnmount(() => cleanup?.())
   .stamp b { font-size: 27px; }
   .stamp small { font-size: 10px; }
 }
+@media (max-width: 360px) { .eyebrow { font-size: 9.5px; letter-spacing: 0.08em; padding: 6px 10px; } }
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; transform: none; }
   .mouse::after, .title .emoji, .stamp-ring, .alt-now i { animation: none; }
