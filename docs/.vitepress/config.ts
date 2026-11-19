@@ -51,6 +51,9 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
   ],
   sitemap: { hostname: 'https://wonjangcloud9.github.io/custo/' },
+  // the build's own clock, identical on the server render and before the page mounts — lets 'what's next' lists
+  // render into the HTML instead of popping in after hydration (#196, layout shift)
+  vite: { define: { __BUILD_TIME__: JSON.stringify(Date.now()) } },
   // offline support (#234): list the lazy component chunks the always-saved pages need (and what they import),
   // so the service worker can save them on install; and stamp sw.js so each deploy refreshes the saved copies
   buildEnd(site) {

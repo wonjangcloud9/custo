@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import raw from '../data/appearances.json'
 import { members, memberById } from '../data/members'
 import { events, startMs, endMs, isOnNow, nowWord, toIcs, googleCalUrl, type CsEvent } from '../data/events'
+import { BUILD_TIME } from '../theme/today'
 
 // Off-channel appearances: videos uploaded by other official channels (TV, music shows,
 // brands, media, other artists). Data + verification: loop/appearances.py
@@ -13,10 +14,13 @@ const DEBUT = '2024-08-04'
 const now = ref(0)
 let nowTick: number | undefined
 onBeforeUnmount(() => clearInterval(nowTick))
-const onAir = computed(() => (now.value ? events.filter((e) => e.cat === 'tv' && endMs(e) > now.value).sort((a, b) => startMs(a) - startMs(b)).slice(0, 6) : []))
+// rendered from the build time until mount (#196): an empty list that filled in after hydration pushed the
+// player down 316px on phones (CLS 0.118)
+const onAir = computed(() => { const t = now.value || BUILD_TIME; return events.filter((e) => e.cat === 'tv' && endMs(e) > t).sort((a, b) => startMs(a) - startMs(b)).slice(0, 6) })
 const dLabel = (e: CsEvent) => {
-  if (isOnNow(e, now.value)) return nowWord(e)
-  const d = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(new Date(now.value + 9 * 3600e3).toISOString().slice(0, 10) + 'T00:00:00+09:00')) / 86400000)
+  const t = now.value || BUILD_TIME
+  if (isOnNow(e, t)) return nowWord(e)
+  const d = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(new Date(t + 9 * 3600e3).toISOString().slice(0, 10) + 'T00:00:00+09:00')) / 86400000)
   return d <= 0 ? 'TODAY' : d === 1 ? '내일' : `D-${d}`
 }
 const WD = ['日', '月', '火', '水', '木', '金', '土']
@@ -119,7 +123,7 @@ onMounted(() => {
       <h2 id="soon-h" class="soon-h">📡 방송 예정 <small>방송 후 공식 클립이 올라오면 아래 아카이브에 추가돼요</small></h2>
       <div class="soon-row">
         <div v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }">
-          <span class="sn-d"><b :class="{ live: isOnNow(e, now) }">{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
+          <span class="sn-d"><b :class="{ live: isOnNow(e, now || BUILD_TIME) }">{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
           <a class="sn-t" lang="ja" :href="e.url" target="_blank" rel="noopener">{{ e.ja }}</a>
           <span class="sn-k">{{ e.ko }}</span>
           <span class="sn-act">

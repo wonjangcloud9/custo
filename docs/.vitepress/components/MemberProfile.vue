@@ -8,7 +8,7 @@ import BirthdayCard from './BirthdayCard.vue'
 import { birthdaysIcs, downloadIcs } from '../data/birthdays'
 import ShareButton from './ShareButton.vue'
 import { useOshi, setOshi } from '../theme/oshi'
-import { useToday } from '../theme/today'
+import { useToday, BUILD_TIME } from '../theme/today'
 import { goingKey, loadGoing } from '../data/going'
 import { events, startMs, catMeta, type CsEvent } from '../data/events'
 
@@ -62,7 +62,10 @@ async function copyColor() {
 }
 
 const oshi = useOshi()
-const bdayShow = computed(() => (now.value ? events.find((e) => e.member === props.id && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime()) ?? null : null))
+// these two lists render from the build time until mount (#196): left empty, they popped in above the bento
+// after hydration and pushed it ~500px down (desktop CLS 0.07–0.08)
+const listNow = computed(() => now.value?.getTime() ?? BUILD_TIME)
+const bdayShow = computed(() => events.find((e) => e.member === props.id && startMs({ ...e, time: undefined }) + 86400000 > listNow.value) ?? null)
 // Her next official dates as compact date tiles: whole-group events, her own solo slots and her own birthday show.
 // Left out: other members' birthday shows and solo slots she isn't in — we can't say she appears there.
 const MO = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
@@ -70,8 +73,7 @@ const WDJ = ['日', '月', '火', '水', '木', '金', '土']
 const mine = (e: CsEvent) => (e.member ? e.member === props.id : e.with ? e.with.includes(props.id) : true)
 // her own solo slots always make the list (up to 2), the nearest group dates fill the rest — four rows in all
 const upcoming = computed(() => {
-  if (!now.value) return []
-  const left = [...events].filter((e) => mine(e) && e !== bdayShow.value && startMs({ ...e, time: undefined }) + 86400000 > now.value!.getTime())
+  const left = [...events].filter((e) => mine(e) && e !== bdayShow.value && startMs({ ...e, time: undefined }) + 86400000 > listNow.value)
     .sort((a, b) => startMs(a) - startMs(b))
   const solo = left.filter((e) => e.with).slice(0, 2)
   return [...left.filter((e) => !e.with).slice(0, 4 - solo.length), ...solo].sort((a, b) => startMs(a) - startMs(b))
@@ -79,8 +81,8 @@ const upcoming = computed(() => {
 // marks from the schedule's '갈 거예요' (this browser only)
 const going = ref<Set<string>>(new Set())
 onMounted(() => { going.value = loadGoing() })
-const tileDays = (e: CsEvent) => Math.max(0, Math.ceil((new Date(`${e.date}T00:00:00+09:00`).getTime() - now.value!.getTime()) / 86400000))
-const showDays = computed(() => (bdayShow.value && now.value ? Math.max(0, Math.ceil((new Date(`${bdayShow.value.date}T00:00:00+09:00`).getTime() - now.value.getTime()) / 86400000)) : 0))
+const tileDays = (e: CsEvent) => Math.max(0, Math.ceil((new Date(`${e.date}T00:00:00+09:00`).getTime() - listNow.value) / 86400000))
+const showDays = computed(() => (bdayShow.value ? Math.max(0, Math.ceil((new Date(`${bdayShow.value.date}T00:00:00+09:00`).getTime() - listNow.value) / 86400000)) : 0))
 const forceBday = ref(false)
 const isBday = computed(() => forceBday.value || dday.value === 0)
 onMounted(() => {

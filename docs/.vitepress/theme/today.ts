@@ -1,5 +1,14 @@
 import { ref, onMounted, onBeforeUnmount, type Ref } from 'vue'
 
+declare const __BUILD_TIME__: number
+/**
+ * When the site was built (epoch ms). Same value in the server render and in the browser until mount, so a
+ * list computed from it hydrates without a mismatch; swap in the real 'now' once mounted. Use it only where
+ * a layout would otherwise jump (upcoming lists) — the deploy is at most a few hours old, and the list is
+ * corrected the moment the page mounts.
+ */
+export const BUILD_TIME: number = typeof __BUILD_TIME__ === 'number' ? __BUILD_TIME__ : Date.now()
+
 /**
  * 'Now' for day-level things (ages, birthday D-days, upcoming lists): null during SSR, set on mount, and
  * replaced only when the calendar date changes while the page stays open — so a page left open past
