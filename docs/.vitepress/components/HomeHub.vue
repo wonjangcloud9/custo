@@ -158,16 +158,18 @@ function cleanTitle(t: string) {
       </button>
     </nav>
     <!-- TODAY (top of home) -->
+    <!-- the page's h1 comes first for screen readers; the big letter-by-letter title below is its visual twin (#204) -->
+    <h1 class="sr-only">CUTIE STREET 비공식 팬허브 — 귀여움으로 세계까지</h1>
     <TodayDigest />
     <!-- HERO -->
     <section id="top" ref="hero" class="hero" @pointermove="sparkle">
       <div class="hero-copy">
         <p class="eyebrow"><span class="live-dot" />CUTIE STREET 팬허브 · KR ⇄ JP</p>
         <a v-if="oshiM" class="oshi-chip" :href="withBase(`/members/${oshiM.id}`)" :style="{ '--mc': oshiM.color }">💖 나의 최애 · <b>{{ oshiM.ko.split(' ')[1] }}</b> {{ oshiM.emoji }} →</a>
-        <h1 class="head">
+        <p class="head" aria-hidden="true">
           <span class="line"><span v-for="(c, i) in HEAD1" :key="'a' + i" class="ch" :style="{ '--i': i, '--c': members[i % 8].color }">{{ c }}</span></span>
           <span class="line"><span v-for="(c, i) in HEAD2" :key="'b' + i" class="ch" :style="{ '--i': i + 6, '--c': members[(i + 5) % 8].color }">{{ c }}</span><span class="globe" aria-hidden="true">🌏</span></span>
-        </h1>
+        </p>
         <p class="tag-ja" lang="ja">かわいいで、世界へ。 <span>— 原宿から世界へ KAWAII を届ける 8人組</span></p>
         <div class="cta">
           <a class="btn primary" :href="withBase('/members/')">멤버 만나기 <span aria-hidden="true">→</span></a>
@@ -541,4 +543,6 @@ function cleanTitle(t: string) {
   .ch, .globe, .orbit, .sat i, .ring, .core, .live-dot, .cd-card.next::after, .tick, .sec-head h2 { animation: none !important; }
   .acc-item, .acc-kanji, .acc-body, .btn, .b, .cd-card { transition: none; }
 }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>

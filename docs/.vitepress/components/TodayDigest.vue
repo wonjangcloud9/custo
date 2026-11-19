@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { BUILD_TIME } from '../theme/today'
 import { withBase } from 'vitepress'
 import { news, tagMeta } from '../data/news'
 import { events, catMeta, startMs, isOnNow, nowWord } from '../data/events'
@@ -52,7 +53,10 @@ const label = computed(() => {
 })
 
 // the next official event that hasn't started yet (refreshed every minute)
-const nowMs = ref(0)
+// starts at the build time so the server render and the first client render already show the day's cards, the
+// next bar and the week strip (#204: a new upload made the digest grow ~300px after hydration — home CLS 0.13);
+// the real clock takes over on mount
+const nowMs = ref(BUILD_TIME)
 let tick: number | undefined
 // all-day items (no start time) count as 'next' for the whole of their Japan date
 const nextEv = computed(() => (nowMs.value ? [...events].filter((e) => startMs(e) > nowMs.value || (!e.time && e.date === jstDay(nowMs.value))).sort((a, b) => startMs(a) - startMs(b))[0] ?? null : null))
@@ -114,6 +118,7 @@ onMounted(() => {
   }, 60000)
 })
 // today if anything happened, otherwise the most recent day (≤ 3 days back) that had something
+pickDay(BUILD_TIME) // see nowMs — same result on the server and before mount
 function pickDay(now: number) {
   const today = jstDay(now)
   for (let i = 0; i <= 3; i++) {
