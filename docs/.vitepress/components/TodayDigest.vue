@@ -8,6 +8,7 @@ import { events, catMeta, startMs, isOnNow, nowWord } from '../data/events'
 import { goingKey, loadGoing } from '../data/going'
 import { members, ageOn, daysToBirthday } from '../data/members'
 import BirthdayCard from './BirthdayCard.vue'
+import MemberCoins from './MemberCoins.vue'
 import { highlights, kindMeta } from '../data/highlights'
 import homeVideos from '../data/home-videos.json'
 import apRaw from '../data/appearances.json'
@@ -191,7 +192,7 @@ function pickDay(now: number) {
         <ul class="td-list">
           <li v-for="e in data.events" :key="e.ja + e.date">
             <a :href="e.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">{{ catMeta[e.cat].emoji }}</span>
-              <span><b lang="ja">{{ e.ja }}</b><small>{{ e.ko }}{{ e.time ? ` · ${e.time}` : '' }}{{ e.venue ? ` · ${e.venue}` : '' }}</small></span><i class="pill">일정</i></a>
+              <span><b lang="ja">{{ e.ja }}</b><small>{{ e.ko }}{{ e.time ? ` · ${e.time}` : '' }}{{ e.venue ? ` · ${e.venue}` : '' }}</small><MemberCoins v-if="e.with" :ids="e.with" class="td-coins" /></span><i class="pill">일정</i></a>
           </li>
           <li v-for="n in data.news" :key="n.url">
             <a :href="n.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">{{ tagMeta[n.tag].emoji }}</span>
@@ -346,4 +347,6 @@ html[data-oshi] .wk7-d.today { background: var(--custo-accent); }
 }
 @media (max-width: 520px) { .pill { display: none; } }
 @media (prefers-reduced-motion: reduce) { .td-dot, .feat, .td-list li, .td-skel i { animation: none; } .feat, .td-list a { transition: none; } }
+
+.td-coins { margin-top: 4px; }
 </style>

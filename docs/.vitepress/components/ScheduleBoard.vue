@@ -3,7 +3,8 @@ import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
-import { memberById, onColor } from '../data/members'
+import { memberById } from '../data/members'
+import MemberCoins from './MemberCoins.vue'
 import { goingKey, loadGoing, saveGoing } from '../data/going'
 
 const now = ref<number | null>(null)
@@ -279,11 +280,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
                 <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span>
                 <span v-if="e.member" class="bday">🎂 {{ memberById[e.member].ko }}</span>
                 <!-- who's in it, when only some members are (鬼レンチャン, TGC …) — #210 -->
-                <span v-if="e.with" class="with">
-                  <a v-for="(id, i) in e.with" :key="id" class="wm" :href="withBase(`/members/${id}`)" :style="{ '--mc': memberById[id].color, '--on': onColor(memberById[id].color), '--i': i }"
-                    :aria-label="`${memberById[id].ko} 페이지`" :title="memberById[id].ko"><span lang="ja" aria-hidden="true">{{ memberById[id].ja.slice(-2, -1) }}</span></a>
-                  <small>{{ e.with.map((id) => memberById[id].ko.split(' ')[1]).join('·') }} 출연</small>
-                </span>
+                <MemberCoins v-if="e.with" :ids="e.with" link />
                 <span class="dd" :class="{ hot: ['TODAY', 'ON AIR', 'NOW'].includes(dLabel(e)), live: ['ON AIR', 'NOW'].includes(dLabel(e)) }">{{ dLabel(e) }}</span>
               </div>
               <h3 class="ev-ja" :lang="jaLang(e.ja)">{{ e.ja }}</h3>
@@ -434,14 +431,6 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
   @keyframes evIn { from { opacity: 0; transform: translateX(-16px); } }
 }
 .ev-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.with { display: inline-flex; align-items: center; gap: 0; }
-.with small { margin-left: 6px; font-size: 11.5px; font-weight: 800; color: #4a2f50; }
-/* overlapping member-colour coins; each tilts and lifts on hover, like a hand of cards */
-.wm { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; margin-left: -6px; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
-  background: var(--mc); color: var(--on) !important; text-decoration: none !important; box-shadow: 0 0 0 2px #fff; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); z-index: calc(5 - var(--i)); }
-.wm:first-child { margin-left: 0; }
-.wm:hover, .wm:focus-visible { transform: translateY(-3px) rotate(calc(-8deg + var(--i) * 16deg)); z-index: 6; }
-@media (prefers-reduced-motion: reduce) { .wm { transition: none; } .wm:hover, .wm:focus-visible { transform: none; } }
 .pill { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--cc) 14%, white); color: color-mix(in srgb, var(--cc) 48%, #2a1030); }
 .bday { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--cc) 62%, #2a1030); color: #fff; }
 .dd { margin-left: auto; font-size: 12px; font-weight: 800; color: #6a4f70; font-variant-numeric: tabular-nums; }
