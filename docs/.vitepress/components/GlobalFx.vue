@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { members } from '../data/members'
-import { loadOshi } from '../theme/oshi'
+import { members, memberById } from '../data/members'
+import { loadOshi, oshi } from '../theme/oshi'
 
 const route = useRoute()
 let reduce = false
@@ -42,8 +42,19 @@ function enter() {
   setTimeout(() => el.classList.remove('fx-enter'), 700)
 }
 
+// the browser's toolbar colour (theme-color) follows the member: her colour on her page, else your 최애's, else pink
+const DEFAULT_THEME = '#FF6B9D'
+function syncThemeColor() {
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (!meta) return
+  const id = route.path.match(/\/members\/([a-z]+)(?:\.html)?$/)?.[1]
+  meta.setAttribute('content', (id && memberById[id]?.color) || (oshi.value && memberById[oshi.value]?.color) || DEFAULT_THEME)
+}
+watch([() => route.path, oshi], () => syncThemeColor())
+
 onMounted(() => {
   loadOshi()
+  syncThemeColor()
   reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   window.addEventListener('pointerdown', burst, { passive: true })
 })
