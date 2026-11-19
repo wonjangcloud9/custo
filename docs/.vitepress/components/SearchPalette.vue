@@ -4,14 +4,17 @@ import { ref, shallowRef, computed, nextTick, onMounted, onBeforeUnmount, watch 
 import { withBase, useRouter } from 'vitepress'
 import type { Hit, Kind } from '../data/searchIndex'
 
-let normFn: (s: string) => string = (s) => s.toLowerCase()
+import Ico from './Ico.vue'
+let searchFn: ((idx: Hit[], q: string, k: 'all' | Kind) => Hit[]) | null = null
 const index = shallowRef<Hit[]>([])
 async function ensureIndex() {
   if (index.value.length) return
   const mod = await import('../data/searchIndex')
-  normFn = mod.norm
+  searchFn = mod.search
   index.value = mod.buildIndex(withBase)
 }
+// one-tap examples (also shown when nothing matched) — each one exercises a different way fans type
+const EXAMPLES = ['하루카', 'ㅅㄴㅇㅇㅋ', '엠카', '귀엽기만', '武道館', '생탄제', '직캠 나기사']
 const LABEL: Record<Kind, string> = { page: '페이지', member: '멤버', release: '릴리즈', event: '스케줄', video: '영상' }
 const LIMIT: Record<Kind, number> = { page: 4, member: 8, release: 5, event: 5, video: 8 }
 const FILTERS: ('all' | Kind)[] = ['all', 'member', 'video', 'release', 'event', 'page']
@@ -24,16 +27,15 @@ const input = ref<HTMLInputElement | null>(null)
 const router = useRouter()
 
 const results = computed(() => {
-  const n = normFn(q.value)
-  const terms = q.value.trim().split(/\s+/).map(normFn).filter(Boolean)
-  const pool = index.value.filter((h) => filter.value === 'all' || h.kind === filter.value)
-  const matched = n ? pool.filter((h) => terms.every((t) => h.hay.includes(t))) : pool.filter((h) => h.kind === 'page' || h.kind === 'member')
-  const groups: { kind: Kind; items: Hit[] }[] = []
-  for (const k of ['member', 'page', 'release', 'event', 'video'] as Kind[]) {
-    const items = matched.filter((h) => h.kind === k).slice(0, filter.value === 'all' ? LIMIT[k] : 40)
-    if (items.length) groups.push({ kind: k, items })
-  }
-  return groups
+  const pool = index.value
+  const typed = q.value.trim()
+  // ranked hits; with nothing typed, pages + members as a starting menu
+  const ranked = typed && searchFn ? searchFn(pool, typed, filter.value) : pool.filter((h) => (filter.value === 'all' ? h.kind === 'page' || h.kind === 'member' : h.kind === filter.value))
+  // groups appear in the order of their best hit, so the most relevant kind comes first
+  const order: Kind[] = []
+  for (const h of ranked) if (!order.includes(h.kind)) order.push(h.kind)
+  if (!typed) order.sort((a, b) => ['member', 'page', 'release', 'event', 'video'].indexOf(a) - ['member', 'page', 'release', 'event', 'video'].indexOf(b))
+  return order.map((k) => ({ kind: k, items: ranked.filter((h) => h.kind === k).slice(0, filter.value === 'all' ? LIMIT[k] : 40) }))
 })
 const flat = computed(() => results.value.flatMap((g) => g.items))
 watch([q, filter], () => (active.value = 0))
@@ -76,15 +78,15 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 
 <template>
   <button type="button" class="sp-trigger" aria-label="통합 검색 열기" @click="show">
-    <span aria-hidden="true">🔍</span><span class="sp-t-label">검색</span><kbd>{{ isMac ? '⌘' : 'Ctrl' }} K</kbd>
+    <Ico n="search" size="15" /><span class="sp-t-label">검색</span><kbd>{{ isMac ? '⌘' : 'Ctrl' }} K</kbd>
   </button>
   <Teleport to="body">
     <Transition name="sp">
       <div v-if="open" class="sp-backdrop" @click.self="hide">
         <div class="sp" role="dialog" aria-modal="true" aria-label="통합 검색" @keydown.tab="trap">
           <div class="sp-input">
-            <span aria-hidden="true">🔍</span>
-            <input ref="input" v-model="q" type="search" placeholder="멤버, 곡, 영상, 일정 검색 (예: 하루카, 武道館, ぷりきゅきゅ)" aria-controls="sp-list" @keydown="onKey" />
+            <Ico n="search" size="18" class="sp-glass" />
+            <input ref="input" v-model="q" type="search" placeholder="멤버·곡·영상·일정 — 한글·일본어·초성 다 돼요" aria-controls="sp-list" @keydown="onKey" />
             <kbd @click="hide">esc</kbd>
           </div>
           <div class="sp-filters" role="toolbar" aria-label="범위">
@@ -95,12 +97,16 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
               <p class="sp-group">{{ LABEL[g.kind] }}</p>
               <button v-for="h in g.items" :key="g.kind + h.href + h.title" type="button" role="option" class="sp-item"
                 :class="{ on: flat[active] === h }" :aria-selected="flat[active] === h" @mousemove="active = flat.indexOf(h)" @click="go(h)">
-                <span class="sp-ic" :style="h.color ? { background: h.color, color: '#fff' } : {}">{{ h.icon }}</span>
+                <span class="sp-ic" :style="h.color ? { background: h.color, color: '#fff' } : {}"><Ico v-if="h.ico" :n="h.ico" size="17" /><template v-else>{{ h.icon }}</template></span>
                 <span class="sp-txt"><b :lang="jaLang(h.title)">{{ h.title }}</b><small>{{ h.sub }}</small></span>
                 <span v-if="h.ext" class="sp-ext" aria-hidden="true">↗</span>
               </button>
             </template>
-            <p v-if="!flat.length" class="sp-empty">검색 결과가 없어요 🥲</p>
+            <div v-if="!flat.length || !q.trim()" class="sp-empty" :class="{ tips: flat.length }">
+              <p v-if="!flat.length">‘{{ q.trim() }}’에 맞는 결과가 없어요. 이렇게도 찾아보세요</p>
+              <p v-else>이렇게 검색해 보세요</p>
+              <div class="sp-ex"><button v-for="x in EXAMPLES" :key="x" type="button" @click="q = x; input?.focus()">{{ x }}</button></div>
+            </div>
           </div>
           <div class="sp-foot"><span><kbd>↑</kbd><kbd>↓</kbd> 이동</span><span><kbd>↵</kbd> 열기</span><span><kbd>/</kbd> 언제든 검색</span></div>
         </div>
@@ -128,12 +134,18 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 .sp-group { margin: 10px 8px 4px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: #7d6083; }
 .sp-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 10px; border-radius: 12px; text-align: left; background: none; color: inherit; }
 .sp-item.on { background: #fff0f6; }
-.sp-ic { flex: none; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: #f6eef3; font-size: 14px; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
+.sp-ic { flex: none; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: #f6eef3; color: #a3245a; font-size: 14px; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .sp-txt { display: flex; flex-direction: column; min-width: 0; }
 .sp-txt b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--cs-sans); }
 .sp-txt small { font-size: 12px; color: #735779; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sp-ext { margin-left: auto; color: #7d6083; }
-.sp-empty { text-align: center; padding: 30px 0; color: #735779; }
+.sp-empty { text-align: center; padding: 26px 8px 12px; color: #735779; font-size: 13px; }
+.sp-empty.tips { padding-top: 10px; border-top: 1px dashed #f3dce7; margin-top: 8px; }
+.sp-empty p { margin: 0 0 10px; }
+.sp-ex { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.sp-ex button { font-size: 12.5px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: #fff0f6; color: #a3245a; border: 1px solid #f7d3e2; transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1), background 0.2s; }
+.sp-ex button:hover { transform: translateY(-2px); background: #ffe3ef; }
+.sp-glass { color: #c2457a; }
 .sp-foot { display: flex; gap: 16px; padding: 10px 16px; border-top: 1px solid #f6e6ee; font-size: 12px; color: #735779; }
 .sp-foot kbd { margin-right: 3px; }
 .sp-enter-active, .sp-leave-active { transition: opacity 0.2s; }

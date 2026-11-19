@@ -9,11 +9,11 @@ const SITE = 'https://wonjangcloud9.github.io/custo/'
 const OFFICIAL = 'https://cutiestreet.asobisystem.com/'
 const SAME_AS = ['https://x.com/CUTIE_STREET_', 'https://www.instagram.com/cutie_street_/', 'https://www.youtube.com/@CUTIE_STREET']
 const group = {
-  '@type': 'MusicGroup', name: 'CUTIE STREET', alternateName: ['きゅーすと', '큐티스트리트'], url: OFFICIAL, sameAs: SAME_AS, genre: 'J-pop',
+  '@type': 'MusicGroup', name: 'CUTIE STREET', alternateName: ['きゅーすと', 'キューティーストリート', '큐티스트리트', '큐스트', '큐스토'], url: OFFICIAL, sameAs: SAME_AS, genre: 'J-pop',
   member: members.map((m) => ({ '@type': 'Person', name: m.ja, alternateName: [m.ko, m.en] })),
 }
 function jsonLd(path: string, title: string): object | null {
-  if (path === '') return { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Custo · CUTIE STREET Fan Hub', alternateName: 'Custo', url: SITE, inLanguage: 'ko', about: { '@type': 'MusicGroup', name: 'CUTIE STREET', url: OFFICIAL } }
+  if (path === '') return { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Custo · 큐티스트리트(CUTIE STREET) 팬허브', alternateName: ['Custo', '큐티스트리트 팬사이트', 'CUTIE STREET Fan Hub'], url: SITE, inLanguage: ['ko', 'ja'], about: group }
   if (path === 'about') return { '@context': 'https://schema.org', ...group }
   const m = members.find((x) => path === `members/${x.id}`)
   if (m) return {
@@ -25,6 +25,7 @@ function jsonLd(path: string, title: string): object | null {
 
 export default defineConfig({
   title: 'Custo',
+  titleTemplate: ':title | 큐티스트리트 팬허브 Custo',
   description: 'CUTIE STREET(큐티스트리트) 비공식 팬허브 — 멤버 프로필, 레전드 컷, 공식 영상 아카이브, 스케줄, 정상까지의 여정, 한국 팬 소식.',
   base: '/custo/',
   lang: 'ko',
@@ -40,7 +41,7 @@ export default defineConfig({
     // body text uses the system's own Korean/Japanese fonts; only the rounded display face is a web font (#212: Noto KR+JP
     // were ~1.4 MB of woff2 subsets on the home page)
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap', rel: 'stylesheet' }],
-    ['meta', { name: 'keywords', content: '큐티스트리트, 큐스트, CUTIE STREET, キューティーストリート, きゅーすと, KAWAII LAB, 팬사이트, 멤버, 스케줄, MV, 紅白, 큐스트 한국' }],
+    ['meta', { name: 'keywords', content: '큐티스트리트, 큐티 스트리트, 큐스트, 큐스토, CUTIE STREET, キューティーストリート, きゅーすと, KAWAII LAB, 팬사이트, 팬페이지, 멤버 프로필, 스케줄, MV, 직캠, 紅白, 홍백, 큐티스트리트 한국' }],
     ['meta', { name: 'theme-color', content: '#FF6B9D' }],
     // light-only design (appearance: false): ask browsers not to auto-darken it (Chrome/Samsung forced dark) — 'only' opts out
     ['meta', { name: 'color-scheme', content: 'only light' }],
@@ -91,11 +92,26 @@ export default defineConfig({
     const sw = join(site.outDir, 'sw.js')
     writeFileSync(sw, `// build ${Date.now().toString(36)}\n` + readFileSync(sw, 'utf8'))
   },
+  // search engines: each page's <title>/<meta description> names the group the way Korean and Japanese fans search for it
+  // (큐티스트리트 · CUTIE STREET · キューティーストリート), and member pages get their own profile title + description
+  transformPageData(pageData) {
+    const PREF_KO: Record<string, string> = { 北海道: '홋카이도', 千葉県: '지바현', 愛知県: '아이치현', 東京都: '도쿄', 熊本県: '구마모토현', 神奈川県: '가나가와현' }
+    const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+    const m = members.find((x) => path === `members/${x.id}`)
+    if (m) {
+      const [y, mo, d] = m.birthday.split('-')
+      pageData.title = `${m.ko} (${m.ja}) 프로필`
+      pageData.description = `큐티스트리트(CUTIE STREET) ${m.ko}(${m.ja}·${m.kana.replace(' ', '')}·${m.en}) 프로필 — ${y}년 ${+mo}월 ${+d}일생, 키 ${m.height}cm, ${PREF_KO[m.birthplace] ?? m.birthplace}(${m.birthplace}) 출신, 멤버 컬러 ${m.colorName}, 애칭 ${m.nicknameKo}. 공식 영상·직캠·SNS·일정 모음.`
+      return
+    }
+    const desc = pageData.frontmatter.description as string | undefined
+    if (desc && !desc.includes('큐티스트리트')) pageData.description = desc.replace(/^CUTIE STREET/, '큐티스트리트(CUTIE STREET)').replace(/^(?!큐티스트리트)/, '큐티스트리트 · ')
+  },
   transformHead({ pageData, siteData }) {
     const title = pageData.frontmatter.titleTemplate
       ? `${pageData.title} | ${pageData.frontmatter.titleTemplate}`
-      : pageData.title ? `${pageData.title} | ${siteData.title}` : siteData.title
-    const desc = pageData.frontmatter.description || pageData.description || siteData.description
+      : pageData.title ? `${pageData.title} | 큐티스트리트 팬허브 Custo` : siteData.title
+    const desc = pageData.description || pageData.frontmatter.description || siteData.description
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
     const url = `https://wonjangcloud9.github.io/custo/${path}`
     // member pages share a card in that member's colour (rendered from loop/og-member.html)
