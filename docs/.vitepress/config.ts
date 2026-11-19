@@ -177,5 +177,10 @@ export default defineConfig({
       prev: '이전 페이지',
       next: '다음 페이지',
     },
+    // VitePress' own UI strings were still English on phones ('Menu', 'On this page', 'Return to top') — #199
+    outline: { label: '이 페이지 목차' },
+    sidebarMenuLabel: '메뉴',
+    returnToTopLabel: '맨 위로',
+    skipToContentLabel: '본문으로 건너뛰기',
   },
 })

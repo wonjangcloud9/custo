@@ -7,6 +7,8 @@ async (page) => {
   const browser = page.context().browser()
   const pages = ['', 'about.html', 'schedule/', 'members/', 'members/risa.html', 'korea/', 'appearances/', 'videos/', 'mv-quiz/', 'units/', 'world/',
     'live-guide/', 'likes/', 'discography/', 'cutie-land/', 'kohaku/', 'journey/', 'start/', 'which-member/']
+  // about:blank#w=390&set=members → the eight member pages instead (each has its own colour, #199)
+  if (/set=members/.test(page.url())) pages.splice(0, pages.length, ...['risa', 'aika', 'kana', 'ayano', 'emiru', 'miyu', 'nagisa', 'haruka'].map((m) => `members/${m}.html`))
   const out = {}
   const c = await browser.newContext({ viewport: { width: +(page.url().match(/#w=(\d+)/)?.[1] || 1440), height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce', timezoneId: 'Asia/Seoul' })
   const p = await c.newPage()

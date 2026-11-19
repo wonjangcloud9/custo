@@ -297,8 +297,8 @@ function onKey(e: KeyboardEvent) {
 @keyframes marq { to { transform: translateX(-50%); } }
 
 .hero-text { position: relative; z-index: 1; }
-.no { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: color-mix(in srgb, var(--mc-deep) 85%, #2a1030); margin: 0 0 18px; }
-.kana { margin: 0; font-size: 15px; letter-spacing: 0.3em; color: #735779; }
+.no { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: color-mix(in srgb, var(--mc-deep) 55%, #2a1030); /* sits on the hero's member-colour glow: 2.9–4.4:1 before (#199) */ margin: 0 0 18px; }
+.kana { margin: 0; font-size: 15px; letter-spacing: 0.3em; color: #4a2f50; }
 .ja {
   margin: 4px 0 6px !important; padding: 0 !important; border: 0 !important;
   font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-weight: 700;
