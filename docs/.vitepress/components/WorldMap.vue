@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { jaLang } from '../theme/lang'
-import { ref, shallowRef, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, shallowRef, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import Ico from './Ico.vue'
 import { withBase } from 'vitepress'
-import { geoOrthographic, geoPath, geoGraticule10, geoInterpolate, geoDistance } from 'd3-geo'
+import { geoOrthographic, geoPath, geoGraticule10, geoInterpolate, geoDistance, geoCircle } from 'd3-geo'
 import { CHAPTERS, COUNTRY, HOME, type Chapter } from '../data/world'
 
 // 큐스트 월드맵 — an orthographic globe that "fills in" as the group travels:
@@ -31,6 +31,32 @@ const path = computed(() => geoPath(proj.value))
 const center = computed<[number, number]>(() => [-rot.value[0], -rot.value[1]])
 const graticule = geoGraticule10()
 
+// ── day / night: the real terminator for "now", refreshed every minute (client-only) ──
+const nowMs = ref(0)
+const sun = computed<[number, number] | null>(() => {
+  if (!nowMs.value) return null
+  const d = new Date(nowMs.value)
+  const doy = (Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5
+  const decl = -23.44 * Math.cos(((2 * Math.PI) / 365) * (doy + 10))
+  const h = d.getUTCHours() + d.getUTCMinutes() / 60
+  const lon = ((((12 - h) * 15 + 540) % 360) - 180)
+  return [lon, decl]
+})
+const antiSun = computed<[number, number] | null>(() => sun.value && [sun.value[0] > 0 ? sun.value[0] - 180 : sun.value[0] + 180, -sun.value[1]])
+// three nested caps around the anti-solar point = a soft twilight edge instead of a hard line
+const night = computed(() => {
+  if (!antiSun.value) return []
+  return [96, 90, 84, 72].map((r) => path.value(geoCircle().center(antiSun.value!).radius(r)() as any) || '').filter(Boolean)
+})
+const isNight = (ll: [number, number]) => !!antiSun.value && geoDistance(ll, antiSun.value) < Math.PI / 2
+const kst = computed(() => {
+  if (!nowMs.value) return null
+  const d = new Date(nowMs.value + 9 * 3600e3)
+  const hh = d.getUTCHours(), mm = String(d.getUTCMinutes()).padStart(2, '0')
+  return { time: `${hh}:${mm}`, night: isNight([139.69, 35.69]) }
+})
+let clock: ReturnType<typeof setInterval> | undefined
+
 const shown = computed(() => CHAPTERS.slice(0, step.value + 1))
 const fillOf = computed(() => {
   const m: Record<string, string> = {}
@@ -56,14 +82,14 @@ const arcs = computed(() => {
   return out
 })
 const pins = computed(() => {
-  const out: { x: number; y: number; name: string; color: string; upcoming: boolean; fresh: boolean; key: string }[] = []
+  const out: { x: number; y: number; name: string; color: string; upcoming: boolean; fresh: boolean; night: boolean; key: string }[] = []
   shown.value.forEach((c, ci) => {
     if (ci === step.value && arcT.value < 1) return
     for (const p of c.pins) {
       if (geoDistance(p.ll, center.value) > Math.PI / 2 - 0.02) continue
       const xy = proj.value(p.ll)
       if (!xy || Math.hypot(xy[0] - SIZE / 2, xy[1] - SIZE / 2) > R - 4) continue
-      out.push({ x: xy[0], y: xy[1], name: `${p.name} · ${c.date}`, color: COUNTRY[c.country].color, upcoming: !done(c), fresh: ci === fresh.value, key: c.iso + p.name })
+      out.push({ x: xy[0], y: xy[1], name: `${p.name} · ${c.date}`, color: COUNTRY[c.country].color, upcoming: !done(c), fresh: ci === fresh.value, night: !done(c) ? false : isNight(p.ll), key: c.iso + p.name })
     }
   })
   return out
@@ -175,6 +201,16 @@ async function play() {
 }
 function jump(i: number) { playing.value = false; goTo(i) }
 
+// mobile: the step list is a horizontal chip rail — keep the current chip centred
+const stepsEl = ref<HTMLElement | null>(null)
+watch(step, async (i) => {
+  await nextTick()
+  const el = stepsEl.value
+  if (!el || el.scrollWidth <= el.clientWidth + 1 || i < 0) return
+  const b = el.children[i] as HTMLElement | undefined
+  if (b) el.scrollTo({ left: b.offsetLeft - (el.clientWidth - b.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' })
+})
+
 // ── drag to spin ───────────────────────────────────────
 function down(e: PointerEvent) { dragging = true; playing.value = false; lastX = e.clientX; lastY = e.clientY; (e.target as Element).setPointerCapture?.(e.pointerId) }
 function move(e: PointerEvent) {
@@ -191,6 +227,8 @@ onMounted(async () => {
   const t: any = (topo as any).default ?? topo
   countries.value = (feature(t, t.objects.countries) as any).features
   ready.value = true
+  nowMs.value = Date.now()
+  clock = setInterval(() => { nowMs.value = Date.now() }, 60e3)
   idle()
   io = new IntersectionObserver((es) => {
     const e = es[0]
@@ -200,7 +238,7 @@ onMounted(async () => {
   }, { threshold: [0, 0.45] })
   if (root.value) io.observe(root.value)
 })
-onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf); clearTimeout(timer); io?.disconnect(); playing.value = false })
+onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelAnimationFrame(statRaf); clearTimeout(timer); io?.disconnect(); playing.value = false })
 </script>
 
 <template>
@@ -215,9 +253,11 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf)
           <clipPath id="lens"><circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" /></clipPath>
           <radialGradient id="atmo" cx="50%" cy="50%" r="50%"><stop :offset="R / (R + 26)" stop-color="#ff9cc4" stop-opacity="0.55" /><stop :offset="(R + 8) / (R + 26)" stop-color="#d9b8ff" stop-opacity="0.28" /><stop offset="1" stop-color="#d9b8ff" stop-opacity="0" /></radialGradient>
           <radialGradient id="spec" cx="34%" cy="26%" r="42%"><stop offset="0" stop-color="#fff" stop-opacity="0.75" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></radialGradient>
+          <radialGradient id="drop"><stop :offset="(R - 36) / (R + 24)" stop-color="#5a1e46" stop-opacity="0.26" /><stop offset="1" stop-color="#5a1e46" stop-opacity="0" /></radialGradient>
           <radialGradient id="planeGlow"><stop offset="0" stop-color="#fff" stop-opacity="1" /><stop offset="0.4" stop-color="#ff8fb8" stop-opacity="0.6" /><stop offset="1" stop-color="#ff8fb8" stop-opacity="0" /></radialGradient>
           <radialGradient id="shade" cx="35%" cy="30%" r="80%"><stop offset="60%" stop-color="#2a1030" stop-opacity="0" /><stop offset="100%" stop-color="#2a1030" stop-opacity="0.18" /></radialGradient>
         </defs>
+        <ellipse :cx="SIZE / 2" :cy="SIZE / 2 + 20" :rx="R + 24" :ry="R + 4" fill="url(#drop)" class="nohit" /><!-- stays inside the 600 viewBox (no clipped edge) -->
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R + 26" fill="url(#atmo)" class="nohit atmo" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#ocean)" />
         <g clip-path="url(#lens)">
@@ -227,13 +267,15 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf)
             <path v-for="(c, i) in countries" :key="i" :d="path(c) || ''" class="land" :class="{ hit: fillOf[c.id] }" :style="fillOf[c.id] ? { fill: fillOf[c.id] } : undefined" />
           </template>
           <path v-if="flash" :key="'fl' + flash.k" :d="flash.d" class="flash" :style="{ fill: flash.color }" />
+          <g class="night nohit" aria-hidden="true"><path v-for="(d, i) in night" :key="i" :d="d" /></g>
           <path v-for="a in arcs" :key="a.k" :d="a.d" class="arc" :class="{ up: a.upcoming }" />
         </g>
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#spec)" class="nohit" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#shade)" class="nohit" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" class="rim" />
-        <g v-for="p in pins" :key="p.key" :transform="`translate(${p.x},${p.y})`" class="pin" :class="{ up: p.upcoming, fresh: p.fresh }">
+        <g v-for="p in pins" :key="p.key" :transform="`translate(${p.x},${p.y})`" class="pin" :class="{ up: p.upcoming, fresh: p.fresh, lit: p.night }">
           <title>{{ p.name }}{{ p.upcoming ? ' (예정)' : '' }}</title>
+          <circle v-if="p.night" r="11" class="city-light" />
           <circle v-if="p.fresh" r="6" class="ping" :style="{ stroke: p.color }" />
           <circle r="5.5" :fill="p.upcoming ? '#fff' : p.color" :stroke="p.upcoming ? p.color : '#fff'" stroke-width="2.2" />
         </g>
@@ -255,7 +297,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf)
           </g>
         </g>
       </svg>
-      <p class="drag-hint" aria-hidden="true"><Ico n="drag" size="15" /> 드래그해서 돌려 보세요</p>
+      <p class="drag-hint" aria-hidden="true"><Ico n="drag" size="15" /> 드래그해서 돌려 보세요<span v-if="kst" class="clock" :class="{ nite: kst.night }"><Ico :n="kst.night ? 'moon' : 'sun'" duo size="14" />지금 도쿄 {{ kst.time }} · {{ kst.night ? '밤' : '낮' }}</span></p>
     </div>
 
     <div class="panel">
@@ -280,7 +322,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf)
       <div class="ctrl">
         <button type="button" class="play" :aria-pressed="playing" @click="play">{{ playing ? '❚❚ 멈춤' : step >= CHAPTERS.length - 1 ? '▶ 처음부터 재생' : '▶ 이어서 재생' }}</button>
       </div>
-      <ol class="steps" aria-label="여정 단계">
+      <ol ref="stepsEl" class="steps" aria-label="여정 단계">
         <li v-for="(c, i) in CHAPTERS" :key="c.iso + c.title">
           <button type="button" :class="{ on: i === step, past: i < step, up: !done(c) }" :style="{ '--cc': COUNTRY[c.country].color }" :aria-current="i === step ? 'step' : undefined" @click="jump(i)">
             <span class="dot" aria-hidden="true" /><span class="sd">{{ c.date }}</span><span class="st"><i class="cc" aria-hidden="true">{{ c.country }}</i>{{ c.title }}</span>
@@ -295,13 +337,20 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf)
 .wm { --ink: #2f1a35; --spring: cubic-bezier(.34, 1.56, .64, 1); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: start; color: var(--ink); padding: 18px 0 30px; }
 .globe-wrap { position: sticky; top: calc(var(--vp-nav-height, 64px) + 16px); }
 .glow { position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 140, 190, 0.45), rgba(160, 108, 213, 0.25) 55%, transparent 72%); filter: blur(30px); }
-.globe { position: relative; width: 100%; height: auto; touch-action: none; cursor: grab; filter: drop-shadow(0 30px 40px rgba(90, 30, 70, 0.25)); }
+.globe { position: relative; width: 100%; height: auto; touch-action: none; cursor: grab; } /* no CSS filter here: Chrome paints a faint box around a filtered SVG — the shadow is an SVG gradient instead */
 .globe:active { cursor: grabbing; }
 .grat { fill: none; stroke: #e6cfe0; stroke-width: 0.6; vector-effect: non-scaling-stroke; }
 .rim { fill: none; stroke: #fff; stroke-width: 3; opacity: 0.8; pointer-events: none; }
 .land { fill: #f1e2ec; stroke: #fff; stroke-width: 0.5; transition: fill 0.9s ease; }
 .land.hit { stroke: #fff; stroke-width: 1.2; filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.45)); }
 .nohit { pointer-events: none; }
+.night path { fill: #3b2466; fill-opacity: 0.065; } /* 4 stacked caps → ~0.24 at the core, feathered edge */
+.city-light { fill: #ffd98a; opacity: 0.55; filter: blur(3px); animation: twinkle 3.2s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: 0.85; } }
+.clock { display: inline-flex; align-items: center; gap: 5px; margin-left: 10px; padding: 3px 10px 3px 8px; border-radius: 999px; font-weight: 800; color: #9a5a14; background: #fff4df; }
+.clock .ico { --ico-fill: #ffd98a; }
+.clock.nite { color: #4b2f7f; background: #efe7fb; }
+.clock.nite .ico { --ico-fill: #c9b4f2; }
 .arc { fill: none; stroke: #c92f69; stroke-width: 2.4; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(255, 107, 157, 0.7)); }
 .arc.up { stroke: #a06cd5; stroke-dasharray: 2 6; }
 .pin circle { transition: r 0.3s; }
@@ -367,8 +416,19 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); cancelAnimationFrame(statRaf)
 .steps .st { font-size: 13.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .steps .on { background: #fde8f1; color: var(--ink); }
 @media (max-width: 900px) {
-  .wm { grid-template-columns: 1fr; }
+  .wm { grid-template-columns: minmax(0, 1fr); }
+  .panel { min-width: 0; }
   .globe-wrap { position: relative; top: 0; max-width: 520px; margin: 0 auto; width: 100%; }
+  /* step list → horizontal chip rail (was a 20-row list under the globe) */
+  .steps { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: none; padding: 4px 2px 12px !important;
+    mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); }
+  .steps::-webkit-scrollbar { display: none; }
+  .steps li { flex: none; scroll-snap-align: center; }
+  .steps button { width: 152px; height: 100%; grid-template-columns: 10px minmax(0, 1fr); grid-template-rows: auto 1fr; row-gap: 6px; column-gap: 8px; align-items: start; padding: 10px 12px; border: 1.5px solid #f3d6e4; background: #fff; border-radius: 16px; }
+  .steps .dot { margin-top: 3px; }
+  .steps .st { grid-column: 1 / -1; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.35; font-size: 13px; }
+  .steps .on { border-color: var(--cc); box-shadow: 0 8px 18px -12px var(--cc); }
+  .steps .up { border-style: dashed; }
 }
-@media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .ping, .pin.fresh > circle:last-of-type, .atmo, .flash, .stats b.pop { animation: none; } .lbl-enter-active { transition: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .ping, .pin.fresh > circle:last-of-type, .atmo, .flash, .stats b.pop, .city-light { animation: none; } .lbl-enter-active { transition: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
 </style>
