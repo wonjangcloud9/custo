@@ -1,7 +1,7 @@
 ---
 title: 큐스트 월드맵
 description: CUTIE STREET가 공연한 곳을 지구본에 하나씩 칠해 가는 월드맵 — 도쿄 데뷔부터 대만·한국, 그리고 하와이까지
-pageClass: wide-page
+pageClass: wide-page world-page
 aside: false
 ---
 

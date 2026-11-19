@@ -43,17 +43,20 @@ const sun = computed<[number, number] | null>(() => {
   return [lon, decl]
 })
 const antiSun = computed<[number, number] | null>(() => sun.value && [sun.value[0] > 0 ? sun.value[0] - 180 : sun.value[0] + 180, -sun.value[1]])
-// three nested caps around the anti-solar point = a soft twilight edge instead of a hard line
+// the night hemisphere around the anti-solar point (89.5°: an exact 90° cap is ambiguous for d3's clipper and filled the whole lens); an SVG blur gives the twilight edge
 const night = computed(() => {
   if (!antiSun.value) return []
-  return [96, 90, 84, 72].map((r) => path.value(geoCircle().center(antiSun.value!).radius(r)() as any) || '').filter(Boolean)
+  return [path.value(geoCircle().center(antiSun.value!).radius(89.5)() as any) || ''].filter(Boolean)
 })
 const isNight = (ll: [number, number]) => !!antiSun.value && geoDistance(ll, antiSun.value) < Math.PI / 2
 const kst = computed(() => {
   if (!nowMs.value) return null
   const d = new Date(nowMs.value + 9 * 3600e3)
   const hh = d.getUTCHours(), mm = String(d.getUTCMinutes()).padStart(2, '0')
-  return { time: `${hh}:${mm}`, night: isNight([139.69, 35.69]) }
+  // within ~6° of the terminator = civil twilight → 새벽 / 저녁 instead of a flat day/night
+  const dz = antiSun.value ? (geoDistance([139.69, 35.69], antiSun.value) * 180) / Math.PI - 90 : 90
+  const word = Math.abs(dz) < 6 ? (hh < 12 ? '새벽' : '저녁') : dz < 0 ? '밤' : '낮'
+  return { time: `${hh}:${mm}`, night: dz < 0, word }
 })
 let clock: ReturnType<typeof setInterval> | undefined
 
@@ -253,6 +256,7 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
           <clipPath id="lens"><circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" /></clipPath>
           <radialGradient id="atmo" cx="50%" cy="50%" r="50%"><stop :offset="R / (R + 26)" stop-color="#ff9cc4" stop-opacity="0.55" /><stop :offset="(R + 8) / (R + 26)" stop-color="#d9b8ff" stop-opacity="0.28" /><stop offset="1" stop-color="#d9b8ff" stop-opacity="0" /></radialGradient>
           <radialGradient id="spec" cx="34%" cy="26%" r="42%"><stop offset="0" stop-color="#fff" stop-opacity="0.75" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></radialGradient>
+          <filter id="dusk" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="14" /></filter>
           <radialGradient id="drop"><stop :offset="(R - 36) / (R + 24)" stop-color="#5a1e46" stop-opacity="0.26" /><stop offset="1" stop-color="#5a1e46" stop-opacity="0" /></radialGradient>
           <radialGradient id="planeGlow"><stop offset="0" stop-color="#fff" stop-opacity="1" /><stop offset="0.4" stop-color="#ff8fb8" stop-opacity="0.6" /><stop offset="1" stop-color="#ff8fb8" stop-opacity="0" /></radialGradient>
           <radialGradient id="shade" cx="35%" cy="30%" r="80%"><stop offset="60%" stop-color="#2a1030" stop-opacity="0" /><stop offset="100%" stop-color="#2a1030" stop-opacity="0.18" /></radialGradient>
@@ -267,7 +271,7 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
             <path v-for="(c, i) in countries" :key="i" :d="path(c) || ''" class="land" :class="{ hit: fillOf[c.id] }" :style="fillOf[c.id] ? { fill: fillOf[c.id] } : undefined" />
           </template>
           <path v-if="flash" :key="'fl' + flash.k" :d="flash.d" class="flash" :style="{ fill: flash.color }" />
-          <g class="night nohit" aria-hidden="true"><path v-for="(d, i) in night" :key="i" :d="d" /></g>
+          <g class="night nohit" filter="url(#dusk)" aria-hidden="true"><path v-for="(d, i) in night" :key="i" :d="d" /></g>
           <path v-for="a in arcs" :key="a.k" :d="a.d" class="arc" :class="{ up: a.upcoming }" />
         </g>
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#spec)" class="nohit" />
@@ -297,7 +301,7 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
           </g>
         </g>
       </svg>
-      <p class="drag-hint" aria-hidden="true"><Ico n="drag" size="15" /> 드래그해서 돌려 보세요<span v-if="kst" class="clock" :class="{ nite: kst.night }"><Ico :n="kst.night ? 'moon' : 'sun'" duo size="14" />지금 도쿄 {{ kst.time }} · {{ kst.night ? '밤' : '낮' }}</span></p>
+      <p class="drag-hint" aria-hidden="true"><Ico n="drag" size="15" /> 드래그해서 돌려 보세요<span v-if="kst" class="clock" :class="{ nite: kst.night }"><Ico :n="kst.night ? 'moon' : 'sun'" duo size="14" />지금 도쿄 {{ kst.time }} · {{ kst.word }}</span></p>
     </div>
 
     <div class="panel">
@@ -344,7 +348,7 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
 .land { fill: #f1e2ec; stroke: #fff; stroke-width: 0.5; transition: fill 0.9s ease; }
 .land.hit { stroke: #fff; stroke-width: 1.2; filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.45)); }
 .nohit { pointer-events: none; }
-.night path { fill: #3b2466; fill-opacity: 0.065; } /* 4 stacked caps → ~0.24 at the core, feathered edge */
+.night path { fill: #3b2466; fill-opacity: 0.22; }
 .city-light { fill: #ffd98a; opacity: 0.55; filter: blur(3px); animation: twinkle 3.2s ease-in-out infinite; }
 @keyframes twinkle { 50% { opacity: 0.85; } }
 .clock { display: inline-flex; align-items: center; gap: 5px; margin-left: 10px; padding: 3px 10px 3px 8px; border-radius: 999px; font-weight: 800; color: #9a5a14; background: #fff4df; }
@@ -431,4 +435,11 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
   .steps .up { border-style: dashed; }
 }
 @media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .ping, .pin.fresh > circle:last-of-type, .atmo, .flash, .stats b.pop, .city-light { animation: none; } .lbl-enter-active { transition: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
+/* original watercolour sky (higgsfield, no people) behind the whole map page — full-bleed on .VPContent, so no 100vw spill;
+   it fades into the page colour below the fold */
+:global(.world-page .VPContent) {
+  background: linear-gradient(180deg, rgba(255, 247, 240, 0) 0, rgba(255, 247, 240, 0) 380px, var(--vp-c-bg) 790px),
+    url('/art/world-sky.webp') center top / max(100%, 1500px) auto no-repeat;
+}
+@media (max-width: 900px) { :global(.world-page .VPContent) { background-size: auto, auto 860px; background-position: 0 0, 38% 0; } }
 </style>
