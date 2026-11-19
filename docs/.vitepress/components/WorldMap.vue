@@ -85,14 +85,14 @@ const arcs = computed(() => {
   return out
 })
 const pins = computed(() => {
-  const out: { x: number; y: number; name: string; color: string; upcoming: boolean; fresh: boolean; night: boolean; key: string }[] = []
+  const out: { x: number; y: number; name: string; color: string; upcoming: boolean; fresh: boolean; night: boolean; key: string; ci: number; on: boolean }[] = []
   shown.value.forEach((c, ci) => {
     if (ci === step.value && arcT.value < 1) return
     for (const p of c.pins) {
       if (geoDistance(p.ll, center.value) > Math.PI / 2 - 0.02) continue
       const xy = proj.value(p.ll)
       if (!xy || Math.hypot(xy[0] - SIZE / 2, xy[1] - SIZE / 2) > R - 4) continue
-      out.push({ x: xy[0], y: xy[1], name: `${p.name} · ${c.date}`, color: COUNTRY[c.country].color, upcoming: !done(c), fresh: ci === fresh.value, night: !done(c) ? false : isNight(p.ll), key: c.iso + p.name })
+      out.push({ x: xy[0], y: xy[1], name: `${p.name} · ${c.date}`, color: COUNTRY[c.country].color, upcoming: !done(c), fresh: ci === fresh.value, night: !done(c) ? false : isNight(p.ll), key: c.iso + p.name, ci, on: ci === step.value })
     }
   })
   return out
@@ -215,7 +215,10 @@ watch(step, async (i) => {
 })
 
 // ── drag to spin ───────────────────────────────────────
-function down(e: PointerEvent) { dragging = true; playing.value = false; lastX = e.clientX; lastY = e.clientY; (e.target as Element).setPointerCapture?.(e.pointerId) }
+let downX = 0, downY = 0
+// a pin click jumps to that chapter — but not at the end of a drag
+function pinClick(ci: number) { if (Math.hypot(lastX - downX, lastY - downY) < 6 && ci !== step.value) jump(ci) }
+function down(e: PointerEvent) { downX = e.clientX; downY = e.clientY; dragging = true; playing.value = false; lastX = e.clientX; lastY = e.clientY; (e.target as Element).setPointerCapture?.(e.pointerId) }
 function move(e: PointerEvent) {
   if (!dragging) return
   const k = 0.32 / zoom.value
@@ -277,11 +280,12 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#spec)" class="nohit" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" fill="url(#shade)" class="nohit" />
         <circle :cx="SIZE / 2" :cy="SIZE / 2" :r="R" class="rim" />
-        <g v-for="p in pins" :key="p.key" :transform="`translate(${p.x},${p.y})`" class="pin" :class="{ up: p.upcoming, fresh: p.fresh, lit: p.night }">
+        <g v-for="p in pins" :key="p.key" :transform="`translate(${p.x},${p.y})`" class="pin" :class="{ up: p.upcoming, fresh: p.fresh, lit: p.night, on: p.on }" @click="pinClick(p.ci)">
           <title>{{ p.name }}{{ p.upcoming ? ' (예정)' : '' }}</title>
           <circle v-if="p.night" r="11" class="city-light" />
           <circle v-if="p.fresh" r="6" class="ping" :style="{ stroke: p.color }" />
-          <circle r="5.5" :fill="p.upcoming ? '#fff' : p.color" :stroke="p.upcoming ? p.color : '#fff'" stroke-width="2.2" />
+          <circle r="14" class="pin-hit" />
+          <circle r="5.5" class="pin-dot" :fill="p.upcoming ? '#fff' : p.color" :stroke="p.upcoming ? p.color : '#fff'" stroke-width="2.2" />
         </g>
         <g v-if="plane" class="plane" :class="{ up: plane.up }" :transform="`translate(${plane.x},${plane.y})`" aria-hidden="true">
           <circle r="26" fill="url(#planeGlow)" />
@@ -358,7 +362,12 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
 .arc { fill: none; stroke: #c92f69; stroke-width: 2.4; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(255, 107, 157, 0.7)); }
 .arc.up { stroke: #a06cd5; stroke-dasharray: 2 6; }
 .pin circle { transition: r 0.3s; }
-.pin.fresh > circle:last-of-type { animation: land 0.7s var(--spring); }
+.pin { cursor: pointer; }
+.pin-hit { fill: transparent; }
+.pin-dot { transform-box: fill-box; transform-origin: center; transition: transform 0.35s var(--spring), r 0.3s; }
+.pin:hover .pin-dot { transform: scale(1.55); }
+.pin.on .pin-dot { transform: scale(1.3); }
+.pin.fresh > .pin-dot { animation: land 0.7s var(--spring); }
 @keyframes land { 0% { r: 0; } 60% { r: 9; } 100% { r: 5.5; } }
 .ping { fill: none; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: ping 1.4s ease-out 2; }
 @keyframes ping { from { transform: scale(1); opacity: 0.9; } to { transform: scale(5); opacity: 0; } }
@@ -434,7 +443,7 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
   .steps .on { border-color: var(--cc); box-shadow: 0 8px 18px -12px var(--cc); }
   .steps .up { border-style: dashed; }
 }
-@media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .ping, .pin.fresh > circle:last-of-type, .atmo, .flash, .stats b.pop, .city-light { animation: none; } .lbl-enter-active { transition: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .land, .pin circle { transition: none; } .pin:hover .pin-dot { transform: none; } .ping, .pin.fresh > .pin-dot, .atmo, .flash, .stats b.pop, .city-light { animation: none; } .lbl-enter-active { transition: none; } .swap-enter-active, .swap-leave-active { transition: none; } }
 /* original watercolour sky (higgsfield, no people) behind the whole map page — full-bleed on .VPContent, so no 100vw spill;
    it fades into the page colour below the fold */
 :global(.world-page .VPContent) {

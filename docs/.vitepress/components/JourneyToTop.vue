@@ -25,6 +25,13 @@ const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
 let cleanup: (() => void) | null = null
 const flabEls: HTMLElement[] = [] // HTML labels pinned to the 3D flags (positioned every frame, no Vue re-render)
 
+// altimeter ticks are a mouse/touch shortcut to each milestone (cards stay the keyboard path; the stage is aria-hidden)
+function goStep(i: number) {
+  const sec = root.value?.querySelectorAll<HTMLElement>('.step')[i + 1]
+  if (!sec) return
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY + sec.offsetHeight / 2 - window.innerHeight / 2, behavior: reduce ? 'auto' : 'smooth' })
+}
 function altOf(i: number) { return Math.round((i / (N - 1)) * SUMMIT).toLocaleString() }
 
 onMounted(async () => {
@@ -474,8 +481,8 @@ onBeforeUnmount(() => cleanup?.())
       </div>
       <div class="alt">
         <div class="alt-track"><div class="alt-fill" :style="{ height: progress * 100 + '%' }" />
-          <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active }"
-            :style="{ bottom: (i / (milestones.length - 1)) * 100 + '%', '--tc': members[i % 8].color }" />
+          <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active, cur: i === active }"
+            :style="{ bottom: (i / (milestones.length - 1)) * 100 + '%', '--tc': members[i % 8].color }" @click="goStep(i)"><i class="alt-tip" :lang="jaLang(m.flag)">{{ m.flag }}<small>{{ altOf(i) }}m</small></i></span>
           <span v-if="nowU !== null && nowU < 1" class="alt-now" :class="{ gone: summitIn }" :style="{ bottom: nowU * 100 + '%' }"><i />지금<span class="alt-now-m"> {{ nowAlt.toLocaleString() }}m</span></span>
         </div>
         <div class="alt-label"><small>ALT.</small><b>{{ alt.toLocaleString() }}</b><small>m</small></div>
@@ -564,6 +571,19 @@ onBeforeUnmount(() => cleanup?.())
 .alt-fill { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 999px; background: linear-gradient(0deg, #ffc93c, #ff4757, #3ccfa8, #4a90d9, #ff9f43, #5dc8f5, #a06cd5, #ff6b9d); transition: height 0.2s linear; }
 .alt-tick { position: absolute; left: 50%; width: 12px; height: 12px; margin: 0 0 -6px -6px; border-radius: 50%; background: #fff; border: 2px solid #e7d8f0; transition: transform 0.5s var(--spring), background 0.3s, border-color 0.3s; }
 .alt-tick.on { background: var(--tc); border-color: #fff; transform: scale(1.25); }
+/* ticks are clickable: a bigger invisible hit area, hover pop + a label bubble to the right */
+.alt { pointer-events: auto; }
+.alt-tick { cursor: pointer; }
+.alt-tick::before { content: ''; position: absolute; inset: -7px; border-radius: 50%; }
+.alt-tick:hover { transform: scale(1.5); border-color: var(--tc); }
+.alt-tip { position: absolute; left: 20px; top: 50%; translate: 0 -50%; display: flex; align-items: baseline; gap: 6px; padding: 4px 10px; border-radius: 999px; white-space: nowrap; pointer-events: none;
+  font-style: normal; font-size: 12px; font-weight: 800; color: #2f1a35; background: rgba(255, 255, 255, 0.92); box-shadow: 0 6px 16px -8px rgba(90, 30, 70, 0.5), inset 3px 0 0 var(--tc);
+  opacity: 0; scale: 0.6; transform-origin: 0 50%; transition: opacity 0.2s, scale 0.35s var(--spring); }
+.alt-tip small { font-size: 10px; font-weight: 700; color: #8a6a90; font-variant-numeric: tabular-nums; }
+.alt-tick:hover .alt-tip { opacity: 1; scale: calc(1 / 1.5); }
+/* the step sections overlay the stage; let clicks fall through their empty space to the altimeter */
+.steps, .step { pointer-events: none; }
+.step > * { pointer-events: auto; }
 .alt-now { position: absolute; left: 14px; margin-bottom: -9px; display: flex; align-items: center; gap: 5px; white-space: nowrap; font-size: 11px; font-weight: 800; color: #fff; background: #c2185b; padding: 3px 8px 3px 6px; border-radius: 999px; box-shadow: 0 6px 14px -6px #c2185b; }
 .alt-now i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: nowPing 1.6s ease-out infinite; }
 .alt-now::before { content: ''; position: absolute; left: -8px; top: 50%; width: 9px; height: 2px; background: #c2185b; }
