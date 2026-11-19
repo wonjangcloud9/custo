@@ -76,12 +76,12 @@ onMounted(async () => {
           <span class="play" aria-hidden="true">▶</span>
         </a>
         <figcaption>
-          <b><span lang="ja">{{ main.m.ja }}</span> <span>{{ main.m.emoji }}</span></b>
+          <b><span lang="ja">{{ main.m.ja }}</span> <Ico n="heart" duo size="0.9em" :style="{ color: main.m.color }" /></b>
           <small><JaText :t="caption(main.post.title) || main.m.ko" /></small>
         </figcaption>
         <div class="pola-act">
           <a :href="withBase(`/members/${main.m.id}`)">{{ main.m.ko.split(' ')[1] }} 페이지 →</a>
-          <button type="button" @click="reroll">🎲 다른 컷</button>
+          <button type="button" @click="reroll"><Ico n="dice" size="15" /> 다른 컷</button>
         </div>
       </figure>
 

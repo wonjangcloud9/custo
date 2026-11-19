@@ -17,13 +17,13 @@ const latest = (homeVideos as { latest: Video[] }).latest
 const dated = ref<{ id: string; title: string; date: string }[]>([]) // otd-videos.json, loaded after mount
 
 // Featured milestones come from the shared, source-verified schedule data
-const EMOJI: Record<string, string> = { event: '🎁', live: '🎡', release: '💿', tv: '📺' } // per-event `icon` overrides
+const ICO: Record<string, string> = { event: 'gift', live: 'ferris', release: 'disc', tv: 'tv' } // Ico glyphs; per-event `icon` overrides
 // featured events that have an in-site special page
 const INTERNAL: Record<string, string> = { '2026-12-02': '/cutie-land/', '2026-12-31': '/kohaku/', '2027-01-23': '/korea/' }
 const EVENTS = events.filter((e) => e.featured).map((e) => ({
   id: e.date + e.cat, at: new Date(startMs(e)).toISOString(), pin: !!e.pin,
   // shown until it ends: the published end time, otherwise the end of its Japan date
-  until: Date.parse(e.through ? `${e.through}T23:59:59+09:00` : `${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: (e.through ? `${e.ko.replace(/\s*DAY\s*\d+$/, '')} (${+e.date.slice(5, 7)}/${+e.date.slice(8)}–${+e.through.slice(8)})` : e.ko) + (e.venue ? ` · ${e.venue}` : ''), // multi-day: show the run, not 'DAY1' emoji: e.icon ?? EMOJI[e.cat] ?? '✨', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
+  until: Date.parse(e.through ? `${e.through}T23:59:59+09:00` : `${e.date}T${e.end ?? '23:59'}:59+09:00`), label: e.short ?? e.ja, ko: (e.through ? `${e.ko.replace(/\s*DAY\s*\d+$/, '')} (${+e.date.slice(5, 7)}/${+e.date.slice(8)}–${+e.through.slice(8)})` : e.ko) + (e.venue ? ` · ${e.venue}` : ''), // multi-day: show the run, not 'DAY1' ico: e.icon ?? ICO[e.cat] ?? 'sparkle', link: INTERNAL[e.date] ? withBase(INTERNAL[e.date]) : e.url, ext: !INTERNAL[e.date],
 }))
 
 const now = ref<number | null>(null)
@@ -165,17 +165,17 @@ function cleanTitle(t: string) {
     <section id="top" ref="hero" class="hero" @pointermove="sparkle">
       <div class="hero-copy">
         <p class="eyebrow"><span class="live-dot" />CUTIE STREET 팬허브 · KR ⇄ JP</p>
-        <a v-if="oshiM" class="oshi-chip" :href="withBase(`/members/${oshiM.id}`)" :style="{ '--mc': oshiM.color }">💖 나의 최애 · <b>{{ oshiM.ko.split(' ')[1] }}</b> {{ oshiM.emoji }} →</a>
+        <a v-if="oshiM" class="oshi-chip" :href="withBase(`/members/${oshiM.id}`)" :style="{ '--mc': oshiM.color }"><Ico n="heart" duo size="15" class="mc-ico" /> 나의 최애 · <b>{{ oshiM.ko.split(' ')[1] }}</b> →</a>
         <p class="head" aria-hidden="true">
           <span class="line"><span v-for="(c, i) in HEAD1" :key="'a' + i" class="ch" :style="{ '--i': i, '--c': members[i % 8].color }">{{ c }}</span></span>
-          <span class="line"><span v-for="(c, i) in HEAD2" :key="'b' + i" class="ch" :style="{ '--i': i + 6, '--c': members[(i + 5) % 8].color }">{{ c }}</span><span class="globe" aria-hidden="true">🌏</span></span>
+          <span class="line"><span v-for="(c, i) in HEAD2" :key="'b' + i" class="ch" :style="{ '--i': i + 6, '--c': members[(i + 5) % 8].color }">{{ c }}</span><span class="globe" aria-hidden="true"><Ico n="globe" duo size="0.95em" /></span></span>
         </p>
         <p class="tag-ja" lang="ja">かわいいで、世界へ。 <span>— 原宿から世界へ KAWAII を届ける 8人組</span></p>
         <div class="cta">
           <a class="btn primary" :href="withBase('/members/')">멤버 만나기 <span aria-hidden="true">→</span></a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
-          <a class="btn ghost" :href="withBase('/start/')">🎓 처음이에요</a>
-          <a class="btn ghost" :href="withBase('/journey/')">🗻 정상까지의 여정</a>
+          <a class="btn ghost" :href="withBase('/start/')"><Ico n="sprout" duo /> 처음이에요</a>
+          <a class="btn ghost" :href="withBase('/journey/')"><Ico n="mountain" duo /> 정상까지의 여정</a>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ function cleanTitle(t: string) {
         <div class="core" aria-hidden="true"><b>CUTIE</b><b>STREET</b><small>KAWAII LAB.</small></div>
         <nav class="orbit" aria-label="멤버 바로가기">
           <a v-for="(m, i) in members" :key="m.id" class="sat" :href="withBase(`/members/${m.id}`)" :aria-label="`${m.ko} (${m.ja}) 페이지`"
-            :style="{ '--a': i * 45 + 'deg', '--mc': m.color, '--on': onColor(m.color) }"><i><span lang="ja">{{ m.ja.slice(-2, -1) }}</span><span class="sat-tip">{{ m.ko.split(' ')[1] }} {{ m.emoji }}</span></i></a>
+            :style="{ '--a': i * 45 + 'deg', '--mc': m.color, '--on': onColor(m.color) }"><i><span lang="ja">{{ m.ja.slice(-2, -1) }}</span><span class="sat-tip">{{ m.ko.split(' ')[1] }}</span></i></a>
         </nav>
         <div class="ring r1" aria-hidden="true" /><div class="ring r2" aria-hidden="true" />
       </div>
@@ -192,11 +192,11 @@ function cleanTitle(t: string) {
     <!-- COUNTDOWN -->
     <section id="next" class="cd" aria-label="다가오는 일정">
       <a v-for="(e, i) in upcoming" :key="e.id" class="cd-card" :class="{ next: i === 0 }" :href="e.link" :target="e.ext ? '_blank' : undefined" :rel="e.ext ? 'noopener' : undefined">
-        <span class="cd-emoji" aria-hidden="true">{{ e.emoji }}</span>
+        <span class="cd-emoji" aria-hidden="true"><Ico :n="e.ico" duo size="24" /></span>
         <span class="cd-label">{{ e.label }}</span>
         <span class="cd-ko"><JaText :t="e.ko" /></span>
         <span v-if="now === null" class="cd-d">D-··</span>
-        <span v-else-if="e.ms <= 0" class="cd-d now">TODAY ✨</span>
+        <span v-else-if="e.ms <= 0" class="cd-d now">TODAY <Ico n="sparkle" duo size="0.9em" /></span>
         <template v-else>
           <span class="cd-d">D-{{ parts(e.ms).d }}</span>
           <span v-if="i === 0" class="cd-clock">
@@ -207,12 +207,12 @@ function cleanTitle(t: string) {
     </section>
 
     <a v-if="korea && koreaDays !== null && koreaDays >= 0 && !koreaInCountdown" class="kr" :href="withBase('/korea/')">
-      <span class="kr-flag" aria-hidden="true">🇰🇷</span>
+      <span class="kr-flag" aria-hidden="true">KR</span>
       <span class="kr-txt"><small>한국 공연 확정</small><b lang="ja">{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') + ' · ' + korea.venue + ' · ' + (korea.time ?? '') + ' 시작 · 멜론티켓 예매' }}</span></span>
       <span class="kr-dd">{{ koreaDays === 0 ? 'TODAY' : 'D-' + koreaDays }}</span>
     </a>
     <BirthdayParty v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" compact />
-    <a v-else-if="bdaySoon" class="soon" :href="withBase(`/members/${bdaySoon.m.id}`)" :style="{ '--mc': bdaySoon.m.color }">🎂 <b>{{ bdaySoon.m.ko }}</b> 생일까지 <b>D-{{ bdaySoon.d }}</b> · {{ bdaySoon.m.birthday.slice(5).replace('-', '/') }} {{ bdaySoon.m.emoji }}</a>
+    <a v-else-if="bdaySoon" class="soon" :href="withBase(`/members/${bdaySoon.m.id}`)" :style="{ '--mc': bdaySoon.m.color }"><Ico n="cake" duo size="17" class="mc-ico" /> <b>{{ bdaySoon.m.ko }}</b> 생일까지 <b>D-{{ bdaySoon.d }}</b> · {{ bdaySoon.m.birthday.slice(5).replace('-', '/') }}</a>
     <NewsFeed mode="ticker" />
 
     <!-- STATS -->
@@ -243,7 +243,7 @@ function cleanTitle(t: string) {
           <span class="acc-kanji" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span>
           <span class="acc-body">
             <b lang="ja">{{ m.ja }}</b>
-            <span>{{ m.ko }} · {{ m.emoji }} {{ m.colorName }}</span>
+            <span>{{ m.ko }} · <i class="cdot" aria-hidden="true" />{{ m.colorName }}</span>
           </span>
         </a>
       </div>
@@ -265,18 +265,18 @@ function cleanTitle(t: string) {
     <section id="explore" class="sec">
       <div class="sec-head"><h2>EXPLORE</h2></div>
       <div class="bento">
-        <a class="b b-lg" :href="withBase('/journey/')"><span class="b-emoji">🗻</span><b>정상까지의 여정</b><span>데뷔부터 紅白까지, 3D로 오르는 큐스트의 길</span></a>
-        <a class="b" :href="withBase('/units/')"><span class="b-emoji">💞</span><b>유닛 & 케미</b><span>멤버 조합 케미 파인더</span></a>
-        <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji">🇰🇷</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
-        <a class="b" :href="withBase('/discography/')"><span class="b-emoji">💿</span><b>디스코그래피</b><span>싱글 & 앨범</span></a>
-        <a class="b" :href="withBase('/stages/')"><span class="b-emoji">🎬</span><b>레전드 무대</b><span>엠카·THE FIRST TAKE</span></a>
-        <a class="b" :href="withBase('/schedule/')"><span class="b-emoji">📅</span><b>스케줄</b><span>투어·방송·이벤트</span></a>
-        <a class="b" :href="withBase('/which-member/')"><span class="b-emoji">🔮</span><b>나와 닮은 멤버</b><span>6문항 테스트</span></a>
-        <a class="b" :href="withBase('/live-guide/')"><span class="b-emoji">🔦</span><b>펜라이트 가이드</b><span>라이브 준비</span></a>
-        <a class="b" :href="withBase('/kohaku/')"><span class="b-emoji">🎍</span><b>紅白 특집</b><span>12/31 첫 출장 카운트다운</span></a>
-        <a class="b b-quiz" :href="withBase('/mv-quiz/')"><i class="b-new">NEW</i><span class="b-emoji">🎯</span><b>MV 장면 퀴즈</b><span>흐릿한 한 장면, 무슨 곡일까? · 📅 오늘의 5문제</span></a>
-        <a class="b" :href="withBase('/appearances/')"><i class="b-new">NEW</i><span class="b-emoji">📺</span><b>출연 아카이브</b><span>다른 채널에 나온 큐스트</span></a>
-        <a class="b b-cl" :href="withBase('/cutie-land/')"><span class="b-emoji">💿</span><b>CUTIE LAND</b><span>{{ albumD === null ? '1st ALBUM 12.02' : albumD > 0 ? `1st ALBUM 발매 D-${albumD}` : albumD === 0 ? '오늘 발매! 🎉' : '1st ALBUM 발매 중' }}</span></a>
+        <a class="b b-lg" :href="withBase('/journey/')"><span class="b-emoji"><Ico n="mountain" duo /></span><b>정상까지의 여정</b><span>데뷔부터 紅白까지, 3D로 오르는 큐스트의 길</span></a>
+        <a class="b" :href="withBase('/units/')"><span class="b-emoji"><Ico n="hearts" duo /></span><b>유닛 & 케미</b><span>멤버 조합 케미 파인더</span></a>
+        <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji b-cc">KR</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
+        <a class="b" :href="withBase('/discography/')"><span class="b-emoji"><Ico n="disc" duo /></span><b>디스코그래피</b><span>싱글 & 앨범</span></a>
+        <a class="b" :href="withBase('/stages/')"><span class="b-emoji"><Ico n="film" duo /></span><b>레전드 무대</b><span>엠카·THE FIRST TAKE</span></a>
+        <a class="b" :href="withBase('/schedule/')"><span class="b-emoji"><Ico n="calendar" duo /></span><b>스케줄</b><span>투어·방송·이벤트</span></a>
+        <a class="b" :href="withBase('/which-member/')"><span class="b-emoji"><Ico n="orb" duo /></span><b>나와 닮은 멤버</b><span>6문항 테스트</span></a>
+        <a class="b" :href="withBase('/live-guide/')"><span class="b-emoji"><Ico n="penlight" duo /></span><b>펜라이트 가이드</b><span>라이브 준비</span></a>
+        <a class="b" :href="withBase('/kohaku/')"><span class="b-emoji"><Ico n="fan" duo /></span><b>紅白 특집</b><span>12/31 첫 출장 카운트다운</span></a>
+        <a class="b b-quiz" :href="withBase('/mv-quiz/')"><i class="b-new">NEW</i><span class="b-emoji"><Ico n="target" duo /></span><b>MV 장면 퀴즈</b><span>흐릿한 한 장면, 무슨 곡일까? · 오늘의 5문제</span></a>
+        <a class="b" :href="withBase('/appearances/')"><i class="b-new">NEW</i><span class="b-emoji"><Ico n="tv" duo /></span><b>출연 아카이브</b><span>다른 채널에 나온 큐스트</span></a>
+        <a class="b b-cl" :href="withBase('/cutie-land/')"><span class="b-emoji"><Ico n="disc" duo /></span><b>CUTIE LAND</b><span>{{ albumD === null ? '1st ALBUM 12.02' : albumD > 0 ? `1st ALBUM 발매 D-${albumD}` : albumD === 0 ? '오늘 발매!' : '1st ALBUM 발매 중' }}</span></a>
       </div>
     </section>
   </div>
@@ -313,7 +313,7 @@ function cleanTitle(t: string) {
 .ch:hover { transform: translateY(-0.12em) rotate(-6deg) scale(1.06); color: var(--c); }
 @keyframes chIn { from { opacity: 0; transform: translateY(0.6em) rotate(10deg) scale(0.4); filter: blur(6px); } }
 @keyframes chHue { 0%, 85%, 100% { color: var(--ink); } 90% { color: var(--c); } }
-.globe { display: inline-block; font-size: 0.7em; margin-left: 0.12em; vertical-align: 0.1em; animation: spin 8s linear infinite; }
+.globe { display: inline-flex; font-size: 0.7em; margin-left: 0.12em; vertical-align: 0.02em; color: #4a90d9; --ico-fill: color-mix(in srgb, #5dc8f5 35%, white); animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 22px; font-weight: 700; color: #ad2f68; }
 .tag-ja span { display: block; font-size: 14px; font-weight: 400; color: #735779; margin-top: 6px; font-family: var(--cs-sans); }
@@ -381,7 +381,9 @@ function cleanTitle(t: string) {
   animation: spin 6s linear infinite; pointer-events: none;
 }
 .cd-card > * { position: relative; z-index: 1; }
-.cd-emoji { font-size: 22px; }
+.cd-emoji { display: inline-flex; color: #c92f69; --ico-fill: #ffd3e4; }
+.mc-ico { color: color-mix(in srgb, var(--mc) 75%, #2a1030); --ico-fill: color-mix(in srgb, var(--mc) 45%, white); }
+.cdot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: var(--mc); box-shadow: 0 0 0 1.5px #fff; vertical-align: 0.05em; }
 .cd-label { font-family: var(--cs-sans); font-weight: 700; font-size: 14px; margin-top: 6px; }
 .cd-ko { font-size: 12px; opacity: 0.7; }
 .cd-d { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 36px; margin-top: 8px; font-variant-numeric: tabular-nums; color: #e8558a; }
@@ -425,7 +427,7 @@ function cleanTitle(t: string) {
 .kr::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.85) 50%, transparent 70%); translate: -100% 0; animation: kr-shine 4.5s ease-in-out infinite; pointer-events: none; }
 @keyframes kr-shine { 0%, 55% { translate: -100% 0; } 100% { translate: 100% 0; } }
 .kr:hover { transform: translateY(-2px); }
-.kr-flag { font-size: 30px; line-height: 1; }
+.kr-flag { display: grid; place-items: center; width: 44px; height: 30px; border-radius: 8px; font-size: 13px; font-weight: 900; letter-spacing: 0.08em; line-height: 1; color: #fff; background: linear-gradient(135deg, #cd2e3a, #0047a0); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6); }
 .kr-txt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .kr-txt small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #c92f69; }
 .kr-txt b { font-size: 16px; }
@@ -497,13 +499,24 @@ function cleanTitle(t: string) {
 .b-quiz:hover { background: #2a1030; }
 .b-quiz:hover::before { filter: blur(0) saturate(1); transform: scale(1); }
 .b-quiz b { color: #fff; }
+.b-quiz .b-emoji { color: #ffd3e4; --ico-fill: rgba(255, 211, 228, 0.28); }
 .b-quiz span:not(.b-emoji) { color: #f3dbe7 !important; }
 .b-cl { background: linear-gradient(150deg, #fff 35%, #fff1d6); }
 @media (prefers-reduced-motion: reduce) { .b-quiz::before { transition: none; } }
 .b-lg { grid-column: span 2; grid-row: span 2; background: linear-gradient(150deg, #ffe3ef, #efe4ff); }
-.b-emoji { font-size: 28px; margin-bottom: auto; transition: transform 0.6s var(--spring); }
+.b-emoji { display: inline-flex; font-size: 30px; margin-bottom: auto; color: #c92f69; --ico-fill: #ffd3e4; transition: transform 0.6s var(--spring); }
+.b-cc { font-size: 13px; font-weight: 900; letter-spacing: 0.08em; padding: 6px 9px; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #cd2e3a, #0047a0); align-self: flex-start; }
 .b:hover .b-emoji { transform: scale(1.25) rotate(-12deg); }
 .b-lg .b-emoji { font-size: 56px; }
+/* each tile's icon takes one member colour (darkened for contrast on white) */
+.bento .b:nth-child(8n + 2) .b-emoji { color: #c0392b; --ico-fill: #ffd6d9; }
+.bento .b:nth-child(8n + 4) .b-emoji { color: #8a5cc4; --ico-fill: #eadcfb; }
+.bento .b:nth-child(8n + 5) .b-emoji { color: #2f6fb0; --ico-fill: #d8e8fa; }
+.bento .b:nth-child(8n + 6) .b-emoji { color: #b8650f; --ico-fill: #ffe6c7; }
+.bento .b:nth-child(8n + 7) .b-emoji { color: #1f8a6c; --ico-fill: #d2f4ea; }
+.bento .b:nth-child(8n + 8) .b-emoji { color: #2a8fb8; --ico-fill: #d6f1fc; }
+.bento .b:nth-child(8n + 9) .b-emoji { color: #a8820f; --ico-fill: #fff0c2; }
+.bento .b.b-quiz .b-emoji { color: #ffd3e4; --ico-fill: rgba(255, 211, 228, 0.28); }
 .b b { font-size: 16px; }
 .b-lg b { font-size: 26px; font-family: 'Zen Maru Gothic', sans-serif; }
 .b span:not(.b-emoji) { font-size: 12.5px; color: #735779; }

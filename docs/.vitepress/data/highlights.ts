@@ -28,9 +28,9 @@ export const highlights: Highlight[] = [
   },
 ]
 
-export const kindMeta: Record<HighlightKind, { ko: string; emoji: string }> = {
-  feature: { ko: '출연', emoji: '🌟' },
-  tv: { ko: 'TV', emoji: '📺' },
-  web: { ko: '웹', emoji: '🌐' },
-  press: { ko: '기사', emoji: '📰' },
+export const kindMeta: Record<HighlightKind, { ko: string; emoji: string; ico: string }> = {
+  feature: { ico: 'sparkle', ko: '출연', emoji: '🌟' },
+  tv: { ico: 'tv', ko: 'TV', emoji: '📺' },
+  web: { ico: 'globe', ko: '웹', emoji: '🌐' },
+  press: { ico: 'news', ko: '기사', emoji: '📰' },
 }

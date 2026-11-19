@@ -10,7 +10,7 @@ defineProps<{ eyebrow: string; title: string; lead?: string; sticker?: string }>
     <p class="eb">{{ eyebrow }}</p>
     <h1>
       <span class="t">{{ title }}</span>
-      <span v-if="sticker" class="stk" aria-hidden="true">{{ sticker }}</span>
+      <span v-if="sticker" class="stk" :class="{ cc: /^[A-Z]{2}$/.test(sticker) }" aria-hidden="true"><Ico v-if="/^[a-z]+$/.test(sticker)" :n="sticker" duo size="0.72em" /><b v-else-if="/^[A-Z]{2}$/.test(sticker)">{{ sticker }}</b><template v-else>{{ sticker }}</template></span>
     </h1>
     <p v-if="lead" class="lead">{{ lead }}</p>
     <div class="beads" aria-hidden="true">
@@ -26,6 +26,9 @@ h1 { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12p
   font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(32px, 5vw, 54px) !important; font-weight: 900; line-height: 1.12 !important; letter-spacing: -0.01em; }
 .t { background: linear-gradient(100deg, #2f1a35 30%, #a33366 70%, #6b3fa0); -webkit-background-clip: text; background-clip: text; color: transparent;
   animation: rise 0.8s cubic-bezier(.34, 1.56, .64, 1) both; }
+.stk .ico { color: #c92f69; --ico-fill: #ffd3e4; }
+.stk.cc { background: linear-gradient(135deg, #cd2e3a, #0047a0); box-shadow: 0 10px 22px -14px rgba(20, 40, 120, 0.7), inset 0 0 0 2px rgba(255, 255, 255, 0.6); }
+.stk.cc b { font-size: 0.4em; font-weight: 900; letter-spacing: 0.08em; color: #fff; -webkit-text-fill-color: #fff; }
 .stk { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; font-size: 0.78em; border-radius: 30%; background: #fff; box-shadow: 0 10px 22px -14px rgba(90, 30, 70, 0.6), inset 0 0 0 1.5px #f6d3e2;
   transform: rotate(8deg); animation: wob 3.2s ease-in-out 0.8s infinite, rise 0.8s cubic-bezier(.34, 1.56, .64, 1) 0.1s both; }
 .lead { margin: 10px 0 0 !important; max-width: 640px; font-size: 16px; line-height: 1.7; color: #5a4060; }

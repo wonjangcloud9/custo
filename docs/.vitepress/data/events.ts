@@ -13,7 +13,7 @@ export interface CsEvent {
   time?: string // HH:MM JST start
   end?: string // HH:MM JST end when officially published (calendar export)
   pin?: boolean // featured and always on the home countdown (the headline event), the rest fill by date
-  icon?: string // emoji on the home countdown card (defaults per category)
+  icon?: string // Ico glyph name on the home countdown card (defaults to catMeta[cat].ico)
   through?: string // YYYY-MM-DD: a featured multi-day run (e.g. a two-day final) keeps its home card until the end of this date
   cat: EventCat
   ja: string
@@ -61,22 +61,22 @@ export const events: CsEvent[] = [
   { date: '2026-11-20', time: '21:00', end: '22:52', cat: 'tv', ja: '関西テレビ『さんまのまんま』', ko: 'TV 출연 · 8명 전원 · 「秋のさんまはしゃべりごろSP」 · 산마와 첫 공동 출연', url: `${O}/news/detail/96005` },
   { date: '2026-11-21', time: '17:00', cat: 'other', ja: '配信『ROCK IN JAPAN FESTIVAL 2026』', ko: '록 인 재팬 2026 무료 송출 (9/19 공연 · JフェスOFFICIAL 유튜브 · 아카이브 ~12/7 18:00)', url: `${O}/news/detail/96086` },
   { date: '2026-11-22', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연 · 아야노·나기사 태그 (2주 연속 「カラオケタッグモード大会」 · 나기사 첫 출연, 아야노는 지난번 아쉬움의 눈물 설욕전)', with: ['ayano', 'nagisa'], url: `${O}/news/detail/95695` },
-  { date: '2026-11-23', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 北海道', ko: '대특전회 · 홋카이도', venue: 'アクセスサッポロ', url: `${O}/live_information/detail/47104`, featured: true, icon: '❄️' },
+  { date: '2026-11-23', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 北海道', ko: '대특전회 · 홋카이도', venue: 'アクセスサッポロ', url: `${O}/live_information/detail/47104`, featured: true, icon: 'snow' },
   { date: '2026-11-24', time: '15:30', cat: 'event', ja: 'オンライン特典会', ko: '온라인 특전회 (빙고 추첨)', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47626` },
   { date: '2026-11-26', time: '19:00', cat: 'live', ja: '佐野愛花 生誕祭 2026', ko: '사노 아이카 생탄제 · 현장 특별 추첨회(CUTIE LAND CD 구매자, 공지 96698)', venue: 'SGCホール有明', url: `${O}/live_information/detail/46341`, member: 'aika' },
   { date: '2026-11-27', time: '18:00', cat: 'live', ja: 'GIFT〜Girls Idol Festival Tokyo〜 DAY-1', ko: '아이돌 페스티벌 DAY-1 출연 (OPEN 17:00 · 출연 순서 미발표)', venue: 'SGCホール有明', url: `${O}/live_information/detail/43800` },
-  { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL', through: '2026-11-29', icon: '🎡' },
+  { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL', through: '2026-11-29', icon: 'ferris' },
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
   { date: '2026-11-29', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연 · 아야노·나기사 태그 (2주 연속 「カラオケタッグモード大会」 · 나기사 첫 출연, 아야노는 지난번 아쉬움의 눈물 설욕전)', with: ['ayano', 'nagisa'], url: `${O}/news/detail/95696` },
   { date: '2026-12-02', cat: 'release', ja: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', url: `${O}/discography/detail/8458/`, featured: true },
   { date: '2026-12-05', time: '14:30', cat: 'live', ja: 'HIROSHIMA CONTI-NeW FeS 2026', ko: '히로시마 페스티벌 출연 (DAY1 · 14:30~ 출연 시간)', venue: '広島グリーンアリーナ', url: `${O}/live_information/detail/42404` },
-  { date: '2026-12-06', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 大阪（1stアルバム発売記念）', ko: '대특전회 · 오사카', venue: 'インテックス大阪 3号館', url: `${O}/news/detail/96353`, featured: true, short: '大特典会 in 大阪', icon: '🎁' },
-  { date: '2026-12-12', time: '17:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY1', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002`, featured: true, short: 'KAWAII LAB. Christmas SESSION', through: '2026-12-13', icon: '🎄' },
+  { date: '2026-12-06', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 大阪（1stアルバム発売記念）', ko: '대특전회 · 오사카', venue: 'インテックス大阪 3号館', url: `${O}/news/detail/96353`, featured: true, short: '大特典会 in 大阪', icon: 'gift' },
+  { date: '2026-12-12', time: '17:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY1', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002`, featured: true, short: 'KAWAII LAB. Christmas SESSION', through: '2026-12-13', icon: 'tree' },
   { date: '2026-12-13', time: '16:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY2', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
   { date: '2026-12-17', cat: 'event', ja: '1stアルバム発売記念 スペシャル抽選イベント（すきトーク）', ko: '앨범 발매 기념 영상 토크 추첨 이벤트', url: 'https://cutiestreet.asobisystem.com/feature/1stalbumcutieland' },
   { date: '2026-12-19', cat: 'other', ja: '〜KAWAII LAB. 衣装展〜 KAWAII CLOSET 2026（〜1/31）', ko: '의상 전시 · 시부야/사카에/난바 hmv museum', venue: 'hmv museum 渋谷・栄・なんば', url: `${O}/news/detail/96078` },
-  { date: '2026-12-27', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 출연', venue: '幕張メッセ', url: `${O}/live_information/detail/46324`, featured: true, icon: '🎆' },
-  { date: '2026-12-31', time: '19:20', end: '23:45', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true, pin: true, icon: '🎍' },
+  { date: '2026-12-27', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 출연', venue: '幕張メッセ', url: `${O}/live_information/detail/46324`, featured: true, icon: 'firework' },
+  { date: '2026-12-31', time: '19:20', end: '23:45', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true, pin: true, icon: 'fan' },
   // January 2027 — official schedule month page (year=2027&month=1), each detail page checked 2026-11-17
   { date: '2027-01-09', time: '14:00', end: '18:30', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연 · 개장 12:30, 종연 18:30 예정 · 출연 시각 미발표)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },
   { date: '2027-01-10', time: '14:00', cat: 'event', ja: 'KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC', ko: '카와이랩 컬렉션 시즈오카 (합동)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47607` },
@@ -97,12 +97,12 @@ export const events: CsEvent[] = [
   { date: '2027-04-04', time: '16:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 후쿠오카 DAY2 (합동)', venue: 'マリンメッセ福岡A館', url: `${O}/live_information/detail/46323` },
 ]
 
-export const catMeta: Record<EventCat, { ko: string; emoji: string; color: string }> = {
-  live: { ko: 'LIVE', emoji: '🎤', color: '#ff6b9d' },
-  tv: { ko: 'TV', emoji: '📺', color: '#4a90d9' },
-  event: { ko: 'EVENT', emoji: '🎁', color: '#ff9f43' },
-  release: { ko: 'RELEASE', emoji: '💿', color: '#a06cd5' },
-  other: { ko: 'ETC', emoji: '✨', color: '#3ccfa8' },
+export const catMeta: Record<EventCat, { ko: string; emoji: string; ico: string; color: string }> = {
+  live: { ico: 'mic', ko: 'LIVE', emoji: '🎤', color: '#ff6b9d' },
+  tv: { ico: 'tv', ko: 'TV', emoji: '📺', color: '#4a90d9' },
+  event: { ico: 'gift', ko: 'EVENT', emoji: '🎁', color: '#ff9f43' },
+  release: { ico: 'disc', ko: 'RELEASE', emoji: '💿', color: '#a06cd5' },
+  other: { ico: 'sparkle', ko: 'ETC', emoji: '✨', color: '#3ccfa8' },
 }
 
 /** Epoch ms of the event start in JST (00:00 JST when no time). */

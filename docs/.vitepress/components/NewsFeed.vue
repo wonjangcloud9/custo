@@ -31,7 +31,7 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
       <div class="tk-row">
         <template v-for="k in 2" :key="k">
           <a v-for="n in news.slice(0, 8)" :key="k + n.url" class="tk-item" :href="n.url" target="_blank" rel="noopener" :aria-hidden="k === 2" :tabindex="k === 2 ? -1 : 0">
-            <span>{{ tagMeta[n.tag].emoji }}</span><b>{{ fmt(n.date) }}</b>{{ n.ko }}
+            <Ico :n="tagMeta[n.tag].ico" duo size="14" /><b>{{ fmt(n.date) }}</b>{{ n.ko }}
           </a>
         </template>
       </div>
@@ -46,7 +46,7 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
       <div class="chips" role="toolbar" aria-label="소식 분류">
         <button type="button" class="chip" :aria-pressed="tag === 'all'" @click="tag = 'all'">전체 <small>{{ news.length }}</small></button>
         <button v-for="(m, k) in tagMeta" :key="k" type="button" class="chip" :aria-pressed="tag === k" :style="{ '--tc': m.color }" @click="tag = k as NewsTag">
-          {{ m.emoji }} {{ m.ko }} <small>{{ news.filter((n) => n.tag === k).length }}</small>
+          <Ico :n="m.ico" duo size="14" /> {{ m.ko }} <small>{{ news.filter((n) => n.tag === k).length }}</small>
         </button>
       </div>
       <label class="ja-toggle"><input v-model="showJa" type="checkbox" /> 일본어 원문 보기</label>
@@ -56,7 +56,7 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
       <div class="items">
         <article v-for="n in d.items" :key="n.url" class="item" :style="{ '--tc': tagMeta[n.tag].color }">
           <div class="top">
-            <span class="tag">{{ tagMeta[n.tag].emoji }} {{ tagMeta[n.tag].ko }}</span>
+            <span class="tag"><Ico :n="tagMeta[n.tag].ico" duo size="13" /> {{ tagMeta[n.tag].ko }}</span>
             <span v-if="isNew(n.date)" class="new">NEW</span>
           </div>
           <h3>{{ n.ko }}</h3>

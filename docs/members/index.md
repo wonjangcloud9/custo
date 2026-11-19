@@ -3,7 +3,7 @@ pageClass: member-page
 aside: false
 ---
 
-<PageHero eyebrow="MEMBERS" title="8명의 멤버" sticker="💖" lead="KAWAII LAB. 소속 8인조 아이돌 그룹 큐티스트리트의 멤버를 소개해요." />
+<PageHero eyebrow="MEMBERS" title="8명의 멤버" sticker="heart" lead="KAWAII LAB. 소속 8인조 아이돌 그룹 큐티스트리트의 멤버를 소개해요." />
 
 <MemberGrid />
 

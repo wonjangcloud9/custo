@@ -82,7 +82,7 @@ const myWhen = computed(() => {
   const days = Math.round((Date.parse(e.date + 'T00:00:00+09:00') - Date.parse(jstDay(nowMs.value) + 'T00:00:00+09:00')) / 86400000)
   return `${days === 0 ? '오늘' : days === 1 ? '내일' : `${+e.date.slice(5, 7)}/${+e.date.slice(8)} (D-${days})`}${e.time ? ' ' + e.time : ''}`
 })
-// the next seven Japan days at a glance (today first): weekday, date, an icon per event, 💖 if you marked one
+// the next seven Japan days at a glance (today first): weekday, date, an icon per event, a heart if you marked one
 const WD7 = ['日', '月', '火', '水', '木', '金', '土']
 const week = computed(() => {
   if (!nowMs.value) return []
@@ -138,17 +138,17 @@ function pickDay(now: number) {
     <a v-if="nowEv" class="td-next td-now" :href="nowEv.url" target="_blank" rel="noopener">
       <span class="tn-k"><i class="live-dot" aria-hidden="true" />{{ nowWord(nowEv) }}</span>
       <span class="tn-w">{{ nowWhen }}</span>
-      <b lang="ja">{{ catMeta[nowEv.cat].emoji }} {{ nowEv.ja }}</b>
+      <b lang="ja"><Ico :n="catMeta[nowEv.cat].ico" duo size="0.95em" /> {{ nowEv.ja }}</b>
       <span class="tn-go" aria-hidden="true">→</span>
     </a>
     <a v-if="nextEv" class="td-next" :class="{ after: nowEv }" :href="nextEv.url" target="_blank" rel="noopener">
-      <span class="tn-k">⏭ 다음 일정<template v-if="going.has(goingKey(nextEv))"> · ✋ 내 일정</template></span>
+      <span class="tn-k"><Ico n="next" size="13" /> 다음 일정<template v-if="going.has(goingKey(nextEv))"> · <Ico n="bookmark" duo size="13" /> 내 일정</template></span>
       <span class="tn-w">{{ nextWhen }}</span>
-      <b lang="ja">{{ catMeta[nextEv.cat].emoji }} {{ nextEv.ja }}</b>
+      <b lang="ja"><Ico :n="catMeta[nextEv.cat].ico" duo size="0.95em" /> {{ nextEv.ja }}</b>
       <span class="tn-go" aria-hidden="true">→</span>
     </a>
     <a v-if="myNext && myNext !== nextEv && myNext !== nowEv" class="td-mine" :href="withBase('/schedule/?mine')">
-      <span class="tm-k">✋ 내 다음 일정</span>
+      <span class="tm-k"><Ico n="bookmark" duo size="13" /> 내 다음 일정</span>
       <span class="tm-w">{{ myWhen }}</span>
       <b lang="ja">{{ myNext.ja }}</b>
       <span class="tn-go" aria-hidden="true">→</span>
@@ -164,7 +164,7 @@ function pickDay(now: number) {
             <span class="b-hearts" aria-hidden="true"><i v-for="k in 9" :key="k" :style="{ '--k': k }">{{ k % 3 ? '♥' : '✦' }}</i></span>
             <span class="b-kanji" aria-hidden="true">{{ m.ja.slice(2, 3) }}</span>
             <span class="b-body">
-              <small>HAPPY BIRTHDAY {{ m.emoji }}</small>
+              <small>HAPPY BIRTHDAY <Ico n="heart" duo size="0.95em" /></small>
               <strong>오늘은 {{ m.ko }}의 {{ ageOn(m.birthday, new Date(`${day}T12:00:00+09:00`)) }}번째 생일!</strong>
               <em lang="ja">{{ m.ja }}さん、お誕生日おめでとう！</em>
               <span class="b-go">멤버 페이지에서 축하하기 →</span>
@@ -174,48 +174,48 @@ function pickDay(now: number) {
           <div class="b-card"><BirthdayCard :id="m.id" :dday="nowMs ? daysToBirthday(m.birthday, new Date(nowMs)) : null" /></div>
           </div>
           <a v-for="h in data.feats" :key="h.url" class="feat" :href="h.url" target="_blank" rel="noopener">
-            <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">{{ kindMeta[h.kind].emoji }} {{ kindMeta[h.kind].ko }}</b></span>
+            <span class="feat-th"><img v-if="h.video" :src="`https://i.ytimg.com/vi/${h.video}/hqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag"><Ico :n="kindMeta[h.kind].ico" duo size="12" /> {{ kindMeta[h.kind].ko }}</b></span>
             <span class="feat-body"><strong><JaText :t="h.ko" /></strong><small :lang="jaLang(h.title)">{{ h.title }}</small><em>출처 · {{ h.source }}</em></span>
           </a>
           <a v-for="v in data.videos" :key="v.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener">
-            <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">🎬 새 영상</b><i v-if="v.duration" class="dur">{{ v.duration }}</i></span>
+            <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag"><Ico n="play" duo size="12" /> 새 영상</b><i v-if="v.duration" class="dur">{{ v.duration }}</i></span>
             <span class="feat-body"><strong><JaText :t="clean(v.title)" /></strong><small>CUTIE STREET 공식 YouTube</small></span>
           </a>
           <a v-for="x in data.aps.slice(0, 3)" :key="x.id" class="feat vid" :href="`https://www.youtube.com/watch?v=${x.id}`" target="_blank" rel="noopener">
-            <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag">📺 다른 채널 출연</b><i v-if="x.secs" class="dur">{{ fmtLen(x.secs) }}</i></span>
+            <span class="feat-th"><img :src="`https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`" alt="" loading="lazy" /><b class="feat-tag"><Ico n="tv" duo size="12" /> 다른 채널 출연</b><i v-if="x.secs" class="dur">{{ fmtLen(x.secs) }}</i></span>
             <span class="feat-body"><strong :lang="jaLang(x.title)">{{ x.title }}</strong><small :lang="jaLang(x.ch)">{{ x.ch }}</small></span>
           </a>
-          <a v-if="data.aps.length > 3" class="td-more" :href="withBase('/appearances/')">📺 이날 다른 채널 출연 {{ data.aps.length - 3 }}편 더 보기 →</a>
+          <a v-if="data.aps.length > 3" class="td-more" :href="withBase('/appearances/')"><Ico n="tv" duo size="14" /> 이날 다른 채널 출연 {{ data.aps.length - 3 }}편 더 보기 →</a>
         </div>
 
         <!-- list: news, schedule, birthdays -->
         <ul class="td-list">
           <li v-for="e in data.events" :key="e.ja + e.date">
-            <a :href="e.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">{{ catMeta[e.cat].emoji }}</span>
+            <a :href="e.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true"><Ico :n="catMeta[e.cat].ico" duo size="16" /></span>
               <span><b lang="ja">{{ e.ja }}</b><small>{{ e.ko }}{{ e.time ? ` · ${e.time}` : '' }}{{ e.venue ? ` · ${e.venue}` : '' }}</small><MemberCoins v-if="e.with" :ids="e.with" class="td-coins" /></span><i class="pill">일정</i></a>
           </li>
           <li v-for="n in data.news" :key="n.url">
-            <a :href="n.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">{{ tagMeta[n.tag].emoji }}</span>
+            <a :href="n.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true"><Ico :n="tagMeta[n.tag].ico" duo size="16" /></span>
               <span><b>{{ n.ko }}</b><small lang="ja">{{ n.ja }}</small></span><i class="pill">공식 소식</i></a>
           </li>
-          <li v-if="!data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 ✨</li>
+          <li v-if="!data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 <Ico n="sparkle" duo size="14" /></li>
         </ul>
       </div>
       <nav v-if="week.length" class="wk7" aria-label="이번 주 일정">
-        <p class="wk7-h">📅 이번 주 <small>{{ weekCount }}개</small></p>
+        <p class="wk7-h"><Ico n="calendar" duo size="15" /> 이번 주 <small>{{ weekCount }}개</small></p>
         <ol>
           <li v-for="x in week" :key="x.d" :style="{ '--wi': x.i }">
             <a :href="withBase(`/schedule/#d-${x.d}`)" class="wk7-d" :class="{ today: x.i === 0, has: x.items.length, sun: x.wd === '日', sat: x.wd === '土' }"
               :aria-label="`${+x.d.slice(5, 7)}월 ${x.n}일(${x.wd}) ${x.items.length ? x.items.map((e) => e.ja).join(', ') : '일정 없음'}${x.mine ? ' · 내 일정 있음' : ''}`">
               <span class="wk7-wd">{{ x.i === 0 ? '오늘' : x.wd }}</span>
               <b>{{ x.n }}</b>
-              <span class="wk7-ic" aria-hidden="true"><template v-for="e in x.items.slice(0, 3)" :key="e.ja">{{ catMeta[e.cat].emoji }}</template><small v-if="x.items.length > 3">+{{ x.items.length - 3 }}</small><template v-if="!x.items.length">·</template></span>
-              <i v-if="x.mine" class="wk7-mine" aria-hidden="true">💖</i>
+              <span class="wk7-ic" aria-hidden="true"><Ico v-for="e in x.items.slice(0, 3)" :key="e.ja" :n="catMeta[e.cat].ico" duo size="14" /><small v-if="x.items.length > 3">+{{ x.items.length - 3 }}</small><template v-if="!x.items.length">·</template></span>
+              <i v-if="x.mine" class="wk7-mine" aria-hidden="true"><Ico n="heart" duo size="11" /></i>
             </a>
           </li>
         </ol>
       </nav>
-      <p class="td-checked" :title="`확인한 곳: ${status.checked.join(' · ')}`"><span aria-hidden="true">🔄</span> 마지막 확인 {{ checked }} (KST) · 6시간마다 공식 소식·스케줄·영상을 다시 확인해요</p>
+      <p class="td-checked" :title="`확인한 곳: ${status.checked.join(' · ')}`"><Ico n="refresh" size="13" /> 마지막 확인 {{ checked }} (KST) · 6시간마다 공식 소식·스케줄·영상을 다시 확인해요</p>
       <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a><a :href="withBase('/appearances/')">출연 아카이브 →</a></p>
     </template>
   </section>
@@ -245,7 +245,7 @@ function pickDay(now: number) {
 .feat:hover { transform: translateY(-3px) rotate(-0.4deg); box-shadow: 0 18px 30px -22px rgba(90, 30, 70, 0.5); }
 .feat-th { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #fbe9f1; }
 .feat-th img { width: 100%; height: 100%; object-fit: cover; }
-.feat-tag { position: absolute; left: 8px; top: 8px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 800; color: #fff; background: rgba(42, 16, 48, 0.82); }
+.feat-tag { position: absolute; left: 8px; top: 8px; display: inline-flex; align-items: center; gap: 4px; --ico-fill: rgba(255, 255, 255, 0.35); padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 800; color: #fff; background: rgba(42, 16, 48, 0.82); }
 .dur { position: absolute; right: 8px; bottom: 8px; padding: 2px 7px; border-radius: 8px; font-style: normal; font-size: 11px; font-weight: 700; color: #fff; background: rgba(0, 0, 0, 0.72); }
 .feat-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 0 4px; }
 .feat-body strong { font-size: 17px; line-height: 1.4; }
@@ -256,7 +256,7 @@ function pickDay(now: number) {
 .td-list li:nth-child(2) { animation-delay: 0.06s; } .td-list li:nth-child(3) { animation-delay: 0.12s; } .td-list li:nth-child(4) { animation-delay: 0.18s; }
 .td-list a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; background: #fdf6fa; text-decoration: none !important; color: #3a2340 !important; transition: background 0.2s, transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
 .td-list a:hover { background: #fbe8f1; transform: translateX(3px); }
-.td-list .ic { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: #fff; font-size: 18px; }
+.td-list .ic { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: #fff; font-size: 18px; color: #c92f69; --ico-fill: #ffd3e4; }
 .td-list a > span:nth-child(2) { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
 .td-list b { font-size: 14.5px; line-height: 1.35; }
 .td-list small { font-size: 12px; color: #5a4060; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -307,10 +307,10 @@ html[data-oshi] .wk7-d.today { background: var(--custo-accent); }
 .wk7-d.sat .wk7-wd { color: #2f6db5; }
 .wk7-d.today .wk7-wd { color: #ffd1e3; }
 .wk7-d b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 18px; line-height: 1.1; }
-.wk7-ic { font-size: 12px; line-height: 1.2; min-height: 15px; letter-spacing: -1px; white-space: nowrap; }
+.wk7-ic { display: inline-flex; align-items: center; gap: 1px; font-size: 12px; line-height: 1.2; min-height: 15px; white-space: nowrap; color: #c92f69; --ico-fill: #ffd3e4; }
 .wk7-ic small { font-size: 10px; font-weight: 800; margin-left: 2px; letter-spacing: 0; }
-.wk7-mine { position: absolute; top: -5px; right: -3px; font-size: 11px; font-style: normal; }
-@media (max-width: 400px) { .wk7 ol { gap: 4px; } .wk7-ic { font-size: 10.5px; } }
+.wk7-mine { position: absolute; top: -5px; right: -3px; font-size: 11px; font-style: normal; color: #e0457f; --ico-fill: #ff8fb8; }
+@media (max-width: 400px) { .wk7 ol { gap: 4px; } .wk7-ic { font-size: 10.5px; } .wk7-ic .ico { width: 12px; height: 12px; } }
 /* the week arrives left to right like dominoes; today's icons give one little nod */
 .wk7 li { animation: wk7-in 0.55s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--wi, 0) * 55ms); }
 .wk7-d.today .wk7-ic { display: inline-block; animation: wk7-nod 0.9s ease-in-out 0.6s 1 both; }

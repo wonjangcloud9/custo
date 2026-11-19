@@ -24,10 +24,10 @@ export const news: News[] = [
   { date: '2026-11-11', tag: 'release', ja: 'CUTIE STREET 1st アルバム『CUTIE LAND』収録曲公開！', ko: '1st 앨범 「CUTIE LAND」 수록곡 16곡 공개', url: `${O}/news/detail/95941`, internal: '/discography/' },
 ]
 
-export const tagMeta: Record<NewsTag, { ko: string; emoji: string; color: string }> = {
-  ticket: { ko: '티켓', emoji: '🎫', color: '#c92f69' },
-  event: { ko: '이벤트', emoji: '🎁', color: '#b4560f' },
-  release: { ko: '릴리즈', emoji: '💿', color: '#7a3fb0' },
-  tv: { ko: 'TV', emoji: '📺', color: '#2b5ea8' },
-  info: { ko: '소식', emoji: '✨', color: '#136b53' },
+export const tagMeta: Record<NewsTag, { ko: string; emoji: string; ico: string; color: string }> = {
+  ticket: { ico: 'ticket', ko: '티켓', emoji: '🎫', color: '#c92f69' },
+  event: { ico: 'gift', ko: '이벤트', emoji: '🎁', color: '#b4560f' },
+  release: { ico: 'disc', ko: '릴리즈', emoji: '💿', color: '#7a3fb0' },
+  tv: { ico: 'tv', ko: 'TV', emoji: '📺', color: '#2b5ea8' },
+  info: { ico: 'sparkle', ko: '소식', emoji: '✨', color: '#136b53' },
 }

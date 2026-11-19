@@ -5,7 +5,7 @@ title: CUTIE LAND 앨범 특집
 description: CUTIE STREET 1st ALBUM「CUTIE LAND」(2026.12.02) 16트랙 가이드 — 곡별 공식 MV·라이브 영상, 유닛곡 멤버, 에디션 비교
 ---
 
-<PageHero eyebrow="1st ALBUM · 2026.12.02" title="CUTIE LAND" sticker="💿" lead="첫 정규 앨범의 16곡을 한 곡씩 따라가 보세요. 스크롤하면 레코드가 돌아가요. 어떤 반을 살지, 발매 전후 일정도 아래에 정리했어요." />
+<PageHero eyebrow="1st ALBUM · 2026.12.02" title="CUTIE LAND" sticker="disc" lead="첫 정규 앨범의 16곡을 한 곡씩 따라가 보세요. 스크롤하면 레코드가 돌아가요. 어떤 반을 살지, 발매 전후 일정도 아래에 정리했어요." />
 
 <OfflineReady />
 
