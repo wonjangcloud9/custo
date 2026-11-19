@@ -122,11 +122,11 @@ export default defineConfig({
     nav: [
       { text: '홈', link: '/' },
       { text: '소개', link: '/about' },
-      { text: '여정 🗻', items: [{ text: '🗻 정상까지의 여정 (3D)', link: '/journey/' }, { text: '🌏 큐스트 월드맵', link: '/world/' }] },
-      { text: '紅白 🎍', link: '/kohaku/' },
+      { text: '여정', items: [{ text: '정상까지의 여정 (3D)', link: '/journey/' }, { text: '큐스트 월드맵', link: '/world/' }] },
+      { text: '紅白', link: '/kohaku/' },
       { text: '멤버', link: '/members/' },
       { text: '디스코그래피', link: '/discography/' },
-      { text: '영상', items: [ { text: '📼 영상 아카이브 (공식 채널)', link: '/videos/' }, { text: '📺 출연 아카이브 (다른 채널)', link: '/appearances/' }, { text: '🎯 MV 장면 퀴즈', link: '/mv-quiz/' } ] },
+      { text: '영상', items: [ { text: '영상 아카이브 (공식 채널)', link: '/videos/' }, { text: '출연 아카이브 (다른 채널)', link: '/appearances/' }, { text: 'MV 장면 퀴즈', link: '/mv-quiz/' } ] },
       { text: '레전드 무대', link: '/stages/' },
       {
         text: '스케줄',
@@ -134,7 +134,7 @@ export default defineConfig({
           { text: '스케줄 · 카운트다운', link: '/schedule/' },
           { text: '공식 소식 (한국어 요약)', link: '/news/' },
           { text: '라이브 가이드 · 펜라이트', link: '/live-guide/' },
-          { text: '🇰🇷 큐스트 in KOREA', link: '/korea/' },
+          { text: '큐스트 in KOREA', link: '/korea/' },
         ],
       },
     ],

@@ -180,12 +180,12 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
           <circle r="5.5" :fill="p.upcoming ? '#fff' : p.color" :stroke="p.upcoming ? p.color : '#fff'" stroke-width="2.2" />
         </g>
       </svg>
-      <p class="drag-hint" aria-hidden="true">🖐 드래그해서 돌려 보세요</p>
+      <p class="drag-hint" aria-hidden="true"><Ico n="drag" size="15" /> 드래그해서 돌려 보세요</p>
     </div>
 
     <div class="panel">
       <p class="eyebrow">귀여움으로 세계까지 · WORLD MAP</p>
-      <h1 id="wm-h">큐스트 월드맵 🌏</h1>
+      <h1 id="wm-h">큐스트 월드맵 <Ico class="h-ico" n="globe" duo size="0.9em" /></h1>
       <div class="stats">
         <div><b>{{ visitedCountries }}</b><span>나라</span></div>
         <div><b>{{ visitedCities }}</b><span>도시</span></div>
@@ -193,7 +193,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
       </div>
       <Transition name="swap" mode="out-in">
         <article :key="cur.iso + cur.title" class="now" :style="{ '--cc': COUNTRY[cur.country].color }">
-          <p class="now-top"><span class="flag" aria-hidden="true">{{ COUNTRY[cur.country].flag }}</span>{{ cur.date }} · {{ COUNTRY[cur.country].ko }}<em v-if="!done(cur)">예정</em></p>
+          <p class="now-top"><span class="flag" aria-hidden="true">{{ cur.country }}</span>{{ cur.date }} · {{ COUNTRY[cur.country].ko }}<em v-if="!done(cur)">예정</em></p>
           <h2 :lang="jaLang(cur.title)">{{ cur.title }}</h2>
           <p class="now-sub">{{ cur.sub }}</p>
           <p class="now-links">
@@ -208,7 +208,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
       <ol class="steps" aria-label="여정 단계">
         <li v-for="(c, i) in CHAPTERS" :key="c.iso + c.title">
           <button type="button" :class="{ on: i === step, past: i < step, up: !done(c) }" :style="{ '--cc': COUNTRY[c.country].color }" :aria-current="i === step ? 'step' : undefined" @click="jump(i)">
-            <span class="dot" aria-hidden="true" /><span class="sd">{{ c.date }}</span><span class="st">{{ COUNTRY[c.country].flag }} {{ c.title }}</span>
+            <span class="dot" aria-hidden="true" /><span class="sd">{{ c.date }}</span><span class="st"><i class="cc" aria-hidden="true">{{ c.country }}</i>{{ c.title }}</span>
           </button>
         </li>
       </ol>
@@ -246,7 +246,10 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
 .now { margin-top: 14px; padding: 18px 20px; border-radius: 24px; color: #fff; background: linear-gradient(135deg, color-mix(in srgb, var(--cc) min(62%, var(--ink-mix, 100%)), #2a1030), #2a1030); box-shadow: 0 20px 40px -28px rgba(42, 16, 48, 0.8); }
 .now-top { margin: 0 !important; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #ffe4f0; }
 .now-top em { font-style: normal; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); }
-.flag { font-size: 20px; }
+.flag { display: inline-grid; place-items: center; min-width: 30px; height: 20px; padding: 0 6px; border-radius: 6px; font-size: 10.5px; font-weight: 900; letter-spacing: 0.08em; color: #2a1030; background: color-mix(in srgb, var(--cc) 55%, white); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.7); }
+.h-ico { color: #c92f69; --ico-fill: #ffd3e4; vertical-align: -0.08em; }
+.drag-hint { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.cc { display: inline-block; margin-right: 7px; padding: 1px 5px; border-radius: 5px; font-style: normal; font-size: 10px; font-weight: 900; letter-spacing: 0.06em; color: color-mix(in srgb, var(--cc) 70%, #2a1030); background: color-mix(in srgb, var(--cc) 16%, white); vertical-align: 1px; }
 .now h2 { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 22px !important; line-height: 1.3; color: #fff; }
 .now-sub { margin: 4px 0 0 !important; font-size: 14px; color: #f4e6f8; }
 .now-links { display: flex; gap: 14px; margin: 10px 0 0 !important; font-size: 13px; font-weight: 800; }
@@ -260,12 +263,12 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); clearTimeout(timer); io?.disc
 .play[aria-pressed='true'] { background: #2f1a35; }
 .steps { list-style: none; margin: 16px 0 0 !important; padding: 0 !important; display: grid; gap: 4px; }
 .steps li { margin: 0 !important; }
-.steps button { width: 100%; display: grid; grid-template-columns: 14px 92px minmax(0, 1fr); align-items: center; gap: 10px; padding: 8px 12px; border-radius: 14px; text-align: left; color: #5a4060; background: none; transition: background 0.2s; }
+.steps button { width: 100%; display: grid; grid-template-columns: 14px 106px minmax(0, 1fr); align-items: center; gap: 10px; padding: 8px 12px; border-radius: 14px; text-align: left; color: #5a4060; background: none; transition: background 0.2s; }
 .steps button:hover { background: #fdf0f6; }
 .steps .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--cc); background: #fff; transition: background 0.3s; }
 .steps .past .dot, .steps .on .dot { background: var(--cc); }
 .steps .up .dot { border-style: dashed; }
-.steps .sd { font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.steps .sd { white-space: nowrap; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .steps .st { font-size: 13.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .steps .on { background: #fde8f1; color: var(--ink); }
 @media (max-width: 900px) {

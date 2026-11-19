@@ -15,6 +15,12 @@ const fIndex = ref(0) // fractional section index (0 = intro)
 const noGL = ref(false)
 const alt = computed(() => Math.round(progress.value * SUMMIT))
 const active = computed(() => Math.min(N - 1, Math.max(-1, Math.round(fIndex.value) - 1)))
+// where the group is *today* on the road (between two milestones by date) — set on mount, null in SSR
+const nowU = ref<number | null>(null)
+const daysLeft = ref<number | null>(null)
+const nowAlt = computed(() => (nowU.value === null ? 0 : Math.round(nowU.value * SUMMIT)))
+const summitIn = computed(() => fIndex.value > N - 0.15)
+const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
 
 let cleanup: (() => void) | null = null
 
@@ -23,6 +29,16 @@ function altOf(i: number) { return Math.round((i / (N - 1)) * SUMMIT).toLocaleSt
 onMounted(async () => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const small = window.innerWidth < 640
+  {
+    const today = Date.now()
+    const ts = milestones.map((m) => ymd(m.date))
+    let u = 1
+    for (let i = 0; i < N - 1; i++) {
+      if (today < ts[i + 1]) { u = (i + Math.max(0, (today - ts[i]) / (ts[i + 1] - ts[i]))) / (N - 1); break }
+    }
+    nowU.value = u
+    daysLeft.value = Math.ceil((ts[N - 1] - today) / 864e5)
+  }
 
   // ── scroll → fractional section index ──
   let centers: number[] = []
@@ -76,39 +92,59 @@ onMounted(async () => {
   g.fillStyle = grad; g.fillRect(0, 0, 64, 64)
   const dotTex = track(new THREE.CanvasTexture(dotCanvas))
 
-  // road curve: spiral around "Fuji"
+  // Fuji-like concave profile (radius at height y, y in mountain space 0..88): wide foot, steep shoulders,
+  // a small flat crater. The trail is wound *on* this surface, so the road hugs the slope instead of
+  // floating in the sky beside a far-away cone (it used to sit ~9 units off the slope mid-way).
+  const MH = 88
+  const radiusAt = (y: number) => 5.5 + 28.5 * Math.pow(Math.max(0, 1 - y / MH), 1.55)
+  // erosion gullies (Fuji's radial ravines): 0 = ridge, 1 = deepest gully; they only carve inward
+  const gully = (a: number, h: number) => Math.pow(0.5 + 0.5 * Math.sin(a * 17 + Math.sin(a * 5) * 2.2 + h * 3), 6) * THREE.MathUtils.smoothstep(h, 0.12, 0.6)
+
   const pts: import('three').Vector3[] = []
-  for (let k = 0; k <= 80; k++) {
-    const t = k / 80
+  for (let k = 0; k <= 120; k++) {
+    const t = k / 120
     const a = t * Math.PI * 5.2 + Math.PI * 0.15
-    const r = 27 * (1 - t) + 5
-    pts.push(new THREE.Vector3(Math.cos(a) * r, t * 80, Math.sin(a) * r))
+    const y = t * 80
+    const r = radiusAt(y + 4) + 0.75
+    pts.push(new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r))
   }
   const curve = new THREE.CatmullRomCurve3(pts)
 
   // mountain
-  // Fuji-like concave profile: wide foot, steep shoulders, flat crater at 88
-  const profile: import('three').Vector2[] = []
-  for (let k = 0; k <= 48; k++) {
-    const y = (k / 48) * 88
-    profile.push(new THREE.Vector2(3 + 21 * Math.pow(1 - y / 88, 1.7), y))
+  const profile: import('three').Vector2[] = [new THREE.Vector2(radiusAt(0) + 16, -2)]
+  for (let k = 0; k <= 64; k++) {
+    const y = (k / 64) * MH
+    profile.push(new THREE.Vector2(radiusAt(y), y))
   }
-  const mountainGeo = track(new THREE.LatheGeometry(profile, 160))
+  profile.push(new THREE.Vector2(4, MH - 1.4)) // crater lip dips in
+  const mountainGeo = track(new THREE.LatheGeometry(profile, 200))
   {
-    // vertex colors: pink foot → lavender → snow cap, with soft fake lighting
-    const pos = mountainGeo.attributes.position, nor = mountainGeo.attributes.normal
-    const cols = new Float32Array(pos.count * 3)
-    const foot = new THREE.Color(0xffcfe3), mid = new THREE.Color(0xc9b8fb), snow = new THREE.Color(0xffffff)
-    const L = new THREE.Vector3(0.45, 0.55, 0.7).normalize(), n = new THREE.Vector3(), c = new THREE.Color()
+    const pos = mountainGeo.attributes.position
+    const g0 = new Float32Array(pos.count)
     for (let i = 0; i < pos.count; i++) {
-      const y = pos.getY(i) / 88
-      const a = Math.atan2(pos.getZ(i), pos.getX(i))
-      c.copy(foot).lerp(mid, Math.min(1, y / 0.72))
-      const cap = THREE.MathUtils.smoothstep(y + 0.035 * Math.sin(a * 7), 0.69, 0.75)
+      const x = pos.getX(i), z = pos.getZ(i), h = pos.getY(i) / MH
+      const a = Math.atan2(z, x), g = gully(a, h) * (h < 0.97 ? 1 : 0)
+      g0[i] = g
+      const k = 1 - 0.06 * g
+      pos.setXYZ(i, x * k, pos.getY(i), z * k)
+    }
+    mountainGeo.computeVertexNormals()
+    // vertex colors: pink foot → lavender → snow cap whose streaks run down the gullies, baked light
+    const nor = mountainGeo.attributes.normal
+    const cols = new Float32Array(pos.count * 3)
+    const foot = new THREE.Color(0xffd3e6), mid = new THREE.Color(0xc4b2f7), deep = new THREE.Color(0x9d86e0), snow = new THREE.Color(0xfdfaff), ice = new THREE.Color(0xcfc3f2)
+    const L = new THREE.Vector3(0.5, 0.6, 0.62).normalize(), n = new THREE.Vector3(), c = new THREE.Color()
+    for (let i = 0; i < pos.count; i++) {
+      const h = pos.getY(i) / MH
+      const a = Math.atan2(pos.getZ(i), pos.getX(i)), g = g0[i]
+      c.copy(foot).lerp(mid, Math.min(1, h / 0.7)).lerp(deep, g * 0.35 * Math.min(1, h / 0.4))
+      const cap = THREE.MathUtils.smoothstep(h + 0.03 * Math.sin(a * 7) + g * 0.16, 0.66, 0.72)
       c.lerp(snow, cap)
+      // inside the cap, the ridges show icy lavender streaks between snow-filled gullies
+      c.lerp(ice, cap * (1 - g) * 0.55 * THREE.MathUtils.smoothstep(Math.sin(a * 17 + Math.sin(a * 5) * 2.2 + h * 3), -0.2, 0.6))
       n.set(nor.getX(i), nor.getY(i), nor.getZ(i))
-      const light = 0.8 + 0.2 * Math.max(0, n.dot(L))
-      cols[i * 3] = c.r * light; cols[i * 3 + 1] = c.g * light; cols[i * 3 + 2] = c.b * light
+      const light = 0.7 + 0.32 * Math.max(0, n.dot(L)) - 0.05 * g
+      cols[i * 3] = Math.min(1, c.r * light); cols[i * 3 + 1] = Math.min(1, c.g * light); cols[i * 3 + 2] = Math.min(1, c.b * light)
     }
     mountainGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3))
   }
@@ -182,11 +218,47 @@ onMounted(async () => {
   const redStar = new THREE.Mesh(star(3, 1.3), track(new THREE.MeshBasicMaterial({ color: 0xff4d6d })))
   const whiteStar = new THREE.Mesh(star(3.8, 1.65), track(new THREE.MeshBasicMaterial({ color: 0xffffff })))
   whiteStar.position.z = -0.5; whiteStar.rotation.z = Math.PI / 5
-  const summitHalo = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: dotTex, color: 0xffd1e0, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.9 })))
-  summitHalo.scale.setScalar(22)
+  const summitHalo = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: dotTex, color: 0xff8fb5, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.55 })))
+  summitHalo.scale.setScalar(13)
   summit.add(summitHalo, whiteStar, redStar)
-  summit.position.set(0, 92, 0)
+  summit.position.set(0, 91, 0)
   scene.add(summit)
+  // a crown of 8 member-colour stars orbiting the summit
+  const crown = new THREE.Group()
+  const miniStar = star(0.7, 0.3)
+  const crownStars = colors.map((col, k) => {
+    const s = new THREE.Mesh(miniStar, track(new THREE.MeshBasicMaterial({ color: col })))
+    const a = (k / 8) * Math.PI * 2
+    s.position.set(Math.cos(a) * 6.5, Math.sin(a * 2) * 0.6, Math.sin(a) * 6.5)
+    crown.add(s)
+    return s
+  })
+  crown.position.copy(summit.position)
+  scene.add(crown)
+
+  // "today" beacon: a soft light pillar where the group stands right now (between two flags)
+  const beamCanvas = document.createElement('canvas'); beamCanvas.width = 32; beamCanvas.height = 256
+  {
+    const bg = beamCanvas.getContext('2d')!
+    const lg = bg.createLinearGradient(0, 0, 0, 256)
+    lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(0.7, 'rgba(255,255,255,0.55)'); lg.addColorStop(1, 'rgba(255,255,255,1)')
+    const rg = bg.createLinearGradient(0, 0, 32, 0)
+    bg.fillStyle = lg; bg.fillRect(0, 0, 32, 256)
+    bg.globalCompositeOperation = 'destination-in'
+    rg.addColorStop(0, 'rgba(0,0,0,0)'); rg.addColorStop(0.5, 'rgba(0,0,0,1)'); rg.addColorStop(1, 'rgba(0,0,0,0)')
+    bg.fillStyle = rg; bg.fillRect(0, 0, 32, 256)
+  }
+  const beamTex = track(new THREE.CanvasTexture(beamCanvas))
+  const beacon = new THREE.Group()
+  const beam = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: beamTex, color: 0xff6b9d, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.9 })))
+  beam.center.set(0.5, 0); beam.scale.set(1.6, 16, 1)
+  const beaconDot = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: dotTex, color: 0xff4d8d, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 1 })))
+  beaconDot.scale.setScalar(3)
+  beacon.add(beam, beaconDot)
+  if (nowU.value !== null && nowU.value < 1) {
+    beacon.position.copy(curve.getPointAt(Math.min(0.999, nowU.value))).add(new THREE.Vector3(0, 0.6, 0))
+    scene.add(beacon)
+  }
 
   // the 8 members walking together
   const walkers = members.map((m, k) => {
@@ -259,7 +331,7 @@ onMounted(async () => {
 
   // animate
   let uC = 0, fC = 0, raf = 0, visible = true, lastSig = '', settle = 0
-  const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3()
+  const camPos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3()
   const overviewPos = new THREE.Vector3(18, 52, small ? 190 : 150), overviewLook = new THREE.Vector3(0, 44, 0)
   const summitPos = new THREE.Vector3(0, 99, small ? 78 : 60), summitLook = new THREE.Vector3(0, 80, 0)
   const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting })
@@ -286,8 +358,9 @@ onMounted(async () => {
     const u = Math.min(0.995, Math.max(0.0001, uC))
     const p = curve.getPointAt(Math.max(0, u - 0.03))
     const out = tmp.set(p.x, 0, p.z).normalize()
-    camPos.copy(p).addScaledVector(out, small ? 17 : 14).add(new THREE.Vector3(0, 7, 0))
-    look.copy(curve.getPointAt(Math.min(1, u + 0.012))).add(new THREE.Vector3(0, 1.2, 0))
+    const high = THREE.MathUtils.smoothstep(u, 0.7, 1) // last stretch: step back so the cap and the summit are in frame
+    camPos.copy(p).addScaledVector(out, (small ? 17 : 14) + high * (small ? 34 : 26)).add(tmp2.set(0, 7 + high * 9, 0))
+    look.copy(curve.getPointAt(Math.min(1, u + 0.012))).add(tmp2.set(0, 1.2 + high * 6, 0))
     // intro overview → road, road → summit view
     const intro = 1 - Math.min(1, Math.max(0, fC))
     const outro = Math.min(1, Math.max(0, fC - N))
@@ -316,8 +389,17 @@ onMounted(async () => {
       f.halo.scale.setScalar(pulse)
     })
 
+    // the 紅白 stars always face the camera (they used to spin edge-on into a thin sliver), with a little sway
+    summit.quaternion.copy(camera.quaternion)
+    if (!reduce) summit.rotateZ(Math.sin(t * 1.2) * 0.12)
     if (!reduce) {
-      summit.rotation.y = t * 0.6
+      crown.rotation.y = t * 0.5
+      crownStars.forEach((s, k) => { s.quaternion.copy(camera.quaternion); s.rotateZ(t * 1.5 + k) })
+      const pulse = 0.5 + 0.5 * Math.sin(t * 2.4)
+      beaconDot.scale.setScalar(2.6 + pulse * 1.4)
+      beam.material.opacity = 0.65 + pulse * 0.3
+    } else {
+      crownStars.forEach((s) => s.quaternion.copy(camera.quaternion))
       sky.rotation.y = t * 0.012
       clouds.forEach((c) => {
         const d = c.userData as { a: number; r: number; s: number; y: number }
@@ -368,6 +450,7 @@ onBeforeUnmount(() => cleanup?.())
         <div class="alt-track"><div class="alt-fill" :style="{ height: progress * 100 + '%' }" />
           <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active }"
             :style="{ bottom: (i / (milestones.length - 1)) * 100 + '%', '--tc': members[i % 8].color }" />
+          <span v-if="nowU !== null && nowU < 1" class="alt-now" :style="{ bottom: nowU * 100 + '%' }"><i />지금 {{ nowAlt.toLocaleString() }}m</span>
         </div>
         <div class="alt-label"><small>ALT.</small><b>{{ alt.toLocaleString() }}</b><small>m</small></div>
       </div>
@@ -398,15 +481,21 @@ onBeforeUnmount(() => cleanup?.())
         </article>
       </section>
 
-      <section class="step outro">
+      <section class="step outro" :class="{ in: summitIn }">
+        <p class="stamp" :class="{ done: daysLeft !== null && daysLeft <= 0 }">
+          <span class="stamp-ring" aria-hidden="true" />
+          <template v-if="daysLeft !== null && daysLeft > 0"><small>정상까지</small><b>D-{{ daysLeft }}</b><small>남은 {{ (SUMMIT - nowAlt).toLocaleString() }}m</small></template>
+          <template v-else-if="daysLeft !== null"><small lang="ja">紅白</small><b lang="ja">登頂</b><small>3,776m</small></template>
+          <template v-else><small>정상까지</small><b>D-?</b><small>12.31</small></template>
+        </p>
         <p class="eyebrow">3,776m · TOP OF THE TOP</p>
-        <h2 class="title small"><span>그리고 다음 산은,</span><span><span class="grad">세계</span> <span class="emoji">🌏</span></span></h2>
+        <h2 class="title small"><span>그리고 다음 산은,</span><span><span class="grad">세계</span> <span class="emoji"><Ico n="globe" duo size="0.82em" /></span></span></h2>
         <p class="lead"><span lang="ja">かわいいで、世界へ。</span> 우리의 큐티즈도 함께 올라가요.</p>
         <div class="cta">
           <a class="btn primary" href="https://www.youtube.com/watch?v=KGFOrSUL-uc" target="_blank" rel="noopener">▶ 「Top of the top」 부도칸 LIVE</a>
           <a class="btn" :href="withBase('/members/')">멤버 만나기</a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
-          <ShareButton title="정상까지의 여정 — CUTIE STREET 3D 스토리" text="데뷔부터 紅白까지, 후지산 3,776m 등반으로 그린 큐티스트리트의 여정 🗻" label="여정 공유하기" />
+          <ShareButton title="정상까지의 여정 — CUTIE STREET 3D 스토리" text="데뷔부터 紅白까지, 후지산 3,776m 등반으로 그린 큐티스트리트의 여정" label="여정 공유하기" />
         </div>
       </section>
     </div>
@@ -430,6 +519,10 @@ onBeforeUnmount(() => cleanup?.())
 .alt-fill { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 999px; background: linear-gradient(0deg, #ffc93c, #ff4757, #3ccfa8, #4a90d9, #ff9f43, #5dc8f5, #a06cd5, #ff6b9d); transition: height 0.2s linear; }
 .alt-tick { position: absolute; left: 50%; width: 12px; height: 12px; margin: 0 0 -6px -6px; border-radius: 50%; background: #fff; border: 2px solid #e7d8f0; transition: transform 0.5s var(--spring), background 0.3s, border-color 0.3s; }
 .alt-tick.on { background: var(--tc); border-color: #fff; transform: scale(1.25); }
+.alt-now { position: absolute; left: 14px; margin-bottom: -9px; display: flex; align-items: center; gap: 5px; white-space: nowrap; font-size: 11px; font-weight: 800; color: #fff; background: #c2185b; padding: 3px 8px 3px 6px; border-radius: 999px; box-shadow: 0 6px 14px -6px #c2185b; }
+.alt-now i { width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: nowPing 1.6s ease-out infinite; }
+.alt-now::before { content: ''; position: absolute; left: -8px; top: 50%; width: 9px; height: 2px; background: #c2185b; }
+@keyframes nowPing { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.9); } 100% { box-shadow: 0 0 0 7px rgba(255, 255, 255, 0); } }
 .alt-label { display: flex; flex-direction: column; font-family: 'Zen Maru Gothic', sans-serif; line-height: 1; }
 .alt-label b { font-size: 22px; font-variant-numeric: tabular-nums; color: #c2457a; }
 .alt-label small { font-size: 10px; letter-spacing: 0.2em; color: #7d6083; font-weight: 700; }
@@ -443,7 +536,7 @@ onBeforeUnmount(() => cleanup?.())
 .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.28em; color: #c2457a; margin: 0 0 12px; background: rgba(255, 255, 255, 0.8); padding: 6px 14px; border-radius: 999px; }
 .title { margin: 0; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: clamp(56px, 11vw, 140px); line-height: 0.98; letter-spacing: -0.03em; border: 0; padding: 0; }
 .title > span { display: block; text-shadow: 0 4px 0 #fff, 0 18px 40px rgba(255, 107, 157, 0.35); }
-.title .emoji { display: inline-block; text-shadow: none; animation: spinE 8s linear infinite; }
+.title .emoji { display: inline-block; text-shadow: none; color: #4a90d9; --ico-fill: color-mix(in srgb, #5dc8f5 35%, white); filter: drop-shadow(0 6px 0 #fff) drop-shadow(0 14px 22px rgba(74, 144, 217, 0.35)); animation: spinE 14s linear infinite; }
 @keyframes spinE { to { transform: rotate(360deg); } }
 .title .grad { background: linear-gradient(90deg, #ff6b9d, #a06cd5, #4a90d9); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 6px 0 #fff); }
 .title.small { font-size: clamp(40px, 7vw, 88px); }
@@ -479,6 +572,15 @@ onBeforeUnmount(() => cleanup?.())
 .vid b { display: block; font-size: 13.5px; overflow-wrap: anywhere; } /* Japanese titles have no spaces; under keep-all they never wrapped (23px overflow at 320, #198) */
 .vid small { font-size: 11px; color: #735779; }
 
+/* summit seal: a red/white hanko-style stamp that thumps down when you reach the top */
+.stamp { position: relative; width: 132px; height: 132px; margin: 0 auto 18px !important; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; color: #c2185b; background: radial-gradient(circle at 35% 30%, #fff, #fff4f8 70%); box-shadow: 0 18px 40px -18px rgba(194, 24, 91, 0.6), inset 0 0 0 4px #fff, inset 0 0 0 6px #e8457c; rotate: -8deg; opacity: 0; scale: 1.8; transition: opacity 0.25s, scale 0.6s var(--spring); }
+.outro.in .stamp { opacity: 1; scale: 1; }
+.stamp b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.stamp small { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; color: #8a2a55; }
+.stamp-ring { position: absolute; inset: -10px; border-radius: 50%; background: conic-gradient(#ff6b9d, #ff9f43, #ffc93c, #3ccfa8, #5dc8f5, #4a90d9, #a06cd5, #ff4757, #ff6b9d); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); animation: ringSpin 9s linear infinite; }
+.stamp.done { color: #fff; background: radial-gradient(circle at 35% 30%, #ff5a7e, #c2185b); }
+.stamp.done small { color: #ffe4ee; }
+@keyframes ringSpin { to { rotate: 360deg; } }
 .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
 .btn { padding: 13px 20px; border-radius: 999px; font-weight: 700; font-size: 14px; background: #fff; color: var(--ink) !important; text-decoration: none !important; border: 1.5px solid #f3cfe0; transition: transform 0.5s var(--spring); }
 .btn:hover { transform: translateY(-3px); }
@@ -487,14 +589,19 @@ onBeforeUnmount(() => cleanup?.())
 @media (max-width: 640px) {
   .step, .step.left, .step.right { padding: 72px 16px 72px 64px; justify-content: center; align-items: flex-end; }
   .intro, .outro { padding: 72px 16px; align-items: center; }
+  .outro { justify-content: center; padding-top: 96px; }
   .alt { left: 12px; }
   .alt-track { height: 38vh; }
   .alt-label b { font-size: 16px; }
   .lead { font-size: 15px; }
   .card { padding: 18px; }
+  .stamp { width: 104px; height: 104px; margin-bottom: 12px !important; }
+  .stamp b { font-size: 27px; }
+  .stamp small { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; transform: none; }
-  .mouse::after, .title .emoji { animation: none; }
+  .mouse::after, .title .emoji, .stamp-ring, .alt-now i { animation: none; }
+  .stamp { transition: none; scale: 1; }
 }
 </style>

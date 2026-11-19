@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import Ico from './Ico.vue'
 // Native share sheet when available (mobile), otherwise copy the link.
 const props = defineProps<{ title: string; text?: string; url?: string; label?: string; dark?: boolean }>()
 const state = ref<'idle' | 'copied' | 'shared'>('idle')
@@ -19,7 +20,7 @@ async function share() {
 
 <template>
   <button type="button" class="share" :class="{ dark: props.dark, done: state !== 'idle' }" @click="share">
-    <span class="ic" aria-hidden="true">{{ state === 'idle' ? '🔗' : '✓' }}</span>
+    <Ico class="ic" :n="state === 'idle' ? 'link' : 'check'" size="15" />
     <span>{{ state === 'copied' ? '링크 복사됨' : state === 'shared' ? '공유 완료' : (props.label || '공유하기') }}</span>
     <i v-if="state !== 'idle'" class="burst" aria-hidden="true"><b v-for="n in 6" :key="n" :style="{ '--a': n * 60 + 'deg' }">♥</b></i>
   </button>

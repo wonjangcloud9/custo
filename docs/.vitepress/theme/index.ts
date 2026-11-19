@@ -5,6 +5,7 @@ import GlobalFx from '../components/GlobalFx.vue'
 import SearchPalette from '../components/SearchPalette.vue'
 import YtLite from '../components/YtLite.vue'
 import JaText from '../components/JaText.vue'
+import Ico from '../components/Ico.vue'
 import NotFound404 from '../components/NotFound404.vue'
 import './style.css'
 
@@ -57,6 +58,7 @@ export default {
     app.component('Quiz', Quiz)
     app.component('YtLite', YtLite)
     app.component('JaText', JaText)
+    app.component('Ico', Ico)
     for (const [name, loader] of Object.entries(lazy)) app.component(name, defineAsyncComponent(loader))
   },
 }
