@@ -1,4 +1,4 @@
-// build mwn4cn8f
+// build mwn51085
 // CUTIE STREET fan hub — offline support (#234). Arena venues often have no signal: pages you have opened
 // once (and the live guide, schedule, album and member pages, saved on first visit) still open offline.
 //   pages:  network first, 4 s patience, then the saved copy, then a small offline page
@@ -6,12 +6,13 @@
 //   fonts:  Google Fonts CSS/subsets → saved copy, refreshed in the background
 // To retire it: replace this file with one that calls self.registration.unregister() and clears caches.
 const V = 'v1'
-const PAGES = `cs-pages-${V}`, ASSETS = `cs-assets-${V}`, FONTS = `cs-fonts-${V}`
+const PAGES = 'cs-pages-v2', ASSETS = `cs-assets-${V}`, FONTS = `cs-fonts-${V}` // pages v2: keys without the trailing slash (#235)
 const BASE = new URL('./', self.location).pathname // '/custo/'
 const PRECACHE = ['', 'live-guide/', 'schedule/', 'cutie-land/', 'members/'].map((p) => BASE + p)
 const LABELS = { '': '홈', 'live-guide/': '라이브 가이드', 'schedule/': '스케줄', 'cutie-land/': 'CUTIE LAND', 'members/': '멤버', 'kohaku/': '紅白', 'korea/': '한국 공연', 'videos/': '영상', 'start/': '입문 가이드', 'appearances/': '출연 아카이브', 'discography/': '디스코그래피', 'news/': '뉴스', 'about': '소개' }
 
-const pageKey = (url) => { const u = new URL(url); return u.origin + u.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') }
+// one key per page whichever way it was typed: /x, /x/, /x.html, /x/index.html (OfflineReady.vue uses the same rule)
+const pageKey = (url) => { const u = new URL(url); return u.origin + u.pathname.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/\/$/, '') }
 
 async function trim(name, max) {
   const c = await caches.open(name); const keys = await c.keys()
@@ -49,7 +50,7 @@ self.addEventListener('activate', (event) => {
 })
 
 function offlinePage(saved) {
-  const links = saved.map((p) => `<li><a href="${BASE}${p}">${LABELS[p] ?? p.replace(/\/$/, '')}</a></li>`).join('')
+  const links = saved.map((p) => `<li><a href="${BASE}${p}">${LABELS[p] ?? LABELS[p + '/'] ?? p}</a></li>`).join('')
   return new Response(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>오프라인 · CUTIE STREET 팬허브</title>
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,sans-serif;background:linear-gradient(160deg,#fff8f0,#fff0f6 40%,#f8f0ff);color:#2a1030;word-break:keep-all}
 main{max-width:420px;padding:32px 24px;text-align:center}h1{font-size:22px;margin:12px 0 6px}p{color:#5a4060;line-height:1.6;margin:0 0 18px}
@@ -76,7 +77,7 @@ async function navigate(event) {
   } catch {
     const saved = await cache.match(key)
     if (saved) return saved
-    const keys = (await cache.keys()).map((k) => new URL(k.url).pathname.slice(BASE.length))
+    const keys = (await cache.keys()).map((k) => new URL(k.url).pathname.slice(BASE.length)).filter((p) => !p.startsWith('/'))
     return offlinePage(keys)
   }
 }
