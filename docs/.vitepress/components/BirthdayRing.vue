@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { useToday } from '../theme/today'
 import { withBase, useRouter } from 'vitepress'
 import { members, daysToBirthday, ageOn, onColor } from '../data/members'
+import { birthdaysIcs, downloadIcs } from '../data/birthdays'
 
 const SIZE = 360, C = SIZE / 2, R = 132
 const now = useToday() // moves to the new day if left open past midnight
@@ -10,28 +11,10 @@ const hover = ref<string | null>(null)
 const router = useRouter()
 const go = (id: string) => router.go(withBase(`/members/${id}`))
 
-// all eight birthdays as yearly all-day events, starting from this year's (or next year's) date so calendars
-// don't fill with decades of past ones; a reminder at 09:00 the day before
+// all eight birthdays as one yearly calendar file (data/birthdays.ts)
 const icsSaved = ref(false)
 function saveBirthdays() {
-  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10)
-  const ymd = (d: string) => d.replace(/-/g, '')
-  const esc = (t: string) => t.replace(/[\\;,]/g, (c) => '\\' + c)
-  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
-  const site = location.origin + withBase('/members/')
-  const ev = members.flatMap((m) => {
-    const md = m.birthday.slice(5)
-    const y = +today.slice(0, 4)
-    const first = `${today.slice(5) <= md ? y : y + 1}-${md}`
-    const next = new Date(`${first}T00:00:00Z`); next.setUTCDate(next.getUTCDate() + 1)
-    return ['BEGIN:VEVENT', `UID:birthday-${m.id}@custo`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${ymd(first)}`, `DTEND;VALUE=DATE:${ymd(next.toISOString().slice(0, 10))}`,
-      'RRULE:FREQ=YEARLY', `SUMMARY:${esc(`🎂 ${m.ja} (${m.ko}) 생일`)}`, `DESCRIPTION:${esc(`CUTIE STREET ${m.ko} 생일 — ${site}${m.id}`)}`, `URL:${site}${m.id}`,
-      'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(`내일은 ${m.ko} 생일 🎂`)}`, 'TRIGGER:-PT15H', 'END:VALARM', 'END:VEVENT']
-  })
-  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:CUTIE STREET 멤버 생일', ...ev, 'END:VCALENDAR'].join('\r\n')
-  const a = document.createElement('a')
-  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' })); a.download = 'cutiestreet-member-birthdays.ics'; a.click()
-  setTimeout(() => URL.revokeObjectURL(a.href), 1500)
+  downloadIcs(birthdaysIcs(members, location.origin + withBase('/members/')), 'cutiestreet-member-birthdays.ics')
   icsSaved.value = true; setTimeout(() => (icsSaved.value = false), 1800)
 }
 

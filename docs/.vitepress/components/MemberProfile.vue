@@ -5,6 +5,7 @@ import { members, memberById, ageOn, daysToBirthday, prefectureKo } from '../dat
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
 import BirthdayCard from './BirthdayCard.vue'
+import { birthdaysIcs, downloadIcs } from '../data/birthdays'
 import ShareButton from './ShareButton.vue'
 import { useOshi, setOshi } from '../theme/oshi'
 import { useToday } from '../theme/today'
@@ -47,6 +48,12 @@ function onLeave() {
   card.value.style.setProperty('--ry', '0deg')
 }
 
+// just this member's birthday, every year, in your calendar
+const bdIcs = ref(false)
+function saveBirthday() {
+  downloadIcs(birthdaysIcs([m.value], location.origin + withBase('/members/')), `cutiestreet-${m.value.id}-birthday.ics`)
+  bdIcs.value = true; setTimeout(() => (bdIcs.value = false), 1800)
+}
 const copied = ref(false)
 async function copyColor() {
   try { await navigator.clipboard.writeText(m.value.color) } catch { /* no clipboard */ }
@@ -205,7 +212,10 @@ function onKey(e: KeyboardEvent) {
         <span class="lbl">생일 {{ bdayLabel }}</span>
         <b class="big">{{ dday === 0 ? '🎂 TODAY' : dday === null ? 'D-··' : 'D-' + dday }}</b>
         <span class="sub">{{ dday === 0 ? 'おたんじょうびおめでとう！' : '다음 생일까지' }}</span>
-        <BirthdayCard :id="m.id" :dday="dday" />
+        <div class="bd-acts">
+          <BirthdayCard :id="m.id" :dday="dday" />
+          <button type="button" class="bd-ics" @click="saveBirthday">{{ bdIcs ? '✓ 받았어요' : '📅 매년 알림' }}</button>
+        </div>
       </div>
       <div class="tile t-from">
         <span class="lbl">출신</span>
@@ -370,6 +380,11 @@ function onKey(e: KeyboardEvent) {
 @keyframes bob { 0%, 70%, 100% { transform: translateY(0); } 35% { transform: translateY(-6px); } }
 .sub { font-size: 12.5px; color: #735779; }
 .t-bday { background: linear-gradient(150deg, var(--mc-soft), #fff); }
+.bd-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+/* the bento tile is narrow on phones: keep both pills on one line each */
+.bd-acts :deep(.bc), .bd-acts .bd-ics { white-space: nowrap; font-size: 11.5px; padding: 5px 10px; }
+.bd-ics { margin-top: 8px; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; background: #fff; color: var(--mc-deep, #6b1d43); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mc, #ff6b9d) 40%, white); }
+.t-bday.today .bd-ics { background: rgba(255, 255, 255, 0.92); }
 .t-bday.today { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); }
 .t-bday.today .big, .t-bday.today .sub, .t-bday.today .lbl { color: #fff; }
 .swatch { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 6px 0 0; background: none; text-align: left; cursor: copy; }
