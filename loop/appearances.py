@@ -57,6 +57,12 @@ SCAN_Q = ['CUTIE STREET', 'きゅーすと', 'キューティーストリート'
 # clip/re-upload/news-summary channels seen before — never official
 # Channels already reviewed and found NOT official (fan reaction / summary / subtitle / clip) — names, exact
 NOT_OFFICIAL = {'時彩堂ジャパン', 'J-Pop Junction', 'Japan Sports 24', 'きゅーてすとの集い', '音楽の今', 'Zen Pop Media', '𝐓𝐎𝐊𝐘𝐎 𝐓𝐑𝐄𝐍𝐃 𝐋𝐈𝐕𝐄', '𝙏𝙤𝙠𝙮𝙤 𝘽𝙪𝙡𝙡𝙚𝙩𝙞𝙣', '𝐚𝐢', '이루카', 'ジュールのモジュール', '쇼쇼쇼'}
+# compare channel names loosely: YouTube search shows some with leading flags/spaces (' J-Pop Junction', '🇯🇵 Japan Sports 24 ') — #210
+def chan_key(name):
+    import unicodedata
+    n = unicodedata.normalize('NFKC', name)
+    return ''.join(c for c in n if c.isalnum()).lower()
+NOT_OFFICIAL_KEYS = {chan_key(n) for n in NOT_OFFICIAL}
 SKIP_CH = re.compile(r'切り抜き|切抜|まとめ|推し|ファン|fan|clip|Voice|News|Nipponixia|JPS|Shaheen|ARI Green|Info|Trend|直캠|직캠러|cam$', re.I)
 
 
@@ -119,7 +125,7 @@ def scan(days):
             if vid in have or cid in OWN or vid in seen: continue
             n = re.match(r'(\d+)\s*(秒|分|時間|日)', pub)
             if not n or (n.group(2) == '日' and int(n.group(1)) > days): continue
-            seen[vid] = (pub, ch, title, bool(SKIP_CH.search(ch)) or ch in NOT_OFFICIAL)
+            seen[vid] = (pub, ch, title, bool(SKIP_CH.search(ch)) or chan_key(ch) in NOT_OFFICIAL_KEYS)
         time.sleep(0.4)
     keep = [(k, v) for k, v in seen.items() if not v[3]]
     keep.sort(key=lambda kv: kv[1][1] not in known)  # channels we already archive from first
