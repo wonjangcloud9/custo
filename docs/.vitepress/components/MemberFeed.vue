@@ -262,7 +262,7 @@ onMounted(() => {
 @keyframes pulse { 40% { transform: scale(1.35); } }
 .yt { font-size: 13px; font-weight: 700; color: var(--ink) !important; }
 .pos { margin-left: auto; font-size: 12px; color: #735779; font-variant-numeric: tabular-nums; }
-.lb-cap { margin: 0 !important; padding: 8px 14px 16px; font-size: 13.5px; line-height: 1.6 !important; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; }
+.lb-cap { margin: 0 !important; padding: 8px 14px 16px; font-size: 13.5px; line-height: 1.6 !important; font-family: var(--cs-sans); }
 
 @media (max-width: 640px) {
   .feed { border-radius: 22px; }

@@ -101,7 +101,7 @@ onBeforeUnmount(() => clearInterval(timer))
 .glow { position: absolute; left: 50%; top: -22px; width: 64px; height: 110px; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, var(--c), transparent); opacity: 0.95; filter: blur(8px); mix-blend-mode: screen; transition: background 0.5s; }
 .grip { position: absolute; left: 0; right: 0; bottom: 0; height: 26px; border-radius: 3px 3px 6px 6px; background: #241830; box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15); }
 .caption { position: absolute; left: 22px; top: 18px; display: flex; flex-direction: column; color: #fff; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); }
-.caption b { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; }
+.caption b { font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 22px; }
 .caption small { font-size: 12px; opacity: 0.8; font-family: ui-monospace, monospace; }
 
 .pick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }

@@ -467,7 +467,7 @@ onBeforeUnmount(() => cleanup?.())
 .alt-chip { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; font-variant-numeric: tabular-nums; }
 .date { font-size: 13px; font-weight: 700; color: #735779; font-variant-numeric: tabular-nums; }
 .no { margin-left: auto; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; color: #7d6083; }
-.ja { margin: 14px 0 2px; border: 0; padding: 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: clamp(24px, 3.2vw, 32px); line-height: 1.25; color: color-mix(in srgb, var(--mc) 60%, #3a2340); }
+.ja { margin: 14px 0 2px; border: 0; padding: 0; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: clamp(24px, 3.2vw, 32px); line-height: 1.25; color: color-mix(in srgb, var(--mc) 60%, #3a2340); }
 .ko { margin: 0; font-weight: 700; font-size: 15px; }
 .desc { margin: 10px 0 0; font-size: 14.5px; line-height: 1.75; color: #5a4060; }
 .vid { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 8px; border-radius: 16px; background: color-mix(in srgb, var(--mc) 12%, white); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.5s var(--spring); }

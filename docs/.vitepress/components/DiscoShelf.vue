@@ -199,7 +199,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .hero-title { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(40px, 6vw, 64px) !important; line-height: 1 !important; }
 .hero-d { margin: 6px 0 0 !important; font-weight: 800; color: #c2185b; font-size: 18px; min-height: 1.5em; }
 .tracks { columns: 2; column-gap: 18px; margin: 14px 0 0 !important; padding: 0 !important; list-style: none; }
-.tracks li { break-inside: avoid; display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin: 0 0 6px !important; font-family: 'Noto Sans JP', sans-serif; }
+.tracks li { break-inside: avoid; display: flex; gap: 8px; align-items: baseline; font-size: 13px; margin: 0 0 6px !important; font-family: var(--cs-sans); }
 .tn { font-size: 11px; font-weight: 800; color: color-mix(in srgb, var(--tc) 45%, #2a1030); font-variant-numeric: tabular-nums; } /* raw member colours were 1.3–2.9:1 on the light card */
 .tracks a { color: var(--ink) !important; text-decoration: none !important; border-bottom: 2px solid color-mix(in srgb, var(--tc) 50%, transparent); }
 .tracks a small { font-size: 10px; color: color-mix(in srgb, var(--tc) 45%, #2a1030); font-weight: 800; }
@@ -233,7 +233,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .rec:hover .disc, .rec:focus-visible .disc { transform: translateX(62px) rotate(200deg); }
 .rec:hover .sleeve, .rec:focus-visible .sleeve { transform: translateX(-8px) rotate(-3deg); }
 .meta { display: flex; flex-direction: column; gap: 2px; margin-top: 12px; padding-right: 8px; }
-.meta b { font-size: 13px; line-height: 1.35; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.meta b { font-size: 13px; line-height: 1.35; font-family: var(--cs-sans); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .meta small { font-size: 11.5px; color: #735779; }
 .shelf { padding-right: 70px; }
 
@@ -244,7 +244,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .dlg-card { background: #fff; border-radius: 22px; overflow: hidden; color: var(--ink); }
 .dlg-top { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: linear-gradient(120deg, color-mix(in srgb, var(--c1) 25%, white), color-mix(in srgb, var(--c2) 25%, white)); }
 .dlg-top .type { position: static; }
-.dlg-top b { font-size: 15px; font-family: 'Noto Sans JP', sans-serif; }
+.dlg-top b { font-size: 15px; font-family: var(--cs-sans); }
 .x { margin-left: auto; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.8); flex: none; }
 .dlg-media { aspect-ratio: 16 / 9; background: #12060f; }
 .dlg-media iframe { width: 100%; height: 100%; border: 0; display: block; }
@@ -267,7 +267,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .rel { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)); gap: 10px; }
 .rv { text-decoration: none !important; color: var(--ink) !important; font-size: 12px; line-height: 1.4; }
 .rv img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; display: block; margin-bottom: 4px; }
-.rv span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; }
+.rv span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: var(--cs-sans); }
 
 @media (max-width: 760px) {
   .hero { grid-template-columns: 1fr; padding: 20px; gap: 18px; }

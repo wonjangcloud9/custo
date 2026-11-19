@@ -301,7 +301,7 @@ function onKey(e: KeyboardEvent) {
 .kana { margin: 0; font-size: 15px; letter-spacing: 0.3em; color: #4a2f50; }
 .ja {
   margin: 4px 0 6px !important; padding: 0 !important; border: 0 !important;
-  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-weight: 700;
+  font-family: 'Zen Maru Gothic', var(--cs-sans); font-weight: 700;
   font-size: clamp(52px, 8vw, 96px) !important; line-height: 1.05 !important; letter-spacing: 0.02em;
 }
 .ja span {
@@ -377,7 +377,7 @@ function onKey(e: KeyboardEvent) {
 .lbl { font-size: 12px; font-weight: 700; color: #7d6083; letter-spacing: 0.04em; }
 .big { font-family: 'Zen Maru Gothic', sans-serif; font-size: 44px; line-height: 1.1; color: var(--mc-deep); font-variant-numeric: tabular-nums; }
 .big small { font-size: 18px; margin-left: 2px; }
-.mid { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px; color: var(--mc-deep); }
+.mid { font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 24px; color: var(--mc-deep); }
 .pin { display: inline-block; animation: bob 2s var(--spring) infinite; margin-right: 4px; }
 @keyframes bob { 0%, 70%, 100% { transform: translateY(0); } 35% { transform: translateY(-6px); } }
 .sub { font-size: 12.5px; color: #735779; }
@@ -429,7 +429,7 @@ function onKey(e: KeyboardEvent) {
 @keyframes wob { 50% { transform: rotate(-12deg) scale(1.12); } }
 .show-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .show-txt small { font-size: 11.5px; letter-spacing: 0.08em; opacity: 0.9; font-weight: 700; }
-.show-txt b { font-size: 17px; font-family: 'Noto Sans JP', sans-serif; }
+.show-txt b { font-size: 17px; font-family: var(--cs-sans); }
 .show-txt span { font-size: 13px; opacity: 0.95; }
 .show-dd { margin-left: auto; flex: none; font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; font-weight: 700; padding: 6px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.18); }
 .app { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 12px 18px; border-radius: 18px; text-decoration: none !important; color: #3a2340 !important;

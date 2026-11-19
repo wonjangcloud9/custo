@@ -144,10 +144,10 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .eyebrow { margin: 0 !important; font-size: 12px; font-weight: 800; letter-spacing: 0.22em; color: #a33366; }
 .dday { margin: 2px 0 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 40px; font-weight: 700; color: #c92f69; line-height: 1.1; }
 .now { margin: 4px 0 0 !important; font-size: 13px; color: #735779; }
-.now b { color: var(--ink); font-family: 'Noto Sans JP', sans-serif; }
+.now b { color: var(--ink); font-family: var(--cs-sans); }
 .eds { display: grid; gap: 6px; margin-top: 12px; }
 .ed { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; padding: 8px 12px; border-radius: 14px; background: #fff; border: 1.5px solid #f3dbe8; font-size: 13px; }
-.ed b { font-family: 'Noto Sans JP', sans-serif; }
+.ed b { font-family: var(--cs-sans); }
 .ed small { grid-column: 1 / -1; font-size: 11.5px; color: #735779; }
 .cta { display: inline-block; margin-top: 12px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff !important; font-weight: 700; font-size: 13px; text-decoration: none !important; }
 
@@ -157,7 +157,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .cl-track.on { transform: translateX(-6px) scale(1.015); border-color: var(--tc); box-shadow: 0 22px 40px -26px color-mix(in srgb, var(--tc) 90%, #000); }
 .no { font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px; font-weight: 700; line-height: 1; color: color-mix(in srgb, var(--tc) 60%, #2a1030); }
 .body { min-width: 0; }
-.body h3 { margin: 2px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Noto Sans JP', sans-serif; font-size: 18px !important; line-height: 1.35 !important; }
+.body h3 { margin: 2px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: var(--cs-sans); font-size: 18px !important; line-height: 1.35 !important; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .tag { font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #faf2f6; color: #5a4060; }
 .tag.mv { background: #3a2340; color: #fff; }

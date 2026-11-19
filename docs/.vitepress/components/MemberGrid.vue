@@ -51,7 +51,7 @@ import { members, onColor } from '../data/members'
 }
 .mg-card:hover .mg-face { transform: rotate(-8deg) scale(1.08); }
 .mg-info { position: relative; display: flex; flex-direction: column; gap: 2px; }
-.mg-ja { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; }
+.mg-ja { font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 22px; }
 .mg-ko { font-size: 14px; font-weight: 600; }
 .mg-meta { font-size: 11.5px; color: #735779; margin-top: 2px; }
 .mg-go {

@@ -53,6 +53,7 @@ async (page) => {
           if (hidden) continue
           while (a && a !== document.body) { const o = getComputedStyle(a).overflowX; if (/(auto|scroll)/.test(o)) { scroller = true; break } if (/(hidden|clip)/.test(o)) break; a = a.parentElement }
           if (scroller || !a || a === document.body) continue
+          { const cs = getComputedStyle(a); if (cs.textOverflow === 'ellipsis' || (cs.webkitLineClamp && cs.webkitLineClamp !== 'none')) continue } // deliberate '…' truncation
           const r = a.getBoundingClientRect()
           if (b.right > r.right + 2 || b.left < r.left - 2) cut.push(`${name(el)} in ${name(a)} +${Math.round(Math.max(b.right - r.right, r.left - b.left))}px "${el.textContent.trim().slice(0, 12)}"`)
         }

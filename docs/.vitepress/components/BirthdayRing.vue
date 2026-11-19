@@ -129,7 +129,7 @@ const focus = computed(() => dots.value.find((d) => d.m.id === hover.value) ?? n
 @keyframes pulse { 50% { filter: drop-shadow(0 0 10px var(--pc, #ff6b9d)); } }
 .kanji { fill: #fff; font-size: 15px; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; pointer-events: none; }
 .c-eyebrow { font-size: 10px; letter-spacing: 0.22em; font-weight: 800; fill: #c2457a; }
-.c-name { font-size: 20px; font-weight: 700; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; }
+.c-name { font-size: 20px; font-weight: 700; font-family: 'Zen Maru Gothic', var(--cs-sans); }
 .c-date { font-size: 13px; fill: #735779; font-weight: 600; }
 .c-dd { font-size: 24px; font-weight: 800; fill: #3a2340; font-family: 'Zen Maru Gothic', sans-serif; }
 .list { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; gap: 8px; }

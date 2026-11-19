@@ -178,7 +178,7 @@ const QUIZ = [
 .fact { display: flex; flex-direction: column; gap: 2px; padding: 16px 18px; border-radius: 20px; background: #fff; border: 1.5px solid #f6e0ea; animation: rise both linear; animation-timeline: view(); animation-range: entry 0% entry 50%; }
 .fact small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: #a33366; }
 .fact b { font-size: 19px; line-height: 1.3; word-break: keep-all; }
-.fact b:lang(ja) { font-family: 'Noto Sans JP', sans-serif; font-size: 16px; }
+.fact b:lang(ja) { font-family: var(--cs-sans); font-size: 16px; }
 .fact span { font-size: 12.5px; color: #5a4060; }
 @keyframes rise { from { opacity: 0; translate: 0 18px; } }
 .years { display: grid; gap: 28px; }

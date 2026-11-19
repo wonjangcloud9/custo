@@ -24,7 +24,7 @@ const short = (id: string) => memberById[id].ko.split(' ')[1]
 .mcoins { display: inline-flex; align-items: center; vertical-align: middle; }
 .mcoins small { margin-left: 6px; font-size: 11.5px; font-weight: 800; color: #4a2f50; white-space: nowrap; }
 /* overlapping coins; each tilts and lifts on hover, like a hand of cards */
-.wm { position: relative; display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; margin-left: -6px; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+.wm { position: relative; display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; margin-left: -6px; font-family: 'Zen Maru Gothic', var(--cs-sans);
   font-size: 13px; font-weight: 700; line-height: 1; background: var(--mc); color: var(--on) !important; text-decoration: none !important; box-shadow: 0 0 0 2px #fff;
   transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); z-index: calc(5 - var(--i)); }
 .wm:first-child { margin-left: 0; }

@@ -168,7 +168,7 @@ const resultLabel = computed(() => (ratio.value === 1 ? '만점! 진정한 큐�
 .best { font-size: 12px; font-weight: 800; color: var(--qd); padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--qa) 12%, white); }
 
 .q-no { margin: 16px 0 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 13px; font-weight: 900; letter-spacing: 0.12em; color: var(--qd); }
-.q-text { margin: 4px 0 16px !important; font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif; font-size: 18px; font-weight: 800; line-height: 1.5; }
+.q-text { margin: 4px 0 16px !important; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 18px; font-weight: 800; line-height: 1.5; }
 .opts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .opt {
   position: relative; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 14px 10px 10px; border-radius: 16px; text-align: left;
@@ -202,7 +202,7 @@ const resultLabel = computed(() => (ratio.value === 1 ? '만점! 진정한 큐�
 .ok, .no { margin: 0 !important; font-size: 15px; font-weight: 800; text-align: center; }
 .ok { color: #157a4c; }
 .no { color: #a52a3f; }
-.btn { padding: 10px 22px; border-radius: 999px; border: 0; background: var(--qd); color: #fff; font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif; font-size: 14.5px; font-weight: 800; cursor: pointer; transition: transform 0.4s var(--spring), box-shadow 0.3s; }
+.btn { padding: 10px 22px; border-radius: 999px; border: 0; background: var(--qd); color: #fff; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 14.5px; font-weight: 800; cursor: pointer; transition: transform 0.4s var(--spring), box-shadow 0.3s; }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -14px var(--qd); }
 .btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--qa) 55%, white); outline-offset: 3px; }
 

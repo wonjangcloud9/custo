@@ -134,19 +134,19 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
 .box { padding: 20px; border-radius: 24px; background: #fff; border: 1.5px solid #f3dbe8; margin-top: 0; }
 .road, .board { margin-top: 14px; }
 .box h3 { margin: 0 0 10px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px !important; }
-.box h3 small { font-size: 12px; color: #735779; font-family: 'Noto Sans KR', sans-serif; }
+.box h3 small { font-size: 12px; color: #735779; font-family: var(--cs-sans); }
 dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 14px; }
 dt { font-weight: 800; color: #a3122c; }
 dd { margin: 0; }
 .src { display: inline-block; margin-top: 10px; font-size: 12px; color: #735779 !important; }
 .quote { background: linear-gradient(160deg, #fff, color-mix(in srgb, var(--mc) 12%, white)); border-color: color-mix(in srgb, var(--mc) 30%, white); }
-.quote blockquote { margin: 0; padding: 0; border: 0; background: none; font-family: 'Noto Sans JP', sans-serif; font-size: 17px; font-weight: 700; line-height: 1.6; color: color-mix(in srgb, var(--mc) min(55%, var(--ink-mix, 100%)), #2a1030); }
+.quote blockquote { margin: 0; padding: 0; border: 0; background: none; font-family: var(--cs-sans); font-size: 17px; font-weight: 700; line-height: 1.6; color: color-mix(in srgb, var(--mc) min(55%, var(--ink-mix, 100%)), #2a1030); }
 .tr { margin: 8px 0 0 !important; font-size: 14px; color: #5a4060; }
 figcaption { margin-top: 8px; font-size: 12.5px; color: #735779; }
 .road ol { list-style: none; padding: 0 !important; margin: 0 !important; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .road li { margin: 0 !important; padding: 12px; border-radius: 16px; background: color-mix(in srgb, var(--mc) 10%, white); border-top: 4px solid var(--mc); display: flex; flex-direction: column; gap: 2px; }
 .road li span { font-size: 11px; font-weight: 800; color: #735779; font-variant-numeric: tabular-nums; }
-.road li b { font-size: 13.5px; font-family: 'Noto Sans JP', sans-serif; }
+.road li b { font-size: 13.5px; font-family: var(--cs-sans); }
 .road li small { font-size: 12px; color: #5a4060; }
 .more { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; color: #a33366 !important; }
 .add { display: flex; gap: 8px; flex-wrap: wrap; }

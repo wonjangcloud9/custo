@@ -38,6 +38,6 @@ const balloons = Array.from({ length: 7 }, (_, i) => ({ x: 6 + i * 14, d: (i % 4
 @keyframes rise { 0% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-160px) rotate(4deg); } 100% { transform: translateY(-340px) rotate(-3deg); opacity: 0; } }
 .hb { position: relative; margin: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: clamp(30px, 6vw, 54px); letter-spacing: 0.08em; text-shadow: 0 4px 20px rgba(40, 10, 40, 0.35); }
 .who { position: relative; margin: 6px 0 0 !important; font-size: 17px; font-weight: 700; }
-.say { position: relative; margin: 4px 0 0 !important; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; opacity: 0.95; }
+.say { position: relative; margin: 4px 0 0 !important; font-family: var(--cs-sans); font-size: 14px; opacity: 0.95; }
 @media (prefers-reduced-motion: reduce) { .bl { animation: none; display: none; } .rb-emoji { animation: none; } }
 </style>

@@ -100,7 +100,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .tg-v { flex: none; width: 200px; scroll-snap-align: start; color: var(--ink) !important; text-decoration: none !important; font-size: 12px; line-height: 1.4; animation: pop 0.5s var(--spring) both; }
 @keyframes pop { from { opacity: 0; transform: scale(0.85); } }
 .tg-v img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; display: block; margin-bottom: 4px; }
-.tg-v span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: 'Noto Sans JP', sans-serif; }
+.tg-v span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: var(--cs-sans); }
 
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 22px; }
 .card { position: relative; padding: 22px; border-radius: 28px; background-color: #fff; border: 1.5px solid #f3e0ea; transition: transform 0.6s var(--spring), opacity 0.3s, filter 0.3s, box-shadow 0.3s; }
@@ -115,10 +115,10 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
 .card:hover .av { margin-left: 6px; }
 .card:hover .av:first-child { margin-left: 0; }
 .av:hover { transform: translateY(-6px) rotate(-10deg); }
-.u-ja { margin: 14px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px !important; }
+.u-ja { margin: 14px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 24px !important; }
 .u-ko { margin: 2px 0 0 !important; font-size: 13px; font-weight: 700; color: #3f2645; }
 .u-names { margin: 6px 0 0 !important; font-size: 13px; color: #3f2645; } /* the cards' colour blobs went down to 2.6:1 under #6a4a70 */
-.song { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-weight: 700; font-family: 'Noto Sans JP', sans-serif; }
+.song { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-weight: 700; font-family: var(--cs-sans); }
 .mv { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: #3a2340; color: #fff !important; text-decoration: none !important; }
 .vids { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .vids a { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); color: var(--ink) !important; text-decoration: none !important; transition: transform 0.4s var(--spring); }

@@ -212,7 +212,7 @@ async function drawAndDeliver() {
 .card.flipped .front-f { transform: rotateY(0); }
 .r-eyebrow { margin: 0 !important; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: #c2457a; }
 .r-kanji { flex: none; width: 130px; height: 130px; margin: 12px 0; border-radius: 50%; display: grid; place-items: center; background: var(--mc); color: var(--on-mc, #fff); font-size: 70px; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; box-shadow: 0 16px 30px -12px var(--mc); }
-.r-name { margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 38px !important; color: color-mix(in srgb, var(--mc) min(60%, calc(var(--ink-mix, 100%) - 6%)), #3a2340); } /* ink cap (#115) minus 6%: the face is tinted, so ≥4.5:1 even where it is darkest (#180) */
+.r-name { margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 38px !important; color: color-mix(in srgb, var(--mc) min(60%, calc(var(--ink-mix, 100%) - 6%)), #3a2340); } /* ink cap (#115) minus 6%: the face is tinted, so ≥4.5:1 even where it is darkest (#180) */
 .r-ko { margin: 4px 0 0 !important; font-weight: 700; }
 .why { list-style: none; padding: 0 !important; margin: 12px 0 0 !important; font-size: 13.5px; color: #5a4060; }
 .why li { margin: 2px 0 !important; }

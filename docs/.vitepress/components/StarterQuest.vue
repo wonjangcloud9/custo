@@ -158,7 +158,7 @@ onMounted(() => {
 .th { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #fbe9f1; }
 .th img { width: 100%; height: 100%; object-fit: cover; }
 .th i { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; font-size: 28px; color: #fff; background: rgba(19, 134, 106, 0.65); }
-.vid b { font-size: 13px; line-height: 1.35; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; }
+.vid b { font-size: 13px; line-height: 1.35; font-family: var(--cs-sans); }
 .vid small { font-size: 11.5px; color: #735779; }
 .mem { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
 .mem a { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border-radius: 16px; background: color-mix(in srgb, var(--mc) 10%, white); text-decoration: none !important; color: var(--ink) !important; transition: transform 0.45s var(--spring); }
@@ -174,7 +174,7 @@ onMounted(() => {
 .ev { list-style: none; padding: 0 !important; margin: 12px 0 0 !important; display: grid; gap: 6px; }
 .ev li { margin: 0 !important; display: flex; gap: 10px; align-items: baseline; font-size: 14px; }
 .ev span { flex: none; font-weight: 800; color: #a33366; font-variant-numeric: tabular-nums; }
-.ev b { font-weight: 600; font-family: 'Noto Sans JP', sans-serif; }
+.ev b { font-weight: 600; font-family: var(--cs-sans); }
 .deep { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .deep a { padding: 9px 14px; border-radius: 999px; background: #faf3f7; color: var(--ink) !important; font-size: 13.5px; font-weight: 700; text-decoration: none !important; transition: transform 0.45s var(--spring); }
 .deep a:hover { transform: translateY(-2px) rotate(-1deg); }

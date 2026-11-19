@@ -37,7 +37,9 @@ export default defineConfig({
     ['meta', { name: 'apple-mobile-web-app-title', content: 'Custo' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Zen+Maru+Gothic:wght@500;700&display=swap', rel: 'stylesheet' }],
+    // body text uses the system's own Korean/Japanese fonts; only the rounded display face is a web font (#212: Noto KR+JP
+    // were ~1.4 MB of woff2 subsets on the home page)
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap', rel: 'stylesheet' }],
     ['meta', { name: 'keywords', content: '큐티스트리트, 큐스트, CUTIE STREET, キューティーストリート, きゅーすと, KAWAII LAB, 팬사이트, 멤버, 스케줄, MV, 紅白, 큐스트 한국' }],
     ['meta', { name: 'theme-color', content: '#FF6B9D' }],
     // light-only design (appearance: false): ask browsers not to auto-darken it (Chrome/Samsung forced dark) — 'only' opts out

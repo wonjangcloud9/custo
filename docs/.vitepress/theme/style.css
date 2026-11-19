@@ -27,13 +27,19 @@
 }
 
 /* ── Typography ── */
+:root {
+  /* system fonts for body text (#212): Apple SD Gothic Neo / Hiragino on Apple, Malgun / Yu Gothic on Windows, Noto CJK on
+     Android — system-ui picks the Korean or Japanese face from the element's lang (Japanese runs carry lang="ja") */
+  --cs-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', sans-serif;
+  --vp-font-family-base: var(--cs-sans);
+}
 body {
-  font-family: 'Noto Sans KR', 'Noto Sans JP', sans-serif;
+  font-family: var(--cs-sans);
   background-color: var(--custo-cream);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
+  font-family: 'Zen Maru Gothic', var(--cs-sans);
 }
 
 /* ── Hero Gradient ── */
@@ -162,7 +168,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .VPFooter .message {
-  font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
+  font-family: 'Zen Maru Gothic', var(--cs-sans);
   color: #7a3fb0;
   font-weight: 600;
 }
@@ -174,7 +180,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ── Prev/Next Footer ── */
 .VPDocFooter .pager-link .title {
-  font-family: 'Zen Maru Gothic', 'Noto Sans KR', sans-serif;
+  font-family: 'Zen Maru Gothic', var(--cs-sans);
   color: var(--vp-c-brand-1);
 }
 

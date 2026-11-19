@@ -416,7 +416,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
 .pill[data-cat='vlog'] { background: #e7f6fd; color: #12628a; }
 .pill[data-cat='mv'] { background: #f4ecff; color: #7a3fc4; }
 .ttl {
-  font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; font-size: 14.5px; line-height: 1.45; margin: 0; font-weight: 700;
+  font-family: var(--cs-sans); font-size: 14.5px; line-height: 1.45; margin: 0; font-weight: 700;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   border: 0; padding: 0;
 }

@@ -70,13 +70,13 @@ const vid = computed(() => s.value.videos[vi.value])
   box-shadow: 0 40px 70px -40px color-mix(in srgb, var(--g1) 70%, #2a1030); animation: pop 0.9s var(--spring) both; }
 @keyframes pop { from { opacity: 0; transform: scale(0.92) rotate(-2deg); } }
 .cv-brand { position: relative; z-index: 1; font-size: 13px; font-weight: 900; letter-spacing: 0.24em; color: rgba(255, 255, 255, 0.92); }
-.cv-title { position: relative; z-index: 1; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-weight: 900; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.12; color: #fff; text-shadow: 0 4px 24px rgba(42, 16, 48, 0.25); word-break: normal; overflow-wrap: anywhere; max-width: 92%; }
+.cv-title { position: relative; z-index: 1; font-family: 'Zen Maru Gothic', var(--cs-sans); font-weight: 900; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.12; color: #fff; text-shadow: 0 4px 24px rgba(42, 16, 48, 0.25); word-break: normal; overflow-wrap: anywhere; max-width: 92%; }
 .cv-disc { position: absolute; right: -18%; bottom: -18%; width: 70%; aspect-ratio: 1; border-radius: 50%;
   background: repeating-radial-gradient(circle, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px), radial-gradient(circle, #fff 0 9%, rgba(42, 16, 48, 0.55) 9.5% 30%, rgba(42, 16, 48, 0.35) 30% 100%);
   animation: spin 14s linear infinite; }
 @keyframes spin { to { rotate: 360deg; } }
 .eyebrow { margin: 0 !important; font-size: 12px; font-weight: 900; letter-spacing: 0.22em; color: #c92f69; }
-.meta h1 { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: clamp(26px, 3.4vw, 42px) !important; line-height: 1.2; word-break: normal; overflow-wrap: anywhere; }
+.meta h1 { margin: 6px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: clamp(26px, 3.4vw, 42px) !important; line-height: 1.2; word-break: normal; overflow-wrap: anywhere; }
 .read { margin: 8px 0 0 !important; font-size: 15px; color: #5a4060; }
 .read b { color: var(--ink); }
 .tagline { margin: 4px 0 0 !important; font-size: 15px; color: #6a4f70; }

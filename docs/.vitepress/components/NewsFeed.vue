@@ -111,7 +111,7 @@ const fmt = (d: string) => d.slice(5).replace('-', '.')
 .tag { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--tc) 12%, white); color: color-mix(in srgb, var(--tc) 82%, #2a1030); }
 .new { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; padding: 3px 7px; border-radius: 6px; color: #fff; background: #c42235; }
 .item h3 { margin: 8px 0 0 !important; padding: 0 !important; border: 0 !important; font-size: 16px !important; line-height: 1.45 !important; }
-.ja { margin: 6px 0 0 !important; font-size: 13px; color: #735779; font-family: 'Noto Sans JP', sans-serif; line-height: 1.6 !important; }
+.ja { margin: 6px 0 0 !important; font-size: 13px; color: #735779; font-family: var(--cs-sans); line-height: 1.6 !important; }
 .acts { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .acts a { font-size: 12px; font-weight: 700; padding: 6px 11px; border-radius: 999px; background: #faf3f7; color: #3a2340 !important; text-decoration: none !important; }
 .src { margin-top: 24px !important; font-size: 12px; color: #735779; }

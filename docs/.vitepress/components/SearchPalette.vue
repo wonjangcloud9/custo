@@ -130,7 +130,7 @@ onMounted(() => { isMac.value = /Mac|iPhone|iPad/.test(navigator.platform || nav
 .sp-item.on { background: #fff0f6; }
 .sp-ic { flex: none; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: #f6eef3; font-size: 14px; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .sp-txt { display: flex; flex-direction: column; min-width: 0; }
-.sp-txt b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif; }
+.sp-txt b { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--cs-sans); }
 .sp-txt small { font-size: 12px; color: #735779; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sp-ext { margin-left: auto; color: #7d6083; }
 .sp-empty { text-align: center; padding: 30px 0; color: #735779; }

@@ -315,8 +315,8 @@ function cleanTitle(t: string) {
 @keyframes chHue { 0%, 85%, 100% { color: var(--ink); } 90% { color: var(--c); } }
 .globe { display: inline-block; font-size: 0.7em; margin-left: 0.12em; vertical-align: 0.1em; animation: spin 8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 22px; font-weight: 700; color: #ad2f68; }
-.tag-ja span { display: block; font-size: 14px; font-weight: 400; color: #735779; margin-top: 6px; font-family: 'Noto Sans JP', sans-serif; }
+.tag-ja { margin: 22px 0 0; font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 22px; font-weight: 700; color: #ad2f68; }
+.tag-ja span { display: block; font-size: 14px; font-weight: 400; color: #735779; margin-top: 6px; font-family: var(--cs-sans); }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 999px; font-weight: 700; font-size: 15px;
@@ -360,7 +360,7 @@ function cleanTitle(t: string) {
 }
 .sat { text-decoration: none !important; border-radius: 50%; }
 .sat:hover i, .sat:focus-visible i { scale: 1.22; box-shadow: 0 14px 28px -8px var(--mc), 0 0 0 4px #fff, inset 0 -4px 0 rgba(0, 0, 0, 0.08); }
-.sat-tip { position: absolute; left: 50%; top: calc(100% + 6px); translate: -50% 4px; white-space: nowrap; font-size: 10px; font-family: 'Noto Sans KR', sans-serif; font-weight: 800; padding: 3px 9px; border-radius: 999px;
+.sat-tip { position: absolute; left: 50%; top: calc(100% + 6px); translate: -50% 4px; white-space: nowrap; font-size: 10px; font-family: var(--cs-sans); font-weight: 800; padding: 3px 9px; border-radius: 999px;
   background: #3a2340; color: #fff; opacity: 0; pointer-events: none; transition: opacity 0.2s, translate 0.35s var(--spring); }
 .sat:hover .sat-tip, .sat:focus-visible .sat-tip { opacity: 1; translate: -50% 0; }
 
@@ -382,7 +382,7 @@ function cleanTitle(t: string) {
 }
 .cd-card > * { position: relative; z-index: 1; }
 .cd-emoji { font-size: 22px; }
-.cd-label { font-family: 'Noto Sans JP', sans-serif; font-weight: 700; font-size: 14px; margin-top: 6px; }
+.cd-label { font-family: var(--cs-sans); font-weight: 700; font-size: 14px; margin-top: 6px; }
 .cd-ko { font-size: 12px; opacity: 0.7; }
 .cd-d { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 36px; margin-top: 8px; font-variant-numeric: tabular-nums; color: #e8558a; }
 .next .cd-d { color: #ffb3cf; }
@@ -442,7 +442,7 @@ function cleanTitle(t: string) {
 .otd-card:hover .otd-th { filter: none; }
 .otd-th img { width: 100%; height: 100%; object-fit: cover; }
 .otd-th b { position: absolute; left: 8px; top: 8px; font-size: 11px; padding: 3px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.92); color: #a33366; }
-.otd-t { font-size: 13px; font-weight: 600; line-height: 1.4; font-family: 'Noto Sans JP', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.otd-t { font-size: 13px; font-weight: 600; line-height: 1.4; font-family: var(--cs-sans); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .otd-card small { font-size: 12px; color: #735779; }
 
 /* ACCORDION */
@@ -465,7 +465,7 @@ function cleanTitle(t: string) {
 .acc-item:hover .acc-kanji { font-size: 150px; left: 18px; translate: 0 0; }
 .acc-body { padding: 18px; display: flex; flex-direction: column; gap: 2px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.3s, transform 0.5s var(--spring), visibility 0s 0.3s; white-space: nowrap; } /* visibility too: a faint ghost of the name stayed on collapsed cards (#205) */
 .acc-body { text-shadow: 0 1px 10px rgba(40, 10, 40, 0.45); flex: 1; background: linear-gradient(to top, rgba(42, 16, 48, 0.62), rgba(42, 16, 48, 0)); } /* scrim under the white name: Risa's open card read 2.6:1 on desktop (#205) */
-.acc-body b { font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; font-size: 24px; }
+.acc-body b { font-family: 'Zen Maru Gothic', var(--cs-sans); font-size: 24px; }
 .acc-body span { font-size: 13px; font-weight: 600; opacity: 0.9; }
 .acc-item:hover .acc-body, .acc-item:focus-visible .acc-body { opacity: 1; visibility: visible; transform: none; transition-delay: 0.15s, 0.15s, 0s; }
 
@@ -477,7 +477,7 @@ function cleanTitle(t: string) {
 .rv:hover img { transform: scale(1.07); }
 .rv-new { position: absolute; left: 6px; top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 6px; color: #fff; background: linear-gradient(135deg, #ff4757, #ff9f43); }
 .rv-dur { position: absolute; right: 6px; bottom: 6px; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; background: rgba(30, 10, 30, 0.72); color: #fff; }
-.rv-ttl { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 13.5px; font-weight: 600; line-height: 1.45; font-family: 'Noto Sans JP', sans-serif; }
+.rv-ttl { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 13.5px; font-weight: 600; line-height: 1.45; font-family: var(--cs-sans); }
 .rv-date { font-size: 12px; color: #735779; }
 
 /* BENTO */

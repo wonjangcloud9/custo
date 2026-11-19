@@ -119,7 +119,7 @@ onMounted(async () => {
 .pola-img:hover .play { transform: scale(1.15); }
 figcaption { display: flex; flex-direction: column; gap: 2px; padding: 14px 4px 0; }
 figcaption b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px; color: color-mix(in srgb, var(--mc) min(65%, var(--ink-mix, 100%)), #2a1030); }
-figcaption small { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #735779; }
+figcaption small { font-family: var(--cs-sans); font-size: 13px; color: #735779; }
 .pola-act { display: flex; gap: 8px; margin-top: 12px; padding: 0 4px; flex-wrap: wrap; }
 .pola-act a, .pola-act button { font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; text-decoration: none !important; transition: transform 0.45s var(--spring); }
 .pola-act a { background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff !important; }
