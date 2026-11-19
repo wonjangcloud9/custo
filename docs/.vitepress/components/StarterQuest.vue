@@ -63,7 +63,7 @@ onMounted(() => {
         <ul class="facts">
           <li>💖 아소비시스템의 아이돌 프로젝트 <b>KAWAII LAB.</b>에서 탄생한 <b>8인조</b> (2024년 8월 TIF에서 데뷔)</li>
           <li>🌏 콘셉트는 <b>“KAWAII MAKER”</b> — 하라주쿠에서 세계로 KAWAII를 전하는 그룹</li>
-          <li>🏆 데뷔곡이 신드롬이 되어 <b>레코드대상 신인상</b>, 2026년 <b>부도칸·아레나 투어</b>, 그리고 <b>紅白 첫 출장</b>까지</li>
+          <li>🏆 데뷔곡이 신드롬이 되어 <b>레코드대상 신인상</b>, 2026년 <b>부도칸·아레나 투어</b>, 그리고 <b>紅白 첫 출장</b>까지 — 12월 2일엔 첫 정규 앨범 <b lang="ja">「CUTIE LAND」</b></li>
         </ul>
         <a class="link" :href="withBase('/journey/')">🗻 3D로 보는 정상까지의 여정 →</a>
       </li>
@@ -107,12 +107,14 @@ onMounted(() => {
       <li class="step" :class="{ ok: done.has('deeper') }">
         <header><span class="n">6</span><h3>더 깊이 빠져들기</h3><button type="button" class="chk" :aria-pressed="done.has('deeper')" @click="toggle('deeper')">{{ done.has('deeper') ? '✓ 완료' : '둘러봤어요' }}</button></header>
         <div class="deep">
+          <a :href="withBase('/kohaku/')">🎍 紅白 특집</a>
           <a :href="withBase('/videos/')">🎬 영상 아카이브</a>
           <a :href="withBase('/cutie-land/')">💿 CUTIE LAND</a>
           <a :href="withBase('/units/')">💞 유닛 & 케미</a>
           <a :href="withBase('/live-guide/')">🔦 펜라이트 가이드</a>
           <a :href="withBase('/korea/')">🇰🇷 큐스트 in KOREA</a>
           <a :href="withBase('/news/')">📰 공식 소식</a>
+          <a :href="withBase('/mv-quiz/')">🎯 MV 장면 퀴즈</a>
         </div>
       </li>
     </ol>
@@ -142,7 +144,7 @@ onMounted(() => {
 .step:not(:first-child) header { padding-right: 0; }
 .n { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: #c92f69; font-family: 'Zen Maru Gothic', sans-serif; transition: background 0.3s, transform 0.5s var(--spring); }
 .step.ok .n { background: #13866a; transform: rotate(-10deg) scale(1.05); }
-.step h3 { flex: 1; margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px !important; }
+.step h3 { flex: 1; margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px !important; word-break: keep-all; overflow-wrap: anywhere; } /* break Korean between words, not inside them */
 .chk { flex: none; padding: 7px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; background: #faf2f6; color: var(--ink); border: 1.5px solid #f1dce7; transition: transform 0.45s var(--spring), background 0.2s; }
 .chk[aria-pressed='true'] { background: #13866a; color: #fff; border-color: #13866a; }
 .chk:active { transform: scale(0.9); }
@@ -182,6 +184,10 @@ onMounted(() => {
   .step { padding: 16px; }
   .step header { flex-wrap: wrap; padding-right: 76px; }
   .step:not(:first-child) header { padding-right: 0; }
+  /* phones: title takes the rest of the first line (next to the number), the check button drops below it — the
+     sticky progress ring leaves the first card too narrow to fit all three on one line */
+  .step h3 { flex: 1 1 calc(100% - 48px); }
+  .step .chk { margin-left: 44px; }
   .mem { grid-template-columns: repeat(2, 1fr); }
   .vids { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .badge { margin-right: 84px !important; }
