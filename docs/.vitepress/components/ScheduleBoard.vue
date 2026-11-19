@@ -26,7 +26,7 @@ const shared = ref<'' | 'copied' | 'shared' | 'failed'>('')
 async function shareMine() {
   const list = upcomingFiltered.value
   const lines = list.map((e) => `${+e.date.slice(5, 7)}/${+e.date.slice(8)}(${wd(e.date)})${e.time ? ' ' + e.time : ''} ${e.ja}`)
-  const text = `✋ 나의 큐스트 일정 ${list.length}개\n${lines.join('\n')}`
+  const text = `♡ 나의 큐스트 일정 ${list.length}개\n${lines.join('\n')}`
   const url = location.origin + withBase('/schedule/')
   if (navigator.share && matchMedia('(pointer: coarse)').matches) {
     try { await navigator.share({ title: '나의 큐스트 일정', text, url }); shared.value = 'shared'; setTimeout(() => (shared.value = ''), 1800); return } catch (e) { if ((e as Error).name === 'AbortError') return }
@@ -196,9 +196,9 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
   <section class="sb">
     <!-- NEXT UP -->
     <a v-if="next" class="next" :href="next.url" target="_blank" rel="noopener" :style="{ '--cc': catMeta[next.cat].color }">
-      <span class="next-eyebrow"><span class="dot" /> NEXT UP · {{ catMeta[next.cat].emoji }} {{ catMeta[next.cat].ko }}</span>
+      <span class="next-eyebrow"><span class="dot" /> NEXT UP · <Ico :n="catMeta[next.cat].ico" duo size="13" /> {{ catMeta[next.cat].ko }}</span>
       <b class="next-title" :lang="jaLang(next.ja)">{{ next.ja }}</b>
-      <span class="next-ko">{{ next.ko }}<template v-if="next.venue"> · 📍 {{ next.venue }}</template></span>
+      <span class="next-ko">{{ next.ko }}<template v-if="next.venue"> · <Ico n="pin" duo size="13" /> {{ next.venue }}</template></span>
       <span v-if="cd" class="clock" aria-live="off">
         <span><b>{{ cd.d }}</b><small>DAYS</small></span>
         <span><b>{{ pad(cd.h) }}</b><small>HRS</small></span>
@@ -214,13 +214,13 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
       <div class="chips" role="toolbar" aria-label="카테고리">
         <button type="button" class="chip" :aria-pressed="cat === 'all'" @click="cat = 'all'">전체 <small>{{ counts.all }}</small></button>
         <button v-for="(m, k) in catMeta" :key="k" type="button" class="chip" :aria-pressed="cat === k" :style="{ '--cc': m.color }"
-          @click="cat = k as EventCat">{{ m.emoji }} {{ m.ko }} <small>{{ counts[k] || 0 }}</small></button>
-        <button v-if="goingCount" type="button" class="chip mine" :aria-pressed="mineOnly" @click="mineOnly = !mineOnly">✋ 내 일정 <small>{{ goingCount }}</small></button>
+          @click="cat = k as EventCat"><Ico :n="m.ico" duo size="14" /> {{ m.ko }} <small>{{ counts[k] || 0 }}</small></button>
+        <button v-if="goingCount" type="button" class="chip mine" :aria-pressed="mineOnly" @click="mineOnly = !mineOnly"><Ico n="bookmark" duo size="14" /> 내 일정 <small>{{ goingCount }}</small></button>
       </div>
       <label v-if="view === 'list'" class="past"><input v-model="showPast" type="checkbox" /> 지난 일정 {{ pastCount }}개 보기</label>
       <div class="seg" role="group" aria-label="보기 방식">
-        <button type="button" :aria-pressed="view === 'list'" @click="view = 'list'">☰ 목록</button>
-        <button type="button" :aria-pressed="view === 'cal'" @click="view = 'cal'">▦ 달력</button>
+        <button type="button" :aria-pressed="view === 'list'" @click="view = 'list'"><Ico n="list" size="14" /> 목록</button>
+        <button type="button" :aria-pressed="view === 'cal'" @click="view = 'cal'"><Ico n="grid" duo size="14" /> 달력</button>
       </div>
       <nav v-if="view === 'list' && months.length > 1" class="mjump" aria-label="월 바로가기">
         <button v-for="(mo, i) in months" :key="mo.key" type="button" :class="{ on: activeMo === mo.key }" :aria-current="activeMo === mo.key ? 'true' : undefined" @click="jumpMo(mo.key)">
@@ -242,15 +242,15 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
           :class="{ blank: !c.date, has: c.items.length, today: c.date === todayStr, sel: c.date === selDay, past: c.date && c.date < todayStr }"
           :aria-label="c.date ? `${c.d}일 일정 ${c.items.length}개${c.items.some(isGoing) ? ' · 내 일정 있음' : ''}` : undefined" @click="selDay = c.date === selDay ? '' : (c.date || '')">
           <span v-if="c.date" class="dn">{{ c.d }}</span>
-          <span v-if="c.items.some(isGoing)" class="mine-dot" aria-hidden="true">💖</span>
+          <span v-if="c.items.some(isGoing)" class="mine-dot" aria-hidden="true"><Ico n="heart" duo size="11" /></span>
           <span class="pips"><i v-for="e in c.items.slice(0, 4)" :key="e.ja" :style="{ background: e.member ? memberById[e.member].color : catMeta[e.cat].color }" /></span>
-          <span v-if="c.items.length" class="first">{{ catMeta[c.items[0].cat].emoji }} {{ c.items[0].ko }}</span>
+          <span v-if="c.items.length" class="first"><Ico :n="catMeta[c.items[0].cat].ico" duo size="12" /> {{ c.items[0].ko }}</span>
         </button>
       </div>
       <div v-if="selItems.length" class="sel-list">
         <a v-for="e in selItems" :key="e.ja + e.date" :href="e.url" target="_blank" rel="noopener" :style="{ '--cc': e.member ? memberById[e.member].color : catMeta[e.cat].color }">
-          <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span><span v-if="isGoing(e)" class="pill mine-pill">💖 내 일정</span><b lang="ja">{{ e.ja }}</b>
-          <small>{{ e.ko }}<template v-if="e.time"> · {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</template><template v-if="e.venue"> · 📍 {{ e.venue }}</template></small>
+          <span class="pill"><Ico :n="catMeta[e.cat].ico" duo size="13" /> {{ catMeta[e.cat].ko }}</span><span v-if="isGoing(e)" class="pill mine-pill"><Ico n="heart" duo size="13" /> 내 일정</span><b lang="ja">{{ e.ja }}</b>
+          <small>{{ e.ko }}<template v-if="e.time"> · {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</template><template v-if="e.venue"> · <Ico n="pin" duo size="12" /> {{ e.venue }}</template></small>
         </a>
       </div>
       <p v-else class="cal-hint">점이 있는 날짜를 눌러 일정을 확인하세요</p>
@@ -258,10 +258,10 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 
     <div v-if="view === 'list' && (upcomingFiltered.length > 1 || (mineOnly && upcomingFiltered.length))" class="ics-all-row">
       <button v-if="mineOnly" type="button" class="share-mine" :class="{ done: shared === 'copied' || shared === 'shared' }" @click="shareMine">
-        {{ shared === 'copied' ? '✓ 목록 복사됨' : shared === 'shared' ? '✓ 공유 완료' : shared === 'failed' ? '복사하지 못했어요' : '📤 내 일정 공유' }}
+        <Ico v-if="!shared" n="share" size="15" /> {{ shared === 'copied' ? '✓ 목록 복사됨' : shared === 'shared' ? '✓ 공유 완료' : shared === 'failed' ? '복사하지 못했어요' : '내 일정 공유' }}
       </button>
-      <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)">📅 {{ mineOnly ? '내 일정' : '다가오는 일정' }} {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
-      <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요 · 🔔 하루 전·1시간 전 알림 포함 (종일 일정은 전날 오전 9시){{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
+      <button type="button" class="ics-all" @click="downloadIcs(upcomingFiltered)"><Ico n="calendar" duo size="16" /> {{ mineOnly ? '내 일정' : '다가오는 일정' }} {{ upcomingFiltered.length }}개 한 번에 캘린더에 넣기 (.ics)</button>
+      <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요 · 하루 전·1시간 전 알림 포함 (종일 일정은 전날 오전 9시){{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
     </div>
 
     <!-- TIMELINE -->
@@ -277,8 +277,8 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
             <article v-for="e in d.items" :key="e.ja + e.date" class="ev" :class="{ mine: isGoing(e) }"
               :style="{ '--cc': e.member ? memberById[e.member].color : catMeta[e.cat].color }">
               <div class="ev-top">
-                <span class="pill">{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</span>
-                <span v-if="e.member" class="bday">🎂 {{ memberById[e.member].ko }}</span>
+                <span class="pill"><Ico :n="catMeta[e.cat].ico" duo size="13" /> {{ catMeta[e.cat].ko }}</span>
+                <span v-if="e.member" class="bday"><Ico n="cake" duo size="13" /> {{ memberById[e.member].ko }}</span>
                 <!-- who's in it, when only some members are (鬼レンチャン, TGC …) — #210 -->
                 <MemberCoins v-if="e.with" :ids="e.with" link />
                 <span class="dd" :class="{ hot: ['TODAY', 'ON AIR', 'NOW'].includes(dLabel(e)), live: ['ON AIR', 'NOW'].includes(dLabel(e)) }">{{ dLabel(e) }}</span>
@@ -286,29 +286,29 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
               <h3 class="ev-ja" :lang="jaLang(e.ja)">{{ e.ja }}</h3>
               <p class="ev-ko">{{ e.ko }}</p>
               <p class="ev-meta">
-                <span v-if="e.time">🕕 {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</span>
-                <span v-if="e.venue">📍 <span :lang="jaLang(e.venue)">{{ e.venue }}</span></span>
+                <span v-if="e.time"><Ico n="clock" size="14" /> {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</span>
+                <span v-if="e.venue"><Ico n="pin" duo size="14" /> <span :lang="jaLang(e.venue)">{{ e.venue }}</span></span>
               </p>
               <div class="ev-act">
                 <a :href="e.url" target="_blank" rel="noopener">공식 상세 ↗</a>
                 <template v-if="isPast(e)">
-                  <a v-for="v in vidsFor(e).slice(0, 2)" :key="v.id" class="vid" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" :title="v.t">{{ v.other ? '📺' : '▶' }} {{ shortT(v.t) }}</a>
+                  <a v-for="v in vidsFor(e).slice(0, 2)" :key="v.id" class="vid" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" :title="v.t"><Ico :n="v.other ? 'tv' : 'play'" duo size="13" /> {{ shortT(v.t) }}</a>
                   <small v-if="vidsFor(e).length > 2" class="vid-more">+{{ vidsFor(e).length - 2 }}</small>
                 </template>
                 <template v-if="!isPast(e)">
                   <button type="button" class="go" :class="{ on: isGoing(e), pop: popKey === goingKey(e) }" :aria-pressed="isGoing(e)" @click="toggleGoing(e)">
-                    <span aria-hidden="true">{{ isGoing(e) ? '💖' : e.cat === 'tv' ? '📺' : '✋' }}</span> {{ e.cat === 'tv' ? '볼 거예요' : '갈 거예요' }}
+                    <Ico :n="isGoing(e) ? 'heart' : e.cat === 'tv' ? 'tv' : 'bookmark'" duo size="15" /> {{ e.cat === 'tv' ? '볼 거예요' : '갈 거예요' }}
                   </button>
-                  <button type="button" @click="downloadIcs(e)">📅 .ics</button>
+                  <button type="button" @click="downloadIcs(e)"><Ico n="calendar" duo size="14" /> .ics</button>
                   <a :href="googleCalUrl(e)" target="_blank" rel="noopener">Google 캘린더</a>
-                  <a v-if="e.cat === 'live'" class="prep" :href="withBase('/live-guide/')">🔦 라이브 준비</a>
+                  <a v-if="e.cat === 'live'" class="prep" :href="withBase('/live-guide/')"><Ico n="penlight" duo size="14" /> 라이브 준비</a>
                 </template>
               </div>
             </article>
           </div>
         </div>
       </section>
-      <p v-if="!months.length" class="empty">해당 조건의 일정이 없어요. 지난 일정 보기를 켜보세요 🗓️</p>
+      <p v-if="!months.length" class="empty">해당 조건의 일정이 없어요. 지난 일정 보기를 켜보세요.</p>
     </div>
     <p class="src">출처: <a href="https://cutiestreet.asobisystem.com/live_information/schedule/list" target="_blank" rel="noopener">CUTIE STREET 공식 스케줄</a> · 시간은 모두 일본 시간(JST, 한국과 동일). 변경될 수 있으니 공식 사이트를 꼭 확인하세요.</p>
   </section>

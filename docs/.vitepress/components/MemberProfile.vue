@@ -142,7 +142,7 @@ function onKey(e: KeyboardEvent) {
       </div>
 
       <div class="hero-text">
-        <p class="no">MEMBER {{ String(idx + 1).padStart(2, '0') }} / 08 · {{ m.emoji }} {{ m.colorName }}</p>
+        <p class="no">MEMBER {{ String(idx + 1).padStart(2, '0') }} / 08 · <i class="cdot" aria-hidden="true" />{{ m.colorName }}</p>
         <p class="kana" lang="ja">{{ m.kana }}</p>
         <h2 class="ja"><span v-for="(ch, i) in m.ja.split('')" :key="i" :style="{ '--i': i }">{{ ch }}</span></h2>
         <p class="ko">{{ m.ko }} <span>· {{ m.en }}</span></p>
@@ -150,9 +150,9 @@ function onKey(e: KeyboardEvent) {
           <a :href="`https://x.com/${m.x}`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.2 2.25h3.4l-7.4 8.47L23 21.75h-6.8l-5.3-6.95-6.1 6.95H1.4l7.9-9.06L.9 2.25h7l4.8 6.35 5.5-6.35Zm-1.2 17.5h1.9L7 4.13H5z" /></svg>@{{ m.x }}</a>
           <a :href="`https://www.instagram.com/${m.instagram}/`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2c-2.7 0-3 0-4.1.1C4.3 2.3 2.3 4.3 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.2 3.6 2.2 5.6 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c-.2-3.6-2.2-5.6-5.8-5.8C15 2 14.7 2 12 2Z" /></svg>Instagram</a>
           <button type="button" class="sns-btn oshi-btn" :class="{ on: oshi === m.id }" :aria-pressed="oshi === m.id" @click="setOshi(m.id)">
-            <span class="oshi-heart" aria-hidden="true">{{ oshi === m.id ? '💖' : '♡' }}</span>{{ oshi === m.id ? '내 최애' : '최애로 설정' }}
+            <span class="oshi-heart" aria-hidden="true"><Ico n="heart" :duo="oshi === m.id" size="16" /></span>{{ oshi === m.id ? '내 최애' : '최애로 설정' }}
           </button>
-          <ShareButton :title="`${m.ja} (${m.ko}) — CUTIE STREET 팬허브`" :text="`${m.ko} ${m.emoji} 프로필·레전드 컷 모음`" label="공유" />
+          <ShareButton :title="`${m.ja} (${m.ko}) — CUTIE STREET 팬허브`" :text="`${m.ko} 프로필·레전드 컷 모음`" label="공유" />
           <a :href="`https://www.tiktok.com/@${m.tiktok}`" target="_blank" rel="noopener" class="sns-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 1 1-2-2.7V9.3a6.2 6.2 0 1 0 5.3 6.1V8.6a7.9 7.9 0 0 0 4.6 1.5V6.8a4.6 4.6 0 0 1-4.6-4.8Z" /></svg>TikTok</a>
         </div>
       </div>
@@ -171,12 +171,12 @@ function onKey(e: KeyboardEvent) {
       </div>
     </div>
 
-    <p class="swipe-tip">👈 좌우로 밀면 다른 멤버로 👉</p>
+    <p class="swipe-tip"><Ico n="swipe" size="15" /> 좌우로 밀면 다른 멤버로</p>
     <!-- UPCOMING BIRTHDAY SHOW (from the official schedule) -->
     <a v-if="bdayShow" class="show" :href="bdayShow.url" target="_blank" rel="noopener">
-      <span class="show-ic" aria-hidden="true">🎂</span>
-      <span class="show-txt"><small>다가오는 생탄제<template v-if="going.has(goingKey(bdayShow))"> · 💖 내 일정</template></small><b lang="ja">{{ bdayShow.ja }}</b>
-        <span>{{ bdayShow.date.replace(/-/g, '.') }}<template v-if="bdayShow.time"> {{ bdayShow.time }} <span lang="ja">開演</span></template><template v-if="bdayShow.venue"> · 📍 <span lang="ja">{{ bdayShow.venue }}</span></template></span></span>
+      <span class="show-ic" aria-hidden="true"><Ico n="cake" duo size="26" /></span>
+      <span class="show-txt"><small>다가오는 생탄제<template v-if="going.has(goingKey(bdayShow))"> · <Ico n="heart" duo size="12" /> 내 일정</template></small><b lang="ja">{{ bdayShow.ja }}</b>
+        <span>{{ bdayShow.date.replace(/-/g, '.') }}<template v-if="bdayShow.time"> {{ bdayShow.time }} <span lang="ja">開演</span></template><template v-if="bdayShow.venue"> · <Ico n="pin" duo size="13" /> <span lang="ja">{{ bdayShow.venue }}</span></template></span></span>
       <span class="show-dd">{{ showDays === 0 ? 'TODAY' : 'D-' + showDays }}</span>
     </a>
 
@@ -192,9 +192,9 @@ function onKey(e: KeyboardEvent) {
               <span>{{ WDJ[new Date(`${e.date}T12:00:00+09:00`).getUTCDay()] }}{{ e.time ? ' · ' + e.time : '' }}{{ e.venue ? ' · ' + e.venue : '' }}</span>
             </span>
             <span class="up-tag">
-              <i v-if="going.has(goingKey(e))" class="mine">💖 내 일정</i>
-              <i v-else-if="e.with" class="solo">✨ 개인 출연</i>
-              <i v-else>{{ catMeta[e.cat].emoji }} {{ catMeta[e.cat].ko }}</i>
+              <i v-if="going.has(goingKey(e))" class="mine"><Ico n="heart" duo size="12" /> 내 일정</i>
+              <i v-else-if="e.with" class="solo"><Ico n="sparkle" duo size="12" /> 개인 출연</i>
+              <i v-else><Ico :n="catMeta[e.cat].ico" duo size="12" /> {{ catMeta[e.cat].ko }}</i>
               <em>{{ tileDays(e) === 0 ? 'TODAY' : 'D-' + tileDays(e) }}</em>
             </span>
             <span class="sr-only">{{ e.date }}</span>
@@ -212,16 +212,16 @@ function onKey(e: KeyboardEvent) {
       </div>
       <div class="tile t-bday" :class="{ today: dday === 0 }">
         <span class="lbl">생일 {{ bdayLabel }}</span>
-        <b class="big">{{ dday === 0 ? '🎂 TODAY' : dday === null ? 'D-··' : 'D-' + dday }}</b>
+        <b class="big"><template v-if="dday === 0"><Ico n="cake" duo size="0.8em" /> TODAY</template><template v-else>{{ dday === null ? 'D-··' : 'D-' + dday }}</template></b>
         <span class="sub">{{ dday === 0 ? 'おたんじょうびおめでとう！' : '다음 생일까지' }}</span>
         <div class="bd-acts">
           <BirthdayCard :id="m.id" :dday="dday" />
-          <button type="button" class="bd-ics" @click="saveBirthday">{{ bdIcs ? '✓ 받았어요' : '📅 매년 알림' }}</button>
+          <button type="button" class="bd-ics" @click="saveBirthday"><template v-if="bdIcs">✓ 받았어요</template><template v-else><Ico n="bell" duo size="14" /> 매년 알림</template></button>
         </div>
       </div>
       <div class="tile t-from">
         <span class="lbl">출신</span>
-        <b class="mid"><span class="pin" aria-hidden="true">📍</span><span lang="ja">{{ m.birthplace }}</span></b>
+        <b class="mid"><span class="pin" aria-hidden="true"><Ico n="pin" duo size="0.9em" /></span><span lang="ja">{{ m.birthplace }}</span></b>
         <span class="sub">{{ prefectureKo[m.birthplace] }}</span>
       </div>
       <div class="tile t-color">
@@ -258,8 +258,8 @@ function onKey(e: KeyboardEvent) {
 
     <!-- PREV / NEXT -->
     <nav class="pn" aria-label="다른 멤버 (← → 키로도 이동)" aria-keyshortcuts="ArrowLeft ArrowRight">
-      <a :href="withBase(`/members/${prev.id}`)" :style="{ '--pc': prev.color }"><small>← 이전 멤버</small><b>{{ prev.emoji }} {{ prev.ko }}</b></a>
-      <a :href="withBase(`/members/${next.id}`)" :style="{ '--pc': next.color }" class="nx"><small>다음 멤버 →</small><b>{{ next.ko }} {{ next.emoji }}</b></a>
+      <a :href="withBase(`/members/${prev.id}`)" :style="{ '--pc': prev.color }"><small>← 이전 멤버</small><b><i class="cdot" aria-hidden="true" />{{ prev.ko }}</b></a>
+      <a :href="withBase(`/members/${next.id}`)" :style="{ '--pc': next.color }" class="nx"><small>다음 멤버 →</small><b>{{ next.ko }}<i class="cdot r" aria-hidden="true" /></b></a>
     </nav>
   </section>
 </template>
@@ -421,7 +421,7 @@ function onKey(e: KeyboardEvent) {
 .hero.swipe-next { transform: translateX(-28px); opacity: 0.6; }
 .hero.swipe-prev { transform: translateX(28px); opacity: 0.6; }
 .swipe-tip { display: none; margin: 10px 0 0; text-align: center; font-size: 12px; color: #735779; }
-@media (hover: none) and (pointer: coarse) { .swipe-tip { display: block; } }
+@media (hover: none) and (pointer: coarse) { .swipe-tip { display: flex; align-items: center; justify-content: center; gap: 6px; } }
 .show { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 16px 20px; border-radius: 24px; text-decoration: none !important; color: #fff !important;
   background: linear-gradient(120deg, color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030), color-mix(in srgb, var(--mc) min(78%, var(--ink-mix, 100%)), #2a1030)); box-shadow: 0 18px 36px -22px var(--mc); transition: transform 0.5s var(--spring); }
 .show:hover { transform: translateY(-3px); }
@@ -453,7 +453,7 @@ function onKey(e: KeyboardEvent) {
 .up-tag i.solo, .up-tag i.mine { color: var(--mc-deep); }
 .up-tag em { font-style: normal; font-size: 12px; font-weight: 900; color: #fff; background: var(--mc-deep); padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (max-width: 480px) { .up-tag i:not(.solo):not(.mine) { display: none; } } /* phones: drop the category, keep '✨ 개인 출연' */
+@media (max-width: 480px) { .up-tag i:not(.solo):not(.mine) { display: none; } } /* phones: drop the category, keep '개인 출연' */
 @media (prefers-reduced-motion: reduce) { .up-row { transition: none; } }
 .app small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; color: color-mix(in srgb, var(--mc) min(60%, var(--ink-mix, 100%)), #2a1030); }
 .app b { font-size: 14.5px; }
@@ -486,4 +486,6 @@ function onKey(e: KeyboardEvent) {
   .holo-inner { transform: none; }
   .hero { transition: none; }
 }
+.cdot { display: inline-block; width: 0.62em; height: 0.62em; margin-right: 0.35em; border-radius: 50%; background: var(--pc, var(--mc)); box-shadow: 0 0 0 1.5px #fff; vertical-align: 0.02em; font-style: normal; }
+.cdot.r { margin: 0 0 0 0.35em; }
 </style>

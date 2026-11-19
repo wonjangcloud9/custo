@@ -84,7 +84,7 @@ const focus = computed(() => dots.value.find((d) => d.m.id === hover.value) ?? n
         <!-- center -->
         <g v-if="focus" class="center">
           <circle :cx="C" :cy="C" r="78" fill="#fff" />
-          <text :x="C" :y="C - 34" text-anchor="middle" class="c-eyebrow">{{ hover ? 'BIRTHDAY' : 'NEXT 🎂' }}</text>
+          <text :x="C" :y="C - 34" text-anchor="middle" class="c-eyebrow">{{ hover ? 'BIRTHDAY' : 'NEXT ♡' }}</text>
           <text :x="C" :y="C - 6" text-anchor="middle" class="c-name" :fill="focus.m.color">{{ focus.m.ja }}</text>
           <text :x="C" :y="C + 18" text-anchor="middle" class="c-date">{{ focus.mo }}월 {{ focus.d }}일</text>
           <text :x="C" :y="C + 46" text-anchor="middle" class="c-dd">{{ focus.dd === null ? '' : focus.dd === 0 ? 'TODAY!' : 'D-' + focus.dd }}</text>
@@ -97,12 +97,12 @@ const focus = computed(() => dots.value.find((d) => d.m.id === hover.value) ?? n
         <a :href="withBase(`/members/${d.m.id}`)">
           <span class="li-dot" :style="{ '--on': onColor(d.m.color) }" aria-hidden="true">{{ d.m.ja.slice(-2, -1) }}</span>
           <span class="li-name"><b>{{ d.m.ko }}</b><small>{{ d.mo }}/{{ d.d }}<template v-if="d.turning"> · {{ d.turning }}번째 생일</template></small></span>
-          <span class="li-dd">{{ d.dd === null ? '' : d.dd === 0 ? '🎂 TODAY' : 'D-' + d.dd }}</span>
+          <span class="li-dd">{{ d.dd === null ? '' : d.dd === 0 ? 'TODAY ♡' : 'D-' + d.dd }}</span>
         </a>
       </li>
     </ol>
     <div class="br-ics">
-      <button type="button" class="br-ics-btn" @click="saveBirthdays">{{ icsSaved ? '✓ 캘린더 파일을 받았어요' : '📅 멤버 생일 8개 캘린더에 넣기' }}</button>
+      <button type="button" class="br-ics-btn" @click="saveBirthdays"><template v-if="icsSaved">✓ 캘린더 파일을 받았어요</template><template v-else><Ico n="calendar" duo size="16" /> 멤버 생일 8개 캘린더에 넣기</template></button>
       <small>매년 반복 · 전날 오전 9시 알림 · 아이폰·구글·아웃룩 캘린더에서 열면 추가돼요</small>
     </div>
   </section>

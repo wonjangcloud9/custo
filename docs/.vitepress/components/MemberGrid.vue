@@ -9,7 +9,7 @@ import { members, onColor } from '../data/members'
   <div class="mg">
     <a v-for="(m, i) in members" :key="m.id" class="mg-card" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--on': onColor(m.color), '--i': i }">
       <span class="mg-no">{{ String(i + 1).padStart(2, '0') }}</span>
-      <span class="mg-emoji" aria-hidden="true">{{ m.emoji }}</span>
+      <span class="mg-emoji" aria-hidden="true"><Ico n="heart" duo size="22" /></span>
       <span v-if="oshi === m.id" class="mg-oshi">💖 내 최애</span>
       <span class="mg-face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span>
       <span class="mg-info">
@@ -40,7 +40,7 @@ import { members, onColor } from '../data/members'
 @keyframes mgIn { from { opacity: 0; transform: translateY(24px) scale(0.92); } }
 .mg-card:hover { transform: translateY(-8px) rotate(calc((var(--i) - 3.5) * 0.4deg)); box-shadow: 0 24px 40px -20px color-mix(in srgb, var(--mc) 90%, #000); }
 .mg-no { position: absolute; top: 14px; left: 16px; font-size: 12px; font-weight: 800; letter-spacing: 0.16em; color: color-mix(in srgb, var(--mc) 45%, #2a1030); }
-.mg-emoji { position: absolute; top: 10px; right: 14px; font-size: 22px; transition: transform 0.6s var(--spring); }
+.mg-emoji { position: absolute; top: 10px; right: 14px; display: inline-flex; color: color-mix(in srgb, var(--mc) 80%, #2a1030); --ico-fill: var(--mc); transition: transform 0.6s var(--spring); }
 .mg-card:hover .mg-emoji { transform: scale(1.4) rotate(-15deg); }
 .mg-face {
   position: absolute; top: 8%; left: 50%; translate: -50% 0;

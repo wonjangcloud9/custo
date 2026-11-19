@@ -75,7 +75,7 @@ function reset() { setTimeout(() => (state.value = ''), 1800) }
 <template>
   <span class="sr-only" aria-live="polite">{{ state === 'saved' ? '카드 이미지를 저장했어요' : state === 'shared' ? '카드 이미지를 공유했어요' : state === 'failed' ? '카드 이미지를 만들지 못했어요' : '' }}</span>
   <button type="button" class="bc" :disabled="dday === null || state === 'busy'" @click="save">
-    {{ state === 'busy' ? '만드는 중…' : state === 'saved' ? '✓ 저장했어요' : state === 'shared' ? '✓ 공유 완료' : state === 'failed' ? '만들지 못했어요' : dday === 0 ? '🎂 축하 카드 저장' : '🎂 D-day 카드 저장' }}
+    <Ico v-if="!state" n="cake" duo size="15" /> {{ state === 'busy' ? '만드는 중…' : state === 'saved' ? '✓ 저장했어요' : state === 'shared' ? '✓ 공유 완료' : state === 'failed' ? '만들지 못했어요' : dday === 0 ? '축하 카드 저장' : 'D-day 카드 저장' }}
   </button>
 </template>
 

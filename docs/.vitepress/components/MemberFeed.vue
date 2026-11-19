@@ -10,13 +10,13 @@ const m = computed(() => memberById[props.id])
 const all = computed(() => ((feedsRaw as Record<string, Post[]>)[props.id] || []))
 
 const KINDS = [
-  { id: 'all', label: '전체', icon: '✦' },
-  { id: 'teaser', label: 'MV 티저', icon: '🎬' },
-  { id: 'fancam', label: '직캠', icon: '📸' },
-  { id: 'birthday', label: '생탄제', icon: '🎂' },
-  { id: 'live', label: 'LIVE', icon: '🎤' },
-  { id: 'vlog', label: 'VLOG', icon: '🧳' },
-  { id: 'moment', label: '모먼트', icon: '🍬' },
+  { id: 'all', label: '전체', icon: 'sparkle' },
+  { id: 'teaser', label: 'MV 티저', icon: 'film' },
+  { id: 'fancam', label: '직캠', icon: 'camera' },
+  { id: 'birthday', label: '생탄제', icon: 'cake' },
+  { id: 'live', label: 'LIVE', icon: 'mic' },
+  { id: 'vlog', label: 'VLOG', icon: 'suitcase' },
+  { id: 'moment', label: '모먼트', icon: 'candy' },
 ]
 const kindOf = Object.fromEntries(KINDS.map((k) => [k.id, k]))
 const counts = computed(() => {
@@ -104,7 +104,7 @@ onMounted(() => {
           <li><b>{{ counts.teaser || 0 }}</b> MV 티저</li>
           <li><a class="to-album" :href="withBase('/likes/')"><b>{{ myLikes }}</b> 내 ♡</a></li>
         </ul>
-        <p class="ig-bio"><b lang="ja">{{ m.ja }}</b> {{ m.emoji }} <span lang="ja">{{ m.nickname }}</span><br />CUTIE STREET · {{ m.colorName }} · 더블탭으로 ♡</p>
+        <p class="ig-bio"><b lang="ja">{{ m.ja }}</b> <Ico n="heart" duo size="0.95em" :style="{ color: m.color }" /> <span lang="ja">{{ m.nickname }}</span><br />CUTIE STREET · {{ m.colorName }} · 더블탭으로 ♡</p>
       </div>
     </header>
 
@@ -112,7 +112,7 @@ onMounted(() => {
     <div class="hl" role="tablist" aria-label="카테고리">
       <button v-for="k in highlights" :key="k.id" type="button" role="tab" class="hl-item" :aria-selected="kind === k.id"
         @click="kind = k.id; shown = PAGE">
-        <span class="hl-ring"><span class="hl-in">{{ k.icon }}</span></span>
+        <span class="hl-ring"><span class="hl-in"><Ico :n="k.icon" duo size="24" /></span></span>
         <small>{{ k.label }}</small>
       </button>
     </div>
@@ -122,7 +122,7 @@ onMounted(() => {
       <button v-for="(p, i) in visible" :key="p.id" type="button" class="tile" :aria-label="caption(p.title)"
         :style="{ '--i': i % PAGE }" @click="onTile(p, i)" @dblclick.prevent="onTileDbl(p)">
         <img :src="img(p)" :alt="''" loading="lazy" decoding="async" />
-        <span class="kind" aria-hidden="true">{{ kindOf[p.kind]?.icon }}</span>
+        <span class="kind" aria-hidden="true"><Ico v-if="kindOf[p.kind]" :n="kindOf[p.kind].icon" duo size="14" /></span>
         <span class="ov" aria-hidden="true"><span>{{ likes.has(p.id) ? '♥' : '♡' }}</span><span>▶</span></span>
         <span v-if="likes.has(p.id)" class="liked" aria-hidden="true">♥</span>
         <span v-if="burst === p.id" class="burst" aria-hidden="true">♥</span>
@@ -132,7 +132,7 @@ onMounted(() => {
       <button v-if="shown < posts.length" type="button" class="more" @click="shown += PAGE">더 보기 ({{ posts.length - shown }})</button>
       <div v-if="seen" class="mprog" role="progressbar" :aria-valuenow="seen" aria-valuemin="0" :aria-valuemax="all.length" :aria-label="`${m.ko} 레전드 피드 ${all.length}편 중 ${seen}편 봤어요`">
         <span class="mprog-track"><i :style="{ width: seenPct + '%' }" /></span>
-        <span>{{ seen === all.length ? '🎉 피드 전부 봤어요!' : `피드 ${seen}/${all.length}편 봤어요` }}</span>
+        <span>{{ seen === all.length ? '피드 전부 봤어요!' : `피드 ${seen}/${all.length}편 봤어요` }}</span>
       </div>
       <a class="arch" :href="withBase(`/videos/?m=${m.id}`)">영상 아카이브에서 보기 →</a>
     </div>
@@ -144,7 +144,7 @@ onMounted(() => {
         <div class="lb-top">
           <span class="lb-av">{{ m.ja.slice(-2, -1) }}</span>
           <b>{{ m.instagram }}</b>
-          <small>{{ kindOf[post.kind]?.icon }} {{ kindOf[post.kind]?.label }}</small>
+          <small><Ico v-if="kindOf[post.kind]" :n="kindOf[post.kind].icon" duo size="13" /> {{ kindOf[post.kind]?.label }}</small>
           <button type="button" class="lb-x" aria-label="닫기" @click="close">✕</button>
         </div>
         <div class="lb-media" @dblclick="toggleLike(post.id, true)">
@@ -204,7 +204,7 @@ onMounted(() => {
 .hl-ring { width: 66px; height: 66px; border-radius: 50%; padding: 2.5px; background: #e9dde6; transition: transform 0.5s var(--spring); }
 .hl-item[aria-selected='true'] .hl-ring { background: var(--ring); transform: scale(1.06); }
 .hl-item:active .hl-ring { transform: scale(0.9); }
-.hl-in { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; border: 3px solid #fff; background: #fbf4f8; font-size: 24px; }
+.hl-in { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; border: 3px solid #fff; background: #fbf4f8; font-size: 24px; color: var(--mc-deep, #c92f69); --ico-fill: var(--mc-soft, #ffd3e4); }
 .hl-item small { font-size: 12px; font-weight: 600; }
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; }
@@ -215,7 +215,7 @@ onMounted(() => {
 @keyframes tileIn { from { opacity: 0; transform: scale(0.9); } }
 .tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(.2, .8, .2, 1); }
 .tile:hover img { transform: scale(1.06); }
-.kind { position: absolute; top: 8px; right: 8px; font-size: 16px; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5)); }
+.kind { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: #fff; --ico-fill: rgba(255, 255, 255, 0.35); background: rgba(42, 16, 48, 0.55); }
 .ov { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 22px; color: #fff; font-size: 22px; font-weight: 700; background: rgba(30, 10, 30, 0.32); opacity: 0; transition: opacity 0.2s; }
 .tile:hover .ov, .tile:focus-visible .ov { opacity: 1; }
 .liked { position: absolute; left: 8px; bottom: 6px; color: #ff4f8b; font-size: 18px; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4)); }

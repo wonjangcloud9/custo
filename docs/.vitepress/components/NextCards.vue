@@ -2,7 +2,7 @@
 import { withBase } from 'vitepress'
 
 // "Where next" link cards for page bottoms (replaces plain markdown link lines).
-defineProps<{ title?: string; items: { href: string; emoji: string; t: string; d: string; c?: string }[] }>()
+defineProps<{ title?: string; items: { href: string; ico?: string; emoji?: string; t: string; d: string; c?: string }[] }>()
 </script>
 
 <template>
@@ -10,7 +10,7 @@ defineProps<{ title?: string; items: { href: string; emoji: string; t: string; d
     <p v-if="title" class="nc-h">{{ title }}</p>
     <div class="nc-grid">
       <a v-for="(it, i) in items" :key="it.href" class="card" :href="withBase(it.href)" :style="{ '--c': it.c || '#FF6B9D', '--i': i }">
-        <span class="em" aria-hidden="true">{{ it.emoji }}</span>
+        <span class="em" aria-hidden="true"><Ico v-if="it.ico" :n="it.ico" duo size="24" /><template v-else>{{ it.emoji }}</template></span>
         <span class="tx"><b>{{ it.t }}</b><small>{{ it.d }}</small></span>
         <span class="ar" aria-hidden="true">→</span>
       </a>
@@ -27,6 +27,7 @@ defineProps<{ title?: string; items: { href: string; emoji: string; t: string; d
   transition: transform 0.45s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.3s; }
 .card:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c) 55%, white), 0 18px 30px -24px color-mix(in srgb, var(--c) 70%, #2a1030); }
 .em { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 16px; font-size: 24px; background: color-mix(in srgb, var(--c) 16%, white); transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1); }
+.em { color: color-mix(in srgb, var(--c) 70%, #2a1030); --ico-fill: color-mix(in srgb, var(--c) 30%, white); }
 .card:hover .em { transform: rotate(-8deg) scale(1.08); }
 .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .tx b { font-size: 15.5px; }

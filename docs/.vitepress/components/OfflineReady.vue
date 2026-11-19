@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-// '📥 저장됨' chip (#235): tells you this page is saved by the service worker (#234), so it will open at the
+// '저장됨' chip (#235): tells you this page is saved by the service worker (#234), so it will open at the
 // venue without signal. Shown only once the copy really is in the cache — checked on mount, again when the
 // worker takes control, and once more a few seconds later (the first visit saves pages while idle).
 const ready = ref(false)
@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 <template>
   <!-- the slot is always there (server-rendered) so the chip fading in never pushes the page down -->
   <p class="or" :class="{ on: ready }" :aria-hidden="!ready">
-    <span class="or-i" aria-hidden="true">📥</span>
+    <span class="or-i" aria-hidden="true"><Ico n="download" size="14" /></span>
     <span><b>저장됨</b> · 전파가 없어도 이 페이지는 열려요</span>
   </p>
 </template>

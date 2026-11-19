@@ -25,7 +25,7 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
   <div v-if="m && st" class="ms" :style="{ '--mc': m.color }">
     <!-- CHARM -->
     <section class="charm" aria-labelledby="ch-h">
-      <header class="sh"><span class="no">01</span><h2 id="ch-h">매력 포인트</h2><span class="em" aria-hidden="true">{{ m.emoji }}</span></header>
+      <header class="sh"><span class="no">01</span><h2 id="ch-h">매력 포인트</h2><span class="em" aria-hidden="true"><Ico n="sparkle" duo size="22" /></span></header>
       <blockquote class="lead"><span class="q" aria-hidden="true">“</span>
         <template v-for="(s, i) in segs(st.charm[0])" :key="i"><mark v-if="s.b">{{ s.t }}</mark><template v-else>{{ s.t }}</template></template>
       </blockquote>
@@ -44,24 +44,24 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
           <span class="when">{{ r[0] }}</span><span class="what">{{ r[1] }}</span>
         </li>
       </ol>
-      <p class="src">📚 출처: <a href="https://www.ticket.co.jp/entx/?p=5758" target="_blank" rel="noopener">ticket.co.jp 멤버 프로필</a> · <a href="https://ja.wikipedia.org/wiki/CUTIE_STREET" target="_blank" rel="noopener">Wikipedia(일본어)</a> · <a href="https://ciatr.jp/topics/336201" target="_blank" rel="noopener">ciatr</a></p>
+      <p class="src"><Ico n="news" size="14" /> 출처: <a href="https://www.ticket.co.jp/entx/?p=5758" target="_blank" rel="noopener">ticket.co.jp 멤버 프로필</a> · <a href="https://ja.wikipedia.org/wiki/CUTIE_STREET" target="_blank" rel="noopener">Wikipedia(일본어)</a> · <a href="https://ciatr.jp/topics/336201" target="_blank" rel="noopener">ciatr</a></p>
     </section>
 
     <!-- UNITS -->
     <section v-if="myUnits.length" class="mu" aria-labelledby="mu-h">
-      <header class="sh"><span class="no">💞</span><h2 id="mu-h">유닛</h2></header>
+      <header class="sh"><span class="no"><Ico n="hearts" duo size="18" /></span><h2 id="mu-h">유닛</h2></header>
       <div class="mu-row">
         <div v-for="u in myUnits" :key="u.id" class="mu-card">
           <b lang="ja">{{ u.ja }}</b>
           <span class="mu-mates">with <template v-for="(id, i) in u.mates" :key="id"><a :href="withBase(`/members/${id}`)" :style="{ '--c': memberById[id].color }">{{ memberById[id].ko.split(' ')[1] }}</a><template v-if="i < u.mates.length - 1"> · </template></template></span>
-          <a v-if="u.song" class="mu-song" :href="withBase(u.page ? `/discography/${u.page}` : '/units/')"><span lang="ja">🎵 {{ u.song }}</span><small>{{ u.page ? '곡 이야기 →' : '유닛 페이지 →' }}</small></a>
+          <a v-if="u.song" class="mu-song" :href="withBase(u.page ? `/discography/${u.page}` : '/units/')"><span lang="ja"><Ico n="music" duo size="14" /> {{ u.song }}</span><small>{{ u.page ? '곡 이야기 →' : '유닛 페이지 →' }}</small></a>
         </div>
       </div>
     </section>
 
     <!-- APPEARANCES -->
     <section v-if="aps.length" class="aps" aria-labelledby="ap-h">
-      <header class="sh"><span class="no">03</span><h2 id="ap-h">다른 채널 출연</h2><span class="em" aria-hidden="true">📺</span></header>
+      <header class="sh"><span class="no">03</span><h2 id="ap-h">다른 채널 출연</h2><span class="em" aria-hidden="true"><Ico n="tv" duo size="22" /></span></header>
       <div class="ap-row">
         <a v-for="a in aps.slice(0, 4)" :key="a.id" class="ap" :href="`https://www.youtube.com/watch?v=${a.id}`" target="_blank" rel="noopener">
           <img :src="`https://i.ytimg.com/vi/${a.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" />
@@ -73,7 +73,7 @@ const segs = (t: string) => t.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((x) 
 
     <!-- QUIZ -->
     <section class="quiz" aria-labelledby="qz-h">
-      <header class="sh"><span class="no">{{ aps.length ? '04' : '03' }}</span><h2 id="qz-h">{{ m.ko.split(' ')[1] }} 팬 퀴즈</h2><span class="em" aria-hidden="true">💖</span></header>
+      <header class="sh"><span class="no">{{ aps.length ? '04' : '03' }}</span><h2 id="qz-h">{{ m.ko.split(' ')[1] }} 팬 퀴즈</h2><span class="em" aria-hidden="true"><Ico n="heart" duo size="22" /></span></header>
       <Quiz :quiz-id="`member-${m.id}`" :questions="st.quiz" />
     </section>
   </div>
@@ -85,7 +85,7 @@ section { margin-top: 34px; }
 .sh { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
 .no { font-family: 'Zen Maru Gothic', sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 0.1em; color: var(--deep); }
 .sh h2 { margin: 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 26px !important; line-height: 1.2; }
-.em { font-size: 22px; }
+.em { display: inline-flex; font-size: 22px; color: var(--mc-deep, #c92f69); --ico-fill: var(--mc-soft, #ffd3e4); }
 /* charm */
 .lead { position: relative; margin: 0 !important; padding: 26px 28px 24px 64px !important; border: 0 !important; border-radius: 26px; font-size: 18px; line-height: 1.85; font-weight: 600; color: var(--ink);
   background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--mc) 22%, white), transparent 60%), #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mc) 30%, white); }
