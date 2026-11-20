@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import JourneyMini from './JourneyMini.vue'
+import WorldMini from './WorldMini.vue'
 import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
@@ -271,6 +272,7 @@ function cleanTitle(t: string) {
         <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji b-cc">KR</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
         <a class="b" :href="withBase('/discography/')"><span class="b-emoji"><Ico n="disc" duo /></span><b>디스코그래피</b><span>싱글 & 앨범</span></a>
         <a class="b" :href="withBase('/stages/')"><span class="b-emoji"><Ico n="film" duo /></span><b>레전드 무대</b><span>엠카·THE FIRST TAKE</span></a>
+        <a class="b b-lg b-wm" :href="withBase('/world/')"><WorldMini /><b>큐스트 월드맵</b><span>도쿄에서 서울, 하와이까지 — 공연지를 하나씩 칠해 가는 지구본</span></a>
         <a class="b" :href="withBase('/schedule/')"><span class="b-emoji"><Ico n="calendar" duo /></span><b>스케줄</b><span>투어·방송·이벤트</span></a>
         <a class="b" :href="withBase('/which-member/')"><span class="b-emoji"><Ico n="orb" duo /></span><b>나와 닮은 멤버</b><span>6문항 테스트</span></a>
         <a class="b" :href="withBase('/live-guide/')"><span class="b-emoji"><Ico n="penlight" duo /></span><b>펜라이트 가이드</b><span>라이브 준비</span></a>
@@ -511,6 +513,10 @@ function cleanTitle(t: string) {
 .b-lg .b-emoji { font-size: 56px; }
 .b-jr { overflow: hidden; }
 .b-jr:hover { transform: translateY(-4px); }
+.b-wm { overflow: hidden; background: linear-gradient(150deg, #fff 20%, #f3e9ff 70%, #ffe7f1); }
+.b-wm:hover { transform: translateY(-4px); }
+.b-wm:hover :deep(.wmn-globe) { transform: rotate(-10deg) scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .b-wm:hover :deep(.wmn-globe) { transform: none; } }
 /* each tile's icon takes one member colour (darkened for contrast on white) */
 .bento .b:nth-child(8n + 2) .b-emoji { color: #c0392b; --ico-fill: #ffd6d9; }
 .bento .b:nth-child(8n + 4) .b-emoji { color: #8a5cc4; --ico-fill: #eadcfb; }

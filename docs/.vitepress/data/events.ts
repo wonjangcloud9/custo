@@ -81,7 +81,7 @@ export const events: CsEvent[] = [
   { date: '2027-01-09', time: '14:00', end: '18:30', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연 · 개장 12:30, 종연 18:30 예정 · 출연 시각 미발표)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },
   { date: '2027-01-10', time: '14:00', cat: 'event', ja: 'KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC', ko: '카와이랩 컬렉션 시즈오카 (합동)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47607` },
   { date: '2027-01-23', cat: 'live', time: '18:00', ja: 'CUTIE STREET Live in Korea 2027 WINTER', ko: '한국 공연 · 킨텍스 · 멜론티켓 예매 (135,000원)', venue: 'KINTEX Hall 9A', url: `${O}/live_information/detail/42855`, featured: true, short: 'Live in Korea 2027' },
-  { date: '2027-01-29', time: '19:00', cat: 'live', ja: '桜庭遥花 生誕祭 2027', ko: '사쿠라바 하루카 생탄제', venue: 'SGCホール有明', url: `${O}/live_information/detail/46962`, member: 'haruka' },
+  { date: '2027-01-29', time: '19:00', cat: 'live', ja: '桜庭遥花 生誕祭 2027', ko: '사쿠라바 하루카 생탄제 · 팬클럽 선행 11/20 12:00–11/29 23:59 (지정석 6,500엔, 공지 96701)', venue: 'SGCホール有明', url: `${O}/live_information/detail/46962`, member: 'haruka' },
   { date: '2027-01-30', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 미야기 DAY1 (합동)', venue: 'セキスイハイムスーパーアリーナ', url: `${O}/live_information/detail/46247` },
   { date: '2027-01-31', time: '16:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 미야기 DAY2 (합동)', venue: 'セキスイハイムスーパーアリーナ', url: `${O}/live_information/detail/46315` },
   // February 2027 — official schedule month page (year=2027&month=2), detail pages checked 2026-11-17

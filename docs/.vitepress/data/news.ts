@@ -8,6 +8,7 @@ export interface News { date: string; ja: string; ko: string; tag: NewsTag; url:
 
 const O = 'https://cutiestreet.asobisystem.com'
 export const news: News[] = [
+  { date: '2026-11-20', tag: 'ticket', ja: '2027年1月29日(金)「CUTIE STREET 桜庭遥花 生誕祭 2027」開催決定！OFFICIAL FANCLUB会員先行開始！', ko: '2027.1.29 하루카 생탄제(SGC홀 아리아케, 19시 개연) 개최 결정 · 팬클럽 선행 11/29 23:59까지 (지정석 6,500엔)', url: `${O}/news/detail/96701`, internal: '/members/haruka' },
   { date: '2026-11-18', tag: 'event', ja: '2026/11/26(木)開催CUTIE STREET佐野愛花 生誕祭 2026にて特別抽選会開催決定！', ko: '11/26 아이카 생탄제 현장 특별 추첨회 (CUTIE LAND CD 구매자 대상, 선행 판매 14–17시 예정)', url: `${O}/news/detail/96698`, internal: '/members/aika' },
   { date: '2026-11-17', tag: 'release', ja: 'CUTIE STREET 1st アルバム『CUTIE LAND』リリース記念 楽天ブックスオンライン予約抽選会の開催が決定！', ko: '1st 앨범 발매 기념 라쿠텐북스 온라인 예약 추첨회 (11/25 23:59까지)', url: `${O}/news/detail/96630`, internal: '/cutie-land/' },
   { date: '2026-11-17', tag: 'event', ja: '11/23（月・祝）CUTIE STREET 大特典会 物販情報', ko: '11/23 삿포로 대특전회 물판(굿즈 판매) 정보', url: `${O}/news/detail/96574`, internal: '/schedule/' },
