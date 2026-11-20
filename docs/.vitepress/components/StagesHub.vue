@@ -17,8 +17,8 @@ const STAGES: Stage[] = [
   { id: 'KGFOrSUL-uc', date: '2026.08', show: '첫 日本武道館 공연', song: 'Top of the top', ch: 'CUTIE STREET', cat: 'live', note: '데뷔 2주년, 꿈의 무대 부도칸' },
   { id: 'CWFV3vJm5QA', date: '2026.11.15', show: '아레나 투어 · 広島グリーンアリーナ', song: 'Top of the top', ch: 'CUTIE STREET', cat: 'live', note: '紅白 첫 출장이 알려진 날의 눈물의 무대' },
 ]
-const CATS: { id: 'all' | Cat; label: string }[] = [
-  { id: 'all', label: '✨ 전체' }, { id: 'kr', label: '🇰🇷 한국 음악방송' }, { id: 'special', label: '🎙️ 스페셜' }, { id: 'live', label: '🏟️ 라이브' },
+const CATS: { id: 'all' | Cat; label: string; ico: string }[] = [
+  { id: 'all', label: '전체', ico: 'grid' }, { id: 'kr', label: '한국 음악방송', ico: 'tv' }, { id: 'special', label: '스페셜', ico: 'mic' }, { id: 'live', label: '라이브', ico: 'penlight' },
 ]
 const cat = ref<'all' | Cat>('all')
 const list = computed(() => STAGES.filter((s) => cat.value === 'all' || s.cat === cat.value))
@@ -49,7 +49,7 @@ const MILESTONES = [
       <h1>레전드 무대</h1>
       <p class="lead">한국 음악방송부터 THE FIRST TAKE, 부도칸까지 — 큐스트의 명장면을 한곳에 모았어요.</p>
       <div class="chips" role="toolbar" aria-label="무대 종류">
-        <button v-for="c in CATS" :key="c.id" type="button" :aria-pressed="cat === c.id" @click="cat = c.id">{{ c.label }}</button>
+        <button v-for="c in CATS" :key="c.id" type="button" :aria-pressed="cat === c.id" @click="cat = c.id"><Ico :n="c.ico" duo /> {{ c.label }}</button>
       </div>
     </header>
 
@@ -64,7 +64,7 @@ const MILESTONES = [
         <h2 :lang="jaLang(cur.song)">{{ cur.song }}</h2>
         <p class="now-show">{{ cur.show }}</p>
         <p class="now-note">{{ cur.note }}</p>
-        <p class="now-meta"><span>📅 {{ cur.date }}</span><span>📺 <span :lang="jaLang(cur.ch)">{{ cur.ch }}</span></span></p>
+        <p class="now-meta"><span><Ico n="calendar" duo /> {{ cur.date }}</span><span><Ico n="tv" duo /> <span :lang="jaLang(cur.ch)">{{ cur.ch }}</span></span></p>
         <a class="yt" :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">YouTube에서 보기 ↗</a>
       </div>
     </section>
@@ -73,7 +73,7 @@ const MILESTONES = [
     <h2 class="sr-only">무대 목록</h2>
     <TransitionGroup tag="div" name="card" class="grid">
       <button v-for="s in list" :key="s.id" type="button" class="card" :class="[s.cat, { on: cur.id === s.id }]" :aria-pressed="cur.id === s.id" @click="pick(s)">
-        <span class="th"><img :src="`https://i.ytimg.com/vi/${s.id}/mqdefault.jpg`" alt="" loading="lazy" /><span class="play" aria-hidden="true">▶</span><b class="badge">{{ s.cat === 'kr' ? '🇰🇷 음악방송' : s.cat === 'special' ? '🎙️ 스페셜' : '🏟️ 라이브' }}</b></span>
+        <span class="th"><img :src="`https://i.ytimg.com/vi/${s.id}/mqdefault.jpg`" alt="" loading="lazy" /><span class="play" aria-hidden="true">▶</span><b class="badge">{{ s.cat === 'kr' ? 'KR 음악방송' : s.cat === 'special' ? '스페셜' : '라이브' }}</b></span>
         <span class="body"><small>{{ s.date }} · <JaText :t="s.show" /></small><strong><JaText :t="s.song" /></strong></span>
       </button>
     </TransitionGroup>
@@ -84,7 +84,7 @@ const MILESTONES = [
       <ol>
         <li v-for="(m, i) in MILESTONES" :key="m.d" :style="{ '--i': i }"><span class="d">{{ m.d }}</span><b><JaText :t="m.t" /></b><small><JaText :t="m.s" /></small></li>
       </ol>
-      <p class="more"><a :href="withBase('/korea/')">🇰🇷 큐스트 in KOREA →</a><a :href="withBase('/videos/?cat=live')">🎬 라이브 영상 전체 →</a></p>
+      <p class="more"><a :href="withBase('/korea/')"><b class="cc">KR</b> 큐스트 in KOREA →</a><a :href="withBase('/videos/?cat=live')"><Ico n="film" duo /> 라이브 영상 전체 →</a></p>
     </section>
   </div>
 </template>
@@ -154,4 +154,5 @@ const MILESTONES = [
   .ms { padding: 18px 14px; }
 }
 @media (prefers-reduced-motion: reduce) { .spot { animation: none; } .card, .chips button, .yt, .play, .th img { transition: none; } }
+.cc { display: inline-grid; place-items: center; min-width: 24px; height: 17px; padding: 0 4px; border-radius: 5px; background: linear-gradient(135deg, #e0457f, #4a90d9); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 0.04em; vertical-align: 1px; }
 </style>

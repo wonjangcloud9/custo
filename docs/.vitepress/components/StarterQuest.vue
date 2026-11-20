@@ -54,23 +54,23 @@ onMounted(() => {
       </svg>
       <div class="prog-txt"><b>{{ done.size }}/{{ STEPS.length }}</b><small>입문 퀘스트</small></div>
     </div>
-    <p v-if="done.size === STEPS.length" class="badge">🎓 큐티스트리트 입문 완료! 이제 당신도 팬이에요 💖</p>
+    <p v-if="done.size === STEPS.length" class="badge"><Ico n="trophy" duo /> 큐티스트리트 입문 완료! 이제 당신도 팬이에요 ♡</p>
     <div v-if="party" class="party" aria-hidden="true"><i v-for="(c, i) in confetti" :key="i" :style="{ left: c.x + '%', background: c.c, animationDelay: c.d + 's' }" /></div>
 
     <ol class="steps">
       <li class="step" :class="{ ok: done.has('intro') }">
         <header><span class="n">1</span><h3>3줄로 알아보는 큐티스트리트</h3><button type="button" class="chk" :aria-pressed="done.has('intro')" @click="toggle('intro')">{{ done.has('intro') ? '✓ 완료' : '읽었어요' }}</button></header>
         <ul class="facts">
-          <li>💖 아소비시스템의 아이돌 프로젝트 <b>KAWAII LAB.</b>에서 탄생한 <b>8인조</b> (2024년 8월 TIF에서 데뷔)</li>
-          <li>🌏 콘셉트는 <b>“KAWAII MAKER”</b> — 하라주쿠에서 세계로 KAWAII를 전하는 그룹</li>
-          <li>🏆 데뷔곡이 신드롬이 되어 <b>레코드대상 신인상</b>, 2026년 <b>부도칸·아레나 투어</b>, 그리고 <b>紅白 첫 출장</b>까지 — 12월 2일엔 첫 정규 앨범 <b lang="ja">「CUTIE LAND」</b></li>
+          <li><Ico class="li-i" n="heart" duo /> 아소비시스템의 아이돌 프로젝트 <b>KAWAII LAB.</b>에서 탄생한 <b>8인조</b> (2024년 8월 TIF에서 데뷔)</li>
+          <li><Ico class="li-i" n="globe" duo /> 콘셉트는 <b>“KAWAII MAKER”</b> — 하라주쿠에서 세계로 KAWAII를 전하는 그룹</li>
+          <li><Ico class="li-i" n="trophy" duo /> 데뷔곡이 신드롬이 되어 <b>레코드대상 신인상</b>, 2026년 <b>부도칸·아레나 투어</b>, 그리고 <b>紅白 첫 출장</b>까지 — 12월 2일엔 첫 정규 앨범 <b lang="ja">「CUTIE LAND」</b></li>
         </ul>
-        <a class="link" :href="withBase('/journey/')">🗻 3D로 보는 정상까지의 여정 →</a>
+        <a class="link" :href="withBase('/journey/')"><Ico n="mountain" duo /> 3D로 보는 정상까지의 여정 →</a>
       </li>
 
       <li class="step" :class="{ ok: done.has('watch') }">
         <header><span class="n">2</span><h3>먼저 볼 영상 5편</h3><button type="button" class="chk" :aria-pressed="done.has('watch')" @click="toggle('watch')">{{ done.has('watch') ? '✓ 완료' : '봤어요' }}</button></header>
-        <p class="hint">3편 이상 보면 자동 완료 ✨</p>
+        <p class="hint">3편 이상 보면 자동 완료 ✦</p>
         <div class="vids">
           <a v-for="v in MUST_WATCH" :key="v.id" class="vid" :class="{ seen: watched.has(v.id) }" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" @click="markWatch(v.id)">
             <span class="th"><img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><i v-if="watched.has(v.id)">✓</i></span>
@@ -83,10 +83,10 @@ onMounted(() => {
         <header><span class="n">3</span><h3>멤버 8명 한눈에</h3><button type="button" class="chk" :aria-pressed="done.has('members')" @click="toggle('members')">{{ done.has('members') ? '✓ 완료' : '외웠어요' }}</button></header>
         <div class="mem">
           <a v-for="m in members" :key="m.id" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color }">
-            <span class="face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span><b>{{ m.ko }}</b><small>{{ m.emoji }} {{ m.colorName }}</small>
+            <span class="face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span><b>{{ m.ko }}</b><small><Ico n="heart" duo :style="{ color: m.color }" /> {{ m.colorName }}</small>
           </a>
         </div>
-        <a class="link" :href="withBase('/which-member/')">🔮 나와 닮은 멤버 테스트로 최애 찾기 →</a>
+        <a class="link" :href="withBase('/which-member/')"><Ico n="orb" duo /> 나와 닮은 멤버 테스트로 최애 찾기 →</a>
       </li>
 
       <li class="step" :class="{ ok: done.has('follow') }">
@@ -99,22 +99,22 @@ onMounted(() => {
       <li class="step" :class="{ ok: done.has('next') }">
         <header><span class="n">5</span><h3>다가오는 일정 체크</h3><button type="button" class="chk" :aria-pressed="done.has('next')" @click="toggle('next')">{{ done.has('next') ? '✓ 완료' : '확인했어요' }}</button></header>
         <ul class="ev">
-          <li v-for="e in upcoming" :key="e.date + e.ja"><span>{{ catMeta[e.cat].emoji }} {{ e.date.slice(5).replace('-', '/') }}</span><b lang="ja">{{ e.ja }}</b></li>
+          <li v-for="e in upcoming" :key="e.date + e.ja"><span><Ico :n="catMeta[e.cat].ico" duo :style="{ color: catMeta[e.cat].color }" /> {{ e.date.slice(5).replace('-', '/') }}</span><b lang="ja">{{ e.ja }}</b></li>
         </ul>
-        <a class="link" :href="withBase('/schedule/')">🗓️ 전체 스케줄 · 캘린더 추가 →</a>
+        <a class="link" :href="withBase('/schedule/')"><Ico n="calendar" duo /> 전체 스케줄 · 캘린더 추가 →</a>
       </li>
 
       <li class="step" :class="{ ok: done.has('deeper') }">
         <header><span class="n">6</span><h3>더 깊이 빠져들기</h3><button type="button" class="chk" :aria-pressed="done.has('deeper')" @click="toggle('deeper')">{{ done.has('deeper') ? '✓ 완료' : '둘러봤어요' }}</button></header>
         <div class="deep">
-          <a :href="withBase('/kohaku/')">🎍 紅白 특집</a>
-          <a :href="withBase('/videos/')">🎬 영상 아카이브</a>
-          <a :href="withBase('/cutie-land/')">💿 CUTIE LAND</a>
-          <a :href="withBase('/units/')">💞 유닛 & 케미</a>
-          <a :href="withBase('/live-guide/')">🔦 펜라이트 가이드</a>
-          <a :href="withBase('/korea/')">🇰🇷 큐스트 in KOREA</a>
-          <a :href="withBase('/news/')">📰 공식 소식</a>
-          <a :href="withBase('/mv-quiz/')">🎯 MV 장면 퀴즈</a>
+          <a :href="withBase('/kohaku/')"><Ico n="firework" duo /> 紅白 특집</a>
+          <a :href="withBase('/videos/')"><Ico n="film" duo /> 영상 아카이브</a>
+          <a :href="withBase('/cutie-land/')"><Ico n="disc" duo /> CUTIE LAND</a>
+          <a :href="withBase('/units/')"><Ico n="hearts" duo /> 유닛 &amp; 케미</a>
+          <a :href="withBase('/live-guide/')"><Ico n="penlight" duo /> 펜라이트 가이드</a>
+          <a :href="withBase('/korea/')"><b class="cc">KR</b> 큐스트 in KOREA</a>
+          <a :href="withBase('/news/')"><Ico n="news" duo /> 공식 소식</a>
+          <a :href="withBase('/mv-quiz/')"><Ico n="target" duo /> MV 장면 퀴즈</a>
         </div>
       </li>
     </ol>
@@ -193,4 +193,6 @@ onMounted(() => {
   .badge { margin-right: 84px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .party { display: none; } .fill, .n, .chk, .vid, .mem a { transition: none; } .badge { animation: none; } }
+.cc { display: inline-grid; place-items: center; min-width: 24px; height: 17px; padding: 0 4px; border-radius: 5px; background: linear-gradient(135deg, #e0457f, #4a90d9); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 0.04em; vertical-align: 1px; }
+.li-i { color: #c2185b; }
 </style>
