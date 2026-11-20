@@ -18,6 +18,7 @@ const lazy = {
   HomeHub: () => import('../components/HomeHub.vue'),
   JourneyToTop: () => import('../components/JourneyToTop.vue'),
   JourneyProfile: () => import('../components/JourneyProfile.vue'),
+  JourneySummit: () => import('../components/JourneySummit.vue'),
   ScheduleBoard: () => import('../components/ScheduleBoard.vue'),
   DiscoShelf: () => import('../components/DiscoShelf.vue'),
   BirthdayRing: () => import('../components/BirthdayRing.vue'),

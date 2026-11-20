@@ -7,3 +7,5 @@ description: 큐티스트리트의 데뷔부터 紅白까지, 후지산 3,776m �
 <JourneyToTop />
 
 <JourneyProfile />
+
+<JourneySummit />
