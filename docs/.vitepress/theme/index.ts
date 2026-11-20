@@ -36,6 +36,7 @@ const lazy = {
   AboutHub: () => import('../components/AboutHub.vue'),
   StagesHub: () => import('../components/StagesHub.vue'),
   WorldMap: () => import('../components/WorldMap.vue'),
+  WorldStamps: () => import('../components/WorldStamps.vue'),
   SongStory: () => import('../components/SongStory.vue'),
   SongList: () => import('../components/SongList.vue'),
   MemberStory: () => import('../components/MemberStory.vue'),

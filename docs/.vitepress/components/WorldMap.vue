@@ -216,6 +216,8 @@ async function play() {
   idle()
 }
 function jump(i: number) { playing.value = false; goTo(i) }
+// the passport stamps below the globe (WorldStamps) ask for a stop by index
+const onStamp = (e: Event) => { const i = (e as CustomEvent<number>).detail; if (Number.isInteger(i) && CHAPTERS[i]) { seen = true; jump(i) } }
 
 // mobile: the step list is a horizontal chip rail — keep the current chip centred
 const stepsEl = ref<HTMLElement | null>(null)
@@ -256,8 +258,9 @@ onMounted(async () => {
     if (e.intersectionRatio >= 0.45 && !seen && !reduce) { seen = true; play() }
   }, { threshold: [0, 0.45] })
   if (root.value) io.observe(root.value)
+  window.addEventListener('wm:jump', onStamp)
 })
-onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelAnimationFrame(statRaf); clearTimeout(timer); io?.disconnect(); playing.value = false })
+onBeforeUnmount(() => { window.removeEventListener('wm:jump', onStamp); clearInterval(clock); cancelAnimationFrame(raf); cancelAnimationFrame(statRaf); clearTimeout(timer); io?.disconnect(); playing.value = false })
 </script>
 
 <template>
