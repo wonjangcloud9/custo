@@ -101,6 +101,19 @@ const visitedCountries = computed(() => new Set(shown.value.filter(done).map((c)
 const visitedCities = computed(() => new Set(shown.value.filter(done).flatMap((c) => c.pins.map((p) => p.name.replace(/ \(.*\)/, ''))) ).size)
 const upcomingCount = computed(() => CHAPTERS.filter((c) => !done(c)).length)
 
+// odometer: great-circle km along the drawn route, rolling live with the plane (arcT)
+const EARTH_KM = 6371, LAP_KM = 40075
+const legKm = CHAPTERS.map((c, i) => (i ? geoDistance(anchor(CHAPTERS[i - 1]), anchor(c)) * EARTH_KM : 0))
+const odo = computed(() => {
+  let flown = 0, planned = 0
+  for (let i = 1; i <= step.value; i++) {
+    const km = legKm[i] * (i === step.value ? arcT.value : 1)
+    if (done(CHAPTERS[i])) flown += km; else planned += km
+  }
+  return { flown: Math.round(flown), planned: Math.round(planned), laps: flown / LAP_KM }
+})
+const fmtKm = (n: number) => n.toLocaleString('ko-KR')
+
 // the plane at the head of the arc that is being drawn, nose along the route
 const plane = computed(() => {
   if (step.value < 1 || arcT.value >= 1) return null
@@ -316,6 +329,13 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
         <div><b :key="'m' + bump" :class="{ pop: bump }">{{ shownStats.cities }}</b><span>도시</span></div>
         <div class="up"><b>{{ upcomingCount }}</b><span>예정</span></div>
       </div>
+      <p class="odo" :aria-label="`지금까지 날아온 거리 약 ${fmtKm(odo.flown)}킬로미터`">
+        <span class="odo-k"><Ico n="plane" duo size="16" />날아온 거리</span>
+        <b>{{ fmtKm(odo.flown) }}</b><small>km</small>
+        <em v-if="odo.laps >= 0.05">지구 {{ odo.laps.toFixed(2) }}바퀴</em>
+        <i v-if="odo.planned" class="odo-up">+ 예정 {{ fmtKm(odo.planned) }}km</i>
+        <span class="odo-bar" aria-hidden="true"><span :style="{ transform: `scaleX(${Math.min(1, odo.laps)})` }" /></span>
+      </p>
       <Transition name="swap" mode="out-in">
         <article :key="cur.iso + cur.title" class="now" :style="{ '--cc': COUNTRY[cur.country].color }">
           <p class="now-top"><span class="flag" aria-hidden="true">{{ cur.country }}</span>{{ cur.date }} · {{ COUNTRY[cur.country].ko }}<em v-if="!done(cur)">예정</em></p>
@@ -400,6 +420,14 @@ onBeforeUnmount(() => { clearInterval(clock); cancelAnimationFrame(raf); cancelA
 .stats b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 30px; color: #c92f69; font-variant-numeric: tabular-nums; }
 .stats .up b { color: #7d4fb0; }
 .stats span { font-size: 13px; font-weight: 700; color: #5a4060; }
+.odo { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 10px 0 0; padding: 11px 14px 15px; border-radius: 18px; background: linear-gradient(100deg, #fff 0%, #fff6fa 100%); border: 1.5px dashed #f0c6da; overflow: hidden; }
+.odo-k { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700; color: #5a4060; margin-right: 2px; align-self: center; }
+.odo b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 22px; color: #c92f69; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.odo small { font-size: 13px; font-weight: 800; color: #c92f69; }
+.odo em { font-style: normal; font-size: 12px; font-weight: 800; color: #8a3a63; background: #ffe6f0; border-radius: 999px; padding: 2px 9px; align-self: center; }
+.odo .odo-up { font-style: normal; font-size: 12px; font-weight: 700; color: #6a4596; align-self: center; margin-left: auto; }
+.odo-bar { position: absolute; left: 14px; right: 14px; bottom: 6px; height: 3px; border-radius: 3px; background: #f7e1ec; overflow: hidden; }
+.odo-bar span { display: block; height: 100%; background: linear-gradient(90deg, #ff6b9d, #a06cd5); transform-origin: left; border-radius: inherit; }
 .now { margin-top: 14px; padding: 18px 20px; border-radius: 24px; color: #fff; background: linear-gradient(135deg, color-mix(in srgb, var(--cc) min(62%, var(--ink-mix, 100%)), #2a1030), #2a1030); box-shadow: 0 20px 40px -28px rgba(42, 16, 48, 0.8); }
 .now-top { margin: 0 !important; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #ffe4f0; }
 .now-top em { font-style: normal; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); }

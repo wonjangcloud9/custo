@@ -36,13 +36,13 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
 <template>
   <div class="kh">
     <a class="kh-hero" :href="korea.url" target="_blank" rel="noopener">
-      <span class="kh-flag" aria-hidden="true">🇰🇷</span>
+      <span class="kh-flag" aria-hidden="true"><b>KR</b></span>
       <span class="kh-txt"><small>NEXT IN KOREA</small><b lang="ja">{{ korea.ja }}</b><span>{{ korea.date.replace(/-/g, '.') }} (토) {{ korea.time }} 시작 · {{ korea.venue }}</span></span>
       <span class="kh-dd">{{ days === null ? '' : days > 0 ? 'D-' + days : days === 0 ? 'TODAY' : 'THANK YOU' }}</span>
     </a>
     <!-- KAWAII LAB. Weverse notices 37857 (time, price, Melon Ticket Global) and 37858 (sale schedule), checked 2026-11-18 -->
     <div class="kh-tix">
-      <b>🎫 티켓</b>
+      <b class="kh-tix-h"><Ico n="ticket" duo size="17" />티켓</b>
       <ul>
         <li>135,000원 (VAT 포함) · 예매처 <a href="https://tkglobal.melon.com/" target="_blank" rel="noopener">멜론티켓</a> (한국·글로벌 페이지 별도)</li>
         <li>팬클럽 선예매 2026.08.21–23 · 일반 예매 <b>2026.08.24 20:00부터</b> — 잔여석은 예매처에서 확인해 주세요</li>
@@ -51,17 +51,17 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
       <small>출처: KAWAII LAB. 위버스 공지 <a href="https://weverse.io/kawaii_lab/notice/37857" target="_blank" rel="noopener">선예매 안내</a> · <a href="https://weverse.io/kawaii_lab/notice/37858" target="_blank" rel="noopener">티켓 구매 방법</a></small>
     </div>
 
-    <h2 id="songs">한국어 버전 곡 🎤</h2>
+    <h2 id="songs">한국어 버전 곡 <Ico class="h-ico" n="mic" duo size="0.85em" /></h2>
     <div class="songs">
       <article v-for="s in SONGS" :key="s.ko" class="song">
         <YtLite v-if="s.mv" :id="s.mv" :title="`${s.ko} MV`" />
-        <div v-else class="nomv" aria-hidden="true">🎶</div>
+        <div v-else class="nomv" aria-hidden="true"><Ico n="disc" duo size="40" /></div>
         <b>{{ s.ko }}</b><small lang="ja">{{ s.ja }} · {{ s.date }}</small>
         <em v-if="s.note">{{ s.note }}</em>
       </article>
     </div>
 
-    <h2 id="history">한국 활동 기록 🗺️</h2>
+    <h2 id="history">한국 활동 기록 <Ico class="h-ico" n="globe" duo size="0.85em" /></h2>
     <ol class="tl">
       <li v-for="(x, i) in TIMELINE" :key="x.d" :style="{ '--i': i }" :class="{ next: !x.v }">
         <span class="tl-d">{{ x.d }}</span>
@@ -70,7 +70,7 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
       </li>
     </ol>
 
-    <h2 id="videos">한국 관련 영상 {{ krVideos.length }}편 📺</h2>
+    <h2 id="videos">한국 관련 영상 {{ krVideos.length }}편 <Ico class="h-ico" n="tv" duo size="0.85em" /></h2>
     <div class="vids">
       <a v-for="v in krVideos.slice(0, shown)" :key="v.id" class="vid" :href="watch(v.id)" target="_blank" rel="noopener">
         <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" decoding="async" />
@@ -89,7 +89,10 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
 .kh-hero { display: flex; align-items: center; gap: 16px; margin: 8px 0 8px; padding: 22px 24px; border-radius: 28px; text-decoration: none !important; color: #3a2340 !important;
   background: radial-gradient(120% 140% at 0% 0%, #ffe3ee 0%, transparent 55%), radial-gradient(120% 140% at 100% 100%, #e3ecff 0%, transparent 55%), #fff; border: 1.5px solid #f1d4e1; transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1); }
 .kh-hero:hover { transform: translateY(-3px) rotate(-0.4deg); }
-.kh-flag { font-size: 44px; line-height: 1; animation: wave 2.6s ease-in-out infinite; transform-origin: 20% 90%; }
+.kh-flag { flex: none; width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; background: linear-gradient(135deg, #fff 0%, #eaf2ff 100%); box-shadow: inset 0 0 0 2px #cfe0f7, 0 6px 16px -8px rgba(74, 144, 217, 0.6); animation: wave 2.6s ease-in-out infinite; transform-origin: 20% 90%; }
+.kh-flag b { font: 900 22px/1 'Zen Maru Gothic', sans-serif; letter-spacing: 0.04em; background: linear-gradient(135deg, #e0475e 0 48%, #3d6fc4 52% 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kh-tix-h { display: inline-flex; align-items: center; gap: 6px; }
+.kh .h-ico { vertical-align: -0.1em; color: #c92f69; }
 @keyframes wave { 0%, 60%, 100% { rotate: 0deg; } 20% { rotate: -10deg; } 40% { rotate: 8deg; } }
 .kh-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .kh-txt small { font-size: 11.5px; font-weight: 800; letter-spacing: 0.12em; color: #c92f69; }
@@ -99,7 +102,7 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
 .songs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .song { display: flex; flex-direction: column; gap: 2px; }
 .song :deep(.yt) { margin: 0 0 8px; }
-.nomv { aspect-ratio: 16 / 9; border-radius: 18px; display: grid; place-items: center; font-size: 40px; background: linear-gradient(135deg, #fff0f6, #eef3ff); margin-bottom: 8px; }
+.nomv { aspect-ratio: 16 / 9; border-radius: 18px; display: grid; place-items: center; color: #c92f69; background: linear-gradient(135deg, #fff0f6, #eef3ff); margin-bottom: 8px; }
 .song b { font-size: 16px; }
 .song small { font-size: 12.5px; color: #735779; }
 .song em { font-style: normal; font-size: 12px; font-weight: 700; color: #2b5ea8; }
@@ -129,7 +132,7 @@ const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`
   .tl li { grid-template-columns: 1fr auto; }
   .tl-d { grid-column: 1 / -1; }
   .kh-hero { padding: 18px; gap: 12px; }
-  .kh-flag { font-size: 34px; }
+  .kh-flag { width: 52px; height: 52px; border-radius: 16px; } .kh-flag b { font-size: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .kh-flag { animation: none; }
