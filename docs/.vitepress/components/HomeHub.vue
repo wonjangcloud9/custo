@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import JourneyMini from './JourneyMini.vue'
 import { jaLang } from '../theme/lang'
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
@@ -265,7 +266,7 @@ function cleanTitle(t: string) {
     <section id="explore" class="sec">
       <div class="sec-head"><h2>EXPLORE</h2></div>
       <div class="bento">
-        <a class="b b-lg" :href="withBase('/journey/')"><span class="b-emoji"><Ico n="mountain" duo /></span><b>정상까지의 여정</b><span>데뷔부터 紅白까지, 3D로 오르는 큐스트의 길</span></a>
+        <a class="b b-lg b-jr" :href="withBase('/journey/')"><JourneyMini /><b>정상까지의 여정</b><span>데뷔부터 紅白까지, 3D로 오르는 큐스트의 길</span></a>
         <a class="b" :href="withBase('/units/')"><span class="b-emoji"><Ico n="hearts" duo /></span><b>유닛 & 케미</b><span>멤버 조합 케미 파인더</span></a>
         <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji b-cc">KR</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
         <a class="b" :href="withBase('/discography/')"><span class="b-emoji"><Ico n="disc" duo /></span><b>디스코그래피</b><span>싱글 & 앨범</span></a>
@@ -508,6 +509,8 @@ function cleanTitle(t: string) {
 .b-cc { font-size: 13px; font-weight: 900; letter-spacing: 0.08em; padding: 6px 9px; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #cd2e3a, #0047a0); align-self: flex-start; }
 .b:hover .b-emoji { transform: scale(1.25) rotate(-12deg); }
 .b-lg .b-emoji { font-size: 56px; }
+.b-jr { overflow: hidden; }
+.b-jr:hover { transform: translateY(-4px); }
 /* each tile's icon takes one member colour (darkened for contrast on white) */
 .bento .b:nth-child(8n + 2) .b-emoji { color: #c0392b; --ico-fill: #ffd6d9; }
 .bento .b:nth-child(8n + 4) .b-emoji { color: #8a5cc4; --ico-fill: #eadcfb; }
