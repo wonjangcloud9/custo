@@ -10,16 +10,16 @@ import { members, memberById } from '../data/members'
 interface Video { id: string; title: string; duration: string; category: string; members: string[]; date: string; venue: string; channel?: string; published?: string }
 const videos = videosRaw as Video[]
 
-const CATS: { id: string; label: string; emoji: string }[] = [
-  { id: 'all', label: '전체', emoji: '✨' },
-  { id: 'live', label: '라이브', emoji: '🎤' },
-  { id: 'dance', label: '안무 · FOCUS', emoji: '💃' },
-  { id: 'mv', label: 'MV · 리릭', emoji: '🎬' },
-  { id: 'making', label: '메이킹', emoji: '🎥' },
-  { id: 'birthday', label: '생탄제', emoji: '🎂' },
-  { id: 'digest', label: '다이제스트', emoji: '📼' },
-  { id: 'vlog', label: '브이로그', emoji: '🧳' },
-  { id: 'variety', label: '버라이어티', emoji: '🍬' },
+const CATS: { id: string; label: string; ico: string }[] = [
+  { id: 'all', label: '전체', ico: 'grid' },
+  { id: 'live', label: '라이브', ico: 'mic' },
+  { id: 'dance', label: '안무 · FOCUS', ico: 'sparkle' },
+  { id: 'mv', label: 'MV · 리릭', ico: 'film' },
+  { id: 'making', label: '메이킹', ico: 'camera' },
+  { id: 'birthday', label: '생탄제', ico: 'cake' },
+  { id: 'digest', label: '다이제스트', ico: 'play' },
+  { id: 'vlog', label: '브이로그', ico: 'suitcase' },
+  { id: 'variety', label: '버라이어티', ico: 'candy' },
 ]
 const catLabel = Object.fromEntries(CATS.map((c) => [c.id, c]))
 
@@ -173,20 +173,20 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
       <h1 class="va-title">
         <span v-for="(ch, i) in 'VIDEO ARCHIVE'.split('')" :key="i" class="va-ch" :style="{ '--i': i }">{{ ch === ' ' ? ' ' : ch }}</span>
       </h1>
-      <p class="va-sub">공식 채널 + KAWAII LAB. MV 영상 <b>{{ videos.length }}</b>개를 무대·안무·메이킹·생탄제별로. 본 영상은 <b>{{ watched.size }}</b>개예요. <a class="va-stats" :href="withBase('/videos/stats/')">📊 통계 보기</a></p>
+      <p class="va-sub">공식 채널 + KAWAII LAB. MV 영상 <b>{{ videos.length }}</b>개를 무대·안무·메이킹·생탄제별로. 본 영상은 <b>{{ watched.size }}</b>개예요. <a class="va-stats" :href="withBase('/videos/stats/')"><Ico n="chart" :size="13" /> 통계 보기</a></p>
     </header>
 
     <div class="va-toolbar">
       <label class="va-search">
-        <span aria-hidden="true">🔍</span>
+        <span aria-hidden="true"><Ico n="search" :size="15" /></span>
         <input v-model="q" type="search" placeholder="곡명, 공연장, 키워드 (예: 武道館, ぷりきゅきゅ)" @input="shown = PAGE" />
       </label>
-      <button class="va-dice" type="button" @click="randomPick" title="지금 필터에서 랜덤 재생">🎲 랜덤 재생</button>
+      <button class="va-dice" type="button" @click="randomPick" title="지금 필터에서 랜덤 재생"><Ico n="dice" :size="15" /> 랜덤 재생</button>
     </div>
 
     <div class="va-chips" role="toolbar" aria-label="카테고리">
       <button v-for="c in CATS" :key="c.id" type="button" class="chip" :aria-pressed="cat === c.id" @click="setCat(c.id)">
-        <span aria-hidden="true">{{ c.emoji }}</span>{{ c.label }}<small>{{ counts[c.id] || 0 }}</small>
+        <Ico :n="c.ico" :size="14" />{{ c.label }}<small>{{ counts[c.id] || 0 }}</small>
       </button>
     </div>
 
@@ -194,7 +194,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
       <button v-for="m in memberOrder" :key="m.id" type="button" class="mchip" :class="{ oshi: oshi === m.id }" :aria-pressed="member === m.id"
         :style="{ '--mc': m.color }" :title="`${m.ko} (${m.ja})`" @click="setMember(m.id)">
         <span class="mchip-ring"><span class="mchip-face" lang="ja">{{ m.ja.slice(-2, -1) }}</span></span>
-        <span class="mchip-name"><span v-if="oshi === m.id" aria-label="최애">💖</span>{{ m.ko.split(' ')[1] }}</span>
+        <span class="mchip-name"><span v-if="oshi === m.id" class="oshi-h" role="img" aria-label="최애"><Ico n="heart" duo :size="12" /></span>{{ m.ko.split(' ')[1] }}</span>
         <small>{{ memberCounts[m.id] || 0 }}</small>
       </button>
       <label class="va-sort"><select v-model="sort" aria-label="정렬" @change="shown = PAGE"><option v-for="o in SORTS" :key="o.id" :value="o.id">{{ o.label }}</option></select></label>
@@ -206,7 +206,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
       <div v-if="watched.size" class="va-prog" :class="{ done: complete }" role="progressbar" :aria-valuenow="seenInScope" aria-valuemin="0" :aria-valuemax="scope.length"
         :aria-label="`이 목록에서 ${scope.length}편 중 ${seenInScope}편 봤어요`">
         <span class="va-prog-track"><i :style="{ width: pct + '%' }" /></span>
-        <span class="va-prog-txt">{{ complete ? '🎉 이 목록 완주!' : `${seenInScope}/${scope.length}편 봤어요 · ${pct}%` }}</span>
+        <span class="va-prog-txt"><template v-if="complete"><Ico n="trophy" duo :size="13" /> 이 목록 완주!</template><template v-else>{{ seenInScope }}/{{ scope.length }}편 봤어요 · {{ pct }}%</template></span>
       </div>
     </div>
 
@@ -223,10 +223,10 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
           <span v-else-if="isNew(v)" class="official new">NEW</span>
         </button>
         <div class="body">
-          <span class="pill" :data-cat="v.category">{{ catLabel[v.category]?.emoji }} {{ catLabel[v.category]?.label }}</span>
+          <span class="pill" :data-cat="v.category"><Ico v-if="catLabel[v.category]" :n="catLabel[v.category].ico" :size="12" /> {{ catLabel[v.category]?.label }}</span>
           <h3 class="ttl" :lang="jaLang(v.title)">{{ cleanTitle(v.title) }}</h3>
           <p class="meta">
-            <span v-if="v.venue">📍 <span :lang="jaLang(v.venue)">{{ v.venue }}</span></span>
+            <span v-if="v.venue"><Ico n="pin" :size="11" /> <span :lang="jaLang(v.venue)">{{ v.venue }}</span></span>
             <span v-if="v.date">{{ fmtDate(v.date) }}</span>
           </p>
           <div v-if="v.members.length" class="dots">
@@ -235,7 +235,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
         </div>
       </article>
     </div>
-    <p v-else class="va-empty">조건에 맞는 영상이 없어요 🥲 필터를 바꿔보세요.</p>
+    <p v-else class="va-empty">조건에 맞는 영상이 없어요. 필터를 바꿔보세요.</p>
 
     <div v-if="shown < filtered.length" class="va-more">
       <button type="button" @click="shown += PAGE">더 보기 <small>({{ filtered.length - shown }}개 남음)</small></button>
@@ -250,7 +250,7 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
         <div class="va-player-bar">
           <p :lang="jaLang(playing.title)">{{ playing.title }}</p>
           <a :href="`https://www.youtube.com/watch?v=${playing.id}`" target="_blank" rel="noopener">YouTube에서 보기 ↗</a>
-          <button type="button" class="x" aria-label="닫기" @click="close">✕</button>
+          <button type="button" class="x" aria-label="닫기" @click="close"><Ico n="close" :size="18" /></button>
         </div>
         <div class="va-queue">
           <label class="auto"><input v-model="autoNext" type="checkbox" /> 연속 재생</label>
@@ -325,6 +325,10 @@ onBeforeUnmount(() => window.removeEventListener('message', onYtMessage))
   transition: transform 0.45s var(--spring), background 0.2s, color 0.2s, border-color 0.2s;
 }
 .chip small { font-size: 11px; opacity: 0.55; font-weight: 700; }
+.chip .ico { color: #e0457f; }
+.chip[aria-pressed='true'] .ico { color: #ffb3cf; }
+.oshi-h { display: inline-flex; color: #e0457f; margin-right: 3px; vertical-align: -1px; }
+.pill .ico { vertical-align: -0.15em; }
 .chip:hover { transform: translateY(-2px); border-color: #ff9ec0; }
 .chip:active { transform: scale(0.9); }
 .chip[aria-pressed='true'] { background: var(--ink); color: #fff; border-color: var(--ink); }

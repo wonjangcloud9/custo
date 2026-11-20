@@ -34,14 +34,14 @@ function saveIcs(e: CsEvent | CsEvent[]) {
 }
 const dayJa = (d: string) => `${+d.slice(5, 7)}/${+d.slice(8, 10)} (${WD[new Date(d + 'T00:00:00Z').getUTCDay()]})`
 
-const KINDS: { id: string; label: string; emoji: string; c: string }[] = [
-  { id: 'stage', label: '무대', emoji: '🎤', c: '#FF6B9D' },
-  { id: 'fancam', label: '직캠', emoji: '📸', c: '#A06CD5' },
-  { id: 'variety', label: '예능·토크', emoji: '📺', c: '#FF9F43' },
-  { id: 'unit', label: '유닛·솔로', emoji: '🍑', c: '#3CCFA8' },
-  { id: 'event', label: '이벤트·패션쇼', emoji: '🎪', c: '#4A90D9' },
-  { id: 'news', label: '인터뷰·뉴스', emoji: '🗞️', c: '#5DC8F5' },
-  { id: 'collab', label: 'CM·콜라보', emoji: '🤝', c: '#FFC93C' },
+const KINDS: { id: string; label: string; ico: string; c: string }[] = [
+  { id: 'stage', label: '무대', ico: 'mic', c: '#FF6B9D' },
+  { id: 'fancam', label: '직캠', ico: 'camera', c: '#A06CD5' },
+  { id: 'variety', label: '예능·토크', ico: 'tv', c: '#FF9F43' },
+  { id: 'unit', label: '유닛·솔로', ico: 'hearts', c: '#3CCFA8' },
+  { id: 'event', label: '이벤트·패션쇼', ico: 'ticket', c: '#4A90D9' },
+  { id: 'news', label: '인터뷰·뉴스', ico: 'news', c: '#5DC8F5' },
+  { id: 'collab', label: 'CM·콜라보', ico: 'link', c: '#FFC93C' },
 ]
 const kindById = Object.fromEntries(KINDS.map((k) => [k.id, k]))
 
@@ -121,19 +121,19 @@ onMounted(() => {
 
     <!-- upcoming broadcasts -->
     <section v-if="onAir.length" class="soon" aria-labelledby="soon-h">
-      <h2 id="soon-h" class="soon-h">📡 방송 예정 <small>방송 후 공식 클립이 올라오면 아래 아카이브에 추가돼요</small></h2>
+      <h2 id="soon-h" class="soon-h"><Ico n="bell" duo :size="20" /> 방송 예정 <small>방송 후 공식 클립이 올라오면 아래 아카이브에 추가돼요</small></h2>
       <div class="soon-row">
         <div v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }">
           <span class="sn-d"><b :class="{ live: isOnNow(e, now || BUILD_TIME) }">{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
           <a class="sn-t" lang="ja" :href="e.url" target="_blank" rel="noopener">{{ e.ja }}</a>
           <span class="sn-k">{{ e.ko }}</span>
           <span class="sn-act">
-            <button type="button" :aria-label="`${e.ja} 캘린더 파일(.ics) 저장`" @click="saveIcs(e)">📅 .ics</button>
+            <button type="button" :aria-label="`${e.ja} 캘린더 파일(.ics) 저장`" @click="saveIcs(e)"><Ico n="calendar" :size="13" /> .ics</button>
             <a :href="googleCalUrl(e)" target="_blank" rel="noopener" :aria-label="`${e.ja} Google 캘린더에 추가`">Google</a>
           </span>
         </div>
       </div>
-      <button v-if="onAir.length > 1" type="button" class="sn-all" @click="saveIcs(onAir)">📅 방송 예정 {{ onAir.length }}개 한 번에 캘린더에 넣기</button>
+      <button v-if="onAir.length > 1" type="button" class="sn-all" @click="saveIcs(onAir)"><Ico n="calendar" :size="14" /> 방송 예정 {{ onAir.length }}개 한 번에 캘린더에 넣기</button>
     </section>
 
     <!-- ON AIR panel -->
@@ -143,7 +143,7 @@ onMounted(() => {
       </div>
       <div class="oa-meta">
         <p class="oa-live"><i aria-hidden="true" />{{ playing ? 'NOW PLAYING' : 'LATEST' }}</p>
-        <p class="oa-kind">{{ kindById[cur.kind].emoji }} {{ kindById[cur.kind].label }}<span v-if="pre(cur)" class="pre">데뷔 전</span></p>
+        <p class="oa-kind"><Ico :n="kindById[cur.kind].ico" :size="13" /> {{ kindById[cur.kind].label }}<span v-if="pre(cur)" class="pre">데뷔 전</span></p>
         <h2 class="oa-title" :lang="jaLang(cur.title)">{{ cur.title }}</h2>
         <dl>
           <div><dt>채널</dt><dd :lang="jaLang(cur.ch)">{{ cur.ch }}</dd></div>
@@ -159,7 +159,7 @@ onMounted(() => {
       <div class="kinds" role="toolbar" aria-label="종류">
         <button type="button" class="chip" :aria-pressed="!kind" @click="kind = ''">전체 <small>{{ all.length }}</small></button>
         <button v-for="k in KINDS" :key="k.id" type="button" class="chip" :style="{ '--c': k.c }" :aria-pressed="kind === k.id" @click="kind = kind === k.id ? '' : k.id">
-          {{ k.emoji }} {{ k.label }} <small>{{ count(k.id) }}</small>
+          <Ico :n="k.ico" :size="14" /> {{ k.label }} <small>{{ count(k.id) }}</small>
         </button>
       </div>
       <div class="row2">
@@ -169,7 +169,7 @@ onMounted(() => {
             <span aria-hidden="true">{{ m.ja.slice(2, 3) }}</span><small aria-hidden="true">{{ memberCount(m.id) }}</small>
           </button>
         </div>
-        <label class="search"><span aria-hidden="true">🔍</span><input v-model="q" type="search" placeholder="프로그램·채널·곡 검색" aria-label="출연 영상 검색" /></label>
+        <label class="search"><span aria-hidden="true"><Ico n="search" :size="15" /></span><input v-model="q" type="search" placeholder="프로그램·채널·곡 검색" aria-label="출연 영상 검색" /></label>
       </div>
       <div class="chs" role="toolbar" aria-label="자주 출연한 채널">
         <span class="chs-h">자주 만난 채널</span>
@@ -178,7 +178,7 @@ onMounted(() => {
       <label v-if="who" class="grp"><input v-model="withGroup" type="checkbox" /> 그룹 전체 출연도 함께 보기 <small>+{{ groupCount }}</small></label>
       <p class="result" aria-live="polite">
         <b>{{ list.length }}</b>개의 출연 영상
-        <button v-if="anyFilter" type="button" class="clear" @click="reset">필터 초기화 ✕</button>
+        <button v-if="anyFilter" type="button" class="clear" @click="reset">필터 초기화 <Ico n="close" :size="12" /></button>
       </p>
     </div>
 
@@ -190,7 +190,7 @@ onMounted(() => {
           <span class="th">
             <img :src="`https://i.ytimg.com/vi/${a.id}/mqdefault.jpg`" alt="" loading="lazy" width="320" height="180" />
             <span class="len">{{ fmtLen(a.secs) }}</span>
-            <span class="kb">{{ kindById[a.kind].emoji }} {{ kindById[a.kind].label }}</span>
+            <span class="kb"><Ico :n="kindById[a.kind].ico" :size="12" /> {{ kindById[a.kind].label }}</span>
             <span v-if="pre(a)" class="pre on-th">데뷔 전</span>
           </span>
           <span class="tx">
@@ -203,9 +203,9 @@ onMounted(() => {
         </button>
       </TransitionGroup>
     </div>
-    <p v-if="!list.length" class="empty">조건에 맞는 출연 영상이 없어요 🥲 <button type="button" class="clear" @click="reset">필터 초기화</button></p>
+    <p v-if="!list.length" class="empty">조건에 맞는 출연 영상이 없어요. <button type="button" class="clear" @click="reset">필터 초기화</button></p>
 
-    <p class="note">📌 다른 공식 채널(방송국·음악방송·브랜드·언론·아티스트)이 올린 영상만 모았어요. 팬 재업로드·클립 채널·다른 가수의 커버는 넣지 않아요. 공식 채널 영상은 → <a href="../videos/">영상 아카이브</a></p>
+    <p class="note"><Ico n="pin" :size="13" /> 다른 공식 채널(방송국·음악방송·브랜드·언론·아티스트)이 올린 영상만 모았어요. 팬 재업로드·클립 채널·다른 가수의 커버는 넣지 않아요. 공식 채널 영상은 → <a href="../videos/">영상 아카이브</a></p>
   </section>
 </template>
 
@@ -255,6 +255,10 @@ onMounted(() => {
 .kinds, .chs { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { padding: 8px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 700; background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c, #FF6B9D) 30%, white); transition: transform 0.4s var(--spring), background 0.2s; }
 .chip small { font-weight: 600; opacity: 0.75; margin-left: 2px; }
+.chip .ico, .kb .ico { color: var(--c, #e0457f); }
+.chip[aria-pressed='true'] .ico { color: color-mix(in srgb, var(--c, #ff6b9d) 55%, #fff); }
+.soon-h .ico { color: #e0457f; }
+.note .ico { color: #c2185b; }
 .chip:hover { transform: translateY(-2px); }
 .chip[aria-pressed='true'] { background: var(--ink); color: #fff; box-shadow: none; }
 .row2 { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
