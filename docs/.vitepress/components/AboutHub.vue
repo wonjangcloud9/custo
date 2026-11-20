@@ -14,38 +14,38 @@ const FACTS = [
   { k: '데뷔곡', v: 'かわいいだけじゃだめですか？', sub: '2024.09.09 디지털' },
 ]
 const LINKS = [
-  { t: '공식 사이트', h: 'https://cutiestreet.asobisystem.com/', i: '🏠' },
+  { t: '공식 사이트', h: 'https://cutiestreet.asobisystem.com/', i: 'home' },
   { t: 'X', h: 'https://x.com/CUTIE_STREET_', i: '𝕏' },
-  { t: 'Instagram', h: 'https://www.instagram.com/cutie_street_/', i: '📷' },
-  { t: 'YouTube', h: 'https://www.youtube.com/@CUTIE_STREET', i: '▶' },
-  { t: 'TikTok', h: 'https://www.tiktok.com/@cutie_street', i: '♪' },
+  { t: 'Instagram', h: 'https://www.instagram.com/cutie_street_/', i: 'camera' },
+  { t: 'YouTube', h: 'https://www.youtube.com/@CUTIE_STREET', i: 'play' },
+  { t: 'TikTok', h: 'https://www.tiktok.com/@cutie_street', i: 'music' },
 ]
 type T = { d: string; t: string; s?: string; i: string; key?: boolean; link?: string }
 const YEARS: { y: string; items: T[] }[] = [
   { y: '2024', items: [
-    { d: '07.30', t: '멤버·그룹명 공개', i: '✨' },
-    { d: '08.04', t: 'TOKYO IDOL FESTIVAL 2024에서 데뷔', i: '🎤', key: true },
-    { d: '09.09', t: '데뷔곡 「かわいいだけじゃだめですか？」', s: '디지털 릴리즈', i: '🎵', link: '/discography/kawaii-dake' },
-    { d: '11.13', t: '1st 싱글 CD 발매', s: '「かわいいだけじゃだめですか？」', i: '💿' },
-    { d: '12.27', t: '뮤직스테이션 SUPER LIVE 2024 출연', i: '📺' },
+    { d: '07.30', t: '멤버·그룹명 공개', i: 'sparkle' },
+    { d: '08.04', t: 'TOKYO IDOL FESTIVAL 2024에서 데뷔', i: 'mic', key: true },
+    { d: '09.09', t: '데뷔곡 「かわいいだけじゃだめですか？」', s: '디지털 릴리즈', i: 'music', link: '/discography/kawaii-dake' },
+    { d: '11.13', t: '1st 싱글 CD 발매', s: '「かわいいだけじゃだめですか？」', i: 'disc' },
+    { d: '12.27', t: '뮤직스테이션 SUPER LIVE 2024 출연', i: 'tv' },
   ] },
   { y: '2025', items: [
-    { d: '02.02', t: '첫 원맨 라이브 「CROSS STREET」', s: '豊洲PIT', i: '🎟️' },
-    { d: '07.23', t: '2nd 싱글 CD', s: '「キューにストップできません！ / ちきゅーめいくあっぷ計画」', i: '💿' },
-    { d: '08–10', t: '첫 전국 투어 「CAN\'T STOP CUTIE」', s: '파이널 ぴあアリーナMM', i: '🚌' },
-    { d: '11.21', t: '제67회 일본 레코드대상 신인상', i: '🏆', key: true },
+    { d: '02.02', t: '첫 원맨 라이브 「CROSS STREET」', s: '豊洲PIT', i: 'ticket' },
+    { d: '07.23', t: '2nd 싱글 CD', s: '「キューにストップできません！ / ちきゅーめいくあっぷ計画」', i: 'disc' },
+    { d: '08–10', t: '첫 전국 투어 「CAN\'T STOP CUTIE」', s: '파이널 ぴあアリーナMM', i: 'bus' },
+    { d: '11.21', t: '제67회 일본 레코드대상 신인상', i: 'trophy', key: true },
   ] },
   { y: '2026', items: [
-    { d: '03.26', t: '한국 Mnet 「M COUNTDOWN」 출연', i: '🇰🇷', link: '/korea/' },
-    { d: '05.27', t: '3rd 싱글 「キュートなキューたい / ナイスだね」', s: '오리콘 주간 싱글·합산 싱글 첫 1위 · 애니 『포켓몬스터』 엔딩', i: '🥇', key: true },
-    { d: '08.25–26', t: '첫 日本武道館 공연', s: '데뷔 2주년', i: '🏯', key: true },
-    { d: '09–11', t: '첫 아레나 투어 「CUTIE LAND」', s: '7도시 13공연', i: '🎡', link: '/cutie-land/' },
-    { d: '10.21', t: '한국어 버전 「동글동글 동글이」', s: '포켓몬 애니 첫 한일 W 엔딩', i: '🍒', link: '/korea/' },
-    { d: '12.02', t: '1st 앨범 「CUTIE LAND」', i: '💿', link: '/cutie-land/' },
-    { d: '12.31', t: '제77회 NHK 홍백가합전 첫 출장', i: '🎍', key: true, link: '/kohaku/' },
+    { d: '03.26', t: '한국 Mnet 「M COUNTDOWN」 출연', i: 'tv', link: '/korea/' },
+    { d: '05.27', t: '3rd 싱글 「キュートなキューたい / ナイスだね」', s: '오리콘 주간 싱글·합산 싱글 첫 1위 · 애니 『포켓몬스터』 엔딩', i: 'medal', key: true },
+    { d: '08.25–26', t: '첫 日本武道館 공연', s: '데뷔 2주년', i: 'castle', key: true },
+    { d: '09–11', t: '첫 아레나 투어 「CUTIE LAND」', s: '7도시 13공연', i: 'ferris', link: '/cutie-land/' },
+    { d: '10.21', t: '한국어 버전 「동글동글 동글이」', s: '포켓몬 애니 첫 한일 W 엔딩', i: 'heart', link: '/korea/' },
+    { d: '12.02', t: '1st 앨범 「CUTIE LAND」', i: 'disc', link: '/cutie-land/' },
+    { d: '12.31', t: '제77회 NHK 홍백가합전 첫 출장', i: 'firework', key: true, link: '/kohaku/' },
   ] },
   { y: '2027', items: [
-    { d: '01.23', t: 'CUTIE STREET Live in Korea 2027 WINTER', s: '킨텍스 Hall 9A', i: '🇰🇷', link: '/korea/' },
+    { d: '01.23', t: 'CUTIE STREET Live in Korea 2027 WINTER', s: '킨텍스 Hall 9A', i: 'tv', link: '/korea/' },
   ] },
 ]
 const AWARDS = [
@@ -80,7 +80,7 @@ const QUIZ = [
         <p class="kana" lang="ja">キューティーストリート · きゅーすと</p>
         <p class="lead">하라주쿠에서 세계로 <b>KAWAII</b>를 발신하는 8인조, <b>큐티스트리트</b>.<br />데뷔 2년 만에 <span lang="ja">日本武道館</span>과 <span lang="ja">紅白</span>까지 — <span class="motto" lang="ja">かわいいで、世界へ。</span></p>
         <nav class="links" aria-label="공식 채널">
-          <a v-for="l in LINKS" :key="l.t" :href="l.h" target="_blank" rel="noopener"><span aria-hidden="true">{{ l.i }}</span>{{ l.t }}</a>
+          <a v-for="l in LINKS" :key="l.t" :href="l.h" target="_blank" rel="noopener"><span v-if="l.i.length > 2" class="li-ico" aria-hidden="true"><Ico :n="l.i" duo /></span><span v-else aria-hidden="true">{{ l.i }}</span>{{ l.t }}</a>
         </nav>
       </div>
       <nav class="palette" aria-label="멤버 컬러">
@@ -100,13 +100,13 @@ const QUIZ = [
 
     <!-- 02 HISTORY -->
     <section class="sec">
-      <header class="sec-l"><span class="no">02</span><h2>활동 연혁</h2><p>데뷔부터 紅白, 그리고 한국까지 · <a :href="withBase('/journey/')">3D로 보기 →</a> · <a :href="withBase('/world/')">🌏 월드맵 →</a></p></header>
+      <header class="sec-l"><span class="no">02</span><h2>활동 연혁</h2><p>데뷔부터 紅白, 그리고 한국까지 · <a :href="withBase('/journey/')">3D로 보기 →</a> · <a :href="withBase('/world/')"><Ico n="globe" duo /> 월드맵 →</a></p></header>
       <div class="years">
         <div v-for="y in YEARS" :key="y.y" class="year">
           <div class="y-num">{{ y.y }}</div>
           <ol class="y-list">
             <li v-for="it in y.items" :key="it.d + it.t" :class="{ key: it.key }">
-              <span class="ic" aria-hidden="true">{{ it.i }}</span>
+              <span class="ic" aria-hidden="true"><Ico :n="it.i" duo size="20" /></span>
               <span class="when">{{ it.d }}</span>
               <span class="what">
                 <component :is="it.link ? 'a' : 'span'" :href="it.link ? withBase(it.link) : undefined" class="tt"><JaText :t="it.t" /><template v-if="it.link"> →</template></component>
@@ -124,18 +124,18 @@ const QUIZ = [
       <header class="sec-l"><span class="no">03</span><h2>수상</h2><p>신인상부터 차트까지</p></header>
       <div class="awards">
         <div v-for="(a, i) in AWARDS" :key="a.t" class="aw" :class="{ big: a.big }" :style="{ '--i': i }">
-          <span class="cup" aria-hidden="true">🏆</span><small>{{ a.y }}</small><b><JaText :t="a.t" /></b><span><JaText :t="a.s" /></span>
+          <span class="cup" aria-hidden="true"><Ico n="trophy" duo size="26" /></span><small>{{ a.y }}</small><b><JaText :t="a.t" /></b><span><JaText :t="a.s" /></span>
         </div>
       </div>
     </section>
 
     <!-- 05 QUIZ -->
     <section class="sec">
-      <header class="sec-l"><span class="no">04</span><h2>팬 퀴즈</h2><p>큐스트, 얼마나 알고 있나요? 💖</p></header>
+      <header class="sec-l"><span class="no">04</span><h2>팬 퀴즈</h2><p>큐스트, 얼마나 알고 있나요? ♡</p></header>
       <div class="sec-r quiz"><Quiz quiz-id="about" :questions="QUIZ" /></div>
     </section>
 
-    <p class="src">📚 출처: <a href="https://cutiestreet.asobisystem.com/" target="_blank" rel="noopener">CUTIE STREET 공식 사이트</a> · <a href="https://ja.wikipedia.org/wiki/CUTIE_STREET" target="_blank" rel="noopener">Wikipedia(일본어)</a> 등 공식·주요 매체에서 확인한 정보만 담았어요.</p>
+    <p class="src"><Ico n="book" duo /> 출처: <a href="https://cutiestreet.asobisystem.com/" target="_blank" rel="noopener">CUTIE STREET 공식 사이트</a> · <a href="https://ja.wikipedia.org/wiki/CUTIE_STREET" target="_blank" rel="noopener">Wikipedia(일본어)</a> 등 공식·주요 매체에서 확인한 정보만 담았어요.</p>
   </div>
 </template>
 
@@ -191,7 +191,9 @@ const QUIZ = [
 .y-list li::before { content: ''; position: absolute; left: -26px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: #f0c6d9; box-shadow: 0 0 0 3px #fffaf4; }
 .y-list li.key { background: linear-gradient(110deg, #fff, #fff3f8); border-color: #f2b9d1; }
 .y-list li.key::before { background: #ff4d8d; }
-.ic { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: #fdf3f8; font-size: 18px; }
+.y-list li.key .ic { background: linear-gradient(140deg, #ff6fa3, #e0457f); color: #fff; box-shadow: 0 6px 12px -6px #e0457f; --ico-fill: rgba(255, 255, 255, 0.28); }
+.li-ico { display: inline-grid; color: #c2185b; }
+.ic { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; background: #fdf3f8; font-size: 18px; color: #c2185b; }
 .when { font-size: 12.5px; font-weight: 800; color: #735779; font-variant-numeric: tabular-nums; }
 .what { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .tt { font-size: 15px; font-weight: 700; color: var(--ink) !important; text-decoration: none !important; }
@@ -201,7 +203,7 @@ a.tt:hover { color: #c92f69 !important; }
 .awards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .aw { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 18px; border-radius: 22px; background: #fff; border: 1.5px solid #f6e0ea; overflow: hidden; animation: rise both linear; animation-timeline: view(); animation-range: entry 0% entry 50%; }
 .aw.big { background: radial-gradient(120% 120% at 100% 0%, #fff1c9, transparent 60%), #fff; border-color: #f3d58a; }
-.cup { font-size: 26px; transition: transform 0.5s var(--spring); }
+.cup { display: inline-grid; color: #c9921a; font-size: 26px; transition: transform 0.5s var(--spring); }
 .aw:hover .cup { transform: rotate(-14deg) scale(1.2); }
 .aw small { font-size: 11.5px; font-weight: 800; color: #a33366; }
 .aw b { font-size: 16px; }
@@ -231,7 +233,7 @@ a.tt:hover { color: #c92f69 !important; }
   .y-list li .star { grid-row: span 2; grid-column: 3; }
   .awards { grid-template-columns: 1fr; gap: 8px; }
   .aw { padding: 12px 16px; flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
-  .aw .cup { font-size: 18px; } .aw b { font-size: 15px; } .aw.big b { font-size: 18px; } .aw span { flex-basis: 100%; }
+  .aw .cup { font-size: 18px; } .aw .cup :deep(svg) { width: 20px; height: 20px; } .aw b { font-size: 15px; } .aw.big b { font-size: 18px; } .aw span { flex-basis: 100%; }
   .facts { grid-template-columns: 1fr 1fr; } .fact b { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .wordmark span, .sw, .fact, .y-list li, .aw { animation: none; } .sw, .links a, .cup { transition: none; } }
