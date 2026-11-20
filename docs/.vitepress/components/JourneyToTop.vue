@@ -85,6 +85,7 @@ onMounted(async () => {
   } catch { noGL.value = true; return }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2))
   const scene = new THREE.Scene()
+  const fogCool = new THREE.Color(0xf3def6), fogWarm = new THREE.Color(0xffd9c4)
   scene.fog = new THREE.Fog(0xf3def6, 90, 340) // lavender-pink, matched to the watercolour sky (white fog read as a grey curtain)
   const camera = new THREE.PerspectiveCamera(small ? 62 : 52, 1, 0.1, 500)
   const disposables: { dispose: () => void }[] = []
@@ -369,6 +370,8 @@ onMounted(async () => {
     const u = Math.min(0.995, Math.max(0.0001, uC))
     const p = curve.getPointAt(Math.max(0, u - 0.03))
     const out = tmp.set(p.x, 0, p.z).normalize()
+    // 御来光: near the top the fog (and with it the far plain) warms toward the sunrise glow
+    scene.fog!.color.lerpColors(fogCool, fogWarm, THREE.MathUtils.smoothstep(uC, 0.82, 1) * 0.7)
     const high = THREE.MathUtils.smoothstep(u, 0.7, 1) // last stretch: step back so the cap and the summit are in frame
     camPos.copy(p).addScaledVector(out, (small ? 17 : 14) + high * (small ? 34 : 26)).add(tmp2.set(0, 7 + high * 9, 0))
     look.copy(curve.getPointAt(Math.min(1, u + 0.012))).add(tmp2.set(0, 1.2 + high * 6, 0))
@@ -472,6 +475,7 @@ onBeforeUnmount(() => cleanup?.())
   <div ref="root" class="jr" :class="{ nogl: noGL }" :style="{ '--p': progress }">
     <div class="stage" aria-hidden="true">
       <div class="sky" />
+      <div class="dawn"><i class="sun" /></div>
       <canvas ref="canvas" class="gl" />
       <div class="vignette" />
       <div class="flabs">
@@ -521,7 +525,7 @@ onBeforeUnmount(() => cleanup?.())
           <template v-else-if="daysLeft !== null"><small lang="ja">紅白</small><b lang="ja">登頂</b><small>3,776m</small></template>
           <template v-else><small>정상까지</small><b>D-?</b><small>12.31</small></template>
         </p>
-        <p class="eyebrow">3,776m · TOP OF THE TOP</p>
+        <p class="eyebrow">3,776m · TOP OF THE TOP · <span lang="ja">御来光</span></p>
         <h2 class="title small"><span>그리고 다음 산은,</span><span><span class="grad">세계</span> <span class="emoji"><Ico n="globe" duo size="0.82em" /></span></span></h2>
         <p class="lead"><span lang="ja">かわいいで、世界へ。</span> 우리의 큐티즈도 함께 올라가요.</p>
         <div class="cta">
@@ -549,7 +553,16 @@ onBeforeUnmount(() => cleanup?.())
 .sky { position: absolute; inset: -4% -2% -24%; background: url('/art/journey-sky.webp') center bottom / cover no-repeat; transform: translate3d(0, calc(var(--p, 0) * 18%), 0) scale(calc(1 + var(--p, 0) * 0.08)); transform-origin: 50% 100%; filter: saturate(calc(1 + var(--p, 0) * 0.25)) hue-rotate(calc(var(--p, 0) * -8deg)); opacity: 0.95; will-change: transform; }
 .sky::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255, 246, 251, 0.0) 0%, rgba(255, 246, 251, 0.35) 100%); }
 .nogl .stage { background: url('/art/journey-fuji.webp') center bottom / cover no-repeat; }
-.nogl .sky, .nogl .gl, .nogl .flabs { display: none; }
+.nogl .sky, .nogl .gl, .nogl .flabs, .nogl .dawn { display: none; }
+/* 御来光 — the Fuji summit sunrise: over the last stretch a sun climbs out of the sea of clouds behind the plain
+   (the canvas is drawn over it, so the horizon hides its lower half) and the sky warms around it */
+.dawn { --d: clamp(0, calc((var(--p, 0) - 0.82) / 0.18), 1); --sx: 27%; --sy: 52%; position: absolute; inset: 0; pointer-events: none; opacity: var(--d); }
+.dawn::before { content: ''; position: absolute; inset: 0; background: radial-gradient(70% 42% at var(--sx) calc(var(--sy) + 8%), rgba(255, 196, 150, 0.7), rgba(255, 170, 196, 0.32) 48%, transparent 76%), linear-gradient(180deg, transparent 30%, rgba(255, 214, 190, 0.38) 62%, transparent 80%); }
+.sun { position: absolute; left: var(--sx); top: var(--sy); width: 132px; height: 132px; margin: -66px 0 0 -66px; border-radius: 50%; background: radial-gradient(circle, #fffdf4 0 30%, #ffe3a3 46%, rgba(255, 176, 128, 0.55) 60%, rgba(255, 160, 140, 0) 72%); transform: translate3d(0, calc((1 - var(--d)) * 150px), 0) scale(calc(0.75 + var(--d) * 0.25)); }
+.sun::before { content: ''; position: absolute; inset: -150%; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(255, 220, 160, 0.32) 0 5deg, transparent 5deg 17deg); -webkit-mask: radial-gradient(circle, #000 14%, transparent 62%); mask: radial-gradient(circle, #000 14%, transparent 62%); }
+@media (prefers-reduced-motion: no-preference) { .sun::before { animation: rays 80s linear infinite; } }
+@keyframes rays { to { rotate: 360deg; } }
+@media (max-width: 640px) { .dawn { --sx: 84%; --sy: 30%; } .sun { width: 96px; height: 96px; margin: -48px 0 0 -48px; } }
 .flabs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .flab { position: absolute; left: 0; top: 0; opacity: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 5px 10px 6px 9px; margin: -46px 0 0 6px; white-space: nowrap; border-radius: 12px 12px 12px 3px;
   background: rgba(255, 255, 255, 0.86); box-shadow: 0 8px 18px -10px rgba(90, 30, 70, 0.5), inset 3px 0 0 var(--fc); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); will-change: transform, opacity; }
