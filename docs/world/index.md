@@ -7,6 +7,8 @@ aside: false
 
 <WorldMap />
 
+<WorldFlights />
+
 <WorldStamps />
 
 > <Ico n="news" duo /> 공식 스케줄·공식 YouTube 제목과 설명을 바탕으로 했어요. 도시 위치는 대략적인 위치예요. 예정된 일정은 보라색 점선으로 표시돼요.

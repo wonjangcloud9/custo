@@ -61,7 +61,7 @@ export const events: CsEvent[] = [
   { date: '2026-11-20', time: '21:00', end: '22:52', cat: 'tv', ja: '関西テレビ『さんまのまんま』', ko: 'TV 출연 · 8명 전원 · 「秋のさんまはしゃべりごろSP」 · 산마와 첫 공동 출연', url: `${O}/news/detail/96005` },
   { date: '2026-11-21', time: '17:00', cat: 'other', ja: '配信『ROCK IN JAPAN FESTIVAL 2026』', ko: '록 인 재팬 2026 무료 송출 (9/19 공연 · JフェスOFFICIAL 유튜브 · 아카이브 ~12/7 18:00)', url: `${O}/news/detail/96086` },
   { date: '2026-11-22', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연 · 아야노·나기사 태그 (2주 연속 「カラオケタッグモード大会」 · 나기사 첫 출연, 아야노는 지난번 아쉬움의 눈물 설욕전)', with: ['ayano', 'nagisa'], url: `${O}/news/detail/95695` },
-  { date: '2026-11-23', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 北海道', ko: '대특전회 · 홋카이도', venue: 'アクセスサッポロ', url: `${O}/live_information/detail/47104`, featured: true, icon: 'snow' },
+  { date: '2026-11-23', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 北海道', ko: '대특전회 · 홋카이도 (현장 특별 추첨회, 공지 96949)', venue: 'アクセスサッポロ', url: `${O}/live_information/detail/47104`, featured: true, icon: 'snow' },
   { date: '2026-11-24', time: '15:30', cat: 'event', ja: 'オンライン特典会', ko: '온라인 특전회 (빙고 추첨)', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47626` },
   { date: '2026-11-26', time: '19:00', cat: 'live', ja: '佐野愛花 生誕祭 2026', ko: '사노 아이카 생탄제 · 현장 특별 추첨회(CUTIE LAND CD 구매자, 공지 96698)', venue: 'SGCホール有明', url: `${O}/live_information/detail/46341`, member: 'aika' },
   { date: '2026-11-27', time: '18:00', cat: 'live', ja: 'GIFT〜Girls Idol Festival Tokyo〜 DAY-1', ko: '아이돌 페스티벌 DAY-1 출연 (OPEN 17:00 · 출연 순서 미발표)', venue: 'SGCホール有明', url: `${O}/live_information/detail/43800` },
