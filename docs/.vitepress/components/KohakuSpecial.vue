@@ -53,13 +53,13 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
           <p class="when">2026.12.31 (木) 19:20 – 23:45 JST · 한국도 같은 시각</p>
         </template>
         <p v-else-if="phase === 'live'" class="live"><span class="dot" /> 지금 생방송 중! NHK 総合</p>
-        <p v-else class="live">🎊 첫 紅白, 수고했어요!</p>
+        <p v-else class="live"><Ico n="firework" duo /> 첫 紅白, 수고했어요!</p>
       </div>
     </div>
 
     <div class="grid">
       <div class="box info">
-        <h3>📺 방송 정보</h3>
+        <h3><Ico class="h3-ico" n="tv" duo /> 방송 정보</h3>
         <dl>
           <dt>일시</dt><dd>2026년 12월 31일(목) 19:20 – 23:45 (JST)</dd>
           <dt>채널</dt><dd>NHK 総合 · BSP4K · BS8K · NHK AM(라디오) 생방송</dd>
@@ -67,17 +67,17 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
           <dt>함께</dt><dd>같은 소속사 <span lang="ja">きゃりーぱみゅぱみゅ</span> · FRUITS ZIPPER도 출장 <a class="src-a" href="https://www.oricon.co.jp/news/2492591/full/" target="_blank" rel="noopener">(ORICON)</a></dd>
         </dl>
         <a class="src" href="https://mdpr.jp/music/detail/4875525" target="_blank" rel="noopener">출처: 모델프레스 ↗</a>
-        <div style="margin-top: 12px"><ShareButton title="CUTIE STREET 紅白 첫 출장 특집" text="12/31 19:20 JST 第77回 NHK紅白歌合戦 🎍 카운트다운" label="특집 공유하기" /></div>
+        <div style="margin-top: 12px"><ShareButton title="CUTIE STREET 紅白 첫 출장 특집" text="12/31 19:20 JST 第77回 NHK紅白歌合戦 카운트다운" label="특집 공유하기" /></div>
       </div>
       <figure class="box quote" :style="{ '--mc': members[3].color }">
         <blockquote lang="ja">「以前からずっと大きな夢だったし、叶えたい目標でした。」</blockquote>
         <p class="tr">“예전부터 계속 큰 꿈이었고, 이루고 싶은 목표였어요.”</p>
-        <figcaption>— 増田彩乃 (마스다 아야노) 💙, 출장 결정 회견</figcaption>
+        <figcaption>— 増田彩乃 (마스다 아야노), 출장 결정 회견</figcaption>
       </figure>
     </div>
 
     <div class="box road">
-      <h3>🗻 紅白까지의 길</h3>
+      <h3><Ico class="h3-ico" n="mountain" duo /> 紅白까지의 길</h3>
       <ol>
         <li v-for="(m, i) in road" :key="m.date" :style="{ '--mc': members[(i + 3) % 8].color }"><span>{{ m.date }}</span><b lang="ja">{{ m.ja }}</b><small>{{ m.ko }}</small></li>
       </ol>
@@ -85,9 +85,9 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
     </div>
 
     <div class="box board">
-      <h3>💌 응원 포스트잇 <small>(이 브라우저에만 저장돼요)</small></h3>
+      <h3><Ico class="h3-ico" n="heart" duo /> 응원 포스트잇 <small>(이 브라우저에만 저장돼요)</small></h3>
       <form class="add" @submit.prevent="addNote">
-        <input v-model="draft" maxlength="80" placeholder="응원 한마디 (예: 첫 紅白 축하해요! 귀여움으로 세계까지 💖)" aria-label="응원 메시지" />
+        <input v-model="draft" maxlength="80" placeholder="응원 한마디 (예: 첫 紅白 축하해요! 귀여움으로 세계까지 ♡)" aria-label="응원 메시지" />
         <button type="submit">붙이기</button>
         <a class="x" :href="xIntent" target="_blank" rel="noopener">X에 응원 ↗</a>
       </form>
@@ -96,7 +96,7 @@ const xIntent = computed(() => `https://x.com/intent/post?text=${encodeURICompon
           <p>{{ n.text }}</p>
           <button type="button" aria-label="메모 떼기" @click="removeNote(n.id)">✕</button>
         </div>
-        <p v-if="!notes.length" class="empty">첫 번째 응원을 붙여주세요 ✨</p>
+        <p v-if="!notes.length" class="empty">첫 번째 응원을 붙여주세요 ✦</p>
       </div>
     </div>
   </section>
@@ -174,4 +174,5 @@ figcaption { margin-top: 8px; font-size: 12.5px; color: #735779; }
 }
 @media (prefers-reduced-motion: reduce) { .digit, .note, .dot { animation: none; } .note { transition: none; } }
 .src-a { font-size: 12px; color: #a33366 !important; }
+.h3-ico { vertical-align: -0.15em; color: #c92f69; --ico-fill: #ffd3e4; }
 </style>

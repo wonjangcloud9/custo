@@ -5,50 +5,50 @@ import { members, memberById, prefectureKo, onColor } from '../data/members'
 import { loadFonts, deliver } from '../theme/card'
 
 // Every option maps only to verified facts (member color, hobbies, hometown, birthday season, unit) — see loop/ROADMAP.md
-interface Opt { label: string; emoji: string; pts: Record<string, number>; why: string }
+interface Opt { label: string; ico: string; color?: string; pts: Record<string, number>; why: string }
 interface Q { q: string; opts: Opt[] }
 const Qs: Q[] = [
-  { q: '제일 끌리는 색은?', opts: members.map((m) => ({ label: m.colorName, emoji: m.emoji, pts: { [m.id]: 3 }, why: `멤버 컬러 ${m.colorName}` })) },
+  { q: '제일 끌리는 색은?', opts: members.map((m) => ({ label: m.colorName, ico: 'heart', color: m.color, pts: { [m.id]: 3 }, why: `멤버 컬러 ${m.colorName}` })) },
   { q: '오랜만의 쉬는 날, 뭐 할까?', opts: [
-    { label: '귀여운 옷 직접 만들기', emoji: '🧵', pts: { risa: 3 }, why: '귀여운 옷 만들기가 취미' },
-    { label: '드라마 몰아보고 맛집 가기', emoji: '🍖', pts: { aika: 3 }, why: '드라마 감상·먹는 것이 취미' },
-    { label: 'YouTube랑 애니 정주행', emoji: '📺', pts: { kana: 3 }, why: 'YouTube·애니메이션 감상이 취미' },
-    { label: '땀 흘리며 운동하기', emoji: '🏃', pts: { ayano: 3 }, why: '운동이 취미' },
-    { label: '바다에서 수상레저', emoji: '🌊', pts: { emiru: 3 }, why: '수상바이크가 취미' },
-    { label: '예쁜 카페 탐방', emoji: '☕', pts: { miyu: 3 }, why: '카페 탐방이 취미' },
-    { label: '배드민턴 한 판', emoji: '🏸', pts: { nagisa: 3 }, why: '배드민턴이 취미' },
-    { label: '이불 속 만화책', emoji: '📚', pts: { haruka: 3 }, why: '만화 감상이 취미' },
+    { label: '귀여운 옷 직접 만들기', ico: 'needle', pts: { risa: 3 }, why: '귀여운 옷 만들기가 취미' },
+    { label: '드라마 몰아보고 맛집 가기', ico: 'bowl', pts: { aika: 3 }, why: '드라마 감상·먹는 것이 취미' },
+    { label: 'YouTube랑 애니 정주행', ico: 'tv', pts: { kana: 3 }, why: 'YouTube·애니메이션 감상이 취미' },
+    { label: '땀 흘리며 운동하기', ico: 'dumbbell', pts: { ayano: 3 }, why: '운동이 취미' },
+    { label: '바다에서 수상레저', ico: 'wave', pts: { emiru: 3 }, why: '수상바이크가 취미' },
+    { label: '예쁜 카페 탐방', ico: 'cup', pts: { miyu: 3 }, why: '카페 탐방이 취미' },
+    { label: '배드민턴 한 판', ico: 'racket', pts: { nagisa: 3 }, why: '배드민턴이 취미' },
+    { label: '이불 속 만화책', ico: 'book', pts: { haruka: 3 }, why: '만화 감상이 취미' },
   ] },
   { q: '동아리 하나만 고른다면?', opts: [
-    { label: '댄스부', emoji: '💃', pts: { risa: 1, aika: 1, kana: 2, ayano: 1, nagisa: 1 }, why: '댄스를 사랑하는 멤버' },
-    { label: '패션·의상부', emoji: '👗', pts: { risa: 2 }, why: '옷 만들기를 좋아함' },
-    { label: '헤어메이크업부', emoji: '🎀', pts: { miyu: 2 }, why: '헤어 어레인지가 취미' },
-    { label: '만화연구회', emoji: '✏️', pts: { haruka: 2 }, why: '만화 감상이 취미' },
-    { label: '맛집탐방부', emoji: '🍜', pts: { aika: 2 }, why: '먹는 것이 취미' },
-    { label: '해양레저부', emoji: '⛵', pts: { emiru: 2 }, why: '소형선박 면허 보유' },
-    { label: '배드민턴부', emoji: '🏸', pts: { nagisa: 2 }, why: '배드민턴이 취미' },
-    { label: '영상제작부', emoji: '🎬', pts: { kana: 2 }, why: 'YouTube를 좋아함' },
+    { label: '댄스부', ico: 'music', pts: { risa: 1, aika: 1, kana: 2, ayano: 1, nagisa: 1 }, why: '댄스를 사랑하는 멤버' },
+    { label: '패션·의상부', ico: 'needle', pts: { risa: 2 }, why: '옷 만들기를 좋아함' },
+    { label: '헤어메이크업부', ico: 'ribbon', pts: { miyu: 2 }, why: '헤어 어레인지가 취미' },
+    { label: '만화연구회', ico: 'book', pts: { haruka: 2 }, why: '만화 감상이 취미' },
+    { label: '맛집탐방부', ico: 'bowl', pts: { aika: 2 }, why: '먹는 것이 취미' },
+    { label: '해양레저부', ico: 'wave', pts: { emiru: 2 }, why: '소형선박 면허 보유' },
+    { label: '배드민턴부', ico: 'racket', pts: { nagisa: 2 }, why: '배드민턴이 취미' },
+    { label: '영상제작부', ico: 'film', pts: { kana: 2 }, why: 'YouTube를 좋아함' },
   ] },
   { q: '가보고 싶은 일본 여행지는?', opts: [
-    { label: '구마모토', emoji: '🐻', pts: { risa: 1, miyu: 1 }, why: '구마모토현 출신' },
-    { label: '도쿄', emoji: '🗼', pts: { aika: 1 }, why: '도쿄도 출신' },
-    { label: '치바', emoji: '🌻', pts: { kana: 1 }, why: '치바현 출신' },
-    { label: '아이치·나고야', emoji: '🏯', pts: { ayano: 1 }, why: '아이치현 출신' },
-    { label: '가나가와·요코하마', emoji: '🎡', pts: { emiru: 1, nagisa: 1 }, why: '가나가와현 출신' },
-    { label: '홋카이도', emoji: '❄️', pts: { haruka: 1 }, why: '홋카이도 출신' },
+    { label: '구마모토', ico: 'pin', pts: { risa: 1, miyu: 1 }, why: '구마모토현 출신' },
+    { label: '도쿄', ico: 'pin', pts: { aika: 1 }, why: '도쿄도 출신' },
+    { label: '치바', ico: 'pin', pts: { kana: 1 }, why: '치바현 출신' },
+    { label: '아이치·나고야', ico: 'pin', pts: { ayano: 1 }, why: '아이치현 출신' },
+    { label: '가나가와·요코하마', ico: 'pin', pts: { emiru: 1, nagisa: 1 }, why: '가나가와현 출신' },
+    { label: '홋카이도', ico: 'pin', pts: { haruka: 1 }, why: '홋카이도 출신' },
   ] },
   { q: '내가 태어난 계절은?', opts: [
-    { label: '봄 (3~5월)', emoji: '🌸', pts: { emiru: 1, ayano: 1 }, why: '봄 생일' },
-    { label: '여름 (6~8월)', emoji: '🌻', pts: { nagisa: 1 }, why: '여름 생일' },
-    { label: '가을 (9~11월)', emoji: '🍁', pts: { miyu: 1, risa: 1, kana: 1, aika: 1 }, why: '가을 생일' },
-    { label: '겨울 (12~2월)', emoji: '⛄', pts: { haruka: 1 }, why: '겨울 생일' },
+    { label: '봄 (3~5월)', ico: 'flower', pts: { emiru: 1, ayano: 1 }, why: '봄 생일' },
+    { label: '여름 (6~8월)', ico: 'sun', pts: { nagisa: 1 }, why: '여름 생일' },
+    { label: '가을 (9~11월)', ico: 'leaf', pts: { miyu: 1, risa: 1, kana: 1, aika: 1 }, why: '가을 생일' },
+    { label: '겨울 (12~2월)', ico: 'snow', pts: { haruka: 1 }, why: '겨울 생일' },
   ] },
   { q: '지금 기분에 맞는 유닛곡은?', opts: [
-    { label: 'Crush on you', emoji: '💘', pts: { aika: 1, kana: 1, ayano: 1, nagisa: 1, haruka: 1 }, why: 'ちーむすとりーと 멤버' },
-    { label: 'I Amai Me Mind', emoji: '🍭', pts: { risa: 1, emiru: 1, miyu: 1 }, why: 'ちーむきゅーてぃー 멤버' },
-    { label: 'どんどんどん！', emoji: '🥁', pts: { risa: 1, aika: 1, miyu: 1 }, why: '유닛곡「どんどんどん！」 멤버' },
-    { label: '君なんだ', emoji: '🌿', pts: { kana: 1, ayano: 1, emiru: 1 }, why: '유닛곡「君なんだ」 멤버' },
-    { label: 'おやすみサイレンナイト', emoji: '🌙', pts: { nagisa: 1, haruka: 1 }, why: '유닛곡「おやすみサイレンナイト」 멤버' },
+    { label: 'Crush on you', ico: 'heart', pts: { aika: 1, kana: 1, ayano: 1, nagisa: 1, haruka: 1 }, why: 'ちーむすとりーと 멤버' },
+    { label: 'I Amai Me Mind', ico: 'candy', pts: { risa: 1, emiru: 1, miyu: 1 }, why: 'ちーむきゅーてぃー 멤버' },
+    { label: 'どんどんどん！', ico: 'drum', pts: { risa: 1, aika: 1, miyu: 1 }, why: '유닛곡「どんどんどん！」 멤버' },
+    { label: '君なんだ', ico: 'sprout', pts: { kana: 1, ayano: 1, emiru: 1 }, why: '유닛곡「君なんだ」 멤버' },
+    { label: 'おやすみサイレンナイト', ico: 'moon', pts: { nagisa: 1, haruka: 1 }, why: '유닛곡「おやすみサイレンナイト」 멤버' },
   ] },
 ]
 
@@ -101,7 +101,7 @@ async function download() {
 async function drawAndDeliver() {
   const m = result.value
   const W = 1080, H = 1350
-  const lines = ['나와 닮은 CUTIE STREET 멤버는', m.ja, `${m.ko} ${m.emoji} ${pct.value}% 일치`, ...reasons.value.slice(0, 3).map((r) => `♡ ${r}`), 'custo · CUTIE STREET 비공식 팬허브']
+  const lines = ['나와 닮은 CUTIE STREET 멤버는', m.ja, `${m.ko} ♡ ${pct.value}% 일치`, ...reasons.value.slice(0, 3).map((r) => `♡ ${r}`), 'custo · CUTIE STREET 비공식 팬허브']
   // load the font subsets holding this exact text before drawing (#172)
   await loadFonts(lines.join('') + m.ja.slice(-2, -1), ['700 100px "Zen Maru Gothic"', '700 40px "Noto Sans KR"', '400 40px "Noto Sans KR"', '700 40px "Noto Sans JP"'])
   const c = document.createElement('canvas'); c.width = W; c.height = H
@@ -116,7 +116,7 @@ async function drawAndDeliver() {
   g.fillStyle = '#3a2340'; g.textBaseline = 'alphabetic'
   g.font = '700 40px "Noto Sans KR", sans-serif'; g.fillText(lines[0], W / 2, 150)
   g.font = '700 110px "Zen Maru Gothic", "Noto Sans JP", sans-serif'; g.fillText(m.ja, W / 2, 1000)
-  g.font = '700 48px "Noto Sans KR", sans-serif'; g.fillText(`${m.ko} ${m.emoji} ${pct.value}% 일치`, W / 2, 1080)
+  g.font = '700 48px "Noto Sans KR", sans-serif'; g.fillText(`${m.ko} ♡ ${pct.value}% 일치`, W / 2, 1080)
   g.font = '400 34px "Noto Sans KR", sans-serif'; g.fillStyle = '#6a4f70'
   reasons.value.slice(0, 3).forEach((r, i) => g.fillText(`♡ ${r}`, W / 2, 1160 + i * 48))
   g.font = '700 28px "Noto Sans KR", sans-serif'; g.fillStyle = '#8a6a90'; g.fillText('custo · CUTIE STREET 비공식 팬허브', W / 2, H - 50)
@@ -138,7 +138,7 @@ async function drawAndDeliver() {
           <div class="opts" :class="{ many: Qs[step].opts.length > 6 }">
             <button v-for="(o, i) in Qs[step].opts" :key="o.label" type="button" class="opt" :class="{ sel: answers[step] === i }"
               :style="{ '--i': i, '--c': step === 0 ? members[i].color : members[(i * 3 + step) % 8].color }" @click="choose(i)">
-              <span class="oe">{{ o.emoji }}</span><span>{{ o.label }}</span>
+              <span class="oe" :style="o.color ? { color: o.color, '--ico-fill': o.color + '55' } : undefined"><Ico :n="o.ico" duo size="22" /></span><span>{{ o.label }}</span>
             </button>
           </div>
         </div>
@@ -156,14 +156,14 @@ async function drawAndDeliver() {
           <p class="r-eyebrow">나와 닮은 멤버는</p>
           <div class="r-kanji">{{ result.ja.slice(-2, -1) }}</div>
           <h2 class="r-name" lang="ja">{{ result.ja }}</h2>
-          <p class="r-ko">{{ result.ko }} {{ result.emoji }} · <b>{{ pct }}%</b> 일치</p>
+          <p class="r-ko">{{ result.ko }} <Ico n="heart" duo size="0.95em" :style="{ color: result.color, '--ico-fill': result.color + '55' }" /> · <b>{{ pct }}%</b> 일치</p>
           <ul class="why"><li v-for="r in reasons" :key="r">♡ {{ r }}</li></ul>
           <p class="facts">{{ result.colorName }} · {{ prefectureKo[result.birthplace] }} 출신 · {{ result.birthday.slice(5).replace('-', '/') }} 생일</p>
         </div>
       </div>
       <div class="r-act">
         <a class="btn primary" :href="withBase(`/members/${result.id}`)" :style="{ background: `color-mix(in srgb, ${result.color} 62%, #2a1030)`, borderColor: 'transparent' }">{{ result.ko.split(' ')[1] }} 만나러 가기 →</a>
-        <button type="button" class="btn" :disabled="saveState === 'busy'" @click="download">{{ saveState === 'busy' ? '만드는 중…' : saveState === 'saved' ? '✓ 저장했어요' : saveState === 'shared' ? '✓ 공유 완료' : saveState === 'failed' ? '만들지 못했어요' : '📸 결과 이미지 저장' }}</button>
+        <button type="button" class="btn" :disabled="saveState === 'busy'" @click="download"><Ico v-if="!saveState" n="camera" duo size="1.1em" style="vertical-align: -0.2em" /> {{ saveState === 'busy' ? '만드는 중…' : saveState === 'saved' ? '✓ 저장했어요' : saveState === 'shared' ? '✓ 공유 완료' : saveState === 'failed' ? '만들지 못했어요' : '결과 이미지 저장' }}</button>
         <span class="sr-only" aria-live="polite">{{ saveState === 'saved' ? '결과 이미지를 저장했어요' : saveState === 'shared' ? '결과 이미지를 공유했어요' : saveState === 'failed' ? '결과 이미지를 만들지 못했어요' : '' }}</span>
         <button type="button" class="btn" @click="restart">↺ 다시 하기</button>
       </div>
@@ -194,7 +194,8 @@ async function drawAndDeliver() {
 .opt:hover { transform: translateY(-3px) rotate(-0.8deg); border-color: var(--c); }
 .opt:active { transform: scale(0.95); }
 .opt.sel { background: var(--c); color: #fff; border-color: var(--c); }
-.oe { font-size: 22px; }
+.oe { display: inline-flex; flex: none; color: #c92f69; --ico-fill: #ffd3e4; }
+.opt.sel .oe { color: #fff !important; --ico-fill: rgba(255, 255, 255, 0.3) !important; }
 .back { margin-top: 14px; font-size: 13px; font-weight: 700; color: #735779; background: none; }
 .q-enter-active, .q-leave-active { transition: opacity 0.25s, transform 0.35s var(--spring); }
 .q-enter-from { opacity: 0; transform: translateX(30px); }
