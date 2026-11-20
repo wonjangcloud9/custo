@@ -90,7 +90,7 @@ export const events: CsEvent[] = [
   { date: '2027-02-20', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 아이치 DAY1 (합동)', venue: 'IGアリーナ', url: `${O}/live_information/detail/46318` },
   { date: '2027-02-21', time: '16:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 아이치 DAY2 (합동)', venue: 'IGアリーナ', url: `${O}/live_information/detail/46319` },
   // March–April 2027 — official schedule month pages (month=3, 4), detail pages checked 2026-11-17
-  { date: '2027-03-08', cat: 'live', ja: 'ASOBIEXPO HAWAII 2027 - Japanese Pop Culture Experience', ko: '첫 하와이 · ASOBIEXPO (시간 미발표 · 공식 FC 투어 판매 중, 일반 티켓 2026년 12월경 예정)', venue: 'TOM MOFFATT WAIKIKI SHELL', url: `${O}/live_information/detail/43881` },
+  { date: '2027-03-08', cat: 'live', ja: 'ASOBIEXPO HAWAII 2027 - Japanese Pop Culture Experience', ko: '첫 하와이 · ASOBIEXPO (시간 미발표 · 공식 FC 투어 3차 추첨 11/20–11/29, 일반 티켓 2026년 12월경 예정)', venue: 'TOM MOFFATT WAIKIKI SHELL', url: `${O}/live_information/detail/43881` },
   { date: '2027-03-20', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 고베 DAY1 (합동 · 나기사 학업으로 불참, 7명 출연)', venue: 'GLION ARENA KOBE', url: `${O}/live_information/detail/46320` },
   { date: '2027-03-21', time: '16:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 고베 DAY2 (합동)', venue: 'GLION ARENA KOBE', url: `${O}/live_information/detail/46321` },
   { date: '2027-04-03', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 후쿠오카 DAY1 (합동)', venue: 'マリンメッセ福岡A館', url: `${O}/live_information/detail/46322` },
