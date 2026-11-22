@@ -5,10 +5,10 @@ import { members } from './data/members'
 import { songs } from './data/songs'
 
 // Hosting: Vercel, at the domain root (moved from GitHub Pages' /custo/ on 2026-11-22 — gh-pages-redirect/ forwards
-// old links). The address is the project's production domain, which Vercel provides while it builds; SITE_HOST pins
-// another one; the last value is for builds made anywhere else. vercel.json holds the rest (clean URLs, caching).
+// old links). The public address is set here (SITE_HOST in the Vercel project overrides it); the project's first
+// address custo-xi.vercel.app redirects to it (vercel.json, which also holds clean URLs and caching).
 const ON_VERCEL = !!process.env.VERCEL // Web Analytics only exists there (theme/index.ts)
-const SITE = `https://${process.env.SITE_HOST || process.env.VERCEL_PROJECT_PRODUCTION_URL || 'custo-xi.vercel.app'}/`
+const SITE = `https://${process.env.SITE_HOST || 'custo-kr.vercel.app'}/`
 
 // Structured data (schema.org JSON-LD) — only facts already verified in data/members.ts and the official links.
 const OFFICIAL = 'https://cutiestreet.asobisystem.com/'

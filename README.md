@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <a href="https://custo-xi.vercel.app/"><b>사이트 바로가기</b></a> ·
-  <a href="https://custo-xi.vercel.app/start/">처음이라면 입문 퀘스트</a> ·
-  <a href="https://custo-xi.vercel.app/journey/">정상까지의 여정 (3D)</a> ·
-  <a href="https://custo-xi.vercel.app/world/">큐스트 월드맵</a>
+  <a href="https://custo-kr.vercel.app/"><b>사이트 바로가기</b></a> ·
+  <a href="https://custo-kr.vercel.app/start/">처음이라면 입문 퀘스트</a> ·
+  <a href="https://custo-kr.vercel.app/journey/">정상까지의 여정 (3D)</a> ·
+  <a href="https://custo-kr.vercel.app/world/">큐스트 월드맵</a>
 </p>
 
 <p align="center">

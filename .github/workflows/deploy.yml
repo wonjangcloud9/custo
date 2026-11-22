@@ -1,6 +1,6 @@
 name: GitHub Pages pointer
 
-# The site itself is built and served by Vercel (https://custo-xi.vercel.app) on every push to main.
+# The site itself is built and served by Vercel (https://custo-kr.vercel.app) on every push to main.
 # GitHub Pages only keeps a small page that forwards old /custo/… links there; this republishes it
 # when that page changes.
 on:
