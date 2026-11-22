@@ -78,6 +78,7 @@ export const events: CsEvent[] = [
   { date: '2026-12-17', cat: 'event', ja: '1stアルバム発売記念 スペシャル抽選イベント（すきトーク）', ko: '앨범 발매 기념 영상 토크 추첨 이벤트', url: 'https://cutiestreet.asobisystem.com/feature/1stalbumcutieland' },
   { date: '2026-12-19', cat: 'other', ja: '〜KAWAII LAB. 衣装展〜 KAWAII CLOSET 2026（〜1/31）', ko: '의상 전시 · 시부야/사카에/난바 hmv museum', venue: 'hmv museum 渋谷・栄・なんば', url: `${O}/news/detail/96078` },
   { date: '2026-12-27', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 출연', venue: '幕張メッセ', url: `${O}/live_information/detail/46324`, featured: true, icon: 'firework' },
+  { date: '2026-12-30', time: '17:30', end: '22:00', cat: 'tv', ja: 'TBS『第68回 輝く！日本レコード大賞』', ko: '일본 레코드대상 생방송 · 특별국제음악상 수상 (출연·가창곡은 아직 미발표)', url: 'https://www.tbs.co.jp/recordaward/' },
   { date: '2026-12-31', time: '19:20', end: '23:45', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true, pin: true, icon: 'fan' },
   // January 2027 — official schedule month page (year=2027&month=1), each detail page checked 2026-11-17
   { date: '2027-01-09', time: '14:00', end: '18:30', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연 · 개장 12:30, 종연 18:30 예정 · 출연 시각 미발표)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },

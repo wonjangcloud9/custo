@@ -41,6 +41,7 @@ const YEARS: { y: string; items: T[] }[] = [
     { d: '08.25–26', t: '첫 日本武道館 공연', s: '데뷔 2주년', i: 'castle', key: true },
     { d: '09–11', t: '첫 아레나 투어 「CUTIE LAND」', s: '7도시 13공연', i: 'ferris', link: '/cutie-land/' },
     { d: '10.21', t: '한국어 버전 「동글동글 동글이」', s: '포켓몬 애니 첫 한일 W 엔딩', i: 'heart', link: '/korea/' },
+    { d: '11.21', t: '제68회 일본 레코드대상 특별국제음악상', s: '신인상에 이어 2년 연속 수상', i: 'trophy', key: true },
     { d: '12.02', t: '1st 앨범 「CUTIE LAND」', i: 'disc', link: '/cutie-land/' },
     { d: '12.31', t: '제77회 NHK 홍백가합전 첫 출장', i: 'firework', key: true, link: '/kohaku/' },
   ] },
@@ -49,7 +50,7 @@ const YEARS: { y: string; items: T[] }[] = [
   ] },
 ]
 const AWARDS = [
-  { t: '일본 레코드대상', s: '제67회 신인상', y: '2025', big: true },
+  { t: '일본 레코드대상', s: '제67회 신인상 · 제68회 특별국제음악상', y: '2025 · 2026', big: true },
   { t: 'MTV', s: 'Breakthrough Song 2025', y: '2025' },
   { t: 'Yahoo! 검색대상', s: '곡 부문 「かわいいだけじゃだめですか？」', y: '2025' },
   { t: 'TikTok 상반기 트렌드 대상', s: '음악 부문', y: '2025' },
