@@ -9,6 +9,8 @@ import Ico from '../components/Ico.vue'
 import NotFound404 from '../components/NotFound404.vue'
 import './style.css'
 
+declare const __VERCEL_ANALYTICS__: boolean // set by config.ts (vite.define)
+
 // Page-specific (and data-heavy) components are split into their own chunks so each page only
 // downloads what it renders — the shared theme bundle stays small.
 const lazy = {
@@ -64,5 +66,8 @@ export default {
     app.component('JaText', JaText)
     app.component('Ico', Ico)
     for (const [name, loader] of Object.entries(lazy)) app.component(name, defineAsyncComponent(loader))
+    // visitor counts: Vercel Web Analytics, loaded only in the build Vercel makes (GitHub Pages has no such endpoint);
+    // it counts first loads and in-site page changes on its own
+    if (__VERCEL_ANALYTICS__ && typeof window !== 'undefined') import('@vercel/analytics').then(({ inject }) => inject())
   },
 }

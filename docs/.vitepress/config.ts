@@ -4,8 +4,16 @@ import { join } from 'node:path'
 import { members } from './data/members'
 import { songs } from './data/songs'
 
+// Hosting: GitHub Pages serves this repo under /custo/. On Vercel (which sets VERCEL=1 while it builds) the site sits
+// at the domain root, links drop their .html, and Vercel Web Analytics is switched on (theme/index.ts).
+// The address comes from the project's production domain; set SITE_HOST in Vercel to pin another one.
+const ON_VERCEL = !!process.env.VERCEL
+const BASE = ON_VERCEL ? '/' : '/custo/'
+const SITE = ON_VERCEL
+  ? `https://${process.env.SITE_HOST || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL}/`
+  : 'https://wonjangcloud9.github.io/custo/'
+
 // Structured data (schema.org JSON-LD) — only facts already verified in data/members.ts and the official links.
-const SITE = 'https://wonjangcloud9.github.io/custo/'
 const OFFICIAL = 'https://cutiestreet.asobisystem.com/'
 const SAME_AS = ['https://x.com/CUTIE_STREET_', 'https://www.instagram.com/cutie_street_/', 'https://www.youtube.com/@CUTIE_STREET']
 const group = {
@@ -27,14 +35,15 @@ export default defineConfig({
   title: 'Custo',
   titleTemplate: ':title | 큐티스트리트 팬허브 Custo',
   description: 'CUTIE STREET(큐티스트리트) 비공식 팬허브 — 멤버 프로필, 레전드 컷, 공식 영상 아카이브, 스케줄, 정상까지의 여정, 한국 팬 소식.',
-  base: '/custo/',
+  base: BASE,
+  cleanUrls: ON_VERCEL,
   lang: 'ko',
   appearance: false,
   srcExclude: ['superpowers/**'],
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/custo/favicon.svg' }],
-    ['link', { rel: 'manifest', href: '/custo/manifest.webmanifest' }],
-    ['link', { rel: 'apple-touch-icon', href: '/custo/apple-touch-icon.png' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${BASE}favicon.svg` }],
+    ['link', { rel: 'manifest', href: `${BASE}manifest.webmanifest` }],
+    ['link', { rel: 'apple-touch-icon', href: `${BASE}apple-touch-icon.png` }],
     ['meta', { name: 'apple-mobile-web-app-title', content: 'Custo' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
@@ -53,7 +62,7 @@ export default defineConfig({
     ['meta', { property: 'og:locale', content: 'ko_KR' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
   ],
-  sitemap: { hostname: 'https://wonjangcloud9.github.io/custo/' },
+  sitemap: { hostname: SITE },
   // heading anchors: VitePress labels them 'Permalink to "…"' for screen readers; same markup, Korean label (#200)
   markdown: {
     anchor: {
@@ -68,7 +77,7 @@ export default defineConfig({
   },
   // the build's own clock, identical on the server render and before the page mounts — lets 'what's next' lists
   // render into the HTML instead of popping in after hydration (#196, layout shift)
-  vite: { define: { __BUILD_TIME__: JSON.stringify(Date.now()) } },
+  vite: { define: { __BUILD_TIME__: JSON.stringify(Date.now()), __VERCEL_ANALYTICS__: JSON.stringify(ON_VERCEL) } },
   // offline support (#234): list the lazy component chunks the always-saved pages need (and what they import),
   // so the service worker can save them on install; and stamp sw.js so each deploy refreshes the saved copies
   buildEnd(site) {
@@ -113,12 +122,12 @@ export default defineConfig({
       : pageData.title ? `${pageData.title} | 큐티스트리트 팬허브 Custo` : siteData.title
     const desc = pageData.description || pageData.frontmatter.description || siteData.description
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
-    const url = `https://wonjangcloud9.github.io/custo/${path}`
+    const url = `${SITE}${path}`
     // member pages share a card in that member's colour (rendered from loop/og-member.html)
     const mem = path.match(/^members\/(risa|aika|kana|ayano|emiru|miyu|nagisa|haruka)$/)?.[1]
     // section hubs share their own card too (loop/og-section.html)
     const sec = path.match(/^(appearances|cutie-land|kohaku|world|korea|schedule|videos|discography|stages|mv-quiz)\/$/)?.[1] ?? (path.startsWith('discography/') ? 'discography' : undefined)
-    const img = `https://wonjangcloud9.github.io/custo/${mem ? `og/${mem}.png` : sec ? `og/sec-${sec}.png` : 'og.png'}`
+    const img = `${SITE}${mem ? `og/${mem}.png` : sec ? `og/sec-${sec}.png` : 'og.png'}`
     const alt = mem ? `${pageData.title} — CUTIE STREET 멤버 카드` : sec ? `${pageData.title} — CUTIE STREET 팬허브` : 'CUTIE STREET 팬허브 — 귀여움으로 세계까지'
     const ld = jsonLd(path, title)
     return [
