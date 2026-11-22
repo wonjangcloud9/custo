@@ -13,7 +13,7 @@ async (page) => {
     await c.clock.install({ time: new Date('2026-11-26T19:20:00+09:00') })
     const p = await c.newPage()
     for (const u of pages) {
-      await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' })
+      await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' })
       await p.waitForTimeout(500)
       const r = await p.evaluate(() => {
         const vis = (el) => { const s = getComputedStyle(el); return s.display !== 'none' && s.visibility !== 'hidden' && el.getClientRects().length > 0 }

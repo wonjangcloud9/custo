@@ -22,7 +22,7 @@ async (page) => {
     p.on('pageerror', (e) => errs.push(`${w} ${cur} PE ` + String(e).slice(0, 120)))
     for (const u of pages) {
       cur = u || 'home'
-      await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' }).catch(() => {})
+      await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' }).catch(() => {})
       await p.waitForTimeout(500)
       await p.evaluate(async () => { document.documentElement.style.scrollBehavior = 'auto'; for (let y = 0; y < document.documentElement.scrollHeight; y += 700) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)) } scrollTo(0, 0) })
       await p.waitForTimeout(300)

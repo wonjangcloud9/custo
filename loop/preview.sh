@@ -14,9 +14,9 @@ pkill -f "vitepress preview" 2>/dev/null || true
 sleep 1
 nohup npm run docs:preview -- --port 4173 > "${TMPDIR:-/tmp}/custo-preview.log" 2>&1 &
 for _ in $(seq 1 40); do
-  if curl -fsS -o /dev/null http://localhost:4173/custo/ 2>/dev/null; then
+  if curl -fsS -o /dev/null http://localhost:4173/ 2>/dev/null; then
     # the page must reference assets that exist in this build
-    asset=$(curl -fsS http://localhost:4173/custo/ | grep -oE '/custo/assets/[^"]+\.js' | head -1)
+    asset=$(curl -fsS http://localhost:4173/ | grep -oE '/assets/[^"]+\.js' | head -1)
     curl -fsS -o /dev/null "http://localhost:4173${asset}" && { echo "preview ready (fresh build, ${asset##*/} OK)"; exit 0; }
   fi
   sleep 0.5

@@ -6,7 +6,7 @@
 // To retire it: replace this file with one that calls self.registration.unregister() and clears caches.
 const V = 'v1'
 const PAGES = 'cs-pages-v2', ASSETS = `cs-assets-${V}`, FONTS = `cs-fonts-${V}` // pages v2: keys without the trailing slash (#235)
-const BASE = new URL('./', self.location).pathname // '/custo/'
+const BASE = new URL('./', self.location).pathname // '/'
 const PRECACHE = ['', 'live-guide/', 'schedule/', 'cutie-land/', 'members/'].map((p) => BASE + p)
 const LABELS = { '': '홈', 'live-guide/': '라이브 가이드', 'schedule/': '스케줄', 'cutie-land/': 'CUTIE LAND', 'members/': '멤버', 'kohaku/': '紅白', 'korea/': '한국 공연', 'videos/': '영상', 'start/': '입문 가이드', 'appearances/': '출연 아카이브', 'discography/': '디스코그래피', 'news/': '뉴스', 'about': '소개' }
 

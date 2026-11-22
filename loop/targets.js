@@ -12,7 +12,7 @@ async (page) => {
   const p = await c.newPage()
   const out = {}
   for (const u of pages) {
-    await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' }).catch(() => {})
+    await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' }).catch(() => {})
     await p.waitForTimeout(800)
     const r = await p.evaluate(() => {
       const sel = 'a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [tabindex]:not([tabindex="-1"])'

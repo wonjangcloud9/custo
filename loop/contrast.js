@@ -13,7 +13,7 @@ async (page) => {
   const c = await browser.newContext({ viewport: { width: +(page.url().match(/#w=(\d+)/)?.[1] || 1440), height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce', timezoneId: 'Asia/Seoul' })
   const p = await c.newPage()
   for (const u of pages) {
-    await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' })
+    await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' })
     await p.waitForTimeout(900)
     const cands = await p.evaluate(() => {
       const toRgb = (s) => { const n = s.match(/[\d.]+/g)?.map(Number); if (!n) return null; return s.startsWith('color(') ? { c: n.slice(0, 3).map((x) => x * 255), a: n[3] ?? 1 } : { c: n.slice(0, 3), a: n.length > 3 ? n[3] : 1 } }

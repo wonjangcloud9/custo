@@ -21,7 +21,7 @@ async (page) => {
       }).observe({ type: 'layout-shift', buffered: true })
     })
     for (const u of pages) {
-      await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' }).catch(() => {})
+      await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' }).catch(() => {})
       await p.waitForTimeout(2500)
       const ls = await p.evaluate(() => window.__ls)
       const total = ls.reduce((a, e) => a + e.v, 0)

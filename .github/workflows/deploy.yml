@@ -1,8 +1,14 @@
-name: Deploy to GitHub Pages
+name: GitHub Pages pointer
 
+# The site itself is built and served by Vercel (https://custo-xi.vercel.app) on every push to main.
+# GitHub Pages only keeps a small page that forwards old /custo/… links there; this republishes it
+# when that page changes.
 on:
   push:
     branches: [main]
+    paths:
+      - 'gh-pages-redirect/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -13,17 +19,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  publish-pointer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run docs:build
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/.vitepress/dist
+          publish_dir: gh-pages-redirect

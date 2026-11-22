@@ -13,7 +13,7 @@ async (page) => {
   const p = await c.newPage()
   const out = {}
   for (const u of pages) {
-    await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' }).catch(() => {})
+    await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' }).catch(() => {})
     await p.waitForTimeout(600)
     const r = await p.evaluate(() => {
       const kana = /[ぁ-ゖァ-ヺー]/

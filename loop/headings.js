@@ -11,7 +11,7 @@ async (page) => {
   const p = await c.newPage()
   const out = {}
   for (const u of pages) {
-    await p.goto('http://localhost:4173/custo/' + u, { waitUntil: 'networkidle' }).catch(() => {})
+    await p.goto('http://localhost:4173/' + u, { waitUntil: 'networkidle' }).catch(() => {})
     await p.waitForTimeout(600)
     const r = await p.evaluate(() => {
       const hs = [...document.querySelectorAll('.VPContent h1, .VPContent h2, .VPContent h3, .VPContent h4, .VPContent h5, .VPContent h6, .VPContent [role="heading"]')]

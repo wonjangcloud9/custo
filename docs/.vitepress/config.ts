@@ -4,14 +4,11 @@ import { join } from 'node:path'
 import { members } from './data/members'
 import { songs } from './data/songs'
 
-// Hosting: GitHub Pages serves this repo under /custo/. On Vercel (which sets VERCEL=1 while it builds) the site sits
-// at the domain root, links drop their .html, and Vercel Web Analytics is switched on (theme/index.ts).
-// The address comes from the project's production domain; set SITE_HOST in Vercel to pin another one.
-const ON_VERCEL = !!process.env.VERCEL
-const BASE = ON_VERCEL ? '/' : '/custo/'
-const SITE = ON_VERCEL
-  ? `https://${process.env.SITE_HOST || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL}/`
-  : 'https://wonjangcloud9.github.io/custo/'
+// Hosting: Vercel, at the domain root (moved from GitHub Pages' /custo/ on 2026-11-22 — gh-pages-redirect/ forwards
+// old links). The address is the project's production domain, which Vercel provides while it builds; SITE_HOST pins
+// another one; the last value is for builds made anywhere else. vercel.json holds the rest (clean URLs, caching).
+const ON_VERCEL = !!process.env.VERCEL // Web Analytics only exists there (theme/index.ts)
+const SITE = `https://${process.env.SITE_HOST || process.env.VERCEL_PROJECT_PRODUCTION_URL || 'custo-xi.vercel.app'}/`
 
 // Structured data (schema.org JSON-LD) — only facts already verified in data/members.ts and the official links.
 const OFFICIAL = 'https://cutiestreet.asobisystem.com/'
@@ -35,15 +32,14 @@ export default defineConfig({
   title: 'Custo',
   titleTemplate: ':title | 큐티스트리트 팬허브 Custo',
   description: 'CUTIE STREET(큐티스트리트) 비공식 팬허브 — 멤버 프로필, 레전드 컷, 공식 영상 아카이브, 스케줄, 정상까지의 여정, 한국 팬 소식.',
-  base: BASE,
-  cleanUrls: ON_VERCEL,
+  cleanUrls: true,
   lang: 'ko',
   appearance: false,
   srcExclude: ['superpowers/**'],
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${BASE}favicon.svg` }],
-    ['link', { rel: 'manifest', href: `${BASE}manifest.webmanifest` }],
-    ['link', { rel: 'apple-touch-icon', href: `${BASE}apple-touch-icon.png` }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'manifest', href: '/manifest.webmanifest' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'apple-mobile-web-app-title', content: 'Custo' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
@@ -100,6 +96,8 @@ export default defineConfig({
     writeFileSync(join(site.outDir, 'sw-precache.json'), JSON.stringify([...want].map((f) => `assets/chunks/${f}`)))
     const sw = join(site.outDir, 'sw.js')
     writeFileSync(sw, `// build ${Date.now().toString(36)}\n` + readFileSync(sw, 'utf8'))
+    // search engines: everything may be crawled; point them at the sitemap of whichever address this build is for
+    writeFileSync(join(site.outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`)
   },
   // search engines: each page's <title>/<meta description> names the group the way Korean and Japanese fans search for it
   // (큐티스트리트 · CUTIE STREET · キューティーストリート), and member pages get their own profile title + description

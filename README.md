@@ -9,14 +9,13 @@
 </p>
 
 <p align="center">
-  <a href="https://wonjangcloud9.github.io/custo/"><b>사이트 바로가기</b></a> ·
-  <a href="https://wonjangcloud9.github.io/custo/start/">처음이라면 입문 퀘스트</a> ·
-  <a href="https://wonjangcloud9.github.io/custo/journey/">정상까지의 여정 (3D)</a> ·
-  <a href="https://wonjangcloud9.github.io/custo/world/">큐스트 월드맵</a>
+  <a href="https://custo-xi.vercel.app/"><b>사이트 바로가기</b></a> ·
+  <a href="https://custo-xi.vercel.app/start/">처음이라면 입문 퀘스트</a> ·
+  <a href="https://custo-xi.vercel.app/journey/">정상까지의 여정 (3D)</a> ·
+  <a href="https://custo-xi.vercel.app/world/">큐스트 월드맵</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/wonjangcloud9/custo/actions/workflows/deploy.yml"><img alt="Deploy" src="https://github.com/wonjangcloud9/custo/actions/workflows/deploy.yml/badge.svg"></a>
   <img alt="VitePress" src="https://img.shields.io/badge/VitePress-1.6-ff6b9d">
   <img alt="Vue 3" src="https://img.shields.io/badge/Vue-3-a06cd5">
   <img alt="PWA" src="https://img.shields.io/badge/PWA-offline-4a90d9">
@@ -93,9 +92,9 @@ loop/
 
 ```bash
 npm install
-npm run docs:dev        # 개발 서버 (localhost:5173/custo/)
+npm run docs:dev        # 개발 서버 (localhost:5173/)
 npm run docs:build      # 프로덕션 빌드
-bash loop/preview.sh    # 빌드 후 프리뷰 (localhost:4173/custo/)
+bash loop/preview.sh    # 빌드 후 프리뷰 (localhost:4173/)
 ```
 
 ## 데이터 갱신
@@ -111,7 +110,7 @@ python3 loop/linkcheck.py                 # 외부 링크·영상 ID 링크 점�
 
 ## 배포
 
-`main` 브랜치에 푸시하면 GitHub Actions(`.github/workflows/deploy.yml`)가 빌드해 GitHub Pages로 배포합니다. 작업은 `fanpage-overhaul` 브랜치에서 하고, 빌드와 브라우저 점검을 통과한 것만 `main`으로 보냅니다.
+`main` 브랜치에 푸시하면 Vercel이 빌드해 배포합니다(설정은 `vercel.json`, 방문 통계는 Vercel Web Analytics). 예전 GitHub Pages 주소는 `gh-pages-redirect/`의 안내 페이지가 새 주소로 넘겨 줍니다. 작업은 `fanpage-overhaul` 브랜치에서 하고, 빌드와 브라우저 점검을 통과한 것만 `main`으로 보냅니다.
 
 ## 라이선스
 
