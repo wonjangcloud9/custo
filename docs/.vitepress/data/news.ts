@@ -8,6 +8,8 @@ export interface News { date: string; ja: string; ko: string; tag: NewsTag; url:
 
 const O = 'https://cutiestreet.asobisystem.com'
 export const news: News[] = [
+  { date: '2026-11-21', tag: 'event', ja: 'CUTIE STREET JAPAN ARENA TOUR 2026 -AUTUMN- CUTIE LAND ＠愛知県 IGアリーナにて特別抽選会開催が決定！', ko: '아레나 투어 FINAL 아이치 IG아레나(11/28·29) 현장 특별 추첨회 결정 (CD 예약자 대상 · 전원 체키 촬영회·배웅회 참가권 등)', url: `${O}/news/detail/96912`, internal: '/schedule/' },
+  { date: '2026-11-21', tag: 'event', ja: '11/26（木）佐野愛花 生誕祭 2026 物販情報', ko: '11/26 아이카 생탄제 물판(굿즈 판매) 정보 · 선행 판매 14:00–17:00 예정 (SGC홀 아리아케)', url: `${O}/news/detail/96840`, internal: '/members/aika' },
   { date: '2026-11-20', tag: 'ticket', ja: '11/23(月・祝) CUTIE STREET大特典会@アクセスサッポロ 特典会参加券当日販売決定！', ko: '11/23 삿포로 대특전회 특전회 참가권 당일 판매 결정 (라쿠텐북스 당일 예약 · 2·4·5부 대상, 1·3·6부는 FC 한정)', url: `${O}/news/detail/96950`, internal: '/schedule/' },
   { date: '2026-11-20', tag: 'event', ja: '11/23(月・祝) CUTIE STREET大特典会@アクセスサッポロにて特別抽選会開催決定！', ko: '11/23 삿포로 대특전회 현장 특별 추첨회 (라쿠텐북스 『CUTIE LAND』 CD 구매 1장당 1회, 꽝 없음 · TikTok 촬영회·사인 체키 등)', url: `${O}/news/detail/96949`, internal: '/schedule/' },
   { date: '2026-11-20', tag: 'ticket', ja: '「ASOBIEXPO HAWAII 2027」JTBオフィシャルファンクラブツアー3次募集決定！', ko: '하와이 ASOBIEXPO(2027.3.8) JTB 공식 팬클럽 투어 3차 모집 · 11/20 15:00–11/29 23:59 추첨 (현지 집합 플랜, VVIP 코스 신설)', url: `${O}/news/detail/96621`, internal: '/world/' },

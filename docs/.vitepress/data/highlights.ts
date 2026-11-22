@@ -13,6 +13,13 @@ export interface Highlight {
 
 export const highlights: Highlight[] = [
   {
+    date: '2026-11-21', kind: 'web',
+    title: '【裏側密着】ランウェイでとんでもないことが起きました…CUTIE STREETとのマル秘コラボも！',
+    ko: 'TVQ 규슈 오카다 모모카 아나운서의 KAWAII LAB. COLLECTION(기타큐슈) 무대 뒤 밀착 — 큐티스트리트와의 비밀 콜라보도!',
+    url: 'https://www.youtube.com/watch?v=JQV5Xi0av4M', video: 'JQV5Xi0av4M',
+    source: '岡田桃佳アナの【モモック】チャンネル (TVQ 공식 아나운서 페이지 tvq.co.jp/ana 에 링크된 채널 · 설명란 #cutiestreet)',
+  },
+  {
     date: '2026-11-19', kind: 'web',
     title: 'オトバズ収録現場に10時間密着したら…チョコプラ、CUTIE STREET、マルシィ、GENERATIONS、こっちのけんと、ICEx、GENTA YAMAGUCHI、ME:Iに遭遇しました…#281',
     ko: '키타야마 히로미츠가 「オトバズ」 녹화 현장 10시간 밀착 — 큐티스트리트도 등장! 🎙️',

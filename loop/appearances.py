@@ -15,6 +15,7 @@ others, or news-summary channels. Members are tagged from names in the title
 (plus channel rules below); untagged = whole group.
 """
 import json, re, sys, time, urllib.request, pathlib
+from datetime import datetime, timedelta, timezone
 
 DATA = pathlib.Path(__file__).resolve().parent.parent / 'docs/.vitepress/data/appearances.json'
 OWN = {'UCEz-AFAg3EUKsxraad1puQA', 'UCW8Q9LBGGBgK6a-u0C0h95A'}  # CUTIE STREET, KAWAII LAB.
@@ -32,6 +33,14 @@ NAMES = {
 CHANNEL_MEMBERS = {'PiKi': ['haruka']}  # PiKi = 松本かれん (FRUITS ZIPPER) × 桜庭遥花
 
 
+def jst_date(iso):
+    """publishDate carries the uploader's UTC offset (often -08:00) — the site's dates are JST."""
+    try:
+        return datetime.fromisoformat(iso).astimezone(timezone(timedelta(hours=9))).strftime('%Y-%m-%d')
+    except ValueError:
+        return iso[:10]
+
+
 def fetch(vid):
     req = urllib.request.Request(f'https://www.youtube.com/watch?v={vid}&hl=ja', headers={'User-Agent': 'Mozilla/5.0', 'Accept-Language': 'ja'})
     h = urllib.request.urlopen(req, timeout=20).read().decode('utf-8')
@@ -45,7 +54,7 @@ def fetch(vid):
         raise ValueError(f'{vid}: embedding disabled')
     if vd.get('channelId') in OWN:
         raise ValueError(f'{vid}: own channel — belongs in the video archive, not here')
-    return {'title': vd['title'], 'ch': vd['author'], 'date': (mf.get('publishDate') or '')[:10], 'secs': int(vd.get('lengthSeconds') or 0)}
+    return {'title': vd['title'], 'ch': vd['author'], 'date': jst_date(mf.get('publishDate') or ''), 'secs': int(vd.get('lengthSeconds') or 0)}
 
 
 def tag(title, ch):
