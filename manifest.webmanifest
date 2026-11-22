@@ -2,15 +2,15 @@
   "name": "Custo · CUTIE STREET 팬허브",
   "short_name": "Custo",
   "description": "귀여움으로 세계까지 — CUTIE STREET 비공식 팬허브",
-  "start_url": "/custo/",
-  "scope": "/custo/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#FFF8F0",
   "theme_color": "#FF6B9D",
   "lang": "ko",
   "icons": [
-    { "src": "/custo/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/custo/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "/custo/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
