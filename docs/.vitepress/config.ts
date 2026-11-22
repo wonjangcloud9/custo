@@ -48,6 +48,8 @@ export default defineConfig({
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap', rel: 'stylesheet' }],
     ['meta', { name: 'keywords', content: '큐티스트리트, 큐티 스트리트, 큐스트, 큐스토, CUTIE STREET, キューティーストリート, きゅーすと, KAWAII LAB, 팬사이트, 팬페이지, 멤버 프로필, 스케줄, MV, 직캠, 紅白, 홍백, 큐티스트리트 한국' }],
     ['meta', { name: 'theme-color', content: '#FF6B9D' }],
+    // search engines: site ownership tags (Google Search Console; Naver Search Advisor's goes next to it once registered)
+    ['meta', { name: 'google-site-verification', content: 'C-BVTPlIwRAVfQdFT5BQFeUFihC8cizvY2RsTXPHdYU' }],
     // light-only design (appearance: false): ask browsers not to auto-darken it (Chrome/Samsung forced dark) — 'only' opts out
     ['meta', { name: 'color-scheme', content: 'only light' }],
     ['meta', { name: 'author', content: 'Custo' }],
