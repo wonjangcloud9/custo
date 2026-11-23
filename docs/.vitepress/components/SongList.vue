@@ -17,7 +17,7 @@ const W = new Map(songs.map((s) => [s.id, writersOf(s)]))
 const topWriters = computed(() => {
   const c = new Map<string, number>()
   for (const ws of W.values()) for (const w of ws) c.set(w, (c.get(w) || 0) + 1)
-  return [...c.entries()].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  return [...c.entries()].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0)) // code-point order: localeCompare differs between the SSR build and the browser locale → hydration mismatch
 })
 const years = [...new Set(sorted.map((s) => date(s).slice(0, 4)))]
 

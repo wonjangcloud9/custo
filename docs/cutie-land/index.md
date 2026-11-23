@@ -9,16 +9,16 @@ description: CUTIE STREET 1st ALBUM「CUTIE LAND」(2026.12.02) 16트랙 가이�
 
 <OfflineReady />
 
-<CountdownCard date="2026-12-02" kicker="CUTIE STREET 1st ALBUM" glyph="💿" title="「CUTIE LAND」발매까지" todayTitle="「CUTIE LAND」오늘 발매!" sub="2026.12.02 (水) · 16곡 수록 · 3형태" from="#c2185b" to="#6d3fb0" file="cutiestreet-cutieland-dday" path="/cutie-land/" />
+<CountdownCard date="2026-12-02" kicker="CUTIE STREET 1st ALBUM" glyph="CL" title="「CUTIE LAND」발매까지" todayTitle="「CUTIE LAND」오늘 발매!" sub="2026.12.02 (水) · 16곡 수록 · 3형태" from="#c2185b" to="#6d3fb0" file="cutiestreet-cutieland-dday" path="/cutie-land/" />
 
 <CutieLand />
 
 <AlbumGuide />
 
-## 아레나 투어 「CUTIE LAND」 🎟️
+## 아레나 투어 「CUTIE LAND」
 
 앨범과 같은 이름의 첫 아레나 투어! 7개 도시 13공연을 스탬프 랠리로 따라가 보세요. 끝난 공연엔 도장이 찍히고, 공식 라이브 영상이 있으면 바로 볼 수 있어요.
 
-<CountdownCard date="2026-11-28" through="2026-11-29" kicker="JAPAN ARENA TOUR 2026 -AUTUMN- CUTIE LAND" glyph="🎡" title="아레나 투어 FINAL 아이치까지" todayTitle="오늘은 투어 FINAL! IG아레나" sub="2026.11.28 (土)–29 (日) · IGアリーナ (아이치)" from="#6d3fb0" to="#c2185b" file="cutiestreet-tour-final-dday" path="/cutie-land/" label="🎡 파이널 D-day 카드 저장" />
+<CountdownCard date="2026-11-28" through="2026-11-29" kicker="JAPAN ARENA TOUR 2026 -AUTUMN- CUTIE LAND" glyph="愛知" title="아레나 투어 FINAL 아이치까지" todayTitle="오늘은 투어 FINAL! IG아레나" sub="2026.11.28 (土)–29 (日) · IGアリーナ (아이치)" from="#6d3fb0" to="#c2185b" file="cutiestreet-tour-final-dday" path="/cutie-land/" label="파이널 D-day 카드 저장" />
 
 <TourStamps />

@@ -50,8 +50,8 @@ const ALIAS: Record<string, string[]> = {
 }
 interface Rel { id: string; title: string; tab: string; sub: string }
 const TABS = [
-  { id: 'all', label: '전체' }, { id: 'mv', label: '🎬 MV' }, { id: 'dance', label: '💃 안무·FOCUS' }, { id: 'live', label: '🎤 라이브' },
-  { id: 'tv', label: '📺 다른 채널' }, { id: 'etc', label: '✨ 기타' },
+  { id: 'all', label: '전체' }, { id: 'mv', label: 'MV', ico: 'film' }, { id: 'dance', label: '안무·FOCUS', ico: 'sparkle' }, { id: 'live', label: '라이브', ico: 'mic' },
+  { id: 'tv', label: '다른 채널', ico: 'tv' }, { id: 'etc', label: '기타', ico: 'grid' },
 ]
 const tab = ref('all')
 const shown = ref(8)
@@ -94,7 +94,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
       <div class="hero-info">
         <p class="eyebrow">1st ALBUM · {{ fmt(cutieLand.date) }} RELEASE</p>
         <h2 class="hero-title">CUTIE LAND</h2>
-        <p class="hero-d">{{ days === null ? '' : days > 0 ? `발매까지 D-${days}` : days === 0 ? '오늘 발매! 🎉' : '발매 중 💿' }}</p>
+        <p class="hero-d">{{ days === null ? '' : days > 0 ? `발매까지 D-${days}` : days === 0 ? '오늘 발매!' : '발매 중' }}</p>
         <ol class="tracks">
           <li v-for="(t, i) in cutieLand.tracks" :key="t" :style="{ '--tc': members[i % 8].color }">
             <span class="tn">{{ String(i + 1).padStart(2, '0') }}</span>
@@ -140,7 +140,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         <div class="dlg-top">
           <span class="type">{{ cur.type }}</span>
           <b :lang="jaLang(cur.title)">{{ cur.title }}</b>
-          <button type="button" class="x" aria-label="닫기" @click="close">✕</button>
+          <button type="button" class="x" aria-label="닫기" @click="close"><Ico n="close" /></button>
         </div>
         <div v-if="cur.mv" class="dlg-media">
           <iframe v-if="playing" :src="`https://www.youtube-nocookie.com/embed/${cur.mv}?autoplay=1&rel=0`" :title="cur.title" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen />
@@ -150,19 +150,19 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         </div>
         <div class="dlg-body">
           <p class="dlg-meta">{{ fmt(cur.date) }} 릴리즈<template v-if="cur.note"> · {{ cur.note }}</template> · <a :href="officialUrl(cur.id)" target="_blank" rel="noopener">공식 상세 ↗</a></p>
-          <a v-if="songPage(cur.song)" class="story-link" :href="withBase(`/discography/${songPage(cur.song)}`)">📖 「{{ cur.song }}」 곡 이야기 보기 →</a>
+          <a v-if="songPage(cur.song)" class="story-link" :href="withBase(`/discography/${songPage(cur.song)}`)"><Ico n="book" /> 「{{ cur.song }}」 곡 이야기 보기 →</a>
           <template v-if="related.length">
             <h4>관련 영상 {{ related.length }}</h4>
             <div class="rtabs" role="tablist" aria-label="관련 영상 종류">
               <template v-for="t in TABS" :key="t.id">
-                <button v-if="tabCount(t.id)" type="button" role="tab" class="rtab" :aria-selected="tab === t.id" @click="tab = t.id; shown = 8">{{ t.label }} <small>{{ tabCount(t.id) }}</small></button>
+                <button v-if="tabCount(t.id)" type="button" role="tab" class="rtab" :aria-selected="tab === t.id" @click="tab = t.id; shown = 8"><Ico v-if="t.ico" :n="t.ico" /> {{ t.label }} <small>{{ tabCount(t.id) }}</small></button>
               </template>
             </div>
             <div class="rel">
               <a v-for="v in relList.slice(0, shown)" :key="v.id" :href="`https://www.youtube.com/watch?v=${v.id}`" target="_blank" rel="noopener" class="rv">
                 <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" />
                 <span :lang="jaLang(v.title)">{{ v.title }}</span>
-                <small v-if="v.sub" class="rv-sub">{{ v.tab === 'tv' ? '📺 ' : '' }}{{ v.sub }}</small>
+                <small v-if="v.sub" class="rv-sub"><Ico v-if="v.tab === 'tv'" n="tv" size="1em" /> {{ v.sub }}</small>
               </a>
             </div>
             <button v-if="relList.length > shown" type="button" class="more" @click="shown += 12">더 보기 ({{ relList.length - shown }}) ↓</button>
