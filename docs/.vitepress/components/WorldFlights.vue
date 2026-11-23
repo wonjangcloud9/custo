@@ -117,7 +117,7 @@ function go(i: number) {
 .bp:focus-visible { outline: 2.5px solid #c2185b; outline-offset: 3px; }
 .bp-main { display: flex; flex-direction: column; gap: 10px; padding: 16px 22px 18px; min-width: 0; border-left: 6px solid var(--cc); border-radius: 20px 0 0 20px; }
 .bp-top { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; color: #9a7f92; }
-.bp-top b { color: var(--cc); filter: brightness(0.8); letter-spacing: 0.2em; }
+.bp-top b { color: color-mix(in oklab, var(--cc) 58%, #2a0a20); letter-spacing: 0.2em; }
 .bp-top span { letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; background: color-mix(in oklab, var(--cc) 16%, #fff); color: color-mix(in oklab, var(--cc) 70%, #2a0a20); }
 .bp-route { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
 .ap { display: flex; flex-direction: column; line-height: 1.05; }
@@ -132,7 +132,7 @@ function go(i: number) {
 .bp-plane { color: color-mix(in oklab, var(--cc) 75%, #2a0a20); }
 .bp-fields { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; border-top: 1.5px solid #f2e6ee; padding-top: 10px; }
 .bp-fields span { display: flex; flex-direction: column; min-width: 0; }
-.bp-fields small { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: #a891a0; }
+.bp-fields small { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: #735779; }
 .bp-fields b { font-size: 14px; font-weight: 800; color: #3a2340; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
 .bp-stub { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 14px 16px; text-align: center; }
 .bp-stub small { font-size: 10.5px; font-weight: 800; letter-spacing: 0.2em; color: color-mix(in oklab, var(--cc) 60%, #3a2340); }

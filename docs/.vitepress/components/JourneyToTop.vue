@@ -625,7 +625,7 @@ onBeforeUnmount(() => cleanup?.())
 .lead b { color: #c2457a; white-space: nowrap; }
 .alt-now { transition: opacity 0.3s, translate 0.4s; }
 .alt-now.gone { opacity: 0; translate: -8px 0; }
-.hint { margin-top: 28px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: #735779; }
+.hint { margin-top: 28px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: #5a4060; }
 .mouse { width: 20px; height: 32px; border-radius: 12px; border: 2px solid #c49cff; position: relative; }
 .mouse::after { content: ''; position: absolute; left: 50%; top: 6px; width: 4px; height: 6px; margin-left: -2px; border-radius: 2px; background: #ff6b9d; animation: wheel 1.6s ease-in-out infinite; }
 @keyframes wheel { 60% { transform: translateY(10px); opacity: 0; } }

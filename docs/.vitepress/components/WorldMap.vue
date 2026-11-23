@@ -416,7 +416,7 @@ onBeforeUnmount(() => { window.removeEventListener('wm:jump', onStamp); clearInt
 @keyframes pop { 0% { transform: translateY(6px) scale(0.85); opacity: 0.4; } 100% { transform: none; opacity: 1; } }
 .drag-hint { margin: 4px 0 0 !important; text-align: center; font-size: 12px; color: #735779; }
 /* panel */
-.eyebrow { margin: 0 !important; font-size: 12px; font-weight: 900; letter-spacing: 0.22em; color: #c92f69; }
+.eyebrow { margin: 0 !important; font-size: 12px; font-weight: 900; letter-spacing: 0.22em; color: #9c2457; }
 .panel h1 { margin: 4px 0 0 !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: clamp(30px, 4vw, 46px) !important; line-height: 1.15; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
 .stats div { padding: 12px 14px; border-radius: 18px; background: #fff; border: 1.5px solid #f3d6e4; display: flex; align-items: baseline; gap: 6px; }

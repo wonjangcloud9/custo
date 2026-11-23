@@ -480,7 +480,7 @@ function cleanTitle(t: string) {
 .rv-thumb { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden; background: #fbe9f1; box-shadow: 0 12px 24px -16px rgba(150, 60, 110, 0.6); }
 .rv-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(.2, .8, .2, 1); }
 .rv:hover img { transform: scale(1.07); }
-.rv-new { position: absolute; left: 6px; top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 6px; color: #fff; background: linear-gradient(135deg, #ff4757, #ff9f43); }
+.rv-new { position: absolute; left: 6px; top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 6px; color: #fff; background: linear-gradient(135deg, #c8203a, #a84d0d); }
 .rv-dur { position: absolute; right: 6px; bottom: 6px; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; background: rgba(30, 10, 30, 0.72); color: #fff; }
 .rv-ttl { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: 13.5px; font-weight: 600; line-height: 1.45; font-family: var(--cs-sans); }
 .rv-date { font-size: 12px; color: #735779; }

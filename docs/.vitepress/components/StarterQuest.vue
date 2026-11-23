@@ -193,6 +193,6 @@ onMounted(() => {
   .badge { margin-right: 84px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .party { display: none; } .fill, .n, .chk, .vid, .mem a { transition: none; } .badge { animation: none; } }
-.cc { display: inline-grid; place-items: center; min-width: 24px; height: 17px; padding: 0 4px; border-radius: 5px; background: linear-gradient(135deg, #e0457f, #4a90d9); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 0.04em; vertical-align: 1px; }
+.cc { display: inline-grid; place-items: center; min-width: 24px; height: 17px; padding: 0 4px; border-radius: 5px; background: linear-gradient(135deg, #c2306a, #2f6fb0); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 0.04em; vertical-align: 1px; }
 .li-i { color: #c2185b; }
 </style>
