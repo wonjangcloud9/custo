@@ -12,11 +12,11 @@
       <!-- RESULT -->
       <div v-if="finished" key="result" class="result">
         <div class="ring" :style="{ '--p': score / questions.length }" aria-hidden="true">
-          <span>{{ resultEmoji }}</span>
+          <span><Ico :n="resultEmoji" duo size="1em" /></span>
         </div>
         <p class="r-score"><b>{{ score }}</b> / {{ questions.length }}</p>
         <p class="r-label">{{ resultLabel }}</p>
-        <button ref="restartBtn" type="button" class="btn" @click="restart">다시 도전 🔄</button>
+        <button ref="restartBtn" type="button" class="btn" @click="restart">다시 도전 <Ico n="refresh" /></button>
       </div>
 
       <!-- QUESTION -->
@@ -45,10 +45,10 @@
         </div>
         <div class="feedback" aria-live="polite">
           <template v-if="answered">
-            <p v-if="selectedOption === cur.answer" class="ok">정답! 🎉</p>
+            <p v-if="selectedOption === cur.answer" class="ok">정답! <Ico n="sparkle" duo /></p>
             <p v-else class="no">아쉬워요 — 정답은 <b>{{ cur.options[cur.answer] }}</b></p>
             <button ref="nextBtn" type="button" class="btn" @click="next">
-              {{ currentIndex < questions.length - 1 ? '다음 문제 →' : '결과 보기 🏆' }}
+              <template v-if="currentIndex < questions.length - 1">다음 문제 →</template><template v-else>결과 보기 <Ico n="trophy" /></template>
             </button>
           </template>
         </div>
@@ -146,7 +146,7 @@ function optionClass(idx: number) {
 }
 
 const ratio = computed(() => score.value / props.questions.length)
-const resultEmoji = computed(() => (ratio.value === 1 ? '🌟' : ratio.value >= 0.6 ? '😊' : '💪'))
+const resultEmoji = computed(() => (ratio.value === 1 ? 'crown' : ratio.value >= 0.6 ? 'heart' : 'dumbbell'))
 const resultLabel = computed(() => (ratio.value === 1 ? '만점! 진정한 큐스트 팬이에요' : ratio.value >= 0.6 ? '잘했어요!' : '다시 도전해 봐요!'))
 </script>
 
@@ -209,7 +209,7 @@ const resultLabel = computed(() => (ratio.value === 1 ? '만점! 진정한 큐�
 .result { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px 0 4px; }
 .ring { --p: 0; width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center; animation: ringIn 1s var(--spring) both;
   background: radial-gradient(closest-side, #fff 78%, transparent 79%), conic-gradient(var(--qa) calc(var(--p) * 360deg), color-mix(in srgb, var(--qa) 14%, #f3e9ee) 0); }
-.ring span { font-size: 42px; }
+.ring span { display: grid; font-size: 42px; line-height: 1; color: #c92f69; }
 @keyframes ringIn { from { transform: scale(0.6) rotate(-30deg); opacity: 0; } }
 .r-score { margin: 6px 0 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; color: #6a4f70; }
 .r-score b { font-size: 34px; color: var(--qd); }

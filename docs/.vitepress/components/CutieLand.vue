@@ -66,7 +66,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
       </div>
       <div class="cl-info">
         <p class="eyebrow">2026.12.02 RELEASE</p>
-        <p class="dday">{{ days === null ? '' : days > 0 ? `D-${days}` : days === 0 ? 'TODAY 🎉' : 'OUT NOW 💿' }}</p>
+        <p class="dday">{{ days === null ? '' : days > 0 ? `D-${days}` : days === 0 ? 'TODAY' : 'OUT NOW' }}</p>
         <p class="now">Now spinning · <b :lang="jaLang(cur.title)">{{ cur.title }}</b></p>
         <div class="eds">
           <div v-for="e in cutieLand.editions" :key="e.code" class="ed"><b>{{ e.name }}</b><span>{{ e.spec }}</span><small>{{ e.code }} · {{ e.price }}</small></div>
@@ -76,18 +76,18 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
     </aside>
 
     <div class="cl-listwrap">
-    <p class="cl-sum"><b>16곡</b> 중 <span class="s-new">✨ 앨범 첫 공개 {{ premieres }}곡</span> · <span class="s-rel">📀 이미 발매된 곡 {{ released }}곡</span> · 싱글 라이브 음원 수록 1곡<small>공식 디스코그래피·가사 사이트 곡 목록 기준 (2026.11.18 확인)</small></p>
+    <p class="cl-sum"><b>16곡</b> 중 <span class="s-new"><Ico n="sparkle" duo /> 앨범 첫 공개 {{ premieres }}곡</span> · <span class="s-rel"><Ico n="disc" /> 이미 발매된 곡 {{ released }}곡</span> · 싱글 라이브 음원 수록 1곡<small>공식 디스코그래피·가사 사이트 곡 목록 기준 (2026.11.18 확인)</small></p>
     <ol class="cl-list">
       <li v-for="(t, i) in tracks" :key="t.title" class="cl-track" :class="{ on: current === i }" :data-i="i" :style="{ '--tc': t.color }">
         <span class="no">{{ String(t.n).padStart(2, '0') }}</span>
         <div class="body">
           <h3 lang="ja">{{ t.title }}</h3>
           <div class="tags">
-            <span v-if="t.mv" class="tag mv">🎬 MV</span>
-            <span v-if="t.unit" class="tag unit">💞 <span lang="ja">{{ t.unit.ja }}</span></span>
-            <span v-if="t.lives" class="tag">🎤 라이브 영상 {{ t.lives }}</span>
-            <span v-if="t.premiere" class="tag new">✨ 앨범 첫 공개</span>
-            <span v-else-if="t.first" class="tag rel">📀 {{ fmtD(t.first.date) }} {{ t.first.type === 'SINGLE' ? 'CD 싱글' : '디지털' }}{{ /Korean/i.test(t.first.title) ? ' (한국어 ver.)' : '' }}</span>
+            <span v-if="t.mv" class="tag mv"><Ico n="film" /> MV</span>
+            <span v-if="t.unit" class="tag unit"><Ico n="hearts" /> <span lang="ja">{{ t.unit.ja }}</span></span>
+            <span v-if="t.lives" class="tag"><Ico n="mic" /> 라이브 영상 {{ t.lives }}</span>
+            <span v-if="t.premiere" class="tag new"><Ico n="sparkle" /> 앨범 첫 공개</span>
+            <span v-else-if="t.first" class="tag rel"><Ico n="disc" /> {{ fmtD(t.first.date) }} {{ t.first.type === 'SINGLE' ? 'CD 싱글' : '디지털' }}{{ /Korean/i.test(t.first.title) ? ' (한국어 ver.)' : '' }}</span>
           </div>
           <p v-if="t.note" class="origin">{{ t.note }}</p>
           <div v-if="t.unit" class="unit-av">
@@ -101,7 +101,7 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
               <img :src="`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`" alt="" loading="lazy" /><span>{{ v.duration }}</span>
             </a>
           </div>
- <a v-if="t.page" class="more story" :href="withBase(`/discography/${t.page}`)">📖 곡 이야기 →</a>
+ <a v-if="t.page" class="more story" :href="withBase(`/discography/${t.page}`)"><Ico n="book" /> 곡 이야기 →</a>
           <a v-if="t.total > 3" class="more" :href="withBase(`/videos/?q=${encodeURIComponent(t.title)}`)">관련 영상 {{ t.total }}편 모두 보기 →</a>
         </div>
       </li>

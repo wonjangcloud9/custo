@@ -6,8 +6,8 @@ import { members } from '../data/members'
 const guide = ref(members[0])
 onMounted(() => { guide.value = members[Math.floor(Math.random() * members.length)] })
 const LINKS = [
-  { t: '홈', h: '/', e: '🏠' }, { t: '멤버', h: '/members/', e: '💖' }, { t: '영상 아카이브', h: '/videos/', e: '🎬' },
-  { t: '스케줄', h: '/schedule/', e: '🗓️' }, { t: '정상까지의 여정', h: '/journey/', e: '🗻' }, { t: '紅白 특집', h: '/kohaku/', e: '🎍' },
+  { t: '홈', h: '/', e: 'home' }, { t: '멤버', h: '/members/', e: 'heart' }, { t: '영상 아카이브', h: '/videos/', e: 'film' },
+  { t: '스케줄', h: '/schedule/', e: 'calendar' }, { t: '정상까지의 여정', h: '/journey/', e: 'mountain' }, { t: '紅白 특집', h: '/kohaku/', e: 'tv' },
 ]
 const openSearch = () => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true, ctrlKey: true }))
 </script>
@@ -17,11 +17,11 @@ const openSearch = () => window.dispatchEvent(new KeyboardEvent('keydown', { key
     <h1 class="big" aria-label="404">
       <span v-for="(c, i) in ['4', '0', '4']" :key="i" :style="{ '--i': i, color: members[(i * 3 + 1) % 8].color }">{{ c }}</span>
     </h1>
-    <p class="msg">앗, 길을 잃었어요… 이 거리엔 아무것도 없네요 🥲</p>
+    <p class="msg">앗, 길을 잃었어요… 이 거리엔 아무것도 없네요…</p>
     <p class="guide"><span class="face">{{ guide.ja.slice(-2, -1) }}</span><b>{{ guide.ko }}</b>가 길을 안내해 줄게요!</p>
     <div class="links">
-      <a v-for="l in LINKS" :key="l.h" :href="withBase(l.h)">{{ l.e }} {{ l.t }}</a>
-      <button type="button" @click="openSearch">🔍 검색하기 (⌘K)</button>
+      <a v-for="l in LINKS" :key="l.h" :href="withBase(l.h)"><Ico :n="l.e" duo /> {{ l.t }}</a>
+      <button type="button" @click="openSearch"><Ico n="search" /> 검색하기 (⌘K)</button>
     </div>
   </section>
 </template>
@@ -35,7 +35,7 @@ const openSearch = () => window.dispatchEvent(new KeyboardEvent('keydown', { key
 .guide { display: inline-flex; align-items: center; gap: 8px; margin: 14px 0 0; padding: 8px 16px; border-radius: 999px; background: color-mix(in srgb, var(--mc) 14%, white); font-size: 14px; }
 .face { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030); color: #fff; font-weight: 700; font-family: 'Zen Maru Gothic', sans-serif; }
 .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 26px; max-width: 620px; }
-.links a, .links button { padding: 10px 16px; border-radius: 999px; background: #fff; border: 1.5px solid #f1d4e1; color: #3a2340 !important; font-weight: 700; font-size: 14px; text-decoration: none !important;
+.links a, .links button { --ico-fill: color-mix(in srgb, #ff6b9d 28%, transparent); padding: 10px 16px; border-radius: 999px; background: #fff; border: 1.5px solid #f1d4e1; color: #3a2340 !important; font-weight: 700; font-size: 14px; text-decoration: none !important;
   transition: transform 0.45s cubic-bezier(.34, 1.56, .64, 1); }
 .links a:hover, .links button:hover { transform: translateY(-3px) rotate(-1.5deg); }
 .links button { background: #3a2340; color: #fff !important; border-color: #3a2340; }
