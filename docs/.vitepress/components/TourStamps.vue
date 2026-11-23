@@ -54,6 +54,7 @@ const fmt = (ds: string[]) => ds.map((d, i) => (i > 0 && d.slice(5, 7) === ds[0]
     <div class="ts-bar" role="progressbar" :aria-valuenow="doneShows" aria-valuemin="0" :aria-valuemax="shows.length" aria-label="투어 진행률">
       <i :style="{ width: (doneShows / shows.length) * 100 + '%' }" />
     </div>
+    <p v-if="doneShows === shows.length" class="ts-done"><Ico n="trophy" duo /> <b>{{ stops.length }}도시 {{ shows.length }}공연 완주!</b> 첫 아레나 투어 「<span lang="ja">CUTIE LAND</span>」 수고했어요 <Ico n="sparkle" duo /></p>
     <ol class="ts-grid">
       <li v-for="(s, i) in stops" :key="s.venue" class="stop" :class="[state(s), { next: nextStop === s, final: s.final }]" :style="{ '--sc': COLORS[i % 8] }">
         <span class="stamp" aria-hidden="true">
@@ -86,6 +87,10 @@ const fmt = (ds: string[]) => ds.map((d, i) => (i > 0 && d.slice(5, 7) === ds[0]
 .ts-count b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px; color: #c92f69; }
 .ts-count span { font-size: 13px; font-weight: 700; color: #735779; }
 .ts-bar { height: 8px; margin: 10px 0 16px; border-radius: 999px; background: #f4e6ee; overflow: hidden; }
+.ts-done { margin: -4px 0 16px !important; padding: 10px 16px; border-radius: 14px; text-align: center; font-size: 14.5px; font-weight: 700; color: #4a2050;
+  background: linear-gradient(100deg, #fff3cf, #ffe1ee 50%, #efe2ff); box-shadow: inset 0 0 0 1.5px #f6d3e3; animation: thunk 0.7s var(--spring, ease-out) both; }
+.ts-done b { color: #9c2457; }
+.ts-done .ico { color: #c2306a; }
 .ts-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ffc93c, #ff6b9d, #a06cd5); }
 .ts-grid { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
 .stop { margin: 0 !important; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
@@ -117,5 +122,5 @@ const fmt = (ds: string[]) => ds.map((d, i) => (i > 0 && d.slice(5, 7) === ds[0]
   .ring b { font-size: 13px; } .ring small { display: none; } .dt { display: block; }
   .final .ring::after { top: -12px; font-size: 8.5px; padding: 0 6px; } .venue { font-size: 10px; } .st, .clip { font-size: 10.5px; } .ink { font-size: 9px; padding: 0 4px; }
 }
-@media (prefers-reduced-motion: reduce) { .done .stamp, .next .ring { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .done .stamp, .next .ring, .ts-done { animation: none; } }
 </style>
