@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { jaLang } from '../theme/lang'
+import { BUILD_TIME } from '../theme/today'
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
@@ -77,7 +78,9 @@ const todayStr = computed(() => (now.value === null ? '' : new Date(now.value + 
 
 const sorted = [...events].sort((a, b) => startMs(a) - startMs(b) || a.cat.localeCompare(b.cat))
 const dayEnd = (e: CsEvent) => new Date(`${e.date}T23:59:59+09:00`).getTime()
-const isPast = (e: CsEvent) => now.value !== null && dayEnd(e) < now.value
+// before mount: past as of the build (same in SSR and first client render) so months that are already over
+// aren't rendered and then dropped — that jump was the page's layout shift (CLS sweep 11/23, 0.053)
+const isPast = (e: CsEvent) => dayEnd(e) < (now.value ?? BUILD_TIME)
 const isToday = (e: CsEvent) => now.value !== null && !isPast(e) && startMs({ ...e, time: undefined }) <= now.value
 
 const next = computed(() => (now.value === null ? null : sorted.find((e) => startMs(e) > now.value!) ?? null))
