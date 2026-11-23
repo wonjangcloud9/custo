@@ -8,8 +8,8 @@ const balloons = Array.from({ length: 7 }, (_, i) => ({ x: 6 + i * 14, d: (i % 4
 
 <template>
   <a v-if="props.compact" class="ribbon" :href="withBase(`/members/${props.m.id}`)" :style="{ '--mc': props.m.color }">
-    <span class="rb-emoji" aria-hidden="true">🎂</span>
-    <span>오늘은 <b>{{ props.m.ko }}</b>의 {{ props.age ? props.age + '번째 ' : '' }}생일! HAPPY BIRTHDAY {{ props.m.emoji }}</span>
+    <span class="rb-emoji" aria-hidden="true"><Ico n="cake" duo /></span>
+    <span>오늘은 <b>{{ props.m.ko }}</b>의 {{ props.age ? props.age + '번째 ' : '' }}생일! HAPPY BIRTHDAY ♡</span>
     <span class="rb-go" aria-hidden="true">→</span>
   </a>
   <div v-else class="party" :style="{ '--mc': props.m.color }" role="status">
@@ -17,7 +17,7 @@ const balloons = Array.from({ length: 7 }, (_, i) => ({ x: 6 + i * 14, d: (i % 4
       <span v-for="(b, i) in balloons" :key="i" class="bl" :class="{ alt: b.c }" :style="{ left: b.x + '%', animationDelay: b.d + 's', scale: b.s }"><i /></span>
     </div>
     <p class="hb">HAPPY BIRTHDAY</p>
-    <p class="who">🎂 {{ props.m.ja }} · {{ props.m.ko }}<template v-if="props.age"> — {{ props.age }}번째 생일</template> {{ props.m.emoji }}</p>
+    <p class="who"><Ico n="cake" duo /> {{ props.m.ja }} · {{ props.m.ko }}<template v-if="props.age"> — {{ props.age }}번째 생일</template></p>
     <p class="say" lang="ja">お誕生日おめでとう！</p>
   </div>
 </template>
@@ -25,7 +25,7 @@ const balloons = Array.from({ length: 7 }, (_, i) => ({ x: 6 + i * 14, d: (i % 4
 <style scoped>
 .ribbon { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 12px 18px; border-radius: 999px; text-decoration: none !important; color: #fff !important; font-weight: 700;
   background: linear-gradient(90deg, color-mix(in srgb, var(--mc) min(62%, var(--ink-mix, 100%)), #2a1030), color-mix(in srgb, var(--mc) 80%, #2a1030)); box-shadow: 0 14px 30px -16px var(--mc); }
-.rb-emoji { font-size: 22px; animation: wob 1.6s ease-in-out infinite; }
+.rb-emoji { display: grid; font-size: 22px; --ico-fill: color-mix(in srgb, #fff 35%, transparent); animation: wob 1.6s ease-in-out infinite; }
 @keyframes wob { 50% { transform: rotate(-12deg) scale(1.15); } }
 .rb-go { margin-left: auto; }
 .party { position: relative; overflow: hidden; margin: 0 0 14px; padding: 26px 20px 22px; border-radius: 28px; text-align: center; color: #fff;

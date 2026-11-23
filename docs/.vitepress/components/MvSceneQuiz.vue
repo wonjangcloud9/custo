@@ -140,15 +140,15 @@ const total = computed(() => rounds.value.length || ROUNDS)
 const isSong = computed(() => mode.value !== 'member')
 const rank = computed(() => {
   const s = (score.value / total.value) * 10, mv = isSong.value // scaled to a 10-round game
-  if (s >= 800) return { t: mv ? '큐스트 MV 마스터' : '찐 큐티스트 인증', e: '👑' }
-  if (s >= 600) return { t: '프로 큐티스트', e: '💖' }
-  if (s >= 400) return { t: '성장 중인 큐티스트', e: '🌱' }
-  return { t: mv ? 'MV 정주행 추천!' : '멤버 페이지 정주행 추천!', e: mv ? '🎬' : '👀' }
+  if (s >= 800) return { t: mv ? '큐스트 MV 마스터' : '찐 큐티스트 인증', e: 'crown' }
+  if (s >= 600) return { t: '프로 큐티스트', e: 'heart' }
+  if (s >= 400) return { t: '성장 중인 큐티스트', e: 'sprout' }
+  return { t: mv ? 'MV 정주행 추천!' : '멤버 페이지 정주행 추천!', e: mv ? 'film' : 'search' }
 })
 const modeName = computed(() => (mode.value === 'daily' ? `오늘의 MV 퀴즈 ${+dayKey.value.slice(5, 7)}/${+dayKey.value.slice(8)}` : mode.value === 'song' ? 'MV 장면 퀴즈' : '멤버 맞히기 퀴즈'))
 const shareUrl = () => location.origin + location.pathname + (mode.value === 'daily' ? '?daily' : '')
 async function share() {
-  const text = `🎯 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${total.value}) — ${rank.value.e} ${rank.value.t}${mode.value === 'daily' && streakDays.value > 1 ? ` · 🔥${streakDays.value}일 연속` : ''}`
+  const text = `✦ 큐스트 ${modeName.value} ${score.value}점 (${right.value}/${total.value}) — ${rank.value.t}${mode.value === 'daily' && streakDays.value > 1 ? ` · ${streakDays.value}일 연속` : ''}`
   // phones: the system share sheet; elsewhere (or if it is dismissed/unsupported): copy to clipboard
   if (navigator.share && matchMedia('(pointer: coarse)').matches) {
     try { await navigator.share({ title: `큐스트 ${modeName.value}`, text, url: shareUrl() }); return } catch (e) { if ((e as Error).name === 'AbortError') return }
@@ -177,14 +177,14 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
         <span v-for="(s, i) in SONGS.slice(0, 5)" :key="s.id" class="ph" :style="{ '--i': i }"><img :src="`https://i.ytimg.com/vi/${s.id}/hq${(i % 3) + 1}.jpg`" alt="" loading="lazy" /></span>
       </div>
       <ul class="rules">
-        <li>🔍 확대되고 흐릿한 장면이 점점 선명해져요</li>
-        <li>⚡ 빨리 맞힐수록 높은 점수 (문제당 최대 100점)</li>
-        <li class="kb-tip">⌨️ 키보드: 숫자 키로 답하고 Enter로 다음 문제</li>
+        <li><Ico n="search" /> 확대되고 흐릿한 장면이 점점 선명해져요</li>
+        <li><Ico n="bolt" duo /> 빨리 맞힐수록 높은 점수 (문제당 최대 100점)</li>
+        <li class="kb-tip"><Ico n="keyboard" /> 키보드: 숫자 키로 답하고 Enter로 다음 문제</li>
       </ul>
       <div class="modes">
-        <button type="button" class="mode" @click="start('song')"><span aria-hidden="true">🎬</span><b>무슨 곡?</b><small>공식 MV {{ SONGS.length }}곡의 한 장면</small></button>
-        <button type="button" class="mode mem" :disabled="loading" @click="start('member')"><span aria-hidden="true">💖</span><b>누구일까?</b><small>멤버 솔로 MV 티저 · 8명 중 한 명</small></button>
-        <button type="button" class="mode day" @click="start('daily')"><span aria-hidden="true">📅</span><b>오늘의 5문제</b><small>오늘은 모두에게 같은 5장면 · 친구와 점수 비교<template v-if="liveStreak"> · 🔥 {{ liveStreak }}일 연속</template></small></button>
+        <button type="button" class="mode" @click="start('song')"><span aria-hidden="true"><Ico n="film" duo /></span><b>무슨 곡?</b><small>공식 MV {{ SONGS.length }}곡의 한 장면</small></button>
+        <button type="button" class="mode mem" :disabled="loading" @click="start('member')"><span aria-hidden="true"><Ico n="heart" duo /></span><b>누구일까?</b><small>멤버 솔로 MV 티저 · 8명 중 한 명</small></button>
+        <button type="button" class="mode day" @click="start('daily')"><span aria-hidden="true"><Ico n="calendar" duo /></span><b>오늘의 5문제</b><small>오늘은 모두에게 같은 5장면 · 친구와 점수 비교<template v-if="liveStreak"> · <Ico n="flame" size="1em" /> {{ liveStreak }}일 연속</template></small></button>
       </div>
     </div>
 
@@ -193,7 +193,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       <div class="hud">
         <span class="q">{{ mode === 'daily' ? '오늘의 5문제' : isSong ? '무슨 곡?' : '누구일까?' }} · Q{{ idx + 1 }} / {{ total }}</span>
         <span class="pts">{{ score }}점</span>
-        <span v-if="streak >= 2" class="streak">🔥 {{ streak }}연속</span>
+        <span v-if="streak >= 2" class="streak"><Ico n="flame" duo size="1em" /> {{ streak }}연속</span>
       </div>
       <div class="frame" :class="{ ok: picked && picked === cur.key, no: picked && picked !== cur.key }">
         <img :key="cur.img" :src="cur.img" :alt="isSong ? 'MV의 한 장면 (어떤 곡인지 맞혀 보세요)' : '멤버 컷 (누구인지 맞혀 보세요)'" :style="imgStyle" />
@@ -208,12 +208,12 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
       </div>
       <div class="fb" aria-live="polite">
         <template v-if="picked">
-          <p v-if="picked === cur.key" class="good">정답! +{{ gained }}점 🎉</p>
+          <p v-if="picked === cur.key" class="good">정답! +{{ gained }}점 <Ico n="sparkle" duo /></p>
           <p v-else class="bad">아쉬워요 — 정답은 <b :lang="isSong ? 'ja' : undefined">{{ cur.label }}</b></p>
           <div class="fb-act">
             <a :href="`https://www.youtube.com/watch?v=${cur.id}`" target="_blank" rel="noopener">{{ isSong ? 'MV 보기 ↗' : '영상 보기 ↗' }}</a>
             <a v-if="curMember" :href="`../members/${curMember.id}`">{{ curMember.ko.split(' ')[1] }} 페이지 →</a>
-            <button ref="nextBtn" type="button" class="go sm" @click="next">{{ idx < total - 1 ? '다음 장면 →' : '결과 보기 🏆' }}</button>
+            <button ref="nextBtn" type="button" class="go sm" @click="next"><template v-if="idx < total - 1">다음 장면 →</template><template v-else>결과 보기 <Ico n="trophy" /></template></button>
           </div>
         </template>
       </div>
@@ -221,16 +221,16 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
 
     <!-- DONE -->
     <div v-else class="done">
-      <p class="rk-e" aria-hidden="true">{{ rank.e }}</p>
+      <p class="rk-e" aria-hidden="true"><Ico :n="rank.e" duo size="1em" /></p>
       <p class="rk">{{ rank.t }}</p>
       <p class="sc"><b>{{ score }}</b>점 · {{ right }}/{{ total }} 정답 · 최고 연속 {{ bestStreak }}</p>
-      <p v-if="mode === 'daily' && streakDays" class="streak-d">🔥 {{ streakDays }}일 연속 참여!</p>
+      <p v-if="mode === 'daily' && streakDays" class="streak-d"><Ico n="flame" duo size="1em" /> {{ streakDays }}일 연속 참여!</p>
       <p v-if="mode === 'daily'" class="best">내일 0시(일본 시간)에 새 5문제가 나와요</p>
-      <p v-if="best !== null" class="best">{{ mode === 'daily' ? '오늘' : '내' }} 최고 기록 {{ best }}점{{ best === score ? ' — 새 기록! ✨' : '' }}</p>
+      <p v-if="best !== null" class="best">{{ mode === 'daily' ? '오늘' : '내' }} 최고 기록 {{ best }}점<template v-if="best === score"> — 새 기록! <Ico n="sparkle" duo size="1em" /></template></p>
       <div class="done-act">
-        <button type="button" class="go" @click="start()">다시 도전 🔄</button>
+        <button type="button" class="go" @click="start()">다시 도전 <Ico n="refresh" /></button>
         <button type="button" class="ghost" @click="stage = 'start'">모드 바꾸기</button>
-        <button type="button" class="ghost" @click="share">{{ copied ? '복사됨 ✓' : '결과 자랑하기 📣' }}</button>
+        <button type="button" class="ghost" @click="share"><template v-if="copied">복사됨 ✓</template><template v-else>결과 자랑하기 <Ico n="megaphone" /></template></button>
       </div>
     </div>
     <p class="src">이미지: 공식 YouTube 채널(KAWAII LAB. / CUTIE STREET) 영상의 썸네일·YouTube 자동 장면</p>
@@ -257,7 +257,9 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
   box-shadow: 0 18px 30px -18px #c92f69; transition: transform 0.45s var(--spring); }
 .mode.day { grid-column: 1 / -1; background: linear-gradient(130deg, #b34a0a, #b02a4f); box-shadow: 0 18px 30px -18px #c2413a; }
 .mode.mem { background: linear-gradient(130deg, #7d4cb8, #5a2e8c); box-shadow: 0 18px 30px -18px #6b3fa0; }
-.mode span { font-size: 30px; }
+.mode span { display: grid; font-size: 30px; line-height: 1; --ico-fill: color-mix(in srgb, #fff 30%, transparent); }
+.rules .ico { color: #c92f69; }
+.streak .ico, .streak-d .ico { color: #d9480f; --ico-fill: color-mix(in srgb, #ff922b 40%, transparent); }
 .mode b { font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
 .mode small { font-size: 12.5px; opacity: 0.92; }
 .mode:hover { transform: translateY(-3px) rotate(-1deg); }
@@ -301,7 +303,7 @@ const curMember = computed(() => (mode.value === 'member' && cur.value ? memberB
 .fb-act { display: flex; justify-content: center; align-items: center; gap: 16px; }
 .fb-act a { font-size: 14px; font-weight: 700; color: #a33366 !important; }
 .done { display: grid; justify-items: center; gap: 6px; padding: 14px 0; text-align: center; }
-.rk-e { margin: 0 !important; font-size: 64px; animation: pop 0.7s var(--spring) both; }
+.rk-e { margin: 0 !important; display: grid; font-size: 64px; line-height: 1; color: #c92f69; animation: pop 0.7s var(--spring) both; }
 .rk { margin: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 28px; font-weight: 900; }
 .sc { margin: 0 !important; font-size: 16px; color: #5a4060; }
 .sc b { font-size: 26px; color: #a33366; }

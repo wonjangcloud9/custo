@@ -381,16 +381,16 @@
    "hq": true
   },
   {
-   "id": "RzoltxByouU",
-   "title": "【ラジオ第1回】CUTIE STREET ゆる〜いラジオ始めたってさ【桜庭遥花/増田彩乃/佐野愛花】",
+   "id": "ESKUSPLbOzs",
+   "title": "【ラジオ第3回】CUTIE STREET 彼氏彼女にするなら？【佐野愛花/板倉可奈/増田彩乃】",
    "kind": "moment",
    "hq": true
   },
   {
-   "id": "ESKUSPLbOzs",
-   "title": "【ラジオ第3回】CUTIE STREET 彼氏彼女にするなら？【佐野愛花/板倉可奈/増田彩乃】",
+   "id": "RzoltxByouU",
+   "title": "【ラジオ第1回】CUTIE STREET ゆる〜いラジオ始めたってさ【桜庭遥花/増田彩乃/佐野愛花】",
    "kind": "moment",
-   "hq": false
+   "hq": true
   }
  ],
  "kana": [
@@ -587,6 +587,12 @@
    "hq": true
   },
   {
+   "id": "ESKUSPLbOzs",
+   "title": "【ラジオ第3回】CUTIE STREET 彼氏彼女にするなら？【佐野愛花/板倉可奈/増田彩乃】",
+   "kind": "moment",
+   "hq": true
+  },
+  {
    "id": "9HXBKaSKGNk",
    "title": "全員最高やけど板倉可奈えぐい #CUTIESTREET",
    "kind": "moment",
@@ -597,12 +603,6 @@
    "title": "【ラジオ第2回】CUTIE STREET 踊れるケーキ屋さん？【板倉可奈/川本笑瑠/古澤里紗】",
    "kind": "moment",
    "hq": true
-  },
-  {
-   "id": "ESKUSPLbOzs",
-   "title": "【ラジオ第3回】CUTIE STREET 彼氏彼女にするなら？【佐野愛花/板倉可奈/増田彩乃】",
-   "kind": "moment",
-   "hq": false
   }
  ],
  "ayano": [
@@ -805,6 +805,12 @@
    "hq": true
   },
   {
+   "id": "ESKUSPLbOzs",
+   "title": "【ラジオ第3回】CUTIE STREET 彼氏彼女にするなら？【佐野愛花/板倉可奈/増田彩乃】",
+   "kind": "moment",
+   "hq": true
+  },
+  {
    "id": "gReMovmR7eY",
    "title": "【踊ってみた】\"ポンタのうた。KAWAII LAB. special remix for Pontaパス\"#増田彩乃 #桜庭遥花#CUTIESTREET #きゅーすと #アイドル #KAWAII",
    "kind": "moment",
@@ -827,12 +833,6 @@
    "title": "【ラジオ第1回】CUTIE STREET ゆる〜いラジオ始めたってさ【桜庭遥花/増田彩乃/佐野愛花】",
    "kind": "moment",
    "hq": true
-  },
-  {
-   "id": "ESKUSPLbOzs",
-   "title": "【ラジオ第3回】CUTIE STREET 彼氏彼女にするなら？【佐野愛花/板倉可奈/増田彩乃】",
-   "kind": "moment",
-   "hq": false
   }
  ],
  "emiru": [
