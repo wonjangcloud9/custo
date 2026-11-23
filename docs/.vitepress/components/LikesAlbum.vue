@@ -97,6 +97,8 @@ onMounted(() => {
       <p><b>아직 담은 컷이 없어요</b><br />멤버 페이지 레전드 피드에서 사진을 <b>더블탭</b>하면 여기에 모여요!</p>
       <a class="btn primary" :href="withBase('/members/')">멤버 만나러 가기 →</a>
     </div>
+    <!-- before localStorage is read: hold the empty state's height so the footer doesn't jump (CLS sweep 11/23) -->
+    <div v-else class="la-ph" aria-hidden="true" />
   </section>
 </template>
 
@@ -136,6 +138,7 @@ figcaption small { font-size: 11.5px; color: #735779; font-family: var(--cs-sans
 .rm:hover { transform: scale(1.15) rotate(-12deg); }
 
 .empty { text-align: center; padding: 50px 16px; }
+.la-ph { min-height: 261px; }
 .empty-art { display: flex; justify-content: center; gap: 6px; font-size: 30px; margin-bottom: 14px; }
 .empty-art span { color: var(--mc); animation: bob 1.8s var(--spring) infinite; animation-delay: calc(var(--i) * 120ms); }
 @keyframes bob { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }

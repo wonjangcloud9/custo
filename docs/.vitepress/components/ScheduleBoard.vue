@@ -284,7 +284,7 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
                 <span class="dd" :class="{ hot: ['TODAY', 'ON AIR', 'NOW'].includes(dLabel(e)), live: ['ON AIR', 'NOW'].includes(dLabel(e)) }">{{ dLabel(e) }}</span>
               </div>
               <h3 class="ev-ja" :lang="jaLang(e.ja)">{{ e.ja }}</h3>
-              <p class="ev-ko">{{ e.ko }}</p>
+              <p class="ev-ko"><JaText :t="e.ko" /></p>
               <p class="ev-meta">
                 <span v-if="e.time"><Ico n="clock" size="14" /> {{ e.time }}{{ e.end ? `–${e.end}` : '' }} {{ timeLabel(e) }}</span>
                 <span v-if="e.venue"><Ico n="pin" duo size="14" /> <span :lang="jaLang(e.venue)">{{ e.venue }}</span></span>

@@ -189,7 +189,7 @@ function onKey(e: KeyboardEvent) {
             <span class="up-tile" aria-hidden="true"><small>{{ MO[+e.date.slice(5, 7) - 1] }}</small><b>{{ +e.date.slice(8) }}</b></span>
             <span class="up-txt">
               <b lang="ja">{{ e.ja }}</b>
-              <span>{{ WDJ[new Date(`${e.date}T12:00:00+09:00`).getUTCDay()] }}{{ e.time ? ' · ' + e.time : '' }}{{ e.venue ? ' · ' + e.venue : '' }}</span>
+              <span><JaText :t="WDJ[new Date(`${e.date}T12:00:00+09:00`).getUTCDay()]" />{{ e.time ? ' · ' + e.time : '' }}<template v-if="e.venue"> · <JaText :t="e.venue" /></template></span>
             </span>
             <span class="up-tag">
               <i v-if="going.has(goingKey(e))" class="mine"><Ico n="heart" duo size="12" /> 내 일정</i>

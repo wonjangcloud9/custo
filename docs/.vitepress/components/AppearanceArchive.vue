@@ -126,7 +126,7 @@ onMounted(() => {
         <div v-for="e in onAir" :key="e.date + e.ja" class="sn" :class="{ big: e.featured }">
           <span class="sn-d"><b :class="{ live: isOnNow(e, now || BUILD_TIME) }">{{ dLabel(e) }}</b>{{ dayJa(e.date) }}{{ e.time ? ' ' + e.time : '' }}</span>
           <a class="sn-t" lang="ja" :href="e.url" target="_blank" rel="noopener">{{ e.ja }}</a>
-          <span class="sn-k">{{ e.ko }}</span>
+          <span class="sn-k"><JaText :t="e.ko" /></span>
           <span class="sn-act">
             <button type="button" :aria-label="`${e.ja} 캘린더 파일(.ics) 저장`" @click="saveIcs(e)"><Ico n="calendar" :size="13" /> .ics</button>
             <a :href="googleCalUrl(e)" target="_blank" rel="noopener" :aria-label="`${e.ja} Google 캘린더에 추가`">Google</a>

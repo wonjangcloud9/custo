@@ -192,7 +192,7 @@ function pickDay(now: number) {
         <ul class="td-list">
           <li v-for="e in data.events" :key="e.ja + e.date">
             <a :href="e.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true"><Ico :n="catMeta[e.cat].ico" duo size="16" /></span>
-              <span><b lang="ja">{{ e.ja }}</b><small>{{ e.ko }}{{ e.time ? ` · ${e.time}` : '' }}{{ e.venue ? ` · ${e.venue}` : '' }}</small><MemberCoins v-if="e.with" :ids="e.with" class="td-coins" /></span><i class="pill">일정</i></a>
+              <span><b lang="ja">{{ e.ja }}</b><small><JaText :t="e.ko" />{{ e.time ? ` · ${e.time}` : '' }}<template v-if="e.venue"> · <JaText :t="e.venue" /></template></small><MemberCoins v-if="e.with" :ids="e.with" class="td-coins" /></span><i class="pill">일정</i></a>
           </li>
           <li v-for="n in data.news" :key="n.url">
             <a :href="n.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true"><Ico :n="tagMeta[n.tag].ico" duo size="16" /></span>
