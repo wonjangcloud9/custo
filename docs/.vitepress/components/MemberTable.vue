@@ -68,7 +68,7 @@ const hMin = Math.min(...members.map((m) => m.height)), hMax = Math.max(...membe
           </td>
           <td class="num">{{ r.age === null ? '–' : r.age + '세' }}</td>
           <td class="ht"><span class="hbar"><i :style="{ width: 30 + ((r.m.height - hMin) / (hMax - hMin)) * 70 + '%' }" /></span><span class="num">{{ r.m.height }}cm</span></td>
-          <td class="num">{{ r.m.birthday.slice(5).replace('-', '/') }} <small v-if="r.dd !== null" :class="{ soon: r.dd <= 14 }">{{ r.dd === 0 ? '🎂 오늘' : 'D-' + r.dd }}</small></td>
+          <td class="num">{{ r.m.birthday.slice(5).replace('-', '/') }} <small v-if="r.dd !== null" :class="{ soon: r.dd <= 14 }"><template v-if="r.dd === 0"><Ico n="cake" duo size="1em" /> 오늘</template><template v-else>D-{{ r.dd }}</template></small></td>
           <td><span lang="ja">{{ r.m.birthplace }}</span> <small>{{ prefectureKo[r.m.birthplace] }}</small></td>
           <td><span class="sw" aria-hidden="true" />{{ r.m.colorName }}</td>
         </tr>

@@ -9,6 +9,6 @@ description: CUTIE STREET 공식 디스코그래피 31릴리즈 — 1st ALBUM CU
 
 <DiscoShelf />
 
-## 곡 이야기 🎵
+## 곡 이야기
 
 <SongList />

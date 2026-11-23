@@ -584,7 +584,7 @@ export const songs: Song[] = [
       { k: '안무', v: 'GENTA YAMAGUCHI' },
       { k: '수록', v: '3rd SINGLE STREET盤' },
     ],
-    badges: ['유닛곡 ❤️💚💙💜🩷', '「I Amai Me Mind」와 동시 공개'],
+    badges: ['5인 유닛곡', '「I Amai Me Mind」와 동시 공개'],
     story: [
       '아이카·카나·아야노·나기사·하루카 5명의 유닛 ちーむすとりーと의 곡이에요. 같은 날 공개된 ちーむきゅーてぃー의 「I Amai Me Mind」와 짝을 이루고, 두 곡의 MV 메이킹도 함께 공개됐어요.',
       '작사·작곡·편곡은 板垣祐介, 안무는 GENTA YAMAGUCHI가 맡았어요. 3rd 싱글의 STREET盤에 실렸어요.',
@@ -613,7 +613,7 @@ export const songs: Song[] = [
       { k: '안무', v: 'らん先生' },
       { k: '수록', v: '3rd SINGLE CUTIE盤' },
     ],
-    badges: ['유닛곡 💛🧡🩵', '「Crush on you」와 동시 공개'],
+    badges: ['3인 유닛곡', '「Crush on you」와 동시 공개'],
     story: [
       '리사·에미루·미유 3명의 유닛 ちーむきゅーてぃー의 곡이에요. ちーむすとりーと의 「Crush on you」와 같은 날 공개됐어요.',
       '작사 ウエノトモコ, 작곡 蒔田貴幸, 편곡 川村祐寧, 안무 らん先生. 3rd 싱글의 CUTIE盤에 실렸어요.',

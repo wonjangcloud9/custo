@@ -63,7 +63,7 @@ onMounted(() => {
     <header class="la-head">
       <p v-if="shared" class="eyebrow">SHARED ALBUM</p>
       <h2>{{ shared ? '친구가 공유한 레전드 컷' : '나만의 레전드 앨범' }} <small>{{ items.length }}컷</small></h2>
-      <p v-if="topMember && !shared" class="sub">최애 지수 1위: <b class="top" :style="{ '--mc': topMember.color }">{{ topMember.emoji }} {{ topMember.ko }}</b> ({{ byMember[topMember.id] }}컷)</p>
+      <p v-if="topMember && !shared" class="sub">최애 지수 1위: <b class="top" :style="{ '--mc': topMember.color }"><Ico n="heart" duo size="1em" /> {{ topMember.ko }}</b> ({{ byMember[topMember.id] }}컷)</p>
       <div class="acts">
         <button v-if="shared" type="button" class="btn primary" @click="importShared">내 앨범에 모두 담기 ♡</button>
         <button v-else-if="likes.length" type="button" class="btn primary" @click="share">{{ copied ? '링크 복사됨 ✓' : '앨범 공유 링크 복사' }}</button>
@@ -74,7 +74,7 @@ onMounted(() => {
     <div v-if="items.length" class="chips" role="toolbar" aria-label="멤버별">
       <button type="button" class="chip" :aria-pressed="!filter" @click="filter = ''">전체 <small>{{ items.length }}</small></button>
       <button v-for="m in members.filter((x) => byMember[x.id])" :key="m.id" type="button" class="chip" :aria-pressed="filter === m.id"
-        :style="{ '--mc': m.color }" @click="filter = m.id">{{ m.emoji }} {{ m.ko.split(' ')[1] }} <small>{{ byMember[m.id] }}</small></button>
+        :style="{ '--mc': m.color }" @click="filter = m.id"><Ico n="heart" duo size="1em" :style="{ color: m.color }" /> {{ m.ko.split(' ')[1] }} <small>{{ byMember[m.id] }}</small></button>
     </div>
 
     <div v-if="items.length" class="board">

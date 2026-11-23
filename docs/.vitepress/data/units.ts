@@ -20,13 +20,13 @@ export const units: Unit[] = [
     id: 'street', ja: 'ちーむすとりーと', ko: '팀 스트리트 (Sweet Treat)', members: ['aika', 'kana', 'ayano', 'nagisa', 'haruka'],
     song: 'Crush on you', mv: '_LbnAnoHOFQ',
     videos: [{ id: 'pdl8ZDlFZ-M', label: 'Choreography' }, { id: 'Wcm2NTyNouA', label: '메이킹' }],
-    note: '2026.04.21 유닛 디지털 싱글 ❤️💚💙💜🩷',
+    note: '2026.04.21 유닛 디지털 싱글',
   },
   {
     id: 'cutie', ja: 'ちーむきゅーてぃー', ko: '팀 큐티', members: ['risa', 'emiru', 'miyu'],
     song: 'I Amai Me Mind', mv: '6PdFLmbZAjs',
     videos: [{ id: 'Wcm2NTyNouA', label: '메이킹' }, { id: 'W8gPnRmUpV8', label: 'MV 리액션' }],
-    note: '2026.04.21 유닛 디지털 싱글 💛🧡🩵',
+    note: '2026.04.21 유닛 디지털 싱글',
   },
   {
     id: 'fortune', ja: 'チーム占い', ko: '팀 포춘 (점술)', members: ['risa', 'aika', 'miyu'],

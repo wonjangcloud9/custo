@@ -16,8 +16,8 @@ export function birthdaysIcs(list: Member[], siteMembersUrl: string, now = Date.
     const first = `${today.slice(5) <= md ? y : y + 1}-${md}`
     const next = new Date(`${first}T00:00:00Z`); next.setUTCDate(next.getUTCDate() + 1)
     return ['BEGIN:VEVENT', `UID:birthday-${m.id}@custo`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${ymd(first)}`, `DTEND;VALUE=DATE:${ymd(next.toISOString().slice(0, 10))}`,
-      'RRULE:FREQ=YEARLY', `SUMMARY:${esc(`🎂 ${m.ja} (${m.ko}) 생일`)}`, `DESCRIPTION:${esc(`CUTIE STREET ${m.ko} 생일 — ${siteMembersUrl}${m.id}`)}`, `URL:${siteMembersUrl}${m.id}`,
-      'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(`내일은 ${m.ko} 생일 🎂`)}`, 'TRIGGER:-PT15H', 'END:VALARM', 'END:VEVENT']
+      'RRULE:FREQ=YEARLY', `SUMMARY:${esc(`${m.ja} (${m.ko}) 생일`)}`, `DESCRIPTION:${esc(`CUTIE STREET ${m.ko} 생일 — ${siteMembersUrl}${m.id}`)}`, `URL:${siteMembersUrl}${m.id}`,
+      'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(`내일은 ${m.ko} 생일`)}`, 'TRIGGER:-PT15H', 'END:VALARM', 'END:VEVENT']
   })
   return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${list.length > 1 ? 'CUTIE STREET 멤버 생일' : `${list[0].ko} 생일`}`, ...ev, 'END:VCALENDAR'].join('\r\n')
 }

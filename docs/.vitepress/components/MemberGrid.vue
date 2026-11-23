@@ -10,7 +10,7 @@ import { members, onColor } from '../data/members'
     <a v-for="(m, i) in members" :key="m.id" class="mg-card" :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color, '--on': onColor(m.color), '--i': i }">
       <span class="mg-no">{{ String(i + 1).padStart(2, '0') }}</span>
       <span class="mg-emoji" aria-hidden="true"><Ico n="heart" duo size="22" /></span>
-      <span v-if="oshi === m.id" class="mg-oshi">💖 내 최애</span>
+      <span v-if="oshi === m.id" class="mg-oshi"><Ico n="heart" duo size="1em" /> 내 최애</span>
       <span class="mg-face" aria-hidden="true">{{ m.ja.slice(-2, -1) }}</span>
       <span class="mg-info">
         <b class="mg-ja" lang="ja">{{ m.ja }}</b>

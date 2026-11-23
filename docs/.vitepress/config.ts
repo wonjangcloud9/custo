@@ -177,9 +177,9 @@ export default defineConfig({
             { text: '우메다 (梅田)', link: '/members/miyu' },
             { text: '마나베 (真鍋)', link: '/members/nagisa' },
             { text: '사쿠라바 (桜庭)', link: '/members/haruka' },
-            { text: '💞 유닛 & 케미', link: '/units/' },
-            { text: '🔮 나와 닮은 멤버', link: '/which-member/' },
-            { text: '♡ 나의 앨범', link: '/likes/' },
+            { text: '유닛 & 케미', link: '/units/' },
+            { text: '나와 닮은 멤버', link: '/which-member/' },
+            { text: '나의 앨범', link: '/likes/' },
           ],
         },
       ],
@@ -188,13 +188,13 @@ export default defineConfig({
           text: '디스코그래피',
           items: [
             { text: '전체 목록', link: '/discography/' },
-            { text: '💿 CUTIE LAND 특집', link: '/cutie-land/' },
+            { text: 'CUTIE LAND 특집', link: '/cutie-land/' },
           ],
         },
         {
           // song spotlight pages grouped by release year (newest year open; the year holding the
           // current page opens itself), oldest release first inside a year — generated from data/songs.ts
-          text: '📖 곡 이야기',
+          text: '곡 이야기',
           items: [...new Set(songs.map((x) => x.facts[0].v.slice(0, 4)))].sort().reverse().map((y, i) => ({
             text: `${y}년`,
             collapsed: i > 0,

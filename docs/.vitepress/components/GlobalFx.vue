@@ -112,7 +112,7 @@ watch(() => route.path, () => requestAnimationFrame(enter))
   <div class="fx-net-live" role="status" aria-live="polite">
     <Transition name="fx-net">
       <p v-if="net" :key="net" class="fx-net" :class="net">
-        <span class="fx-net-i" aria-hidden="true">{{ net === 'offline' ? '📴' : '📶' }}</span>
+        <span class="fx-net-i" aria-hidden="true"><Ico :n="net === 'offline' ? 'wifioff' : 'wifi'" size="16" /></span>
         {{ net === 'offline' ? '오프라인 — 저장된 화면으로 볼게요' : '다시 연결됐어요' }}
       </p>
     </Transition>
