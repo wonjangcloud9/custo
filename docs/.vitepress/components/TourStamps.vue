@@ -47,7 +47,7 @@ const fmt = (ds: string[]) => ds.map((d, i) => (i > 0 && d.slice(5, 7) === ds[0]
     <header class="ts-head">
       <div>
         <p class="ts-kicker">JAPAN ARENA TOUR 2026 -AUTUMN-</p>
-        <h3 id="ts-h">CUTIE LAND 스탬프 랠리 🎟️</h3>
+        <h3 id="ts-h">CUTIE LAND 스탬프 랠리 <Ico n="ticket" duo /></h3>
       </div>
       <div class="ts-count" aria-live="polite"><b>{{ doneShows }}</b><span>/ {{ shows.length }}공연</span></div>
     </header>
@@ -64,7 +64,7 @@ const fmt = (ds: string[]) => ds.map((d, i) => (i > 0 && d.slice(5, 7) === ds[0]
           <span class="dt">{{ fmt(s.dates) }}</span>
           <span class="venue" lang="ja">{{ s.venue }}</span>
           <span class="st">
-            <template v-if="state(s) === 'done'">✔ 완료</template>
+            <template v-if="state(s) === 'done'">✓ 완료</template>
             <template v-else-if="nextStop === s">{{ s.final ? 'FINAL · ' : '' }}{{ dday === 0 ? 'TODAY' : 'D-' + dday }}</template>
             <template v-else>예정</template>
           </span>

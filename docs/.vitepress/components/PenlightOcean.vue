@@ -20,7 +20,7 @@ const ITEMS = [
   { id: 'ticket', t: '티켓 / 입장 방법 확인', s: '공식 사이트의 공연 상세 페이지에서 입장 방식·개장 시간을 확인' },
   { id: 'rules', t: '공연장 규칙 공지 읽기', s: '촬영·응원 도구 관련 규칙은 공연마다 다를 수 있어요' },
   { id: 'penlight', t: '펜라이트 + 예비 건전지', s: '최애 멤버 컬러를 미리 세팅!' },
-  { id: 'color', t: '최애 멤버 컬러 외우기', s: '위 펜라이트 시뮬레이터로 연습 ✨' },
+  { id: 'color', t: '최애 멤버 컬러 외우기', s: '위 펜라이트 시뮬레이터로 연습' },
   { id: 'setlist', t: '최근 라이브 영상으로 예습', s: '영상 아카이브의 LIVE 필터', link: '/videos/?cat=live' },
   { id: 'schedule', t: '공연 일정 캘린더에 추가', s: '스케줄 페이지에서 .ics / Google 캘린더', link: '/schedule/' },
 ]
@@ -53,13 +53,13 @@ onBeforeUnmount(() => clearInterval(timer))
         </span>
       </div>
       <div class="caption">
-        <b>{{ current ? `${current.emoji} ${current.ja} — ${current.colorName}` : '🌈 8색 순환 모드' }}</b>
+        <b><Ico v-if="current" n="heart" duo :style="{ color: current.color }" /><Ico v-else n="penlight" duo /> {{ current ? `${current.ja} — ${current.colorName}` : '8색 순환 모드' }}</b>
         <small>{{ current ? current.color : '멤버를 고르면 객석이 그 색으로 물들어요' }}</small>
       </div>
     </div>
 
     <div class="pick" role="toolbar" aria-label="펜라이트 색 선택">
-      <button type="button" class="chip all" :aria-pressed="sel === 'all'" @click="sel = 'all'">🌈 전체</button>
+      <button type="button" class="chip all" :aria-pressed="sel === 'all'" @click="sel = 'all'"><Ico n="penlight" /> 전체</button>
       <button v-for="m in members" :key="m.id" type="button" class="chip" :aria-pressed="sel === m.id" :style="{ '--mc': m.color }" @click="sel = m.id">
         <span class="sw" />{{ m.ko.split(' ')[1] }}<small>{{ m.colorName }}</small>
       </button>
@@ -78,7 +78,7 @@ onBeforeUnmount(() => clearInterval(timer))
           <a v-if="it.link" :href="withBase(it.link)" class="go">바로가기 →</a>
         </li>
       </ul>
-      <p v-if="pct === 100" class="ready">준비 완료! 즐거운 라이브 되세요 🎉</p>
+      <p v-if="pct === 100" class="ready">준비 완료! 즐거운 라이브 되세요 <Ico n="sparkle" duo /></p>
     </div>
   </section>
 </template>

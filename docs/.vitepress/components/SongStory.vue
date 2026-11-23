@@ -33,7 +33,7 @@ const vid = computed(() => s.value.videos[vi.value])
 
     <!-- WATCH -->
     <section class="watch" aria-labelledby="w-h">
-      <h2 id="w-h">영상으로 보기 🎬</h2>
+      <h2 id="w-h">영상으로 보기</h2>
       <div class="tabs" role="tablist" aria-label="영상 선택">
         <button v-for="(v, i) in s.videos" :key="v.id" type="button" role="tab" :aria-selected="i === vi" @click="vi = i">{{ v.label }}</button>
       </div>
@@ -45,10 +45,10 @@ const vid = computed(() => s.value.videos[vi.value])
       <section class="story" aria-labelledby="st-h">
         <h2 id="st-h">곡 이야기</h2>
         <p v-for="(p, i) in s.story" :key="i">{{ p }}</p>
-        <p class="src">{{ s.id === 'kyu-ni-stop' ? '📚 발매일: 공식 디스코그래피 · 작사·작곡: j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: Wikipedia(일본어)' : s.id === 'kyuutai' ? '📚 발매일: 공식 디스코그래피 · 크레딧: pocketmonsters.net 곡 DB / j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: 오리콘 / Billboard JAPAN' : '📚 크레딧·발매일: 공식 디스코그래피 · 차트: Wikipedia(일본어)' }}</p>
+        <p class="src"><Ico n="book" /> {{ s.id === 'kyu-ni-stop' ? '발매일: 공식 디스코그래피 · 작사·작곡: j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: Wikipedia(일본어)' : s.id === 'kyuutai' ? '발매일: 공식 디스코그래피 · 크레딧: pocketmonsters.net 곡 DB / j-lyric (공식 상세 페이지엔 크레딧 미기재) · 차트: 오리콘 / Billboard JAPAN' : '크레딧·발매일: 공식 디스코그래피 · 차트: Wikipedia(일본어)' }}</p>
       </section>
       <section class="quiz" aria-labelledby="q-h">
-        <h2 id="q-h">팬 퀴즈 💖</h2>
+        <h2 id="q-h">팬 퀴즈</h2>
         <Quiz :quiz-id="`disco-${s.id}`" :questions="s.quiz" />
       </section>
     </div>
@@ -57,7 +57,7 @@ const vid = computed(() => s.value.videos[vi.value])
     <section class="more" aria-labelledby="m-h">
       <h2 id="m-h">다른 곡 이야기</h2>
       <SongList :exclude="s.id" />
-      <p class="back"><a :href="withBase('/discography/')">💿 디스코그래피 전체 →</a><a :href="withBase('/cutie-land/')">1st ALBUM CUTIE LAND →</a></p>
+      <p class="back"><a :href="withBase('/discography/')"><Ico n="disc" /> 디스코그래피 전체 →</a><a :href="withBase('/cutie-land/')">1st ALBUM CUTIE LAND →</a></p>
     </section>
   </article>
 </template>

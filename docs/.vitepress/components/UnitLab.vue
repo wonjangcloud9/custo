@@ -38,10 +38,10 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         </button>
       </div>
       <div class="result" aria-live="polite">
-        <template v-if="!picked.length">✨ 2명 이상 고르면 '케미 영상'이 나타나요</template>
+        <template v-if="!picked.length"><Ico n="sparkle" duo /> 2명 이상 고르면 '케미 영상'이 나타나요</template>
         <template v-else>
-          <span v-if="matchedUnits.length">💞 같은 유닛: <b v-for="u in matchedUnits" :key="u.id" class="u-tag" lang="ja">{{ u.ja }}</b></span>
-          <span v-else-if="picked.length > 1">🔍 공식 유닛은 없지만…</span>
+          <span v-if="matchedUnits.length"><Ico n="hearts" duo /> 같은 유닛: <b v-for="u in matchedUnits" :key="u.id" class="u-tag" lang="ja">{{ u.ja }}</b></span>
+          <span v-else-if="picked.length > 1"><Ico n="search" /> 공식 유닛은 없지만…</span>
           <span v-if="picked.length > 1"> · 함께 나온 영상 <b>{{ together.length }}</b>편</span>
           <button type="button" class="reset" @click="picked = []">초기화</button>
         </template>
@@ -66,8 +66,8 @@ const clean = (t: string) => t.replace(/【CUTIE STREET[^】]*】/g, '').replace
         <p class="u-ko">{{ u.ko }} · {{ u.members.length }}인</p>
         <p class="u-names">{{ u.members.map((id) => memberById[id].ko.split(' ')[1]).join(' · ') }}</p>
         <div v-if="u.song" class="song">
-          <a v-if="songs.some((x) => x.title === u.song)" class="song-link" :href="withBase(`/discography/${songs.find((x) => x.title === u.song)!.id}`)">🎵 {{ u.song }} <small>곡 이야기 →</small></a>
-          <span v-else>🎵 <span :lang="jaLang(u.song)">{{ u.song }}</span></span>
+          <a v-if="songs.some((x) => x.title === u.song)" class="song-link" :href="withBase(`/discography/${songs.find((x) => x.title === u.song)!.id}`)"><Ico n="music" /> {{ u.song }} <small>곡 이야기 →</small></a>
+          <span v-else><Ico n="music" /> <span :lang="jaLang(u.song)">{{ u.song }}</span></span>
           <a v-if="u.mv" :href="`https://www.youtube.com/watch?v=${u.mv}`" target="_blank" rel="noopener" class="mv">▶ MV</a>
         </div>
         <div class="vids">
