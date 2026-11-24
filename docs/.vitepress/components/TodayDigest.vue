@@ -38,9 +38,13 @@ function itemsFor(d: string) {
     news: news.filter((n) => n.date === d),
     events: events.filter((e) => e.date === d),
     bdays: members.filter((m) => m.birthday.slice(5) === md),
+    // fan actions whose official deadline falls on this day, and members whose birthday is the next day —
+    // so a day with no new post still reads as *today* (user 11/25: '오늘 수요일이라 업데이트해줘야할듯')
+    closing: news.filter((n) => n.deadline?.slice(0, 10) === d),
+    eve: members.filter((m) => m.birthday.slice(5) === new Date(Date.parse(`${d}T12:00:00Z`) + 864e5).toISOString().slice(5, 10)),
   }
 }
-const count = (x: ReturnType<typeof itemsFor>) => x.feats.length + x.videos.length + x.aps.length + x.news.length + x.events.length + x.bdays.length
+const count = (x: ReturnType<typeof itemsFor>) => x.feats.length + x.videos.length + x.aps.length + x.news.length + x.events.length + x.bdays.length + x.closing.length + x.eve.length
 const data = computed(() => (day.value ? itemsFor(day.value) : null))
 // when the site last re-checked the official sources (updated every ~6 h by the loop)
 const checked = (() => {
@@ -92,13 +96,19 @@ const week = computed(() => {
     return { d, i, wd: WD7[new Date(`${d}T12:00:00+09:00`).getUTCDay()], n: +d.slice(8), items, mine: items.some((e) => going.value.has(goingKey(e))) }
   })
 })
+// the member's own birthday show on that date, if one is on the schedule (e.g. '내일 19:00 생탄제')
+const eveShow = (id: string) => {
+  const m = members.find((x) => x.id === id)!, md = m.birthday.slice(5)
+  const e = events.find((x) => x.member === id && x.date.slice(5) === md && x.date > day.value)
+  return e ? `${e.time ? `${e.time} ` : ''}생탄제` : ''
+}
 const weekCount = computed(() => week.value.reduce((a, x) => a + x.items.length, 0))
 // '마감 임박': fan actions (lotteries, FC pre-sales, resales) from news.ts whose official deadline is within 7 days
 const dlMs = (d: string) => Date.parse(`${d}:59+09:00`)
 const deadlines = computed(() => {
   const now = nowMs.value, today = jstDay(now)
   return news
-    .filter((n) => n.deadline && dlMs(n.deadline) > now && dlMs(n.deadline) - now <= 7 * 864e5)
+    .filter((n) => n.deadline && dlMs(n.deadline) > now && dlMs(n.deadline) - now <= 7 * 864e5 && !(isToday.value && n.deadline.slice(0, 10) === day.value))
     .sort((a, b) => a.deadline!.localeCompare(b.deadline!))
     .map((n) => {
       const ms = dlMs(n.deadline!), left = ms - now, d = n.deadline!.slice(0, 10), t = n.deadline!.slice(11)
@@ -213,7 +223,15 @@ function pickDay(now: number) {
             <a :href="n.url" target="_blank" rel="noopener"><span class="ic" aria-hidden="true"><Ico :n="tagMeta[n.tag].ico" duo size="16" /></span>
               <span><b>{{ n.ko }}</b><small lang="ja">{{ n.ja }}</small></span><i class="pill">공식 소식</i></a>
           </li>
-          <li v-if="!data.events.length && !data.news.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 <Ico n="sparkle" duo size="14" /></li>
+          <li v-for="m in data.eve" :key="'eve-' + m.id">
+            <a :href="withBase(`/members/${m.id}`)" :style="{ '--mc': m.color }" class="eve"><span class="ic" aria-hidden="true"><Ico n="cake" duo size="16" /></span>
+              <span><b>내일은 {{ m.ko }}의 생일</b><small lang="ja">{{ m.ja }} · {{ m.birthday.slice(5).replace('-', '/') }}<template v-if="eveShow(m.id)"> · <span lang="ko">{{ eveShow(m.id) }}</span></template></small></span><i class="pill">D-1</i></a>
+          </li>
+          <li v-for="n in data.closing" :key="'dl-' + n.url">
+            <a :href="n.url" target="_blank" rel="noopener" class="closing"><span class="ic" aria-hidden="true"><Ico n="clock" duo size="16" /></span>
+              <span><b>{{ n.dl }} · {{ n.deadline!.slice(11) }} 마감</b><small lang="ja">{{ n.ja }}</small></span><i class="pill">{{ isToday ? '오늘 마감' : '마감' }}</i></a>
+          </li>
+          <li v-if="!data.events.length && !data.news.length && !data.closing.length && !data.eve.length" class="empty">오늘은 공식 일정·소식이 아직 없어요. 아래 카운트다운에서 다음 일정을 확인하세요 <Ico n="sparkle" duo size="14" /></li>
         </ul>
       </div>
       <nav v-if="week.length" class="wk7" aria-label="이번 주 일정">
@@ -287,6 +305,8 @@ function pickDay(now: number) {
 .td-list a > span:nth-child(2) { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
 .td-list b { font-size: 14.5px; line-height: 1.35; }
 .td-list small { font-size: 12px; color: #5a4060; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.td-list a.eve .ic { color: var(--mc); background: color-mix(in srgb, var(--mc) 14%, white); --ico-fill: color-mix(in srgb, var(--mc) 30%, white); }
+.td-list a.closing .ic { color: #fff; background: #c2185b; --ico-fill: rgba(255, 255, 255, 0.3); }
 .pill { flex: none; font-style: normal; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; color: #8a2350; background: #fde3ee; }
 .bd a { background: color-mix(in srgb, var(--mc) 16%, white); }
 .empty { padding: 14px; border-radius: 18px; background: #fdf6fa; font-size: 13.5px; color: #5a4060; }
