@@ -30,6 +30,19 @@ const state = (st: typeof STEPS[number]) => {
   return now.value > e ? 'done' : now.value >= s ? 'now' : 'next'
 }
 const nextIdx = computed(() => STEPS.findIndex((x) => state(x) === 'now' || state(x) === 'next'))
+// official links from the feature page (checked 2026-11-25): 'ご予約はこちら' store hub + 'Pre Add/Pre Save キャンペーン'
+// (事前登録で限定スマホ壁紙プレゼント). After release the same smartlinks are the buy / listen links.
+const RELEASE = Date.parse('2026-12-02T00:00+09:00')
+const released = computed(() => !!now.value && now.value >= RELEASE)
+const ACTS = computed(() => released.value
+  ? [
+      { url: 'https://lnk.to/CS_CUTIELAND_CD', ico: 'disc', k: 'CD', t: 'CD 구매처 모음', sub: 'Amazon · TOWER RECORDS · HMV · 楽天ブックス 등 공식 링크' },
+      { url: 'https://kawaii-lab.lnk.to/CUTIE_LAND', ico: 'music', k: 'STREAM', t: '음원 서비스에서 듣기', sub: 'Spotify · Apple Music 등 공식 링크' },
+    ]
+  : [
+      { url: 'https://lnk.to/CS_CUTIELAND_CD', ico: 'disc', k: 'PRE-ORDER', t: '공식 예약처 모음', sub: 'Amazon · TOWER RECORDS · HMV · TSUTAYA · 楽天ブックス · Sony Music Shop 등' },
+      { url: 'https://kawaii-lab.lnk.to/CUTIE_LAND', ico: 'music', k: 'PRE-SAVE', t: 'Spotify Pre-Save · Apple Music Pre-Add', sub: '미리 등록하면 발매일에 라이브러리에 자동 추가', perk: '등록 특전 · 한정 폰 배경화면' },
+    ])
 const open = ref<string>('初回限定盤A')
 </script>
 
@@ -67,6 +80,19 @@ const open = ref<string>('初回限定盤A')
     </div>
     <p class="fine">응원점 목록은 공식 발표 예정이며, 매장 특전은 소진 시 종료돼요. 일부 온라인숍은 특전 포함/미포함 상품 페이지가 따로 있어요.</p>
 
+    <div class="acts" :aria-label="released ? '구매·듣기 공식 링크' : '예약·사전 등록 공식 링크'" role="group">
+      <a v-for="a in ACTS" :key="a.url" :href="a.url" target="_blank" rel="noopener" class="act">
+        <span class="act-i" aria-hidden="true"><Ico :n="a.ico" duo size="24" /></span>
+        <span class="act-t">
+          <em>{{ a.k }}</em>
+          <b><JaText :t="a.t" /></b>
+          <small><JaText :t="a.sub" /></small>
+          <span v-if="a.perk" class="perk"><Ico n="sparkle" /> {{ a.perk }}</span>
+        </span>
+        <Ico n="link" class="act-go" />
+      </a>
+    </div>
+
     <h3 class="tl-h">발매 전후 캘린더 <Ico n="calendar" duo /></h3>
     <ol class="tl">
       <li v-for="(st, i) in STEPS" :key="st.t" :class="[state(st), { key: st.key, nx: i === nextIdx }]" :style="{ '--i': i }">
@@ -78,7 +104,7 @@ const open = ref<string>('初回限定盤A')
         </a>
       </li>
     </ol>
-    <p class="src"><Ico n="book" /> 출처: <a :href="FEATURE" target="_blank" rel="noopener">공식 1st ALBUM 특설 페이지</a> · <a href="https://cutiestreet.asobisystem.com/news/detail/96630" target="_blank" rel="noopener"><span lang="ja">楽天ブックス</span> 예약 추첨회 공지</a> (2026.11.18 확인)</p>
+    <p class="src"><Ico n="book" /> 출처: <a :href="FEATURE" target="_blank" rel="noopener">공식 1st ALBUM 특설 페이지</a> · <a href="https://cutiestreet.asobisystem.com/news/detail/96630" target="_blank" rel="noopener"><span lang="ja">楽天ブックス</span> 예약 추첨회 공지</a> (2026.11.18 확인 · 예약·Pre-Save 링크 2026.11.25 확인)</p>
   </section>
 </template>
 
@@ -113,6 +139,17 @@ const open = ref<string>('初回限定盤A')
 .ex li { margin: 2px 0 !important; }
 .st { margin: 0 !important; font-size: 13.5px; }
 .fine { margin: 12px 0 0 !important; font-size: 12.5px; color: #6a4f70; }
+.acts { margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.act { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 22px; text-decoration: none !important; color: var(--ink) !important;
+  background: linear-gradient(110deg, #fff0f6, #f4ecff); box-shadow: inset 0 0 0 1.5px #f3c6da; transition: transform 0.45s var(--spring), box-shadow 0.3s; }
+.act:hover, .act:focus-visible { transform: translateY(-3px); box-shadow: inset 0 0 0 2px #ff6b9d, 0 18px 30px -24px #a33366; }
+.act-i { flex: none; width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: #fff; color: #c92f69; box-shadow: 0 6px 14px -10px #a33366; }
+.act-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.act-t em { font-style: normal; font-size: 11px; font-weight: 900; letter-spacing: 0.18em; color: #a33366; }
+.act-t b { font-size: 15.5px; line-height: 1.35; }
+.act-t small { font-size: 12.5px; color: #5a4060; }
+.perk { align-self: flex-start; margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; background: #2f1a35; color: #fff; }
+.act-go { flex: none; color: #a33366; }
 
 .tl-h { margin: 30px 0 14px !important; padding: 0 !important; border: 0 !important; font-family: 'Zen Maru Gothic', sans-serif; font-size: 22px !important; }
 .tl { list-style: none; margin: 0 !important; padding: 0 0 0 4px !important; position: relative; display: grid; gap: 10px; }
@@ -135,9 +172,9 @@ const open = ref<string>('初回限定盤A')
 .badge.done { background: #e9dde4; color: #5a4060; }
 .src { margin: 16px 0 0 !important; font-size: 12.5px; color: #6a4f70; }
 .src a { color: #a33366 !important; }
-@media (max-width: 860px) { .eds { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) { .eds, .acts { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) {
-  .ed, .ed-body, .tl-card { transition: none; }
+  .ed, .ed-body, .tl-card, .act { transition: none; }
   .ed.open .ed-disc, .tl li, .tl li.nx .dot { animation: none; }
 }
 </style>
