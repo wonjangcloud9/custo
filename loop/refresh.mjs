@@ -73,6 +73,14 @@ for (const v of await feed(KL)) {
     if (v.title.includes(name) && !tOut.includes(`${mid}\t${v.id}`)) { tOut += `${tOut.endsWith('\n') ? '' : '\n'}${mid}\t${v.id}\t${v.title}\n`; added.teaser.push(`${mid}: ${v.title}`) }
   }
 }
+// The RSS path adds a stream while it is still live (lengthSeconds 0 → blank duration) and never revisits it — backfill blanks
+added.durations = []
+for (let i = 0; i < tsv.length; i++) {
+  const [id, title, d] = tsv[i].split('\t')
+  if (!id || !title || d) continue
+  const nd = await duration(id)
+  if (nd) { tsv[i] = `${id}\t${title}\t${nd}`; added.durations.push(`${title} ${nd}`) }
+}
 writeFileSync('loop/yt-videos-full.tsv', tsv.join('\n'))
 writeFileSync('loop/mvs.tsv', mvOut)
 writeFileSync('loop/teasers-raw.tsv', tOut)
