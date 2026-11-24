@@ -93,6 +93,21 @@ const week = computed(() => {
   })
 })
 const weekCount = computed(() => week.value.reduce((a, x) => a + x.items.length, 0))
+// '마감 임박': fan actions (lotteries, FC pre-sales, resales) from news.ts whose official deadline is within 7 days
+const dlMs = (d: string) => Date.parse(`${d}:59+09:00`)
+const deadlines = computed(() => {
+  const now = nowMs.value, today = jstDay(now)
+  return news
+    .filter((n) => n.deadline && dlMs(n.deadline) > now && dlMs(n.deadline) - now <= 7 * 864e5)
+    .sort((a, b) => a.deadline!.localeCompare(b.deadline!))
+    .map((n) => {
+      const ms = dlMs(n.deadline!), left = ms - now, d = n.deadline!.slice(0, 10), t = n.deadline!.slice(11)
+      const days = Math.round((Date.parse(`${d}T00:00:00+09:00`) - Date.parse(`${today}T00:00:00+09:00`)) / 864e5)
+      const when = days === 0 ? `오늘 ${t}` : days === 1 ? `내일 ${t}` : `${+d.slice(5, 7)}/${+d.slice(8)}(${WD[new Date(`${d}T12:00:00+09:00`).getUTCDay()]})`
+      const h = Math.floor(left / 3600e3), m = Math.floor((left % 3600e3) / 60000)
+      return { n, when, hot: left < 24 * 3600e3, rest: left < 24 * 3600e3 ? (h ? `${h}시간 ${m}분 남음` : `${m}분 남음`) : days === 1 ? '내일 마감' : `${t} · D-${days}` }
+    })
+})
 const nextWhen = computed(() => {
   const e = nextEv.value
   if (!e) return ''
@@ -215,6 +230,18 @@ function pickDay(now: number) {
           </li>
         </ol>
       </nav>
+      <section v-if="deadlines.length" class="dl" aria-labelledby="dl-h">
+        <p id="dl-h" class="dl-h"><Ico n="clock" duo size="15" /> 마감 임박 <small>공식 공지의 접수 마감 (JST)</small></p>
+        <ul>
+          <li v-for="x in deadlines" :key="x.n.url">
+            <a :href="x.n.url" target="_blank" rel="noopener" :class="{ hot: x.hot }">
+              <span class="dl-when"><b>{{ x.when }}</b><small>{{ x.rest }}</small></span>
+              <span class="dl-what"><b>{{ x.n.dl }}</b><small lang="ja">{{ x.n.ja }}</small></span>
+              <Ico n="arrow" size="14" class="dl-go" />
+            </a>
+          </li>
+        </ul>
+      </section>
       <p class="td-checked" :title="`확인한 곳: ${status.checked.join(' · ')}`"><Ico n="refresh" size="13" /> 마지막 확인 {{ checked }} (KST) · 6시간마다 공식 소식·스케줄·영상을 다시 확인해요</p>
       <p class="td-foot"><a :href="withBase('/news/')">공식 소식 전체 →</a><a :href="withBase('/schedule/')">스케줄 →</a><a :href="withBase('/videos/')">영상 아카이브 →</a><a :href="withBase('/appearances/')">출연 아카이브 →</a></p>
     </template>
@@ -290,6 +317,22 @@ function pickDay(now: number) {
 .td-checked { margin: 12px 0 0 !important; font-size: 12px; color: #6a4f70; }
 /* this week strip */
 .wk7 { margin-top: 14px; }
+.dl { margin-top: 14px; }
+.dl-h { margin: 0 0 6px !important; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 900; color: #3a2340; }
+.dl-h small { font-weight: 700; color: #6a4f70; }
+.dl ul { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.dl li { margin: 0 !important; }
+.dl a { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 16px; background: #fdf6fa; color: #3a2340 !important; text-decoration: none !important; transition: background 0.2s, transform 0.35s cubic-bezier(.34, 1.56, .64, 1); }
+.dl a:hover { background: #fbe8f1; transform: translateX(3px); }
+.dl-when { flex: none; display: flex; flex-direction: column; align-items: center; min-width: 92px; padding: 4px 8px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1.5px #f3d6e4; font-variant-numeric: tabular-nums; }
+.dl-when b { font-size: 13px; }
+.dl-when small { font-size: 11px; font-weight: 700; color: #6a4f70; }
+.dl a.hot .dl-when { background: #c2185b; box-shadow: none; color: #fff; }
+.dl a.hot .dl-when small { color: #ffe3ef; }
+.dl-what { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+.dl-what b { font-size: 14px; line-height: 1.35; }
+.dl-what small { font-size: 11.5px; color: #6a4f70; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl-go { flex: none; color: #c2185b; }
 .wk7-h { margin: 0 0 6px !important; font-size: 13px; font-weight: 900; color: #3a2340; }
 .wk7-h small { font-weight: 700; color: #6a4f70; margin-left: 4px; }
 .wk7 ol { list-style: none; margin: 0 !important; padding: 0 !important; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
