@@ -267,7 +267,7 @@ function cleanTitle(t: string) {
     <section id="explore" class="sec">
       <div class="sec-head"><h2>EXPLORE</h2></div>
       <div class="bento">
-        <a class="b b-lg b-jr" :href="withBase('/journey/')"><JourneyMini /><b>정상까지의 여정</b><span>데뷔부터 紅白까지, 3D로 오르는 큐스트의 길</span></a>
+        <a class="b b-lg b-jr" :href="withBase('/journey/')"><JourneyMini /><b>정상까지의 여정</b><span>데뷔부터 紅白, 정상 도쿄돔까지 — 3D로 오르는 큐스트의 길</span></a>
         <a class="b" :href="withBase('/units/')"><span class="b-emoji"><Ico n="hearts" duo /></span><b>유닛 & 케미</b><span>멤버 조합 케미 파인더</span></a>
         <a class="b b-kr" :href="withBase('/korea/')"><span class="b-emoji b-cc">KR</span><b>큐스트 in KOREA</b><span>한국 공연·한국어 버전 곡</span></a>
         <a class="b" :href="withBase('/discography/')"><span class="b-emoji"><Ico n="disc" duo /></span><b>디스코그래피</b><span>싱글 & 앨범</span></a>

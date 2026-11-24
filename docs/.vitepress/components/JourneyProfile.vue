@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { members } from '../data/members'
-import { milestones } from '../data/journey'
+import { milestones, SUMMIT, altOf, climbAt } from '../data/journey'
 import { jaLang } from '../theme/lang'
 
 // Climb log under the 3D story: the same 13 milestones laid out on a real time axis, so the pace shows —
-// the fast first steps, the long tour stretch, the sprint to 紅白. Altitude = the 3D story's (index-linear).
+// the fast first steps, the long tour stretch, the sprint to 紅白. Altitude = the 3D story's (by stage, i / N);
+// the top of the chart is the summit, a solo Tokyo Dome, which has no date yet.
 // SVG draws the lines (non-scaling strokes); dots/labels are HTML placed in %, so text stays crisp at any width.
-const SUMMIT = 3776, N = milestones.length, W = 1000, H = 400, PAD_T = 34, PAD_B = 46
+const N = milestones.length, W = 1000, H = 400, PAD_T = 34, PAD_B = 46
 const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
 const ts = milestones.map((m) => ymd(m.date))
 const t0 = ts[0], t1 = ts[N - 1]
 const X = (t: number) => ((t - t0) / (t1 - t0)) * W
 const Y = (alt: number) => PAD_T + (1 - alt / SUMMIT) * (H - PAD_T - PAD_B)
-const pts = milestones.map((m, i) => ({ m, i, x: X(ts[i]), y: Y((i / (N - 1)) * SUMMIT), alt: Math.round((i / (N - 1)) * SUMMIT), c: members[i % 8].color }))
+const pts = milestones.map((m, i) => ({ m, i, x: X(ts[i]), y: Y(altOf(i)), alt: altOf(i), c: members[i % 8].color }))
 const line = 'M' + pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join('L')
 const area = `${line}L${W} ${H - PAD_B}L0 ${H - PAD_B}Z`
 const years = [2025, 2026].map((y) => ({ y, x: X(Date.parse(`${y}-01-01T00:00:00+09:00`)) }))
@@ -23,9 +24,7 @@ const stopsGrad = members.map((m, i) => ({ c: m.color, o: `${(i / 7) * 100}%` })
 const today = ref<{ x: number; y: number; alt: number; days: number; left: number } | null>(null) // client-only
 onMounted(() => {
   const now = Math.min(Date.now(), t1)
-  let u = 1
-  for (let i = 0; i < N - 1; i++) if (now < ts[i + 1]) { u = (i + Math.max(0, (now - ts[i]) / (ts[i + 1] - ts[i]))) / (N - 1); break }
-  const alt = Math.round(u * SUMMIT)
+  const alt = Math.round(climbAt(now) * SUMMIT)
   today.value = { x: X(now), y: Y(alt), alt, days: Math.floor((Date.now() - t0) / 864e5), left: Math.max(0, Math.ceil((t1 - Date.now()) / 864e5)) }
 })
 
@@ -69,6 +68,7 @@ const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`
       </svg>
 
       <span v-for="g in grid" :key="'g' + g.a" class="ax-y" :style="{ top: pct(g.y, H) }">{{ g.a.toLocaleString() }}m</span>
+      <span class="summit-tag" :style="{ top: pct(PAD_T, H) }">▲ 3,776m 정상 · 단독 도쿄돔 <small>날짜 미정</small></span>
       <span v-for="y in years" :key="'y' + y.y" class="ax-x" :style="{ left: pct(y.x, W) }">{{ y.y }}</span>
       <span class="ax-x edge l" style="left: 0">2024.07</span>
       <span class="ax-x edge r" style="left: 100%">12.31</span>
@@ -113,6 +113,8 @@ const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`
 .ln.future { stroke: #b99ad8; stroke-width: 2; stroke-dasharray: 2 7; }
 .ln.past { stroke: url(#jp-line); stroke-width: 4; }
 .now-ln { stroke: #c2185b; stroke-width: 1.5; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.summit-tag { position: absolute; right: 0; transform: translateY(-50%); font-size: 11.5px; font-weight: 800; color: #c2185b; background: rgba(255, 255, 255, 0.85); padding: 2px 8px; border-radius: 999px; border: 1px dashed #e8457c; white-space: nowrap; }
+.summit-tag small { font-weight: 700; color: #9b7f92; }
 .ax-y { position: absolute; right: calc(100% + 10px); transform: translateY(-50%); font-size: 11px; font-weight: 700; color: #9b7f92; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .ax-x { position: absolute; bottom: 14px; transform: translateX(-50%); font-size: 12px; font-weight: 800; color: #8a6a80; letter-spacing: 0.04em; }
 .ax-x.edge { font-weight: 600; color: #a891a0; font-size: 11px; }

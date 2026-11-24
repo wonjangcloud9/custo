@@ -3,11 +3,11 @@ import { jaLang } from '../theme/lang'
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { withBase } from 'vitepress'
 import { members } from '../data/members'
-import { milestones } from '../data/journey'
+import { milestones, goal, SUMMIT, altOf, climbAt, lastCampMs } from '../data/journey'
 import ShareButton from './ShareButton.vue'
 
+// N dated stages; the summit (a solo Tokyo Dome, no date yet) is one more stage above them, shown by the outro
 const N = milestones.length
-const SUMMIT = 3776
 const root = ref<HTMLElement | null>(null)
 const canvas = ref<HTMLCanvasElement | null>(null)
 const progress = ref(0) // 0..1 along the road
@@ -19,8 +19,7 @@ const active = computed(() => Math.min(N - 1, Math.max(-1, Math.round(fIndex.val
 const nowU = ref<number | null>(null)
 const daysLeft = ref<number | null>(null)
 const nowAlt = computed(() => (nowU.value === null ? 0 : Math.round(nowU.value * SUMMIT)))
-const summitIn = computed(() => fIndex.value > N - 0.15)
-const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
+const summitIn = computed(() => fIndex.value > N + 0.5)
 
 let cleanup: (() => void) | null = null
 const flabEls: HTMLElement[] = [] // HTML labels pinned to the 3D flags (positioned every frame, no Vue re-render)
@@ -32,20 +31,15 @@ function goStep(i: number) {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY + sec.offsetHeight / 2 - window.innerHeight / 2, behavior: reduce ? 'auto' : 'smooth' })
 }
-function altOf(i: number) { return Math.round((i / (N - 1)) * SUMMIT).toLocaleString() }
+const altTxt = (i: number) => altOf(i).toLocaleString()
 
 onMounted(async () => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const small = window.innerWidth < 640
   {
     const today = Date.now()
-    const ts = milestones.map((m) => ymd(m.date))
-    let u = 1
-    for (let i = 0; i < N - 1; i++) {
-      if (today < ts[i + 1]) { u = (i + Math.max(0, (today - ts[i]) / (ts[i + 1] - ts[i]))) / (N - 1); break }
-    }
-    nowU.value = u
-    daysLeft.value = Math.ceil((ts[N - 1] - today) / 864e5)
+    nowU.value = climbAt(today)
+    daysLeft.value = Math.ceil((lastCampMs - today) / 864e5) // to 紅白, the last camp
   }
 
   // ── scroll → fractional section index ──
@@ -67,7 +61,7 @@ onMounted(async () => {
       }
     }
     fIndex.value = f
-    progress.value = Math.min(1, Math.max(0, (f - 1) / (N - 1)))
+    progress.value = Math.min(1, Math.max(0, (f - 1) / N)) // the outro (f = N + 1) is the summit
   }
   measure(); onScroll()
   window.addEventListener('scroll', onScroll, { passive: true })
@@ -196,7 +190,7 @@ onMounted(async () => {
   const flagShape = new THREE.Shape(); flagShape.moveTo(0, 0); flagShape.lineTo(1.6, -0.5); flagShape.lineTo(0, -1.0); flagShape.lineTo(0, 0)
   const flagGeo = track(new THREE.ShapeGeometry(flagShape))
   milestones.forEach((_, i) => {
-    const u = i / (N - 1)
+    const u = i / N
     const p = curve.getPointAt(Math.min(u, 0.999))
     const out = new THREE.Vector3(p.x, 0, p.z).normalize()
     const grp = new THREE.Group()
@@ -216,7 +210,7 @@ onMounted(async () => {
     flagGroups.push({ g: grp, halo, u })
   })
 
-  // summit: red & white stars (紅白)
+  // summit: Tokyo Dome — a white dome on a pink band, billboarded like the old 紅白 stars
   const star = (outer: number, inner: number) => {
     const s = new THREE.Shape()
     for (let k = 0; k < 10; k++) {
@@ -227,9 +221,18 @@ onMounted(async () => {
     return track(new THREE.ExtrudeGeometry(s, { depth: 0.5, bevelEnabled: true, bevelSize: 0.18, bevelThickness: 0.18, bevelSegments: 2 }))
   }
   const summit = new THREE.Group()
-  const redStar = new THREE.Mesh(star(3, 1.3), track(new THREE.MeshBasicMaterial({ color: 0xff4d6d })))
-  const whiteStar = new THREE.Mesh(star(3.8, 1.65), track(new THREE.MeshBasicMaterial({ color: 0xffffff })))
-  whiteStar.position.z = -0.5; whiteStar.rotation.z = Math.PI / 5
+  const domeShape = new THREE.Shape()
+  domeShape.moveTo(-4, 0)
+  for (let k = 0; k <= 24; k++) { const a = Math.PI - (k / 24) * Math.PI; domeShape.lineTo(Math.cos(a) * 4, Math.sin(a) * 2.6) }
+  domeShape.lineTo(-4, 0)
+  const ext = { depth: 0.5, bevelEnabled: true, bevelSize: 0.16, bevelThickness: 0.16, bevelSegments: 2 }
+  const whiteStar = new THREE.Mesh(track(new THREE.ExtrudeGeometry(domeShape, ext)), track(new THREE.MeshBasicMaterial({ color: 0xffffff })))
+  const band = new THREE.Shape(); band.moveTo(-4.6, 0); band.lineTo(4.6, 0); band.lineTo(4.6, -1.3); band.lineTo(-4.6, -1.3); band.lineTo(-4.6, 0)
+  const redStar = new THREE.Mesh(track(new THREE.ExtrudeGeometry(band, ext)), track(new THREE.MeshBasicMaterial({ color: 0xff4d8d })))
+  // roof ribs, so it reads as a dome and not a half-moon
+  const ribMat = track(new THREE.MeshBasicMaterial({ color: 0xf6c3da }))
+  ;[-2, 0, 2].forEach((x) => { const r = new THREE.Mesh(track(new THREE.BoxGeometry(0.16, 2.6 * Math.sqrt(1 - (x / 4) ** 2) - 0.2, 0.2)), ribMat); r.position.set(x, (2.6 * Math.sqrt(1 - (x / 4) ** 2)) / 2, 0.75); whiteStar.add(r) })
+  whiteStar.position.y = 0.4; redStar.position.y = 0.4
   const summitHalo = new THREE.Sprite(track(new THREE.SpriteMaterial({ map: dotTex, color: 0xff8fb5, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.55 })))
   summitHalo.scale.setScalar(13)
   summit.add(summitHalo, whiteStar, redStar)
@@ -419,7 +422,7 @@ onMounted(async () => {
       if (o > 0.001) el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`
     })
 
-    // the 紅白 stars always face the camera (they used to spin edge-on into a thin sliver), with a little sway
+    // the summit dome always faces the camera (they used to spin edge-on into a thin sliver), with a little sway
     summit.quaternion.copy(camera.quaternion)
     if (!reduce) summit.rotateZ(Math.sin(t * 1.2) * 0.12)
     if (!reduce) {
@@ -439,7 +442,7 @@ onMounted(async () => {
     }
 
     // fireworks only near the top
-    const fwOn = uC > 0.96 || fC > N - 0.3
+    const fwOn = uC > 0.985 || fC > N + 0.5
     fwMat.opacity += ((fwOn && !reduce ? 1 : 0) - fwMat.opacity) * 0.08
     if (fwMat.opacity > 0.01) {
       for (let i = 0; i < FW; i++) {
@@ -480,13 +483,13 @@ onBeforeUnmount(() => cleanup?.())
       <div class="vignette" />
       <div class="flabs">
         <span v-for="(m, i) in milestones" :key="i" :ref="(el) => { if (el) flabEls[i] = el as HTMLElement }" class="flab" :class="{ on: i === active, l: i % 2 === 1 }" :style="{ '--fc': members[i % 8].color }">
-          <i>▲ {{ altOf(i) }}m</i><b :lang="jaLang(m.flag)">{{ m.flag }}</b>
+          <i>▲ {{ altTxt(i) }}m</i><b :lang="jaLang(m.flag)">{{ m.flag }}</b>
         </span>
       </div>
       <div class="alt">
         <div class="alt-track"><div class="alt-fill" :style="{ height: progress * 100 + '%' }" />
           <span v-for="(m, i) in milestones" :key="i" class="alt-tick" :class="{ on: i <= active, cur: i === active }"
-            :style="{ bottom: (i / (milestones.length - 1)) * 100 + '%', '--tc': members[i % 8].color }" @click="goStep(i)"><i class="alt-tip" :lang="jaLang(m.flag)">{{ m.flag }}<small>{{ altOf(i) }}m</small></i></span>
+            :style="{ bottom: (i / N) * 100 + '%', '--tc': members[i % 8].color }" @click="goStep(i)"><i class="alt-tip" :lang="jaLang(m.flag)">{{ m.flag }}<small>{{ altTxt(i) }}m</small></i></span>
           <span v-if="nowU !== null && nowU < 1" class="alt-now" :class="{ gone: summitIn }" :style="{ bottom: nowU * 100 + '%' }"><i />지금<span class="alt-now-m"> {{ nowAlt.toLocaleString() }}m</span></span>
         </div>
         <div class="alt-label"><small>ALT.</small><b>{{ alt.toLocaleString() }}</b><small>m</small></div>
@@ -497,14 +500,14 @@ onBeforeUnmount(() => cleanup?.())
       <section class="step intro">
         <p class="eyebrow">STREET TO THE TOP · 2024 → 2026</p>
         <h1 class="title"><span>정상까지의</span><span class="grad">여정</span></h1>
-        <p class="lead">큐티스트리트의 2년 반을 <b>후지산 3,776m</b> 등반에 빗대 봤어요.<br />스크롤하면 8명이 함께 길을 올라갑니다 — 정상은 <b lang="ja">紅白</b>.</p>
+        <p class="lead">큐티스트리트의 2년 반을 <b>후지산 3,776m</b> 등반에 빗대 봤어요.<br />스크롤하면 8명이 함께 길을 올라갑니다 — <b lang="ja">紅白</b>는 마지막 캠프, 정상은 <b>단독 도쿄돔</b>.</p>
         <p class="hint"><span class="mouse" /> 스크롤해서 등반 시작</p>
       </section>
 
       <section v-for="(m, i) in milestones" :key="m.date" class="step" :class="[i % 2 ? 'right' : 'left', { now: i === active }]">
         <article class="card" :style="{ '--mc': members[i % 8].color }">
           <div class="card-top">
-            <span class="alt-chip">▲ {{ altOf(i) }}m</span>
+            <span class="alt-chip">▲ {{ altTxt(i) }}m</span>
             <span class="date">{{ m.date }}</span>
             <span class="no">{{ String(i + 1).padStart(2, '0') }} / {{ milestones.length }}</span>
           </div>
@@ -521,18 +524,19 @@ onBeforeUnmount(() => cleanup?.())
       <section class="step outro" :class="{ in: summitIn }">
         <p class="stamp" :class="{ done: daysLeft !== null && daysLeft <= 0 }">
           <span class="stamp-ring" aria-hidden="true" />
-          <template v-if="daysLeft !== null && daysLeft > 0"><small>정상까지</small><b>D-{{ daysLeft }}</b><small>남은 {{ (SUMMIT - nowAlt).toLocaleString() }}m</small></template>
-          <template v-else-if="daysLeft !== null"><small lang="ja">紅白</small><b lang="ja">登頂</b><small>3,776m</small></template>
-          <template v-else><small>정상까지</small><b>D-?</b><small>12.31</small></template>
+          <template v-if="daysLeft !== null && daysLeft > 0"><small><span lang="ja">紅白</span>까지</small><b>D-{{ daysLeft }}</b><small>정상까지 {{ (SUMMIT - nowAlt).toLocaleString() }}m</small></template>
+          <template v-else><small lang="ja">東京ドーム</small><b>D-?</b><small>남은 {{ (SUMMIT - nowAlt).toLocaleString() }}m</small></template>
         </p>
-        <p class="eyebrow">3,776m · TOP OF THE TOP · <span lang="ja">御来光</span></p>
-        <h2 class="title small"><span>그리고 다음 산은,</span><span><span class="grad">세계</span> <span class="emoji"><Ico n="globe" duo size="0.82em" /></span></span></h2>
+        <p class="eyebrow">3,776m · <span lang="ja">東京ドーム</span> · TOP OF THE TOP</p>
+        <p class="goal"><b>정상 · {{ goal.ko }}</b><span>{{ goal.desc }}</span><a :href="goal.source" target="_blank" rel="noopener">{{ goal.quote }} ↗</a></p>
+        <h2 class="title small"><span>그리고 그다음 산은,</span><span><span class="grad">세계</span> <span class="emoji"><Ico n="globe" duo size="0.82em" /></span></span></h2>
         <p class="lead"><span lang="ja">かわいいで、世界へ。</span> 우리의 큐티즈도 함께 올라가요.</p>
         <div class="cta">
           <a class="btn primary" href="https://www.youtube.com/watch?v=KGFOrSUL-uc" target="_blank" rel="noopener">▶ 「Top of the top」 부도칸 LIVE</a>
+          <a class="btn" :href="withBase('/world/')">큐스트 월드맵</a>
           <a class="btn" :href="withBase('/members/')">멤버 만나기</a>
           <a class="btn" :href="withBase('/videos/')">영상 아카이브</a>
-          <ShareButton title="정상까지의 여정 — CUTIE STREET 3D 스토리" text="데뷔부터 紅白까지, 후지산 3,776m 등반으로 그린 큐티스트리트의 여정" label="여정 공유하기" />
+          <ShareButton title="정상까지의 여정 — CUTIE STREET 3D 스토리" text="데뷔부터 紅白, 그리고 정상 도쿄돔까지 — 후지산 3,776m 등반으로 그린 큐티스트리트의 여정" label="여정 공유하기" />
         </div>
       </section>
     </div>
@@ -623,6 +627,9 @@ onBeforeUnmount(() => cleanup?.())
 .outro .title::before { content: ''; position: absolute; inset: -18% -10%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 248, 252, 0.82), rgba(255, 248, 252, 0.5) 60%, transparent); pointer-events: none; }
 .lead { margin: 22px auto 0; max-width: 560px; font-size: 17px; line-height: 1.8; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(8px); padding: 14px 20px; border-radius: 20px; }
 .lead b { color: #c2457a; white-space: nowrap; }
+.goal { margin: 0 auto 22px; max-width: 560px; display: grid; gap: 6px; padding: 14px 20px; border-radius: 20px; background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(8px); font-size: 14px; line-height: 1.7; color: #4a2e45; }
+.goal b { font-size: 17px; color: #c2185b; }
+.goal a { font-size: 13px; color: #a0144f; text-decoration: underline; text-underline-offset: 3px; }
 .alt-now { transition: opacity 0.3s, translate 0.4s; }
 .alt-now.gone { opacity: 0; translate: -8px 0; }
 .hint { margin-top: 28px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: #5a4060; }

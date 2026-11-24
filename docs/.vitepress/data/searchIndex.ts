@@ -143,7 +143,7 @@ function finish(h: Hit): Hit {
 
 // [title, path, icon, extra words people search for]
 const PAGES: [string, string, string, string][] = [
-  ['홈', '/', 'heart', '메인 오늘 오늘의큐스트 home'], ['정상까지의 여정 (3D)', '/journey/', 'mountain', '후지산 등반 연혁 역사 타임라인 데뷔'], ['큐스트 월드맵 (활동한 나라·도시)', '/world/', 'globe', '지구본 해외 공연 도시'],
+  ['홈', '/', 'heart', '메인 오늘 오늘의큐스트 home'], ['정상까지의 여정 (3D)', '/journey/', 'mountain', '후지산 등반 연혁 역사 타임라인 데뷔 도쿄돔 東京ドーム 정상 목표'], ['큐스트 월드맵 (활동한 나라·도시)', '/world/', 'globe', '지구본 해외 공연 도시'],
   ['멤버 전체', '/members/', 'heart', '멤버소개 프로필 생일 나이 키'], ['유닛 & 케미', '/units/', 'sparkle', '조합 케미 콤비'],
   ['영상 아카이브', '/videos/', 'film', '유튜브 youtube 공식채널'], ['디스코그래피', '/discography/', 'disc', '음반 싱글 발매 곡목록 트랙'], ['스케줄', '/schedule/', 'calendar', '이벤트 다음 일정 카운트다운 ics'],
   ['나의 ♡ 앨범', '/likes/', 'heart', '좋아요 저장 즐겨찾기'], ['라이브 가이드 · 펜라이트', '/live-guide/', 'penlight', '응원법 준비물 체크리스트 멤버컬러'], ['나와 닮은 멤버 테스트', '/which-member/', 'target', '심리테스트 성향 결과'],

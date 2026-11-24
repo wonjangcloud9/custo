@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { members } from '../data/members'
-import { milestones } from '../data/journey'
+import { SUMMIT, climbAt, lastCampMs } from '../data/journey'
 
 // Home teaser for /journey/: a tiny Fuji whose 8-colour trail is drawn up to where the group is *today*
-// (same date interpolation as JourneyToTop), with a 'you are here' dot and the live altitude / D-day.
-const SUMMIT = 3776, N = milestones.length
-const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
+// (same climbAt as JourneyToTop), with a 'you are here' dot, the live altitude and the D-day to the next camp, 紅白.
+// The star on top is the summit — a solo Tokyo Dome, no date yet.
 const u = ref<number | null>(null) // client-only, so SSR markup stays stable
 const days = ref<number | null>(null)
 const dot = ref<{ x: number; y: number } | null>(null)
@@ -14,11 +13,9 @@ const trail = ref<SVGPathElement | null>(null)
 const TRAIL = 'M34 157 C90 152 140 146 178 137 C140 130 112 124 118 116 C124 108 176 106 172 96 C168 86 128 86 134 76 C140 66 168 64 160 54 C154 46 150 44 150 36'
 
 onMounted(() => {
-  const now = Date.now(), ts = milestones.map((m) => ymd(m.date))
-  let v = 1
-  for (let i = 0; i < N - 1; i++) if (now < ts[i + 1]) { v = (i + Math.max(0, (now - ts[i]) / (ts[i + 1] - ts[i]))) / (N - 1); break }
+  const now = Date.now(), v = climbAt(now)
   u.value = v
-  days.value = Math.ceil((ts[N - 1] - now) / 864e5)
+  days.value = Math.ceil((lastCampMs - now) / 864e5)
   const p = trail.value
   if (p) { const pt = p.getPointAtLength(p.getTotalLength() * v); dot.value = { x: pt.x, y: pt.y } }
 })
@@ -39,7 +36,7 @@ const stops = members.map((m, i) => ({ c: m.color, o: `${(i / (members.length - 
       <g transform="translate(150 26)" class="jm-star"><path d="M0-11 3.2-3.6 11-3.4 4.9 1.6 7 9.2 0 4.9-7 9.2-4.9 1.6-11-3.4-3.2-3.6Z" /></g>
       <g v-if="dot" :transform="`translate(${dot.x} ${dot.y})`"><circle r="9" class="jm-ping" /><circle r="5" class="jm-dot" /></g>
     </svg>
-    <span v-if="u !== null" class="jm-now"><i />지금 {{ Math.round(u * SUMMIT).toLocaleString() }}m<template v-if="days !== null && days > 0"> · 정상까지 D-{{ days }}</template><template v-else> · 登頂</template></span>
+    <span v-if="u !== null" class="jm-now"><i /><span>지금 {{ Math.round(u * SUMMIT).toLocaleString() }}m<template v-if="days !== null && days > 0"> · <span lang="ja">紅白</span> D-{{ days }}</template><template v-else-if="days === 0"> · 오늘 <span lang="ja">紅白</span></template><template v-else> · 다음은 도쿄돔</template></span></span>
   </span>
 </template>
 

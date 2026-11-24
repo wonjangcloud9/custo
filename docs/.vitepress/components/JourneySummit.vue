@@ -1,22 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
-import { milestones } from '../data/journey'
+import { milestones, goal, SUMMIT, altOf, climbAt, lastCampMs } from '../data/journey'
 import { events, catMeta, startMs, type CsEvent } from '../data/events'
 import { jaLang } from '../theme/lang'
 
-// Summit push: the stages left before 紅白 as camps on the last switchbacks of Fuji. Each camp's altitude uses the
-// same date→altitude rule as the 3D story and the climb log (index-linear between milestones), so 'today' here
-// matches the beacon up the page. Client-only — the camps depend on the visitor's date.
-const SUMMIT = 3776, N = milestones.length
+// Summit push: the summit (a solo Tokyo Dome, no date yet), 紅白 as the last camp just below it, and the stages left
+// before 紅白 as camps on the last switchbacks of Fuji. Altitudes use the same climbAt as the 3D story and the climb
+// log, so 'today' here matches the beacon up the page. Client-only — the camps depend on the visitor's date.
 const ymd = (d: string) => Date.parse(d.replace(/\./g, '-') + 'T00:00:00+09:00')
-const ts = milestones.map((m) => ymd(m.date))
-const TOP = ts[N - 1], TOP_ISO = milestones[N - 1].date.replace(/\./g, '-')
-function altAt(t: number) {
-  if (t >= TOP) return SUMMIT
-  for (let i = 0; i < N - 1; i++) if (t < ts[i + 1]) return Math.round(((i + Math.max(0, (t - ts[i]) / (ts[i + 1] - ts[i]))) / (N - 1)) * SUMMIT)
-  return SUMMIT
-}
+const N = milestones.length
+const CAMP = lastCampMs, CAMP_ISO = milestones[N - 1].date.replace(/\./g, '-'), CAMP_ALT = altOf(N - 1)
+const altAt = (t: number) => Math.round(climbAt(t) * SUMMIT)
 const DOW = ['일', '월', '화', '수', '목', '금', '토']
 const dow = (iso: string) => { const [y, m, d] = iso.split('-').map(Number); return DOW[new Date(Date.UTC(y, m - 1, d)).getUTCDay()] }
 const label = (e: CsEvent) => (e.short ?? e.ko).split(/ · | \(/)[0]
@@ -33,18 +28,18 @@ const trail = ref(''), mountain = ref(''), snow = ref(''), H = ref(0)
 
 onMounted(() => {
   const t = Date.now(), today = new Date(t + 9 * 3600e3).toISOString().slice(0, 10)
-  if (t >= TOP + 864e5) return
+  if (t >= CAMP + 864e5) return
   const seen = new Set<string>()
   camps.value = events
-    .filter((e) => (e.time ? startMs(e) > t : e.date > today) && e.date < TOP_ISO && (e.cat === 'live' || e.cat === 'event' || e.cat === 'release'))
+    .filter((e) => (e.time ? startMs(e) > t : e.date > today) && e.date < CAMP_ISO && (e.cat === 'live' || e.cat === 'event' || e.cat === 'release'))
     .sort((a, b) => a.date.localeCompare(b.date) || (a.time ?? '').localeCompare(b.time ?? ''))
     .filter((e) => { const k = e.ja.replace(/\s*DAY\s*-?\d+\s*$/i, ''); if (seen.has(k)) return false; seen.add(k); return true })
     .map((e) => ({ e, alt: altAt(ymd(e.date)), md: e.date.slice(5).replace('-', '.'), dow: dow(e.date), name: label(e), ico: e.icon ?? catMeta[e.cat].ico, color: catMeta[e.cat].color }))
     .reverse() // top-down: the nearest camp sits just above today
-  now.value = { alt: altAt(t), left: Math.max(0, Math.ceil((TOP - t) / 864e5)) }
+  now.value = { alt: altAt(t), left: Math.max(0, Math.ceil((CAMP - t) / 864e5)) }
 
   ROW.value = window.matchMedia('(max-width: 640px)').matches ? 82 : 66
-  const n = camps.value.length + 2 // summit + camps + today
+  const n = camps.value.length + 3 // summit + 紅白 + camps + today
   H.value = n * ROW.value
   const pts = Array.from({ length: n }, (_, k) => {
     const y = (k * ROW.value + ROW.value / 2) / H.value
@@ -71,8 +66,8 @@ onMounted(() => {
   <section v-if="camps.length && now" class="js" aria-labelledby="js-h">
     <header class="js-head">
       <p class="js-eye">SUMMIT PUSH · 정상 공격</p>
-      <h2 id="js-h"><Ico n="flag" duo size="0.95em" /> 紅白까지 남은 캠프 {{ camps.length }}곳</h2>
-      <p class="js-sub">오늘 <b>{{ now.alt.toLocaleString() }}m</b>에서 정상 3,776m까지 남은 <b>{{ (SUMMIT - now.alt).toLocaleString() }}m</b> — 홍백 전 무대들을 같은 고도 계산으로 등산로 위에 놓았어요.</p>
+      <h2 id="js-h"><Ico n="flag" duo size="0.95em" /> <span><span lang="ja">紅白</span>까지 남은 캠프 {{ camps.length }}곳</span></h2>
+      <p class="js-sub">오늘 <b>{{ now.alt.toLocaleString() }}m</b>. 마지막 캠프 <span lang="ja">紅白</span>({{ CAMP_ALT.toLocaleString() }}m)까지 <b>{{ (CAMP_ALT - now.alt).toLocaleString() }}m</b>, 그 위 정상 <b>단독 도쿄돔</b>(3,776m)은 아직 날짜 미정이에요.</p>
     </header>
 
     <div class="js-mt" :style="{ height: H + 'px', '--row': ROW + 'px' }">
@@ -90,13 +85,21 @@ onMounted(() => {
       <ol class="js-rows">
         <li class="row top" :style="{ '--x': rows[0].x, top: rows[0].y + 'px' }">
           <span class="ld" /><span class="mk"><Ico n="torii" duo :size="18" /></span>
-          <a class="lab" :href="withBase('/kohaku/')">
+          <a class="lab" :href="goal.source" target="_blank" rel="noopener">
             <span class="alt">▲ 3,776m</span>
-            <b><span lang="ja">紅白</span> · 정상</b>
-            <small>{{ TOP_ISO.slice(5).replace('-', '.') }} ({{ dow(TOP_ISO) }}) · D-{{ now.left }}</small>
+            <b>정상 · 단독 도쿄돔</b>
+            <small>언젠가 · 날짜 미정 (에미루가 말한 목표)</small>
           </a>
         </li>
-        <li v-for="(c, k) in camps" :key="c.e.date + c.e.ja" class="row" :style="{ '--x': rows[k + 1].x, top: rows[k + 1].y + 'px', '--cc': c.color, '--k': camps.length - k }">
+        <li class="row camp" :style="{ '--x': rows[1].x, top: rows[1].y + 'px', '--cc': '#c2185b', '--k': camps.length + 1 }">
+          <span class="ld" /><span class="mk"><Ico n="tv" :size="15" /></span>
+          <a class="lab" :href="withBase('/kohaku/')">
+            <span class="alt">{{ CAMP_ALT.toLocaleString() }}m</span>
+            <b>마지막 캠프 · <span lang="ja">紅白</span></b>
+            <small>{{ CAMP_ISO.slice(5).replace('-', '.') }} ({{ dow(CAMP_ISO) }}) · D-{{ now.left }}</small>
+          </a>
+        </li>
+        <li v-for="(c, k) in camps" :key="c.e.date + c.e.ja" class="row" :style="{ '--x': rows[k + 2].x, top: rows[k + 2].y + 'px', '--cc': c.color, '--k': camps.length - k }">
           <span class="ld" /><span class="mk"><Ico :n="c.ico" :size="15" /></span>
           <a class="lab" :href="c.e.url" target="_blank" rel="noopener">
             <span class="alt">{{ c.alt.toLocaleString() }}m</span>
@@ -151,6 +154,8 @@ a.lab:focus-visible { outline: 2px solid #c2185b; outline-offset: 2px; }
 .top .mk { width: 40px; height: 40px; background: linear-gradient(135deg, #ff6f9f, #c2185b); color: #fff; border-color: #fff; box-shadow: 0 8px 18px -6px #c2185b; }
 .top .lab b { font-size: 17px; color: #c2185b; }
 .top .alt { color: #c2185b; }
+.camp .mk { background: #fff0f6; color: #c2185b; border-color: #c2185b; }
+.camp .lab b { color: #a0144f; }
 .base .mk { --cc: #c2185b; }
 .base .mk i { width: 10px; height: 10px; border-radius: 50%; background: #c2185b; }
 .base .lab b { color: #c2185b; }
