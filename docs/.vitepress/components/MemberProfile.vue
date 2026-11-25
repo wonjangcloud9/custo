@@ -4,6 +4,7 @@ import { withBase, useRouter } from 'vitepress'
 import { members, memberById, ageOn, daysToBirthday, prefectureKo, onColor } from '../data/members'
 import MemberFeed from './MemberFeed.vue'
 import BirthdayParty from './BirthdayParty.vue'
+import BirthdayEvent from './BirthdayEvent.vue'
 import BirthdayCard from './BirthdayCard.vue'
 import { birthdaysIcs, downloadIcs } from '../data/birthdays'
 import ShareButton from './ShareButton.vue'
@@ -134,6 +135,7 @@ function onKey(e: KeyboardEvent) {
 <template>
   <section v-if="m" class="mp" :style="{ '--mc': m.color }">
     <BirthdayParty v-if="isBday" :m="m" :age="age === null ? null : age + (dday === 0 ? 0 : 1)" />
+    <BirthdayEvent v-if="isBday" :m="m" :age="age === null ? null : age + (dday === 0 ? 0 : 1)" />
     <!-- HERO -->
     <div class="hero" :class="swipeHint ? `swipe-${swipeHint}` : ''" @touchstart.passive="onTouchStart" @touchend.passive="onTouchEnd">
       <div class="hero-bg" aria-hidden="true">

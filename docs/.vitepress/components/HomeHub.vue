@@ -6,6 +6,7 @@ import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 import { members, daysToBirthday, ageOn, onColor } from '../data/members'
 import BirthdayParty from './BirthdayParty.vue'
+import BirthdayEvent from './BirthdayEvent.vue'
 import homeVideos from '../data/home-videos.json'
 import { events, startMs } from '../data/events'
 import LegendOfDay from './LegendOfDay.vue'
@@ -163,6 +164,7 @@ function cleanTitle(t: string) {
     <!-- the page's h1 comes first for screen readers; the big letter-by-letter title below is its visual twin (#204) -->
     <h1 class="sr-only">CUTIE STREET 비공식 팬허브 — 귀여움으로 세계까지</h1>
     <TodayDigest />
+    <BirthdayEvent v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" home />
     <!-- HERO -->
     <section id="top" ref="hero" class="hero" @pointermove="sparkle">
       <div class="hero-copy">
@@ -214,7 +216,7 @@ function cleanTitle(t: string) {
       <span class="kr-dd">{{ koreaDays === 0 ? 'TODAY' : 'D-' + koreaDays }}</span>
     </a>
     <BirthdayParty v-if="bdayToday" :m="bdayToday" :age="today ? ageOn(bdayToday.birthday, today) + (daysToBirthday(bdayToday.birthday, today) === 0 ? 0 : 1) : null" compact />
-    <a v-else-if="bdaySoon" class="soon" :href="withBase(`/members/${bdaySoon.m.id}`)" :style="{ '--mc': bdaySoon.m.color }"><Ico n="cake" duo size="17" class="mc-ico" /> <b>{{ bdaySoon.m.ko }}</b> 생일까지 <b>D-{{ bdaySoon.d }}</b> · {{ bdaySoon.m.birthday.slice(5).replace('-', '/') }}</a>
+    <a v-if="bdaySoon" class="soon" :href="withBase(`/members/${bdaySoon.m.id}`)" :style="{ '--mc': bdaySoon.m.color }"><Ico n="cake" duo size="17" class="mc-ico" /> <b>{{ bdaySoon.m.ko }}</b> 생일까지 <b>D-{{ bdaySoon.d }}</b> · {{ bdaySoon.m.birthday.slice(5).replace('-', '/') }}</a>
     <NewsFeed mode="ticker" />
 
     <!-- STATS -->
