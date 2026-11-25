@@ -3,6 +3,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { members } from './data/members'
 import { songs } from './data/songs'
+import { events, toIcs, endMs } from './data/events'
 
 // Hosting: Vercel, at the domain root (moved from GitHub Pages' /custo/ on 2026-11-22 — gh-pages-redirect/ forwards
 // old links). The public address is set here (SITE_HOST in the Vercel project overrides it); the project's first
@@ -100,6 +101,9 @@ export default defineConfig({
     writeFileSync(sw, `// build ${Date.now().toString(36)}\n` + readFileSync(sw, 'utf8'))
     // search engines: everything may be crawled; point them at the sitemap of whichever address this build is for
     writeFileSync(join(site.outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`)
+    // calendar subscription feed (#274): every event from 60 days ago on, rebuilt with each deploy (today update every 6 h)
+    const since = Date.now() - 60 * 86400e3
+    writeFileSync(join(site.outDir, 'cutiestreet.ics'), toIcs(events.filter((e) => endMs(e) >= since), true) + '\r\n')
   },
   // search engines: each page's <title>/<meta description> names the group the way Korean and Japanese fans search for it
   // (큐티스트리트 · CUTIE STREET · キューティーストリート), and member pages get their own profile title + description

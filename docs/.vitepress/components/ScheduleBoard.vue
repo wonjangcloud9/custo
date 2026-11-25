@@ -35,6 +35,16 @@ async function shareMine() {
   try { await navigator.clipboard.writeText(`${text}\n${url}`); shared.value = 'copied' } catch { shared.value = 'failed' }
   setTimeout(() => (shared.value = ''), 1800)
 }
+// calendar subscription (#274): /cutiestreet.ics is rebuilt with every deploy, so subscribed calendars pick up new events
+const feed = ref('') // https URL, set on mount (host differs between preview and production)
+const feedCopied = ref<'' | 'ok' | 'fail'>('')
+const webcal = computed(() => feed.value.replace(/^https?:/, 'webcal:'))
+const gcalSub = computed(() => feed.value && 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(webcal.value))
+async function copyFeed() {
+  try { await navigator.clipboard.writeText(feed.value); feedCopied.value = 'ok' } catch { feedCopied.value = 'fail' }
+  setTimeout(() => (feedCopied.value = ''), 1800)
+}
+onMounted(() => (feed.value = location.origin + withBase('/cutiestreet.ics')))
 const passes = (e: CsEvent) => (cat.value === 'all' || e.cat === cat.value) && (!mineOnly.value || isGoing(e))
 const showPast = ref(false)
 // past events link to that day's official footage: own-channel videos of that performance date and
@@ -267,6 +277,15 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
       <small>아이폰·구글·아웃룩 캘린더에서 열면 한꺼번에 추가돼요 · 하루 전·1시간 전 알림 포함 (종일 일정은 전날 오전 9시){{ cat === 'all' ? '' : ' · 지금 고른 카테고리만' }}</small>
     </div>
 
+    <div v-if="view === 'list' && feed" class="sub-row">
+      <p class="sub-t"><Ico n="bell" duo size="18" /> <b>캘린더 구독</b> <span>한 번 구독하면 새 일정·시간 변경이 내 캘린더에 자동으로 들어와요 · 사이트는 6시간마다 갱신, 구글 캘린더는 반영까지 최대 하루</span></p>
+      <div class="sub-btns">
+        <a :href="webcal" class="sub-btn"><Ico n="calendar" duo size="15" /> 아이폰·맥·아웃룩</a>
+        <a :href="gcalSub" target="_blank" rel="noopener" class="sub-btn"><Ico n="calendar" duo size="15" /> 구글 캘린더</a>
+        <button type="button" class="sub-btn ghost" @click="copyFeed"><Ico :n="feedCopied === 'ok' ? 'check' : 'link'" size="15" /> {{ feedCopied === 'ok' ? '주소 복사됨' : feedCopied === 'fail' ? '복사하지 못했어요' : '구독 주소 복사' }}</button>
+      </div>
+    </div>
+
     <!-- TIMELINE -->
     <div v-show="view === 'list'" class="tl">
       <section v-for="mo in months" :id="`mo-${mo.key}`" :key="mo.key" class="mo">
@@ -400,6 +419,15 @@ onBeforeUnmount(() => { clearInterval(timer); moSpy?.disconnect(); window.remove
 .share-mine { padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #8a2350; background: #fde3ee; transition: transform 0.4s var(--spring), background 0.2s; }
 .share-mine:hover { transform: translateY(-2px); }
 .share-mine.done { background: #c2185b; color: #fff; }
+.sub-row { margin: 12px 0 0; padding: 14px 16px; border-radius: 18px; background: linear-gradient(110deg, #fff0f6, #f4ecff); box-shadow: inset 0 0 0 1.5px #f3c6da; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.sub-t { margin: 0 !important; flex: 1 1 260px; min-width: 0; font-size: 13px; color: #5a4060; line-height: 1.5; }
+.sub-t b { color: #2f1a35; font-size: 14px; margin-right: 4px; }
+.sub-t .ico { color: #c2306a; vertical-align: -3px; }
+.sub-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.sub-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 7px 14px; border-radius: 999px; font-size: 13px; font-weight: 800; color: #fff !important; background: #3a2340; text-decoration: none !important; transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1); }
+.sub-btn:hover { transform: translateY(-2px); }
+.sub-btn.ghost { color: #3a2340 !important; background: #fff; box-shadow: inset 0 0 0 1.5px #d9c4e0; }
+@media (prefers-reduced-motion: reduce) { .sub-btn { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .share-mine { transition: none; } }
 .ics-all-row small { font-size: 12px; color: #735779; }
 @media (prefers-reduced-motion: reduce) { .ics-all { transition: none; } }

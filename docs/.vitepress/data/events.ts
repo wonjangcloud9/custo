@@ -161,11 +161,27 @@ function vevent(e: CsEvent, stamp: string): string[] {
   return lines
 }
 /** One calendar file for one or many events. */
-export function toIcs(e: CsEvent | CsEvent[]): string {
+export function toIcs(e: CsEvent | CsEvent[], feed = false): string {
   const list = Array.isArray(e) ? e : [e]
   const stamp = icsUtc(Date.now())
-  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:CUTIE STREET (Custo)',
-    ...list.flatMap((x) => vevent(x, stamp)), 'END:VCALENDAR'].join('\r\n')
+  // subscription feed (/cutiestreet.ics, written at build): ask calendar apps to re-fetch every 6 h, matching the today update
+  const head = feed ? ['METHOD:PUBLISH', 'X-WR-CALDESC:CUTIE STREET 공식 일정 (비공식 팬허브 Custo · 공식 사이트 기준\\, 6시간마다 확인)', 'X-WR-TIMEZONE:Asia/Tokyo', 'REFRESH-INTERVAL;VALUE=DURATION:PT6H', 'X-PUBLISHED-TTL:PT6H'] : []
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//custo//cutie street fan hub//KO', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:CUTIE STREET (Custo)', ...head,
+    ...list.flatMap((x) => vevent(x, stamp)), 'END:VCALENDAR'].map(fold).join('\r\n')
+}
+/** RFC 5545 §3.1: lines over 75 octets continue on the next line after CRLF + space (split on whole UTF-8 characters). */
+function fold(line: string): string {
+  const enc = new TextEncoder()
+  if (enc.encode(line).length <= 75) return line
+  const out: string[] = []
+  let cur = '', n = 0, max = 75
+  for (const ch of line) {
+    const b = enc.encode(ch).length
+    if (n + b > max) { out.push(cur); cur = ''; n = 0; max = 74 } // continuation lines start with a space
+    cur += ch; n += b
+  }
+  out.push(cur)
+  return out.join('\r\n ')
 }
 
 export function googleCalUrl(e: CsEvent): string {

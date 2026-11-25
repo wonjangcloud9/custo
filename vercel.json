@@ -19,6 +19,13 @@
   ],
   "headers": [
     {
+      "source": "/cutiestreet.ics",
+      "headers": [
+        { "key": "Content-Type", "value": "text/calendar; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=1800" }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         {
