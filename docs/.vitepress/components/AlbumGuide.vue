@@ -17,6 +17,8 @@ const STEPS = [
   { s: '2026-11-23T10:00+09:00', e: '2026-11-23T18:50+09:00', d: '11.23 (月·祝)', t: '大特典会 · 홋카이도', sub: 'アクセスサッポロ · 10:00–18:50 (1~6부)', url: 'https://cutiestreet.asobisystem.com/live_information/detail/47104', ico: 'gift' },
   // news 96698 (2026-11-18): CD buyers at the venue get lottery tickets (3 per CD, max 30 per checkout); pickup after the show
   { s: '2026-11-26T14:00+09:00', e: '2026-11-26T23:59+09:00', d: '11.26 (木)', t: '아이카 생탄제 현장 특별 추첨회', sub: 'SGCホール有明 · CD 1장당 추첨권 3장 · 선행 판매 14:00–17:00 예정(티켓 없어도 가능) · A 전원 사인 단체 체키 / B 아이카+멤버 1명 투샷 체키 / C 포스트카드', url: 'https://cutiestreet.asobisystem.com/news/detail/96698', ico: 'cake' },
+  // news 96912 (2026-11-21, checked 2026-11-25): CD pre-order lottery at the tour final; pre-sale hours are 予定 (planned)
+  { s: '2026-11-28T12:00+09:00', e: '2026-11-29T16:30+09:00', d: '11.28 (土) – 11.29 (日)', t: '투어 FINAL IGアリーナ 현장 특별 추첨회', sub: 'CD 예약자 대상 · 선행 판매 11/28 12:00–18:00 · 11/29 11:30–16:30 예정 · SS 전원 체키 촬영회(5명) / S 배웅회 · 촬영 가능(100명) / 사인 OSHI API TOWEL·솔로 체키 등 · 참가상 메시지 포스트카드', url: 'https://cutiestreet.asobisystem.com/news/detail/96912', ico: 'dice' },
   { s: '2026-12-01T12:00+09:00', e: '2026-12-13T23:59+09:00', d: '12.01 – 12.13', t: '시리얼 추첨 응모 기간', sub: '「すきトーク」 영상 토크 · 멤버당 70명, 총 560명', url: FEATURE, ico: 'ticket' },
   { s: '2026-12-02T00:00+09:00', e: '2026-12-02T23:59+09:00', d: '12.02 (水)', t: '1st ALBUM 「CUTIE LAND」 발매', sub: '16곡 수록 · 3형태', url: FEATURE, ico: 'disc', key: true },
   { s: '2026-12-06T00:00+09:00', e: '2026-12-06T23:59+09:00', d: '12.06 (日)', t: '大特典会 · 오사카', sub: 'インテックス大阪 3号館', url: 'https://cutiestreet.asobisystem.com/news/detail/96353', ico: 'gift' },
