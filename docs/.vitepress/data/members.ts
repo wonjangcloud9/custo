@@ -38,10 +38,18 @@ export const members: Member[] = [
 
 export const memberById = Object.fromEntries(members.map((m) => [m.id, m])) as Record<string, Member>
 
+/** Japan (JST) calendar date of a moment — birthdays follow the Japanese date, and the build server runs in
+ *  UTC, so local getters would put the server render a day behind the browser before 09:00 JST (#278). */
+function jstYmd(now: Date): [number, number, number] {
+  const j = new Date(now.getTime() + 9 * 3600e3)
+  return [j.getUTCFullYear(), j.getUTCMonth() + 1, j.getUTCDate()]
+}
+
 export function ageOn(birthday: string, now = new Date()): number {
   const [y, m, d] = birthday.split('-').map(Number)
-  let age = now.getFullYear() - y
-  if (now.getMonth() + 1 < m || (now.getMonth() + 1 === m && now.getDate() < d)) age--
+  const [ny, nm, nd] = jstYmd(now)
+  let age = ny - y
+  if (nm < m || (nm === m && nd < d)) age--
   return age
 }
 
@@ -52,10 +60,11 @@ export const prefectureKo: Record<string, string> = {
 /** Days until the next birthday (0 = today). */
 export function daysToBirthday(birthday: string, now = new Date()): number {
   const [, m, d] = birthday.split('-').map(Number)
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  let next = new Date(now.getFullYear(), m - 1, d)
-  if (next < today) next = new Date(now.getFullYear() + 1, m - 1, d)
-  return Math.round((next.getTime() - today.getTime()) / 86400000)
+  const [ny, nm, nd] = jstYmd(now)
+  const today = Date.UTC(ny, nm - 1, nd)
+  let next = Date.UTC(ny, m - 1, d)
+  if (next < today) next = Date.UTC(ny + 1, m - 1, d)
+  return Math.round((next - today) / 86400000)
 }
 
 /** Text colour for a label sitting ON a member-colour fill: whichever of white / deep plum
