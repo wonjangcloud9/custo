@@ -21,4 +21,6 @@ description: CUTIE STREET 1st ALBUM「CUTIE LAND」(2026.12.02) 16트랙 가이�
 
 <CountdownCard date="2026-11-28" through="2026-11-29" kicker="JAPAN ARENA TOUR 2026 -AUTUMN- CUTIE LAND" glyph="愛知" title="아레나 투어 FINAL 아이치까지" todayTitle="오늘은 투어 FINAL! IG아레나" sub="2026.11.28 (土)–29 (日) · IGアリーナ (아이치)" from="#6d3fb0" to="#c2185b" file="cutiestreet-tour-final-dday" path="/cutie-land/" label="파이널 D-day 카드 저장" />
 
+<TourFinalGuide />
+
 <TourStamps />

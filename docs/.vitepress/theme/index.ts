@@ -37,6 +37,7 @@ const lazy = {
   MemberTable: () => import('../components/MemberTable.vue'),
   KoreaHub: () => import('../components/KoreaHub.vue'),
   TourStamps: () => import('../components/TourStamps.vue'),
+  TourFinalGuide: () => import('../components/TourFinalGuide.vue'),
   AboutHub: () => import('../components/AboutHub.vue'),
   StagesHub: () => import('../components/StagesHub.vue'),
   WorldMap: () => import('../components/WorldMap.vue'),
