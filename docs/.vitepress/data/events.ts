@@ -72,6 +72,8 @@ export const events: CsEvent[] = [
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
   { date: '2026-11-29', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연 · 아야노·나기사 태그 (2주 연속 「カラオケタッグモード大会」 · 나기사 첫 출연, 아야노는 지난번 아쉬움의 눈물 설욕전)', with: ['ayano', 'nagisa'], url: `${O}/news/detail/95696` },
   { date: '2026-12-02', cat: 'release', ja: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', url: `${O}/discography/detail/8458/`, featured: true },
+  // live_information/detail/47877 (on the Dec list 2026-11-25): 13:30 on the official YouTube; Miyu absent (schedule); SUKISUKI lottery ~11/26 23:59, signed items paid-FC only
+  { date: '2026-12-02', time: '13:30', cat: 'event', ja: '1st アルバム オンラインサイン会 @ CUTIE STREET YouTube', ko: '앨범 발매일 온라인 사인회 · 공식 유튜브 생방송 (빙고 추첨 포함 · 미유는 스케줄로 불참 · 사인 상품 추첨 신청 11/26 23:59 마감·유료 FC 한정)', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47877` },
   { date: '2026-12-05', time: '14:30', cat: 'live', ja: 'HIROSHIMA CONTI-NeW FeS 2026', ko: '히로시마 페스티벌 출연 (DAY1 · 14:30~ 출연 시간)', venue: '広島グリーンアリーナ', url: `${O}/live_information/detail/42404` },
   { date: '2026-12-06', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 大阪（1stアルバム発売記念）', ko: '대특전회 · 오사카', venue: 'インテックス大阪 3号館', url: `${O}/news/detail/96353`, featured: true, short: '大特典会 in 大阪', icon: 'gift' },
   { date: '2026-12-12', time: '17:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY1', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002`, featured: true, short: 'KAWAII LAB. Christmas SESSION', through: '2026-12-13', icon: 'tree' },

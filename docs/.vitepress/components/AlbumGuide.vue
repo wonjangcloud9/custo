@@ -17,10 +17,13 @@ const STEPS = [
   { s: '2026-11-23T10:00+09:00', e: '2026-11-23T18:50+09:00', d: '11.23 (月·祝)', t: '大特典会 · 홋카이도', sub: 'アクセスサッポロ · 10:00–18:50 (1~6부)', url: 'https://cutiestreet.asobisystem.com/live_information/detail/47104', ico: 'gift' },
   // news 96698 (2026-11-18): CD buyers at the venue get lottery tickets (3 per CD, max 30 per checkout); pickup after the show
   { s: '2026-11-26T14:00+09:00', e: '2026-11-26T23:59+09:00', d: '11.26 (木)', t: '아이카 생탄제 현장 특별 추첨회', sub: 'SGCホール有明 · CD 1장당 추첨권 3장 · 선행 판매 14:00–17:00 예정(티켓 없어도 가능) · A 전원 사인 단체 체키 / B 아이카+멤버 1명 투샷 체키 / C 포스트카드', url: 'https://cutiestreet.asobisystem.com/news/detail/96698', ico: 'cake' },
+  // live_information/detail/47877 + SUKISUKI goods 6500000005846 (checked 2026-11-25)
+  { s: '2026-11-25T00:00+09:00', e: '2026-11-26T23:59+09:00', d: '~ 11.26 (木) 23:59', t: '발매일 온라인 사인회 추첨 신청', sub: 'SUKISUKI 추첨 판매 · 사인 상품은 유료 FC 한정 · 2L 생사진(이름·사인·한마디) 등 + 디지털 빙고권', url: 'https://sukisuki-shop.com/goods/6500000005846', ico: 'ticket' },
   // news 96912 (2026-11-21, checked 2026-11-25): CD pre-order lottery at the tour final; pre-sale hours are 予定 (planned)
   { s: '2026-11-28T12:00+09:00', e: '2026-11-29T16:30+09:00', d: '11.28 (土) – 11.29 (日)', t: '투어 FINAL IGアリーナ 현장 특별 추첨회', sub: 'CD 예약자 대상 · 선행 판매 11/28 12:00–18:00 · 11/29 11:30–16:30 예정 · SS 전원 체키 촬영회(5명) / S 배웅회 · 촬영 가능(100명) / 사인 OSHI API TOWEL·솔로 체키 등 · 참가상 메시지 포스트카드', url: 'https://cutiestreet.asobisystem.com/news/detail/96912', ico: 'dice' },
   { s: '2026-12-01T12:00+09:00', e: '2026-12-13T23:59+09:00', d: '12.01 – 12.13', t: '시리얼 추첨 응모 기간', sub: '「すきトーク」 영상 토크 · 멤버당 70명, 총 560명', url: FEATURE, ico: 'ticket' },
   { s: '2026-12-02T00:00+09:00', e: '2026-12-02T23:59+09:00', d: '12.02 (水)', t: '1st ALBUM 「CUTIE LAND」 발매', sub: '16곡 수록 · 3형태', url: FEATURE, ico: 'disc', key: true },
+  { s: '2026-12-02T13:30+09:00', e: '2026-12-02T23:59+09:00', d: '12.02 (水) 13:30', t: '발매 기념 온라인 사인회', sub: '공식 유튜브 생방송 · 빙고 추첨 (1~5등 1분 생전화 등) · 미유는 스케줄로 불참', url: 'https://cutiestreet.asobisystem.com/live_information/detail/47877', ico: 'camera' },
   { s: '2026-12-06T00:00+09:00', e: '2026-12-06T23:59+09:00', d: '12.06 (日)', t: '大特典会 · 오사카', sub: 'インテックス大阪 3号館', url: 'https://cutiestreet.asobisystem.com/news/detail/96353', ico: 'gift' },
   { s: '2026-12-15T00:00+09:00', e: '2026-12-15T23:59+09:00', d: '12.15 (火)', t: '시리얼 추첨 당첨 발표', sub: '', url: FEATURE, ico: 'bell' },
   { s: '2026-12-17T00:00+09:00', e: '2026-12-17T23:59+09:00', d: '12.17 (木)', t: '발매 기념 스페셜 추첨 이벤트', sub: '「すきトーク」 앱 영상 토크 (사전 설치 필요)', url: FEATURE, ico: 'camera' },
