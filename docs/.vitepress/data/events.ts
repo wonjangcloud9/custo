@@ -75,8 +75,11 @@ export const events: CsEvent[] = [
   // live_information/detail/47877 (on the Dec list 2026-11-25): 13:30 on the official YouTube; Miyu absent (schedule); SUKISUKI lottery ~11/26 23:59, signed items paid-FC only
   { date: '2026-12-02', time: '13:30', cat: 'event', ja: '1st アルバム オンラインサイン会 @ CUTIE STREET YouTube', ko: '앨범 발매일 온라인 사인회 · 공식 유튜브 생방송 (빙고 추첨 포함 · 미유는 스케줄로 불참 · 사인 상품 추첨 신청 11/26 23:59 마감·유료 FC 한정)', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47877` },
   { date: '2026-12-05', time: '14:30', cat: 'live', ja: 'HIROSHIMA CONTI-NeW FeS 2026', ko: '히로시마 페스티벌 출연 (DAY1 · 14:30~ 출연 시간)', venue: '広島グリーンアリーナ', url: `${O}/live_information/detail/42404` },
+  // official schedule detail 46743 (listed via the news post below)
   { date: '2026-12-06', time: '10:00', end: '18:50', cat: 'event', ja: '大特典会 in 大阪（1stアルバム発売記念）', ko: '대특전회 · 오사카', venue: 'インテックス大阪 3号館', url: `${O}/news/detail/96353`, featured: true, short: '大特典会 in 大阪', icon: 'gift' },
+  // official schedule detail 46376 (listed via the news post below)
   { date: '2026-12-12', time: '17:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY1', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002`, featured: true, short: 'KAWAII LAB. Christmas SESSION', through: '2026-12-13', icon: 'tree' },
+  // official schedule detail 46375 (listed via the news post below)
   { date: '2026-12-13', time: '16:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY2', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
   { date: '2026-12-17', cat: 'event', ja: '1stアルバム発売記念 スペシャル抽選イベント（すきトーク）', ko: '앨범 발매 기념 영상 토크 추첨 이벤트', url: 'https://cutiestreet.asobisystem.com/feature/1stalbumcutieland' },
   { date: '2026-12-19', cat: 'other', ja: '〜KAWAII LAB. 衣装展〜 KAWAII CLOSET 2026（〜1/31）', ko: '의상 전시 · 시부야/사카에/난바 hmv museum', venue: 'hmv museum 渋谷・栄・なんば', url: `${O}/news/detail/96078` },
