@@ -118,6 +118,12 @@ export const catMeta: Record<EventCat, { ko: string; emoji: string; ico: string;
 }
 
 /** Epoch ms of the event start in JST (00:00 JST when no time). */
+/** Day order for lists: by date, then timed events by start time, then all-day ones (a release with no time
+ *  no longer sits above a 02:35 broadcast on the same day). Countdowns keep using startMs. */
+export function byDayTime(a: CsEvent, b: CsEvent): number {
+  return a.date.localeCompare(b.date) || (a.time ? 0 : 1) - (b.time ? 0 : 1) || (a.time ?? '').localeCompare(b.time ?? '')
+}
+
 export function startMs(e: CsEvent): number {
   return new Date(`${e.date}T${e.time ?? '00:00'}:00+09:00`).getTime()
 }

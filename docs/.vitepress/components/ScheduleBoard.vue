@@ -3,7 +3,7 @@ import { jaLang } from '../theme/lang'
 import { BUILD_TIME } from '../theme/today'
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { withBase } from 'vitepress'
-import { events, catMeta, startMs, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
+import { events, catMeta, startMs, byDayTime, toIcs, googleCalUrl, type CsEvent, type EventCat, isOnNow, nowWord, endMs } from '../data/events'
 import { memberById } from '../data/members'
 import MemberCoins from './MemberCoins.vue'
 import { goingKey, loadGoing, saveGoing } from '../data/going'
@@ -86,14 +86,16 @@ const grid = computed(() => {
 const selItems = computed(() => grid.value.find((c) => c.date === selDay.value)?.items ?? [])
 const todayStr = computed(() => (now.value === null ? '' : new Date(now.value + 9 * 3600e3).toISOString().slice(0, 10)))
 
-const sorted = [...events].sort((a, b) => startMs(a) - startMs(b) || a.cat.localeCompare(b.cat))
+const sorted = [...events].sort((a, b) => byDayTime(a, b) || a.cat.localeCompare(b.cat))
+// the countdown's 'next' goes by actual start (an all-day release starts at 00:00)
+const byStart = [...events].sort((a, b) => startMs(a) - startMs(b) || a.cat.localeCompare(b.cat))
 const dayEnd = (e: CsEvent) => new Date(`${e.date}T23:59:59+09:00`).getTime()
 // before mount: past as of the build (same in SSR and first client render) so months that are already over
 // aren't rendered and then dropped — that jump was the page's layout shift (CLS sweep 11/23, 0.053)
 const isPast = (e: CsEvent) => dayEnd(e) < (now.value ?? BUILD_TIME)
 const isToday = (e: CsEvent) => now.value !== null && !isPast(e) && startMs({ ...e, time: undefined }) <= now.value
 
-const next = computed(() => (now.value === null ? null : sorted.find((e) => startMs(e) > now.value!) ?? null))
+const next = computed(() => (now.value === null ? null : byStart.find((e) => startMs(e) > now.value!) ?? null))
 const cd = computed(() => {
   if (!next.value || now.value === null) return null
   const s = Math.max(0, Math.floor((startMs(next.value) - now.value) / 1000))
