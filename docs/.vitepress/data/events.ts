@@ -71,6 +71,8 @@ export const events: CsEvent[] = [
   { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL', through: '2026-11-29', icon: 'ferris' },
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
   { date: '2026-11-29', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연 · 아야노·나기사 태그 (2주 연속 「カラオケタッグモード大会」 · 나기사 첫 출연, 아야노는 지난번 아쉬움의 눈물 설욕전)', with: ['ayano', 'nagisa'], url: `${O}/news/detail/95696` },
+  // news/detail/97781 (on the Dec list 2026-11-26, dated 12/2): 12/1 (Tue) 26:35 = 12/2 02:35 JST; time may shift for table-tennis coverage
+  { date: '2026-12-02', time: '02:35', cat: 'tv', ja: 'テレビ東京『KAWAII FARM』', ko: 'TV 출연 · 리사·아야노 (12/1 화요일 심야 26:35 · KAWAII LAB. MATES 멤버와 벼베기 도전 · 탁구 중계로 시간 변동 가능)', with: ['risa', 'ayano'], url: `${O}/news/detail/97781` },
   { date: '2026-12-02', cat: 'release', ja: '1st ALBUM「CUTIE LAND」', ko: '첫 정규 앨범 발매', url: `${O}/discography/detail/8458/`, featured: true },
   // live_information/detail/47877 (on the Dec list 2026-11-25): 13:30 on the official YouTube; Miyu absent (schedule); SUKISUKI lottery ~11/26 23:59, signed items paid-FC only
   { date: '2026-12-02', time: '13:30', cat: 'event', ja: '1st アルバム オンラインサイン会 @ CUTIE STREET YouTube', ko: '앨범 발매일 온라인 사인회 · 공식 유튜브 생방송 (빙고 추첨 포함 · 미유는 스케줄로 불참 · 사인 상품 추첨 신청 11/26 23:59 마감·유료 FC 한정)', venue: 'CUTIE STREET YouTube', url: `${O}/live_information/detail/47877` },
@@ -89,7 +91,7 @@ export const events: CsEvent[] = [
   { date: '2026-12-31', time: '19:20', end: '23:45', cat: 'tv', ja: '第77回 NHK紅白歌合戦', ko: '홍백가합전 첫 출장 (NHK 종합 생방송)', url: `${O}/news/detail/96337`, featured: true, pin: true, icon: 'fan' },
   // January 2027 — official schedule month page (year=2027&month=1), each detail page checked 2026-11-17
   { date: '2027-01-09', time: '14:00', end: '18:30', cat: 'other', ja: 'SDGs推進 TGC しずおか 2027', ko: 'TGC 시즈오카 런웨이 (카나·나기사 출연 · 개장 12:30, 종연 18:30 예정 · 출연 시각 미발표)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47476`, with: ['kana', 'nagisa'] },
-  { date: '2027-01-10', time: '14:00', cat: 'event', ja: 'KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC', ko: '카와이랩 컬렉션 시즈오카 (합동)', venue: 'ツインメッセ静岡', url: `${O}/live_information/detail/47607`, featured: true, short: 'KAWAII LAB. COLLECTION', icon: 'sparkle' },
+  { date: '2027-01-10', time: '14:00', cat: 'event', ja: 'KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC', ko: '카와이랩 컬렉션 시즈오카 (합동 · OPEN 12:00 / 종연 17:00 예정 · 유료 FC 선행 11/29 23:59까지, 공지 96506)', venue: 'ツインメッセ静岡 北館大展示場', end: '17:00', url: `${O}/live_information/detail/47607`, featured: true, short: 'KAWAII LAB. COLLECTION', icon: 'sparkle' },
   { date: '2027-01-23', cat: 'live', time: '18:00', ja: 'CUTIE STREET Live in Korea 2027 WINTER', ko: '한국 공연 · 킨텍스 · 멜론티켓 예매 (135,000원)', venue: 'KINTEX Hall 9A', url: `${O}/live_information/detail/42855`, featured: true, short: 'Live in Korea 2027' },
   { date: '2027-01-29', time: '19:00', cat: 'live', ja: '桜庭遥花 生誕祭 2027', ko: '사쿠라바 하루카 생탄제 (지정석 6,500엔 · 공지 96701)', venue: 'SGCホール有明', url: `${O}/live_information/detail/46962`, member: 'haruka', featured: true, short: '桜庭遥花 生誕祭', icon: 'cake' },
   { date: '2027-01-30', time: '17:00', cat: 'live', ja: 'KAWAII LAB. 5th ANNIVERSARY TOUR', ko: '카와이랩 5주년 투어 · 미야기 DAY1 (합동)', venue: 'セキスイハイムスーパーアリーナ', url: `${O}/live_information/detail/46247`, featured: true, short: 'KAWAII LAB. 5th ANNIV.', through: '2027-01-31', icon: 'ferris' },

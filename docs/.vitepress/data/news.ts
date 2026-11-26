@@ -15,6 +15,7 @@ export interface News {
 
 const O = 'https://cutiestreet.asobisystem.com'
 export const news: News[] = [
+  { date: '2026-11-26', tag: 'ticket', ja: '「KAWAII LAB. COLLECTION SHIZUOKA 2027 produced by TGC」@ツインメッセ静岡 北館大展示場 開催決定！FC先行開始！', ko: '2027.1.10 카와이랩 컬렉션 시즈오카(트윈메세 시즈오카) 개최 결정 · 유료 FC 선행 11/29 23:59까지 (지정석 11,000엔 · OPEN 12:00 / START 14:00)', url: `${O}/news/detail/96506`, internal: '/schedule/', deadline: '2026-11-29T23:59', dl: '카와이랩 컬렉션 시즈오카(1/10) FC 선행' },
   { date: '2026-11-25', tag: 'event', ja: '1st アルバム オンラインサイン会 @ CUTIE STREET YouTube（12/2 13:30〜）', ko: '12/2 발매일 13:30 온라인 사인회 결정 · 공식 유튜브 (미유 불참 · 사인 생사진 등 추첨 판매는 유료 FC 한정, 11/26 23:59 마감)', url: `${O}/live_information/detail/47877`, internal: '/cutie-land/', deadline: '2026-11-26T23:59', dl: '발매일 온라인 사인회 추첨 신청' },
   { date: '2026-11-23', tag: 'ticket', ja: '『CUTIE STREET 佐野愛花 生誕祭 2026』公演 リセールサービスのお知らせ', ko: '11/26 아이카 생탄제 공연 리세일(공식 티켓 재판매) 서비스 안내', url: `${O}/news/detail/96162`, internal: '/members/aika', deadline: '2026-11-25T23:59', dl: '아이카 생탄제 리세일 접수' },
   { date: '2026-11-21', tag: 'info', ja: 'CUTIE STREETが「第68回 輝く！日本レコード大賞」特別国際音楽賞を受賞（TBS 各賞発表）', ko: '제68회 일본 레코드대상 특별국제음악상 수상 (작년 신인상에 이어 2년 연속 수상 · 시상식은 12/30 17:30 TBS 생방송)', url: 'https://www.tbs.co.jp/recordaward/', internal: '/about' },
