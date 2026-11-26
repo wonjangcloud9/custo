@@ -55,6 +55,20 @@ for line in src.read_text(encoding='utf-8').splitlines():
         'date': parse_date(title), 'venue': venue.group(1).strip() if venue else '',
     })
 
+# 生誕 cover/live clips often omit the member's name ('【生誕LIVE映像】曲名📍会場(日付)') — tag them with the
+# member whose birthday show was that day: from named 生誕 titles with the same date, else events.ts `member:`
+show_day = {}
+for line in (root / 'docs' / '.vitepress' / 'data' / 'events.ts').read_text(encoding='utf-8').splitlines():
+    m = re.search(r"date: '(\d{4}-\d\d-\d\d)'.*member: '(\w+)'", line)
+    if m:
+        show_day[m.group(1)] = m.group(2)
+for v in videos:
+    if v['category'] == 'birthday' and v['date'] and len(v['members']) == 1:
+        show_day[v['date']] = v['members'][0]
+for v in videos:
+    if v['category'] == 'birthday' and not v['members'] and v['date'] in show_day:
+        v['members'] = [show_day[v['date']]]
+
 # Official MVs live on the KAWAII LAB. channel (titles verified via oEmbed)
 for line in mv_src.read_text(encoding='utf-8').splitlines():
     cols = line.split('\t')
