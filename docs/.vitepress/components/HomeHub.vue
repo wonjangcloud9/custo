@@ -297,7 +297,15 @@ function cleanTitle(t: string) {
 /* HERO */
 .hero {
   position: relative; display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 24px;
-  min-height: 560px; padding: 32px 8px; overflow: hidden; border-radius: 40px;
+  min-height: 560px; padding: 32px 8px; overflow: hidden; border-radius: 40px; isolation: isolate;
+}
+/* #258③ original watercolor still life (ribbons, stars, penlights; higgsfield gpt_image_2_6, no people) —
+   objects sit on the right/edges, the text side is an empty wash; faded at the left so the heading keeps its contrast */
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 247, 250, 0.85) 0%, rgba(255, 247, 250, 0.35) 45%, rgba(255, 247, 250, 0) 70%),
+    url('/art/home-hero.webp') right center / cover no-repeat;
+  opacity: 0.95;
 }
 .hero :deep(.spark) {
   position: absolute; pointer-events: none; font-size: 16px; translate: -50% -50%;
@@ -534,6 +542,11 @@ function cleanTitle(t: string) {
 
 @media (max-width: 960px) {
   .hero { grid-template-columns: 1fr; min-height: 0; text-align: left; }
+  /* one column: the art sits behind the orbit only and fades out before the heading */
+  .hero::before {
+    background: linear-gradient(180deg, rgba(255, 247, 250, 0) 0%, rgba(255, 247, 250, 0.55) 30%, rgba(255, 247, 250, 1) 46%),
+      url('/art/home-hero.webp') 80% top / auto 440px no-repeat;
+  }
   .orbit-wrap { width: min(340px, 90%); order: -1; }
   .cd, .stats { grid-template-columns: repeat(2, 1fr); }
   .acc { flex-direction: column; height: auto; }
