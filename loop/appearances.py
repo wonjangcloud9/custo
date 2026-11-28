@@ -65,7 +65,7 @@ def tag(title, ch):
 SCAN_Q = ['CUTIE STREET', 'きゅーすと', 'キューティーストリート', '큐티스트릿', '큐티스트리트', '큐스토'] + [ns[0] for ns in NAMES.values()]
 # clip/re-upload/news-summary channels seen before — never official
 # Channels already reviewed and found NOT official (fan reaction / summary / subtitle / clip) — names, exact
-NOT_OFFICIAL = {'時彩堂ジャパン', 'J-Pop Junction', 'Japan Sports 24', 'きゅーてすとの集い', '音楽の今', 'Zen Pop Media', '𝐓𝐎𝐊𝐘𝐎 𝐓𝐑𝐄𝐍𝐃 𝐋𝐈𝐕𝐄', '𝙏𝙤𝙠𝙮𝙤 𝘽𝙪𝙡𝙡𝙚𝙩𝙞𝙣', '𝐚𝐢', '이루카', 'ジュールのモジュール', '쇼쇼쇼', '愛花の側近でござい増田', 'ファーマット研究所西日本支部 (慶應義塾大学登録学生団体横浜KAWAII LAB.同好会)', 'コナン帽子のおっちゃん', 'カワラボドンテンタンch'}
+NOT_OFFICIAL = {'時彩堂ジャパン', 'J-Pop Junction', 'Japan Sports 24', 'きゅーてすとの集い', '音楽の今', 'Zen Pop Media', '𝐓𝐎𝐊𝐘𝐎 𝐓𝐑𝐄𝐍𝐃 𝐋𝐈𝐕𝐄', '𝙏𝙤𝙠𝙮𝙤 𝘽𝙪𝙡𝙡𝙚𝙩𝙞𝙣', '𝐚𝐢', '이루카', 'ジュールのモジュール', '쇼쇼쇼', '愛花の側近でござい増田', 'ファーマット研究所西日本支部 (慶應義塾大学登録学生団体横浜KAWAII LAB.同好会)', 'コナン帽子のおっちゃん', 'カワラボドンテンタンch', 'カワラボコール動画', 'あきたろ', 'JP Sports 3 Star ⭐'}
 # compare channel names loosely: YouTube search shows some with leading flags/spaces (' J-Pop Junction', '🇯🇵 Japan Sports 24 ') — #210
 def chan_key(name):
     import unicodedata
