@@ -68,7 +68,7 @@ export const events: CsEvent[] = [
   { date: '2026-11-26', time: '20:00', cat: 'other', ja: '配信『KAWAII LAB. リズムゲームプロジェクト』特番', ko: 'KAWAII LAB. 리듬게임 프로젝트 특별 방송 · 하루카 출연 (프로젝트 공식 유튜브 송출)', with: ['haruka'], url: `${O}/news/detail/97192` },
   // GIFT DAY-1 slot: official timetable image gift-idol.jp/images/timetable/tt-1127.jpg (checked 2026-11-25) — CUTIE STREET opens the day
   { date: '2026-11-27', time: '18:00', end: '18:30', cat: 'live', ja: 'GIFT〜Girls Idol Festival Tokyo〜 DAY-1', ko: '아이돌 페스티벌 DAY-1 · 개회식 직후 첫 순서 18:00–18:30 (개장 17:00 · 공식 타임테이블)', venue: 'SGCホール有明', url: `${O}/live_information/detail/43800` },
-  { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1', 40368), featured: true, short: 'ARENA TOUR FINAL', through: '2026-11-29', icon: 'ferris' },
+  { ...tour('2026-11-28', '18:00', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY1 · 당일권 13:00 현장 판매(공지 97948)', 40368), featured: true, short: 'ARENA TOUR FINAL', through: '2026-11-29', icon: 'ferris' },
   tour('2026-11-29', '16:30', 'IGアリーナ', '아레나 투어 FINAL · 아이치 DAY2', 40369),
   { date: '2026-11-29', time: '19:00', end: '21:00', cat: 'tv', ja: 'フジテレビ『千鳥の鬼レンチャン』', ko: 'TV 출연 · 아야노·나기사 태그 (2주 연속 「カラオケタッグモード大会」 · 나기사 첫 출연, 아야노는 지난번 아쉬움의 눈물 설욕전)', with: ['ayano', 'nagisa'], url: `${O}/news/detail/95696` },
   // news/detail/97781 (on the Dec list 2026-11-26, dated 12/2): 12/1 (Tue) 26:35 = 12/2 02:35 JST; time may shift for table-tennis coverage
@@ -85,6 +85,8 @@ export const events: CsEvent[] = [
   { date: '2026-12-13', time: '16:00', cat: 'live', ja: 'KAWAII LAB. Christmas SESSION 2026 DAY2', ko: '카와이랩 크리스마스 세션 (합동)', venue: '有明アリーナ', url: `${O}/news/detail/96002` },
   { date: '2026-12-17', cat: 'event', ja: '1stアルバム発売記念 スペシャル抽選イベント（すきトーク）', ko: '앨범 발매 기념 영상 토크 추첨 이벤트', url: 'https://cutiestreet.asobisystem.com/feature/1stalbumcutieland' },
   { date: '2026-12-19', cat: 'other', ja: '〜KAWAII LAB. 衣装展〜 KAWAII CLOSET 2026（〜1/31）', ko: '의상 전시 · 시부야/사카에/난바 hmv museum', venue: 'hmv museum 渋谷・栄・なんば', url: `${O}/news/detail/96078` },
+  // news/detail/97775 (on the Dec list 2026-11-28, dated 12/25): broadcast 16:30–23:10, five KAWAII LAB. groups
+  { date: '2026-12-25', time: '16:30', end: '23:10', cat: 'tv', ja: 'テレビ朝日『ミュージックステーション SUPERLIVE 2026』', ko: 'TV 출연 · M스테 크리스마스 SUPERLIVE (작년에 이어 출연 · KAWAII LAB. 5개 그룹 총출동 · 출연 시각은 미발표)', url: `${O}/news/detail/97775` },
   // CDJ slot: official timetable image countdownjapan.s3.amazonaws.com/2627/img/timetable/1111_hz8dnswxxn/tt_1227.png (checked 2026-11-25)
   { date: '2026-12-27', time: '13:10', cat: 'live', ja: 'COUNTDOWN JAPAN 26/27', ko: '카운트다운 재팬 26/27 · GALAXY STAGE 13:10~ (공식 타임테이블)', venue: '幕張メッセ', url: `${O}/live_information/detail/46324`, featured: true, icon: 'firework' },
   { date: '2026-12-30', time: '17:30', end: '22:00', cat: 'tv', ja: 'TBS『第68回 輝く！日本レコード大賞』', ko: '일본 레코드대상 생방송 · 특별국제음악상 수상 (출연·가창곡은 아직 미발표)', url: 'https://www.tbs.co.jp/recordaward/' },
